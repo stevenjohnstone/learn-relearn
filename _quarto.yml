@@ -1,3 +1,15 @@
 project:
   type: website
-  output-dir: docs
+
+website:
+  title: "learn-relearn"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

@@ -2,6 +2,8 @@
 title: "A First Course in Stochastic Calculus: Chapter One Exercises"
 toc: true
 toc-location: body
+execute:
+    freeze: true
 format:
     html:
         code-fold: false
