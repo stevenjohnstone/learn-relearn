@@ -946,6 +946,58 @@ E(e^{itZ}) &= E(e^{it(\sigma X + \mu)}) \\
            &= e^{it \mu - \sigma^2t^2/2}. 
 \end{align}
 
+## 1.15 When $E(X) < \infty$
+
+Let $X \geq 0$ be a random variable on $(\Omega, \mathcal{F}, P)$. If $E(X) < \infty$, then $P(X = \infty) = 0$.
+
+Proof:
+
+Let $A_n = \{\omega \in \Omega: X(\omega) > n \}$ for $n > 0$.
+
+We note that the sequence of events $A_n$ is decreasing and so by continuity of probability
+
+$$
+\lim_{n\to \infty} P(A_n) = P(\cap A_n) = P(X = \infty).
+$$
+
+The proof is complete with an application of Markov's inequality:
+$$
+P(X = \infty) = \lim_{n \to \infty} P(A_n) \leq \lim_{n\to\infty} \frac{1}{n} E(X) = 0.
+$$
+
+## 1.16 When $E(X) = 0$
+
+Let $X \geq 0$ be a random variable on $(\Omega, \mathcal{F}, P)$. If $E(X) = 0$, then $P(X = 0) = 1$.
+
+Proof:
+
+By Markov's inequality
+
+$$
+P(X > 1/n) \leq n E(X) = 0
+$$
+
+and so $P(X > 1/n) = 0$ for $n = 1, 2, \ldots$. It follows that
+
+$$
+P(X \leq 1/n) = 1 - P(X > 1/n) = 1.
+$$
+
+The sequence of events $\{ X \leq 1/n \}$ is decreasing and 
+
+$$
+\{ X = 0 \} = \cap \{ X \leq 1/n \}.
+$$
+
+By the continuity of probability
+
+$$
+P(X = 0) = \lim_{n \to \infty} P(X \leq 1/n) = 1.
+$$
+
+
+
+
 
 
 
