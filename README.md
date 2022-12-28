@@ -7,4 +7,10 @@ I'm taking [advice](https://terrytao.wordpress.com/career-advice/learn-and-relea
 
 In [/FCSC](/FCSC), there's a [qaurto](https://quarto.org) notebook of solutions to the exercises.
 
+## [Probabilistic Machine Learning](https://probml.github.io/pml-book/book1.html)
+
+See [/PML](/PML) for solution exercises and experiments.
+
+
+
 

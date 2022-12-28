@@ -1,0 +1,199 @@
+---
+title: "Probabilistic Machine Learning: Chapter One Exercises"
+toc: true
+toc-location: body
+execute: 
+  freeze: true
+
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+::: {.callout-note}
+# I only cover starred exercises here
+
+For solutions to non-starred exercises see <https://probml.github.io/pml-book/solns-public.pdf>.
+:::
+
+# Exercise 2.11
+
+Let's phrase the problem in terms of a game with coins:
+
+I toss two fairs coins without showing you the result.
+
+(a) You ask if any of the coins are heads and I respond, truthfully, "yes": what is the probability that one coin is a tail?
+(b) I ask you to choose a coin to be revealed: you choose and it is a head. What is the probability that the other coin is a tail?
+
+Let $A$ be the event that there is at least one head and $B$ denote the event that one head has been revealed. When the event $B$ occurs we know that there is at least one head and so $B$ also occurs i.e. $B \subseteq A$. It follows that
+
+$$
+P(B) \leq P(A).
+$$
+
+The two events do not convey the same information: $B$ tells you that after random sampling, the revealed coin is heads whereas $A$ tells you that after looking at both coins, I reveal that at least one is heads. So before doing any calculation I'd guess that
+
+$$
+P(B) < P(A).
+$$
+
+Let $T$ be the event of at least one tail, $H$ be the event of at least one head and subscript these to indicate if a specific coin is a head or tail e.g. $T_1$ is the event that coin $1$ is a tail. Denote by $C_i$ the event that coin $i$ is chosen.
+
+We can write
+$$
+\begin{align}
+P(A) &= P(T | H) \\
+     &= \frac{P(T \cap H)}{P(H)} \\ 
+     &= \frac{P((T_1 \cup T_2) \cap (H_1 \cup H_2))}{P(H_1 \cup H_2)} \\
+     &= \frac{P((T_1 \cap H_2) \cup (T_2 \cap H_1))}{P(H_1 \cup H_2)}.
+\end{align}
+$$
+
+Now, 
+
+$$
+P(H_1 \cup H_2) = 3/4
+$$
+because there are $3$ out of $4$ equally likely outcomes that have at least one head, 
+
+and
+
+$$
+\begin{align}
+P((T_1 \cap H_2) \cup (T_2 \cap H_1)) &= P(T_1 \cap H_2) + P(T_2 \cap H_1) \\ 
+&= P(T_1)P(H_2) + P(T_2)P(H_1) \\ 
+&= 1/4 + 1/4 \\
+& = 1/2.
+\end{align}
+$$
+
+Therefore,
+$$
+P(A) = \frac{1/2}{3/4} = 2/3.
+$$
+
+Similarly,
+
+$$
+\begin{align}
+P(B) &= P(T | (H_1 \cap C_1) \cup (H_2 \cap C_2)) \\ 
+     &= \frac{P(T \cap ((H_1 \cap C_1) \cup (H_2 \cap C_2)))}{P((H_1 \cap C_1) \cup (H_2 \cap C_2))} \\
+     &= \frac{P((H_1 \cap T_2 \cap C_1) \cup (H_2 \cap T_1 \cap C_2))}{P((H_1 \cap C_1) \cup (H_2 \cap C_2))}.
+\end{align}
+$$
+
+We know that the events $C_1$ and $C_2$ are disjoint. So
+
+$$
+\begin{align}
+P((H_1 \cap T_2 \cap C_1) \cup (H_2 \cap T_1 \cap C_2)) &= P(H_1 \cap T_2 \cap C_1) + P(H_2 \cap T_1 \cap C_2) \\
+&= P(C_1 | H_1 \cap T_2)P(H_1 \cap T_2) + P(C_2 |H_2 \cap T_1) P(H_2 \cap T_1) \\ 
+&= \frac{1}{4}  (P(C_1|H_1 \cap T_2) + P(C_2| H_2 \cap T_1))
+\end{align}
+$$
+
+Similarly,
+
+$$
+\begin{align}
+P((H_1 \cap C_1) \cup (H_2 \cap C_2)) &= P(H_1 \cap C_1) + P(H_2 \cap C_2) \\ 
+&= P(C_1 | H_1)P(H_1) + P(C_2| H_2)P(H_2) \\ 
+&= \frac{1}{2} (P(C_1 |H_1) + P(C_2| H_2)).
+\end{align}
+$$
+
+Therefore,
+$$
+\begin{equation}
+P(B) = \frac{1}{2} \frac{P(C_1 | H_1 \cap T_2) + P(C_2|H_2 \cap T_1)}{P(C_1|H_1) + P(C_2|H_2))}
+\end{equation}
+$${#eq-p_B}
+Since the choice of coin is independent of the results of coin tosses (it must be because you know nothing about the results of the coin tosses)
+
+$$
+P(B) = 1/2.
+$$
+
+::: {.callout-note}
+# What happens if I pick the coins for you?
+
+Then the choice of coin is not necessarily independent: I could, for example, only show a head if both coin tosses result in a head. Then
+
+$$
+P(C_1|H_1 \cap T_2) = P(C_2|H_2 \cap T_1) = 0
+$$
+and so, by @eq-p_B, $P(B) = 0$.
+
+When I'm picking the coins, you can only state that
+
+$$
+P(B) \leq 2/3.
+$$
+
+:::
+
+
+
+Therefore,
+
+$$
+P(B) = \frac{1}{2} \frac{P(C_1|H_1 \cap T_2) + P(C_2|H_2\cap T_1)}{P(C_1|H_1) + P(C_2|H_2)}.
+$$
+
+
+We can use a simulation to support our conclusion and highlight the
+difference between the two scenarios:
+
+```{python}
+import random
+
+def head(coin):
+    return coin == 0
+
+def tail(coin):
+    return coin == 1
+
+def has_heads(coin):
+    return head(coin[0]) or head(coin[1])
+
+def has_tails(coin):
+    return tail(coin[0]) or tail(coin[1])
+
+iterations = 10000
+
+tails = 0
+for i in range(0, iterations):
+    coins = []
+    while True:
+        # keep trying until we have at least one head
+        coins= [random.randint(0,1), random.randint(0,1)]
+        if has_heads(coins):
+            break
+    if has_tails(coins):
+        tails += 1
+
+print(tails/iterations)
+
+tails = 0
+
+for i in range(0, iterations):
+    def head_revealed():
+        while True:
+            # keep trying tosses and random coin picks until
+            # the revealed coin is a head
+            coins= [random.randint(0,1), random.randint(0,1)]
+            coin_choice = random.randint(0,1)
+            revealed_coin = coins[coin_choice]
+            remaining_coin = coins[(coin_choice+1)%2]
+            if head(revealed_coin):
+                return remaining_coin
+    if tail(head_revealed()):
+        tails +=1
+
+print(tails/iterations)
+```
+
+
+
+
