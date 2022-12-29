@@ -125,21 +125,23 @@ P(C_1|H_1 \cap T_2) = P(C_2|H_2 \cap T_1) = 0
 $$
 and so, by @eq-p_B, $P(B) = 0$.
 
-When I'm picking the coins, you can only state that
+On the other hand, I could always show a head if it's available
+and then
+$$
+P(B) = 2/3
+$$
+because this is essentially the same as answering the question "are there heads".
+
+Now suppose that $0 \leq \alpha \leq 1$ and I adopt the following scheme: with probability $\alpha$ I show you a head when one is available and with probability $(1 - \alpha)$ I only show you a head if both tosses were heads. Then
 
 $$
-P(B) \leq 2/3.
+P(B) = \frac{2 \alpha}{3}.
 $$
 
+In summary, when I'm free to look at the coins and decide which coin
+to show, I can come up with a process with results in $P(B)$ being any
+chosen value in $[0, 2/3]$.
 :::
-
-
-
-Therefore,
-
-$$
-P(B) = \frac{1}{2} \frac{P(C_1|H_1 \cap T_2) + P(C_2|H_2\cap T_1)}{P(C_1|H_1) + P(C_2|H_2)}.
-$$
 
 
 We can use a simulation to support our conclusion and highlight the
