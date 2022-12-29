@@ -175,6 +175,50 @@ E(Z) &= \int_0^{\infty} P(\min(X,Y) > z) dz \\
 \end{align}
 $$
 
+# Exercise 2.7
+
+Let $X \sim Ga(a, b)$ and $Y = 1/X$. Derive the distribution of $Y$.
+
+
+By definition
+
+$$
+Ga(x | a, b) =  = \frac{b^a}{\Gamma(a)} x^{a-1}e^{-xb}.
+$$
+
+$$
+P(Y \leq y) = P(1/X \leq y) = P(X \geq 1/y)
+$$
+
+
+$$
+P(X \geq 1/y) = 1 - P( X < 1/y) = 1 - \int_0^{1/y} Ga(x |a, b) dx
+$$
+
+Taking the derivative with respect to $y$
+
+$$
+\begin{align}
+\frac{d}{dy} P(Y \leq y) &=  - \frac{d}{dy} \int_0^{1/y} Ga(x |a, b) dx \\
+&= -Ga(1/y |a, b) \frac{d}{dy}(1/y) \\
+&= \frac{1}{y^2} Ga(1/y |a, b).
+\end{align}
+$$
+
+::: {.callout-note collapse="true"}
+I've used the second fundamental theorem of calculus and chain rule
+
+$$
+\frac{d}{dx} \int_{g(x)}^{f(x)}  h(t) dt = h(f(x))f'(x) - h(g(x))g'(x).
+$$
+
+:::
+
+Therefore, the pdf of $Y$ is 
+$$
+\frac{b^a}{\Gamma(a)} (1/y)^{a-1}(1/y)^2e^{-b/y} = \frac{b^a}{\Gamma(a)} y^{-(a+1)}e^{-b/y}
+$$
+
 
 
 # Exercise 2.11
