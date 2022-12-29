@@ -533,6 +533,40 @@ P(Y > t + s | Y > s) & =  \frac{P(Y > t + s \cap Y > s)}{P(Y > s)} \\
 Note that $P(Y > t + s \cap Y > s) = P(Y > t + s)$ because $\{ \omega \in \Omega | Y(\omega) > t + s \} \subseteq \{ \omega \in \Omega | Y(\omega) > t \}$ and so
 $\{ \omega \in \Omega | Y(\omega) > t + s \} \cap \{ \omega \in \Omega | Y(\omega) > t \} = \{ \omega \in \Omega | Y(\omega) > t + s\}$.
 
+::: {.callout-note}
+# This property characterises the exponential distribution
+
+Using the memory property
+$$
+\begin{align}
+P(X \leq x + h) - P(X < x) &= 1 - P(X > x + h) -1 + P(X > x) \\
+&= P(X > x) - P(X > x + h) \\ 
+&= P(X > x) - P(X > x + h | X > x) P(X > x) \\ 
+&= P(X > x)(1 - P(X > x + h | X > x)) \\ 
+&= P(X > x)(1 - P(X >  h)) \\ 
+&= P(X > x)(P(X \leq h) - P( X\leq 0)).
+\end{align}
+$$
+
+So we can assert that the CDF $F$ satisifies
+
+$$
+\begin{align}
+F'(x) &= \lim_{h\to 0} \frac{P(X \leq x +h) - P(X \leq x)}{h} \\
+&= P(X > x) \lim_{h \to 0} \frac{P(X \leq h) - P(X \leq 0)}{h} \\ 
+&= P(X > x) F'(0) \\ 
+&= (1 - F(x)) F'(0).
+\end{align}
+$$
+
+The family of solutions to  this differential equation is
+
+$$
+F(x) = 1 - e^{-\lambda x}
+$$
+for $\lambda > 0$.
+:::
+
 ## 1.10 Gaussian Integration by Parts
 
 (a) Let $Z$ be a standard Gaussian random variable. Then
