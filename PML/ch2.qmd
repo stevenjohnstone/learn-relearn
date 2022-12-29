@@ -62,6 +62,117 @@ P(H=i|e_1, e_2) &= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)} \\
 \end{align}
 $$
 for all $i \in \{1, \ldots, K\}$.
+    
+# Exercise 2.3
+    
+The question is unclear about notation. We'll assume that
+$p$ will denote probability density functions i.e.
+
+- $p(x,y|z)$ denotes the joint distribution of $X$ and $Y$ conditioned on $Z$
+- $p(x|z)$ denotes the conditional distribution of $X$ given $Z$
+- $p(y|z)$ denotes the conditional distribution of $Y$ given $Z$
+
+
+Suppose there exists $g$ and $h$ such that
+
+$$
+p(x, y |z) = g(x, z) h(y, z).
+$$
+
+By definition
+$$
+\begin{align}
+p(x | z) &= \int p(x, y |z) dy \\ 
+         &= \int g(x, z) h(y, z) dy \\ 
+         &= g(x, z) \int h(y, z) dy.
+\end{align}
+$$
+Similarly,
+$$
+\begin{align}
+p(y | z) &= \int p(x, y |z) dx \\ 
+         &= \int g(x, z) h(y, z) dx \\ 
+         &= h(y, z) \int g(x, z) dx.
+\end{align}
+$$
+
+Therefore,
+
+$$
+\begin{align}
+p(x |z)p (y | z) &= g(x, z) h(y, z) \int \int g(x, z) h(y,z) dx dy \\
+&= p(x, y| z) \int \int p(x, y |z) dx dy \\
+&= p(x, y | z)
+\end{align}
+$$
+
+i.e. $X \perp Y | Z$.
+
+The other direction is trivial: if $X \perp Y|Z$ then we can set $g(x, z) = p(x | z)$ and $h(y, z) = p(y |z)$.
+
+# Exercise 2.5
+
+Suppose that $X, Y$ are two points sampled indpendently and uniformly
+at random from the interval $[0, 1]$. What is the expected location
+of the leftmost point?
+
+By independence, we can express the joint CDF of $X$ and $Y$ as follows:
+$$
+\begin{align}
+F_{X,Y}(x, y) &= P(X \leq x, Y \leq y) \\ 
+&= P(X \leq x) P(Y \leq y) \\ 
+& = \begin{cases}
+xy & \text{for } x, y \in [0,1], \\ 
+0  & \text{otherwise}
+\end{cases}
+\end{align}
+$$
+
+The joint probability density is then
+$$
+\begin{align}
+p(x, y) &= \frac{\partial^2}{\partial_x \partial_y}F_{X,Y}(x, y) \\ 
+&= \begin{cases}
+1 & \text{for } x,y \in [0,1], \\
+0 & \text{otherwise}
+\end{cases}
+\end{align}
+$$
+
+Using [LOTUS](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician),
+
+$$
+\begin{align}
+E(\min(X, Y)) &= \int_0^1 \int_0^1 \min(x, y) dx dy \\ 
+&= \int_0^1 (\int_0^y x dx + \int_y^1 y dx) dy \\
+&= \int_0^1 (y - \frac{y^2}{2}) dy \\
+&= \frac{y^2}{2} -\frac{y^3}{6} \rvert_0^1 \\ 
+&= \frac{1}{2} - \frac{1}{6} \\ 
+&=  \frac{1}{3}.
+\end{align}
+$$
+
+Another approach is to use the fact that for $Z \geq 0$
+
+$$
+E(Z) = \int_0^{\infty} P(Z > z) dz.
+$$
+
+If we set $Z = \min(X, Y)$, then
+
+$$
+\begin{align}
+E(Z) &= \int_0^{\infty} P(\min(X,Y) > z) dz \\ 
+&= \int_0^1 P(\min(X, Y) > z) dz \\
+&= \int_0^1 P(X > z, Y > z) dz \\
+&= \int_0^1 P(X > z) P(Y > z) dz \\
+&= \int_0^1 (1 - z)^2 dz \\
+&= \frac{-(1 - z)^3}{3} \rvert_0^1 \\
+&= \frac{1}{3}.
+\end{align}
+$$
+
+
 
 # Exercise 2.11
 
