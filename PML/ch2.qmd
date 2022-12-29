@@ -122,7 +122,10 @@ $$
 F_{X,Y}(x, y) &= P(X \leq x, Y \leq y) \\ 
 &= P(X \leq x) P(Y \leq y) \\ 
 & = \begin{cases}
-xy & \text{for } x, y \in [0,1], \\ 
+1  & \text{for } x, y > 1,\\ 
+x & \text{for } x  \in [0,1], y > 1,\\
+y & \text{for } y \in [0,1], x > 1,\\
+xy & \text{for } x, y \in [0,1],\\ 
 0  & \text{otherwise}
 \end{cases}
 \end{align}
