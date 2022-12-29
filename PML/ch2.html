@@ -318,7 +318,10 @@ p(x |z)p (y | z) &amp;= g(x, z) h(y, z) \int \int g(x, z) h(y,z) dx dy \\
 F_{X,Y}(x, y) &amp;= P(X \leq x, Y \leq y) \\
 &amp;= P(X \leq x) P(Y \leq y) \\
 &amp; = \begin{cases}
-xy &amp; \text{for } x, y \in [0,1], \\
+1  &amp; \text{for } x, y &gt; 1,\\
+x &amp; \text{for } x  \in [0,1], y &gt; 1,\\
+y &amp; \text{for } y \in [0,1], x &gt; 1,\\
+xy &amp; \text{for } x, y \in [0,1],\\
 0  &amp; \text{otherwise}
 \end{cases}
 \end{align}
@@ -506,10 +509,10 @@ P(B) = \frac{2 \alpha}{3}.
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tails<span class="op">/</span>iterations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.6576</code></pre>
+<pre><code>0.6618</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.5014</code></pre>
+<pre><code>0.4941</code></pre>
 </div>
 </div>
 
