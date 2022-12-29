@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">A First Course in Stochastic Calculus: Chapter One Exercises</h1>
+      <h1 class="quarto-secondary-nav-title">A First Course in Stochastic Calculus</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -199,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">A First Course in Stochastic Calculus: Chapter One Exercises</h1>
+<h1 class="title d-none d-lg-block">A First Course in Stochastic Calculus</h1>
 <p class="subtitle lead">Chapter One Exercises</p>
 </div>
 
@@ -321,7 +321,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.hist(averages, bins)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch1_files/figure-html/cell-6-output-1.png" width="583" height="411"></p>
+<p><img src="ch1_files/figure-html/cell-6-output-1.png" width="583" height="413"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
@@ -377,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> invF(y):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.tan((y <span class="op">-</span> <span class="fl">0.5</span>)<span class="op">*</span>np.pi)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100000</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10000</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> [ invF(u) <span class="cf">for</span> u <span class="kw">in</span> np.random.default_rng().uniform(<span class="dv">0</span>, <span class="dv">1</span>, N) ]</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -387,18 +387,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch1_files/figure-html/cell-10-output-1.png" width="583" height="411"></p>
+<p><img src="ch1_files/figure-html/cell-10-output-1.png" width="575" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> [ s<span class="op">/</span>(idx <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> idx, s <span class="kw">in</span> <span class="bu">enumerate</span>(np.cumsum(samples)) ]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.plot(mean, label<span class="op">=</span><span class="st">'average of N samples'</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'N'</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">4</span>):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> [ invF(u) <span class="cf">for</span> u <span class="kw">in</span> np.random.default_rng().uniform(<span class="dv">0</span>, <span class="dv">1</span>, N) ]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    plt.plot([ s<span class="op">/</span>(idx <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> idx, s <span class="kw">in</span> <span class="bu">enumerate</span>(np.cumsum(samples)) ], label<span class="op">=</span><span class="ss">f'average </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'N'</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch1_files/figure-html/cell-11-output-1.png" width="571" height="429"></p>
+<p><img src="ch1_files/figure-html/cell-11-output-1.png" width="586" height="429"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="11">
@@ -719,6 +720,41 @@ P(Y &gt; t + s | Y &gt; s) &amp; =  \frac{P(Y &gt; t + s \cap Y &gt; s)}{P(Y &gt
                      &amp; =  P(Y &gt; t).
 \end{align}\]</span></p>
 <p>Note that <span class="math inline">\(P(Y &gt; t + s \cap Y &gt; s) = P(Y &gt; t + s)\)</span> because <span class="math inline">\(\{ \omega \in \Omega | Y(\omega) &gt; t + s \} \subseteq \{ \omega \in \Omega | Y(\omega) &gt; t \}\)</span> and so <span class="math inline">\(\{ \omega \in \Omega | Y(\omega) &gt; t + s \} \cap \{ \omega \in \Omega | Y(\omega) &gt; t \} = \{ \omega \in \Omega | Y(\omega) &gt; t + s\}\)</span>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+This property characterises the exponential distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the memory property <span class="math display">\[
+\begin{align}
+P(X \leq x + h) - P(X &lt; x) &amp;= 1 - P(X &gt; x + h) -1 + P(X &gt; x) \\
+&amp;= P(X &gt; x) - P(X &gt; x + h) \\
+&amp;= P(X &gt; x) - P(X &gt; x + h | X &gt; x) P(X &gt; x) \\
+&amp;= P(X &gt; x)(1 - P(X &gt; x + h | X &gt; x)) \\
+&amp;= P(X &gt; x)(1 - P(X &gt;  h)) \\
+&amp;= P(X &gt; x)(P(X \leq h) - P( X\leq 0)).
+\end{align}
+\]</span></p>
+<p>So we can assert that the CDF <span class="math inline">\(F\)</span> satisifies</p>
+<p><span class="math display">\[
+\begin{align}
+F'(x) &amp;= \lim_{h\to 0} \frac{P(X \leq x +h) - P(X \leq x)}{h} \\
+&amp;= P(X &gt; x) \lim_{h \to 0} \frac{P(X \leq h) - P(X \leq 0)}{h} \\
+&amp;= P(X &gt; x) F'(0) \\
+&amp;= (1 - F(x)) F'(0).
+\end{align}
+\]</span></p>
+<p>The family of solutions to this differential equation is</p>
+<p><span class="math display">\[
+F(x) = 1 - e^{-\lambda x}
+\]</span> for <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
+</div>
+</div>
 </section>
 <section id="gaussian-integration-by-parts" class="level2">
 <h2 class="anchored" data-anchor-id="gaussian-integration-by-parts">1.10 Gaussian Integration by Parts</h2>
@@ -812,8 +848,8 @@ E(e^{\lambda X}) \leq e^{\lambda^2/2}
 P(X &gt; a) \leq e^{-a^2/2}.
 \]</span></p>
 <p>For <span class="math inline">\(\lambda &gt; 0\)</span> <span class="math display">\[
-P(X &gt; a) \leq P(e^{\lambda X} &gt; e^{\lambda a})
-\]</span> by monotonicity of the exponential. By Markov’s inequality and <span class="math inline">\(\eqref{gtail}\)</span> <span class="math display">\[
+P(X &gt; a) = P(e^{\lambda X} &gt; e^{\lambda a})
+\]</span> by the monitonicity of the exponential. By Markov’s inequality and <span class="math inline">\(\eqref{gtail}\)</span> <span class="math display">\[
 P(e^{\lambda X} &gt; e^{\lambda a}) \leq \frac{E(e^{\lambda X})}{e^{\lambda a}} \leq e^{\lambda^2/2 - \lambda a}.
 \]</span></p>
 <p>Let <span class="math inline">\(f(\lambda) = e^{\lambda^2/2 - \lambda a}\)</span>. The minimum for <span class="math inline">\(f\)</span> is found by differentiation:</p>
@@ -850,7 +886,7 @@ E(X) = \int_0^{\infty} P(X &gt; x) dx.
 \]</span></p>
 <p>Subtle point: we’re using the fact that X &gt;= 0 to arrive at zero for the lower limit of the inner integral.</p>
 <div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -859,7 +895,7 @@ Consequence: LOTUS (Law Of The Unconcious Statistician)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Let <span class="math inline">\(g: \mathbb{R} \mapsto \mathbb{R}\)</span> be measurable. Then <span class="math inline">\(E(g(X)) = \int_{-\infty}^{\infty} g(x) dF(x)\)</span>.</p>
 <p>First suppose that <span class="math inline">\(g &gt;= 0\)</span>. Then</p>
@@ -889,7 +925,7 @@ E(g(X)) &amp;= E(g_+(X)) - E(g_{-}(X)) \\
 </div>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -898,7 +934,7 @@ Consequence: Limit of xP(X&gt;x)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>If <span class="math inline">\(E(X_+) &lt; \infty\)</span>, then <span class="math inline">\(\lim_{x \to \infty} x P(X &gt; x) = 0\)</span>.</p>
 <p>We prove this by contradiction. Suppose that there exists <span class="math inline">\(c &gt; 0\)</span> such that <span class="math inline">\(lim_{x \to \infty} xP(X &gt;x) \geq c\)</span>. Then for some <span class="math inline">\(x(c)\)</span>, <span class="math inline">\(xP(X&gt;x) \geq c\)</span> for all <span class="math inline">\(x &gt; x(c)\)</span> and so</p>
