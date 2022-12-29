@@ -223,6 +223,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
+  <li><a href="#exercise-2.1" id="toc-exercise-2.1">Exercise 2.1</a></li>
+  <li><a href="#exercise-2.3" id="toc-exercise-2.3">Exercise 2.3</a></li>
+  <li><a href="#exercise-2.5" id="toc-exercise-2.5">Exercise 2.5</a></li>
   <li><a href="#exercise-2.11" id="toc-exercise-2.11">Exercise 2.11</a></li>
   </ul>
 </nav>
@@ -239,6 +242,124 @@ I only cover starred exercises here
 <p>For solutions to non-starred exercises see <a href="https://probml.github.io/pml-book/solns-public.pdf" class="uri">https://probml.github.io/pml-book/solns-public.pdf</a>.</p>
 </div>
 </div>
+<section id="exercise-2.1" class="level1">
+<h1>Exercise 2.1</h1>
+<p>Let <span class="math inline">\(H \in \{1, \ldots, K\}\)</span> be a discrete random variable, and let <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_2\)</span> be the observed values of two other random variables <span class="math inline">\(E_1\)</span> and <span class="math inline">\(E_2\)</span>.</p>
+<p>We wish to calculate</p>
+<p><span class="math display">\[
+\vec{P}(H | e_1, e_2) = (P(H=1|e_1, e_2), \ldots, P(H= K)).
+\]</span></p>
+<p>For <span class="math inline">\(i \in \{1, \ldots, K\}\)</span>,</p>
+<p><span class="math display">\[
+\begin{align}
+P(H=i|e_1, e_2) &amp;= \frac{P(H=i,e_1, e_2)}{P(e_1, e_2)} \\
+                &amp;= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)}.
+\end{align}
+\]</span></p>
+<p>So, to perform the caculation, we need</p>
+<ul>
+<li><span class="math inline">\(P(e_1, e_2 |H = i)\)</span> for all <span class="math inline">\(i \in \{1, \ldots K\}\)</span> i.e.&nbsp;<span class="math inline">\(P(e_1, e_2 |H)\)</span></li>
+<li><span class="math inline">\(P(H=i)\)</span> for all <span class="math inline">\(i \in \{1, \ldots, K\}\)</span> i.e.&nbsp;<span class="math inline">\(P(H)\)</span></li>
+<li><span class="math inline">\(P(e_1, e_2)\)</span></li>
+</ul>
+<p>So the solution to (a) is (ii).</p>
+<p>Now we assume that <span class="math inline">\(E_1 \perp E_2 |H\)</span>. This means that</p>
+<p><span class="math display">\[
+P(e_1, e_2 |H=i) = P(e_1|H=i) P(e_2|H=i)
+\]</span> for all <span class="math inline">\(i \in \{1, \ldots, K\}\)</span>. With this assumption <span class="math inline">\(\{P(e_1, e_2), P(H), P(e_1|H), P(e_2|H)\}\)</span>, set (i), is now sufficient to perform the calculation:</p>
+<p><span class="math display">\[
+\begin{align}
+P(H=i|e_1, e_2) &amp;= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)} \\
+&amp;= \frac{P(e_1 |H=i) P(e_2|H=i) P(H=i)}{P(e_1, e_2)}
+\end{align}
+\]</span> for all <span class="math inline">\(i \in \{1, \ldots, K\}\)</span>.</p>
+</section>
+<section id="exercise-2.3" class="level1">
+<h1>Exercise 2.3</h1>
+<p>The question is unclear about notation. We’ll assume that <span class="math inline">\(p\)</span> will denote probability density functions i.e.</p>
+<ul>
+<li><span class="math inline">\(p(x,y|z)\)</span> denotes the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> conditioned on <span class="math inline">\(Z\)</span></li>
+<li><span class="math inline">\(p(x|z)\)</span> denotes the conditional distribution of <span class="math inline">\(X\)</span> given <span class="math inline">\(Z\)</span></li>
+<li><span class="math inline">\(p(y|z)\)</span> denotes the conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(Z\)</span></li>
+</ul>
+<p>Suppose there exists <span class="math inline">\(g\)</span> and <span class="math inline">\(h\)</span> such that</p>
+<p><span class="math display">\[
+p(x, y |z) = g(x, z) h(y, z).
+\]</span></p>
+<p>By definition <span class="math display">\[
+\begin{align}
+p(x | z) &amp;= \int p(x, y |z) dy \\
+         &amp;= \int g(x, z) h(y, z) dy \\
+         &amp;= g(x, z) \int h(y, z) dy.
+\end{align}
+\]</span> Similarly, <span class="math display">\[
+\begin{align}
+p(y | z) &amp;= \int p(x, y |z) dx \\
+         &amp;= \int g(x, z) h(y, z) dx \\
+         &amp;= h(y, z) \int g(x, z) dx.
+\end{align}
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\begin{align}
+p(x |z)p (y | z) &amp;= g(x, z) h(y, z) \int \int g(x, z) h(y,z) dx dy \\
+&amp;= p(x, y| z) \int \int p(x, y |z) dx dy \\
+&amp;= p(x, y | z)
+\end{align}
+\]</span></p>
+<p>i.e.&nbsp;<span class="math inline">\(X \perp Y | Z\)</span>.</p>
+<p>The other direction is trivial: if <span class="math inline">\(X \perp Y|Z\)</span> then we can set <span class="math inline">\(g(x, z) = p(x | z)\)</span> and <span class="math inline">\(h(y, z) = p(y |z)\)</span>.</p>
+</section>
+<section id="exercise-2.5" class="level1">
+<h1>Exercise 2.5</h1>
+<p>Suppose that <span class="math inline">\(X, Y\)</span> are two points sampled indpendently and uniformly at random from the interval <span class="math inline">\([0, 1]\)</span>. What is the expected location of the leftmost point?</p>
+<p>By independence, we can express the joint CDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> as follows: <span class="math display">\[
+\begin{align}
+F_{X,Y}(x, y) &amp;= P(X \leq x, Y \leq y) \\
+&amp;= P(X \leq x) P(Y \leq y) \\
+&amp; = \begin{cases}
+xy &amp; \text{for } x, y \in [0,1], \\
+0  &amp; \text{otherwise}
+\end{cases}
+\end{align}
+\]</span></p>
+<p>The joint probability density is then <span class="math display">\[
+\begin{align}
+p(x, y) &amp;= \frac{\partial^2}{\partial_x \partial_y}F_{X,Y}(x, y) \\
+&amp;= \begin{cases}
+1 &amp; \text{for } x,y \in [0,1], \\
+0 &amp; \text{otherwise}
+\end{cases}
+\end{align}
+\]</span></p>
+<p>Using <a href="https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician">LOTUS</a>,</p>
+<p><span class="math display">\[
+\begin{align}
+E(\min(X, Y)) &amp;= \int_0^1 \int_0^1 \min(x, y) dx dy \\
+&amp;= \int_0^1 (\int_0^y x dx + \int_y^1 y dx) dy \\
+&amp;= \int_0^1 (y - \frac{y^2}{2}) dy \\
+&amp;= \frac{y^2}{2} -\frac{y^3}{6} \rvert_0^1 \\
+&amp;= \frac{1}{2} - \frac{1}{6} \\
+&amp;=  \frac{1}{3}.
+\end{align}
+\]</span></p>
+<p>Another approach is to use the fact that for <span class="math inline">\(Z \geq 0\)</span></p>
+<p><span class="math display">\[
+E(Z) = \int_0^{\infty} P(Z &gt; z) dz.
+\]</span></p>
+<p>If we set <span class="math inline">\(Z = \min(X, Y)\)</span>, then</p>
+<p><span class="math display">\[
+\begin{align}
+E(Z) &amp;= \int_0^{\infty} P(\min(X,Y) &gt; z) dz \\
+&amp;= \int_0^1 P(\min(X, Y) &gt; z) dz \\
+&amp;= \int_0^1 P(X &gt; z, Y &gt; z) dz \\
+&amp;= \int_0^1 P(X &gt; z) P(Y &gt; z) dz \\
+&amp;= \int_0^1 (1 - z)^2 dz \\
+&amp;= \frac{-(1 - z)^3}{3} \rvert_0^1 \\
+&amp;= \frac{1}{3}.
+\end{align}
+\]</span></p>
+</section>
 <section id="exercise-2.11" class="level1">
 <h1>Exercise 2.11</h1>
 <p>Let’s phrase the problem in terms of a game with coins:</p>
@@ -385,10 +506,10 @@ P(B) = \frac{2 \alpha}{3}.
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tails<span class="op">/</span>iterations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.6679</code></pre>
+<pre><code>0.6576</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.5086</code></pre>
+<pre><code>0.5014</code></pre>
 </div>
 </div>
 
