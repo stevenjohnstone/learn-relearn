@@ -41,7 +41,7 @@ P(H=i|e_1, e_2) &= \frac{P(H=i,e_1, e_2)}{P(e_1, e_2)} \\
 $$
 
 So, to perform the caculation, we need
-
+y
 - $P(e_1, e_2 |H = i)$ for all $i \in \{1, \ldots K\}$ i.e. $P(e_1, e_2 |H)$
 - $P(H=i)$ for all $i \in \{1, \ldots, K\}$ i.e. $P(H)$
 - $P(e_1, e_2)$
@@ -219,7 +219,45 @@ $$
 \frac{b^a}{\Gamma(a)} (1/y)^{a-1}(1/y)^2e^{-b/y} = \frac{b^a}{\Gamma(a)} y^{-(a+1)}e^{-b/y}
 $$
 
+# Exercise 2.9
 
+Let $D$ be the event that you have a disease.
+Let $+$ be the event that you test positive for this disease and
+let $-$ be the event that you test negative for the same disease.
+
+We are told that $P(+|D) = P(- | D^c) = 0.99$. It follows that
+
+$$
+P(+ | D^c) = 1 - P(-| D^C) = 10^{-2}.
+$$
+We are also told that
+$$
+P(D) = 10^{-4}.
+$$
+
+The probability of having the disease given a positive test can be
+expressed using Bayes' Theorem:
+
+$$
+\begin{align}
+P(D | +)  &= \frac{P(+ | D) P(D)}{P(+)} \\
+&= \frac{P(+ | D) P(D)}{P(+| D)P(D) + P(+|D^c)P(D^c)} \\
+&= \frac{0.99.10^{-4}}{0.99.10^{-4} + 10^{-2}(1 - 10^{-4})}.
+\end{align}
+$$
+
+Using python as a calculator
+
+```{python}
+accuracy= 99/100 
+prevalance=1/10000
+
+answer= accuracy*prevalance/(accuracy*prevalance + (1-accuracy)*(1 -prevalance))
+print(answer)
+```
+
+So, with the test for this disease, a positive test means you
+have about 1% chance of having the disease.
 
 # Exercise 2.11
 
