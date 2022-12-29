@@ -19,6 +19,50 @@ format:
 For solutions to non-starred exercises see <https://probml.github.io/pml-book/solns-public.pdf>.
 :::
 
+# Exercise 2.1
+
+Let $H \in \{1, \ldots, K\}$ be a discrete random variable,
+and let $e_1$ and $e_2$ be the observed values of two other
+random variables $E_1$ and $E_2$.
+
+We wish to calculate
+
+$$
+\vec{P}(H | e_1, e_2) = (P(H=1|e_1, e_2), \ldots, P(H= K)).
+$$
+
+For $i \in \{1, \ldots, K\}$,
+
+$$
+\begin{align}
+P(H=i|e_1, e_2) &= \frac{P(H=i,e_1, e_2)}{P(e_1, e_2)} \\ 
+                &= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)}.
+\end{align}
+$$
+
+So, to perform the caculation, we need
+
+- $P(e_1, e_2 |H = i)$ for all $i \in \{1, \ldots K\}$ i.e. $P(e_1, e_2 |H)$
+- $P(H=i)$ for all $i \in \{1, \ldots, K\}$ i.e. $P(H)$
+- $P(e_1, e_2)$
+
+So the solution to (a) is (ii).
+
+Now we assume that $E_1 \perp E_2 |H$. This means that
+
+$$
+P(e_1, e_2 |H=i) = P(e_1|H=i) P(e_2|H=i)
+$$
+for all $i \in \{1, \ldots, K\}$. With this assumption $\{P(e_1, e_2), P(H), P(e_1|H), P(e_2|H)\}$, set (i), is now sufficient to perform the calculation:
+
+$$
+\begin{align}
+P(H=i|e_1, e_2) &= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)} \\ 
+&= \frac{P(e_1 |H=i) P(e_2|H=i) P(H=i)}{P(e_1, e_2)}
+\end{align}
+$$
+for all $i \in \{1, \ldots, K\}$.
+
 # Exercise 2.11
 
 Let's phrase the problem in terms of a game with coins:
