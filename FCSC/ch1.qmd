@@ -665,9 +665,9 @@ $$
 
 For $\lambda > 0$
 $$
-P(X > a) \leq P(e^{\lambda X} > e^{\lambda a}) 
+P(X > a) = P(e^{\lambda X} > e^{\lambda a})
 $$
-by monotonicity of the exponential. By Markov's inequality and \eqref{gtail}
+by the monitonicity of the exponential. By Markov's inequality and \eqref{gtail}
 $$
 P(e^{\lambda X} > e^{\lambda a}) \leq \frac{E(e^{\lambda X})}{e^{\lambda a}} \leq e^{\lambda^2/2 - \lambda a}.
 $$
