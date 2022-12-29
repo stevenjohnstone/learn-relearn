@@ -127,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -152,10 +152,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Probabilistic Machine Learning: Chapter Two Exercises</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">FCSC</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../FCSC/ch1.html" class="sidebar-item-text sidebar-link">A First Course in Stochastic Calculus: Chapter One Exercises</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">PML</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../PML/ch2.html" class="sidebar-item-text sidebar-link active">Probabilistic Machine Learning: Chapter Two Exercises</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -164,7 +208,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Probabilistic Machine Learning: Chapter One Exercises</h1>
+<h1 class="title d-none d-lg-block">Probabilistic Machine Learning: Chapter Two Exercises</h1>
 </div>
 
 
@@ -285,16 +329,16 @@ What happens if I pick the coins for you?
 <p><span class="math display">\[
 P(C_1|H_1 \cap T_2) = P(C_2|H_2 \cap T_1) = 0
 \]</span> and so, by <a href="#eq-p_B">Equation&nbsp;1</a>, <span class="math inline">\(P(B) = 0\)</span>.</p>
-<p>When I’m picking the coins, you can only state that</p>
+<p>On the other hand, I could always show a head if it’s available and then <span class="math display">\[
+P(B) = 2/3
+\]</span> because this is essentially the same as answering the question “are there heads”.</p>
+<p>Now suppose that <span class="math inline">\(0 \leq \alpha \leq 1\)</span> and I adopt the following scheme: with probability <span class="math inline">\(\alpha\)</span> I show you a head when one is available and with probability <span class="math inline">\((1 - \alpha)\)</span> I only show you a head if both tosses were heads. Then</p>
 <p><span class="math display">\[
-P(B) \leq 2/3.
+P(B) = \frac{2 \alpha}{3}.
 \]</span></p>
+<p>In summary, when I’m free to look at the coins and decide which coin to show, I can come up with a process with results in <span class="math inline">\(P(B)\)</span> being any chosen value in <span class="math inline">\([0, 2/3]\)</span>.</p>
 </div>
 </div>
-<p>Therefore,</p>
-<p><span class="math display">\[
-P(B) = \frac{1}{2} \frac{P(C_1|H_1 \cap T_2) + P(C_2|H_2\cap T_1)}{P(C_1|H_1) + P(C_2|H_2)}.
-\]</span></p>
 <p>We can use a simulation to support our conclusion and highlight the difference between the two scenarios:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -344,10 +388,8 @@ P(B) = \frac{1}{2} \frac{P(C_1|H_1 \cap T_2) + P(C_2|H_2\cap T_1)}{P(C_1|H_1) + 
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tails<span class="op">/</span>iterations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.6661</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.5035</code></pre>
+<pre><code>0.6645
+0.4991</code></pre>
 </div>
 </div>
 
