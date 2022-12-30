@@ -234,7 +234,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#exercises" id="toc-exercises">Exercises</a>
   <ul>
-  <li><a href="#an-example-of-uncorrelated-random-variable-that-are-not-independent" id="toc-an-example-of-uncorrelated-random-variable-that-are-not-independent">2.1 An Example of Uncorrelated Random Variable that are not Independent</a></li>
+  <li><a href="#an-example-of-uncorrelated-random-variables-that-are-not-independent" id="toc-an-example-of-uncorrelated-random-variables-that-are-not-independent">2.1 An Example of Uncorrelated Random Variables that are not Independent</a></li>
+  <li><a href="#sum-of-exponentials-is-gamma" id="toc-sum-of-exponentials-is-gamma">2.2 Sum of Exponentials is Gamma</a></li>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
   </ul></li>
   </ul>
@@ -272,11 +273,11 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z1, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z1'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="578" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -284,7 +285,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z2, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z2'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -294,7 +295,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.hist2d(Z1, Z2, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -313,8 +314,8 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 </section>
 <section id="exercises" class="level1">
 <h1>Exercises</h1>
-<section id="an-example-of-uncorrelated-random-variable-that-are-not-independent" class="level2">
-<h2 class="anchored" data-anchor-id="an-example-of-uncorrelated-random-variable-that-are-not-independent">2.1 An Example of Uncorrelated Random Variable that are not Independent</h2>
+<section id="an-example-of-uncorrelated-random-variables-that-are-not-independent" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-of-uncorrelated-random-variables-that-are-not-independent">2.1 An Example of Uncorrelated Random Variables that are not Independent</h2>
 <p>Let <span class="math inline">\(X\)</span> be a standard Gaussian. Show that <span class="math inline">\(\Cov(X^2, X) = 0\)</span>.</p>
 <p><span class="math display">\[
 \Cov(X^2, X) = \E(X^3) - \E(X^2)\E(X)
@@ -333,6 +334,49 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 &amp; = 2 \E(X) = 0.
 \end{align}
 \]</span></p>
+</section>
+<section id="sum-of-exponentials-is-gamma" class="level2">
+<h2 class="anchored" data-anchor-id="sum-of-exponentials-is-gamma">2.2 Sum of Exponentials is Gamma</h2>
+<p>The sum of <span class="math inline">\(n\)</span> IID random variables with exponential distribution with parameter <span class="math inline">\(\lambda\)</span> is gamma with pdf</p>
+<p><span id="eq-gamma-pdf"><span class="math display">\[
+\begin{align}
+f(x) = \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} &amp;, x \geq 0.
+\end{align}
+\tag{1}\]</span></span></p>
+<p>Proof:</p>
+<p>The pdf of the sum of two IID random variables is the convolution of the pdfs of the summands.</p>
+<p>Therefore, <span class="math display">\[
+\begin{align}
+f(x) &amp;= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\
+&amp;= \lambda^2 e^{-\lambda x} \int_{0}^{x} dy \\
+&amp;= \lambda^2 x e^{-\lambda x}.
+\end{align}
+\]</span></p>
+<p>So, it’s at least plausible.</p>
+<p>To prove the result, we use the MGF of the exponential random variables <span class="math inline">\(X\)</span> with parameter <span class="math inline">\(\lambda\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{tX}) &amp;= \frac{\lambda}{\lambda -t} &amp;, t &lt; \lambda.
+\end{align}
+\]</span></p>
+<p>Let <span class="math inline">\(X_i\)</span> be a collection of IID exponential random variables with parameter <span class="math inline">\(\lambda\)</span>. Then <span class="math inline">\(Z = \sum X_i\)</span> satisfies</p>
+<p><span class="math display">\[
+\E(e^{tZ}) = \prod_{i=1}^n \E(e^{tX_i}) = \frac{\lambda^n}{(\lambda -t)^n}.
+\]</span></p>
+<p>Suppose that <span class="math inline">\(Y\)</span> has pdf (<a href="#eq-gamma-pdf">Equation&nbsp;1</a>), then for <span class="math inline">\(t &lt; \lambda\)</span> we see that be repeated integration by parts</p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{tY}) &amp;= \int_0^{\infty} e^{tx} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} dx \\
+&amp;=    \int_0^{\infty} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{(t -\lambda) x} dx \\
+&amp;= \int_0^{\infty} \frac{\lambda^n}{(n-1)!} x^{n-1} \frac{(-1)^n}{(\lambda -t)^n} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\
+&amp;= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} \int_0^{\infty} x^{n-1} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\
+&amp;= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} (-(n-1)\int_0^{\infty} x^{n-2} \frac{d^{n-1}}{dx^{n-1}}e^{(t-\lambda)x} dx) \\
+&amp;= \frac{\lambda^n}{(\lambda - t)^n} \frac{(-1)^n}{(n-1)!}(-1)^{n-1} (n-1)!(e^{(t-\lambda)x}\rvert_0^{\infty}) \\
+&amp;= \frac{\lambda^n}{(\lambda - t)^n} (-1)^{2n-1} (-1) \\
+&amp;= \frac{\lambda^n}{(\lambda -t)^n}.
+\end{align}
+\]</span></p>
+<p>The MGF characterises the distribution of the random variable so the proof is complete.</p>
 </section>
 <section id="box-muller" class="level2">
 <h2 class="anchored" data-anchor-id="box-muller">2.4 Box-Muller</h2>
