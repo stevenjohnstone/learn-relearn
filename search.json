@@ -4,7 +4,21 @@
     "href": "index.html",
     "title": "learn-relearn",
     "section": "",
-    "text": "A First Course in Stochastic Calculus\n\n\nChapter One Exercises\n\n\nSolutions to exercises and computer experiments\n\n\n\n\n \n\n\n\n\n\n\nProbabilistic Machine Learning\n\n\nChapter Two Exercises\n\n\nSolutions to starred exercises\n\n\n\n\n \n\n\n\n\nNo matching items"
+    "text": "A First Course in Stochastic Calculus\n\n\nChapter Two Exercises\n\n\nSolutions to exercises and computer experiments\n\n\n\n\n \n\n\n\n\n\n\nA First Course in Stochastic Calculus\n\n\nChapter One Exercises\n\n\nSolutions to exercises and computer experiments\n\n\n\n\n \n\n\n\n\n\n\nProbabilistic Machine Learning\n\n\nChapter Two Exercises\n\n\nSolutions to starred exercises\n\n\n\n\n \n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "FCSC/ch2.html",
+    "href": "FCSC/ch2.html",
+    "title": "A First Course in Stochastic Calculus",
+    "section": "",
+    "text": "Let \\(U_1 \\sim U(0,1)\\) and \\(U_2 \\sim U(0,1)\\). Define random variables\n\\[\nZ_1 = \\sqrt{-2\\log(U_1)} \\cos(2 \\pi U_2)\n\\] and \\[\nZ_2 = \\sqrt{-2\\log(U_1)} \\sin(2 \\pi U_2).\n\\]\nGenerate \\(10000\\) samples of \\((Z_1, Z_2)\\) and plot the histograms of each random variable.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrg = np.random.default_rng()\n\nN = 10000\nbins=100\n\nU1 = rg.uniform(0, 1, N)\nU2 = rg.uniform(0, 1, N)\n\nnormal = rg.normal(0, 1, N)\n\nZ1 = [np.sqrt(-2 * np.log(u[0])) * np.cos(2 * np.pi * u[1]) for u in zip(U1, U2)]\nZ2 = [np.sqrt(-2 * np.log(u[0])) * np.sin(2 * np.pi * u[1]) for u in zip(U1, U2)]\n\n\nplt.hist(normal, bins=bins, label='normal', alpha=0.5)\nplt.hist(Z1, bins=bins, label='Z1', alpha=0.5)\nplt.legend(loc='upper right')\nplt.plot()\n\n[]\n\n\n\n\n\n\nplt.hist(normal, bins=bins, label='normal', alpha=0.5)\nplt.hist(Z2, bins=bins, label='Z2', alpha=0.5)\nplt.legend(loc='upper right')\nplt.plot()\n\n[]\n\n\n\n\n\n\nplt.hist2d(Z1, Z2, bins=bins, density=True)\nplt.plot()\n\n[]"
+  },
+  {
+    "objectID": "FCSC/ch2.html#box-muller",
+    "href": "FCSC/ch2.html#box-muller",
+    "title": "A First Course in Stochastic Calculus",
+    "section": "2.4 Box-Muller",
+    "text": "2.4 Box-Muller\nLet \\(U_1 \\sim U(0,1)\\) and \\(U_2 \\sim U(0,1)\\). Define random variables\n\\[\nZ_1 = \\sqrt{-2 \\log(U_1)} \\cos(2 \\pi U_2)\n\\] and \\[\nZ_2 = \\sqrt{-2 \\log(U_1)} \\sin(2 \\pi U_2).\n\\]\nShow that \\(Z_1\\) and \\(Z_2\\) are independent standard Gaussians.\nChange to polar coordinates.\nNote that\n\\[\nR = \\sqrt{Z_1^2 + Z_2^2} = \\sqrt{-2 \\log(U_1)}\n\\]\nand\n\\[\n\\tan(\\Theta) = \\frac{Z_2}{Z_1} = \\tan(2 \\pi U_2).\n\\] so \\[\n\\Theta = 2 \\pi U_2\n\\].\nThe random variable \\(R\\) has CDF\n\\[\n\\begin{align}\nF_R(r) &= P(R \\leq r) \\\\\n&= P(\\sqrt{-2 \\log(U_2)} \\leq r) \\\\\n&= P(U_2 \\geq e^{-r^2/2}) \\\\\n&= 1 - P(U_2 < e^{-r^2/2})\n&= 1 - \\begin{cases}\n0 & \\text{if } e^{-r^2/2} <0, \\\\\ne^{-r^2/2} & \\text{for } 0 \\leq e^{-r^2/2} < 1, \\\\\n1 & \\text{if } e^{-r^2/2} \\geq 1\n\\end{cases} \\\\\n&= 1 - e^{-r^2/2}.\n\\end{align}\n\\]\nObviously, \\(\\Theta \\sim U(0, 2 \\pi)\\). Therefore, \\((Z_1, Z_2)\\) has the same distribution as \\((X, Y)\\) where \\(X, Y\\) are IID standard Gaussians."
   },
   {
     "objectID": "FCSC/ch1.html",
