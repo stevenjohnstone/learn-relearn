@@ -275,11 +275,11 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z1, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z1'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="115">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="415"></p>
+<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -287,7 +287,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z2, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z2'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="116">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -297,7 +297,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.hist2d(Z1, Z2, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="117">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -475,11 +475,11 @@ x &amp; \text{if } |x| \leq 1, \\
 &amp;= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\
 &amp;= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\
 &amp;= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\
-&amp;= \sqrt{2 \pi} \E(e^{tY}).
+&amp;= \sqrt{2 \pi} \E(e^{tX}).
 \end{align}
 \]</span></p>
 <p>Therefore, <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are indentically distributed. They are definitely not independent as <span class="math inline">\(Y\)</span> is a function of <span class="math inline">\(X\)</span> and so we have no right to expect that <span class="math inline">\(X + Y\)</span> is also Gaussian.</p>
-<p>To see that <span class="math inline">\(X +Y\)</span> is not Gaussian, note that its range is in <span class="math inline">\([-2,2]\)</span>; there are lower bounds on the tail of Gaussian tails which are non-zero.</p>
+<p>To see that <span class="math inline">\(X +Y\)</span> is not Gaussian, note that its range is in <span class="math inline">\([-2,2]\)</span>; there are lower bounds on Gaussian tails which are non-zero.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, N)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [x <span class="cf">if</span> np.<span class="bu">abs</span>(x) <span class="op">&lt;=</span><span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span>x <span class="cf">for</span> x <span class="kw">in</span> X]</span>
@@ -488,11 +488,11 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.hist(Y, bins, label<span class="op">=</span><span class="st">'Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="118">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-6-output-2.png" width="584" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-6-output-2.png" width="583" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
@@ -502,11 +502,11 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(data)))</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="st">'X+Y'</span>, <span class="st">'X'</span>, <span class="st">'Y'</span>])</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="119">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-7-output-2.png" width="579" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-7-output-2.png" width="578" height="411"></p>
 </div>
 </div>
 
