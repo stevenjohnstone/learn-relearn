@@ -68,7 +68,7 @@ plt.plot()
 
 # Exercises
 
-## 2.1 An Example of Uncorrelated Random Variable that are not Independent
+## 2.1 An Example of Uncorrelated Random Variables that are not Independent
 
 Let $X$ be a standard Gaussian. Show that $\Cov(X^2, X) = 0$.
 
