@@ -234,6 +234,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#exercises" id="toc-exercises">Exercises</a>
   <ul>
+  <li><a href="#an-example-of-uncorrelated-random-variable-that-are-not-independent" id="toc-an-example-of-uncorrelated-random-variable-that-are-not-independent">2.1 An Example of Uncorrelated Random Variable that are not Independent</a></li>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
   </ul></li>
   </ul>
@@ -300,10 +301,39 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <p><img src="ch2_files/figure-html/cell-5-output-2.png" width="569" height="411"></p>
 </div>
 </div>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\P}{\operatorname{P}}
+\]</span></p>
+</div>
 </section>
 </section>
 <section id="exercises" class="level1">
 <h1>Exercises</h1>
+<section id="an-example-of-uncorrelated-random-variable-that-are-not-independent" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-of-uncorrelated-random-variable-that-are-not-independent">2.1 An Example of Uncorrelated Random Variable that are not Independent</h2>
+<p>Let <span class="math inline">\(X\)</span> be a standard Gaussian. Show that <span class="math inline">\(\Cov(X^2, X) = 0\)</span>.</p>
+<p><span class="math display">\[
+\Cov(X^2, X) = \E(X^3) - \E(X^2)\E(X)
+\]</span></p>
+<p>The standard Gaussian has odd moments equal to zero so</p>
+<p><span class="math display">\[
+\Cov(X^2, X) = 0 - \E(X^2).0 = 0.
+\]</span></p>
+<p>If you don’t have the knowledge at your fingertips, there’s always direct calculation:</p>
+<p>We already know that <span class="math inline">\(\E(X) = 0\)</span> for the standard Gaussian (it has mean <span class="math inline">\(0\)</span>).</p>
+<p>Using integration by parts: <span class="math display">\[
+\begin{align}
+\E(X^3) &amp; = \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^3 e^{-x^2/2} dx \\
+&amp;=  \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^2 \frac{d}{dx}(-e^{-x^2/2}) dx \\
+&amp;= -x^2 e^{-x^2/2} \rvert_{-\infty}^{\infty} + \int_{-\infty}^{\infty} 2 x e^{-x^2/2} dx \\
+&amp; = 2 \E(X) = 0.
+\end{align}
+\]</span></p>
+</section>
 <section id="box-muller" class="level2">
 <h2 class="anchored" data-anchor-id="box-muller">2.4 Box-Muller</h2>
 <p>Let <span class="math inline">\(U_1 \sim U(0,1)\)</span> and <span class="math inline">\(U_2 \sim U(0,1)\)</span>. Define random variables</p>
