@@ -238,6 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#sum-of-exponentials-is-gamma" id="toc-sum-of-exponentials-is-gamma">2.2 Sum of Exponentials is Gamma</a></li>
   <li><a href="#why-sqrt2-pi" id="toc-why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</a></li>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
+  <li><a href="#marginally-gaussian-but-not-jointly-gaussian." id="toc-marginally-gaussian-but-not-jointly-gaussian.">2.5 Marginally Gaussian but not Jointly Gaussian.</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -274,11 +275,11 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z1, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z1'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="115">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="415"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -286,17 +287,17 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z2, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z2'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="116">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-4-output-2.png" width="575" height="413"></p>
+<p><img src="ch2_files/figure-html/cell-4-output-2.png" width="575" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.hist2d(Z1, Z2, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="117">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -446,6 +447,68 @@ e^{-r^2/2} &amp; \text{for } 0 \leq e^{-r^2/2} &lt; 1, \\
 \end{align}
 \]</span></p>
 <p>Obviously, <span class="math inline">\(\Theta \sim U(0, 2 \pi)\)</span>. Therefore, <span class="math inline">\((Z_1, Z_2)\)</span> has the same distribution as <span class="math inline">\((X, Y)\)</span> where <span class="math inline">\(X, Y\)</span> are IID standard Gaussians.</p>
+</section>
+<section id="marginally-gaussian-but-not-jointly-gaussian." class="level2">
+<h2 class="anchored" data-anchor-id="marginally-gaussian-but-not-jointly-gaussian.">2.5 Marginally Gaussian but not Jointly Gaussian.</h2>
+<p>Let <span class="math inline">\(X\)</span> be a standard Gaussian and define</p>
+<p><span class="math display">\[
+Y = \begin{cases}
+X &amp; \text{if } |X| \leq 1, \\
+-X &amp; \text{otherwise.}
+\end{cases}
+\]</span></p>
+<p><span class="math inline">\(Y\)</span> is also a standard Gaussian.</p>
+<p>Proof:</p>
+<p>Let</p>
+<p><span class="math display">\[
+g(x) = \begin{cases}
+x &amp; \text{if } |x| \leq 1, \\
+-x &amp; \text{otherwise.}
+\end{cases}
+\]</span></p>
+<p>Then the MGF of <span class="math inline">\(Y\)</span> can be expressed (using LOTUS) as</p>
+<p><span class="math display">\[
+\begin{align}
+\sqrt{2 \pi} \E(e^{tY}) &amp;= \sqrt{2 \pi} \E(e^tg(X)) \\
+&amp;= \int_{-\infty}^{\infty} e^{tg(x)} e^{-x^2/2} dx \\
+&amp;= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{-\infty}^{-1} + \int_1^{\infty}) e^{-t x} e^{-x^2/2} dx \\
+&amp;= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\
+&amp;= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\
+&amp;= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\
+&amp;= \sqrt{2 \pi} \E(e^{tY}).
+\end{align}
+\]</span></p>
+<p>Therefore, <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are indentically distributed. They are definitely not independent as <span class="math inline">\(Y\)</span> is a function of <span class="math inline">\(X\)</span> and so we have no right to expect that <span class="math inline">\(X + Y\)</span> is also Gaussian.</p>
+<p>To see that <span class="math inline">\(X +Y\)</span> is not Gaussian, note that its range is in <span class="math inline">\([-2,2]\)</span>; there are lower bounds on the tail of Gaussian tails which are non-zero.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, N)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [x <span class="cf">if</span> np.<span class="bu">abs</span>(x) <span class="op">&lt;=</span><span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span>x <span class="cf">for</span> x <span class="kw">in</span> X]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.hist(X<span class="op">+</span>Y, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'X + Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.hist(X, bins, label<span class="op">=</span><span class="st">'X'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.hist(Y, bins, label<span class="op">=</span><span class="st">'Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="118">
+<pre><code>[]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-6-output-2.png" width="584" height="411"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data<span class="op">=</span>[X<span class="op">+</span>Y, X, Y]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ax.violinplot(data, <span class="bu">range</span>(<span class="bu">len</span>(data)), vert<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(data)))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="st">'X+Y'</span>, <span class="st">'X'</span>, <span class="st">'Y'</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="119">
+<pre><code>[]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-7-output-2.png" width="579" height="411"></p>
+</div>
+</div>
 
 
 </section>
