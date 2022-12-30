@@ -236,6 +236,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#an-example-of-uncorrelated-random-variables-that-are-not-independent" id="toc-an-example-of-uncorrelated-random-variables-that-are-not-independent">2.1 An Example of Uncorrelated Random Variables that are not Independent</a></li>
   <li><a href="#sum-of-exponentials-is-gamma" id="toc-sum-of-exponentials-is-gamma">2.2 Sum of Exponentials is Gamma</a></li>
+  </ul></li>
+  <li><a href="#why-sqrt2-pi" id="toc-why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</a>
+  <ul>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
   </ul></li>
   </ul>
@@ -273,11 +276,11 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z1, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z1'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="578" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -285,7 +288,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z2, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z2'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -295,7 +298,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.hist2d(Z1, Z2, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -378,6 +381,37 @@ f(x) &amp;= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\
 \]</span></p>
 <p>The MGF characterises the distribution of the random variable so the proof is complete.</p>
 </section>
+</section>
+<section id="why-sqrt2-pi" class="level1">
+<h1>2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</h1>
+<p>Using polar coordinates</p>
+<p><span class="math display">\[
+\begin{align}
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy &amp;= \int_0^{2 \pi} \int_0^{\infty} r e^{-r^2} dr d\theta \\
+&amp;=  2 \pi \int_0^{\infty} r e^{-r^2} dr \\
+&amp;=  2 \pi \int_0^{\infty} \frac{-1}{2} \frac{d}{dr}(e^{-r^2}) dr \\
+&amp;=  - \pi e^{-r^2} \rvert_0^{\infty} \\
+&amp;= \pi.
+\end{align}
+\]</span></p>
+<p>Now, <span class="math display">\[
+(\int_{-\infty}^{\infty} e^{-x^2} dx)^2 =
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy = \pi.
+\]</span></p>
+<p>Therefore <span class="math display">\[
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}.
+\]</span></p>
+<p>I think the author may have meant for us to show that</p>
+<p><span class="math display">\[
+\int_{-\infty}^{\infty} e^{-x^2/2} dx = \sqrt{2 \pi}
+\]</span></p>
+<p>which follows by a change of variables <span class="math inline">\(x = y/\sqrt{2}\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+\int_{-\infty}^{\infty} e^{-x^2} dx &amp;= \int_{-\infty}^{\infty} e^{-(y/\sqrt{2})^2} \frac{1}{\sqrt{2}} dy \\
+&amp;= \frac{1}{\sqrt{2}} \int_{-\infty}^{\infty} e^{-y^2/2} dy = \sqrt{\pi}.
+\end{align}
+\]</span></p>
 <section id="box-muller" class="level2">
 <h2 class="anchored" data-anchor-id="box-muller">2.4 Box-Muller</h2>
 <p>Let <span class="math inline">\(U_1 \sim U(0,1)\)</span> and <span class="math inline">\(U_2 \sim U(0,1)\)</span>. Define random variables</p>
