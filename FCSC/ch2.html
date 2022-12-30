@@ -236,9 +236,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#an-example-of-uncorrelated-random-variables-that-are-not-independent" id="toc-an-example-of-uncorrelated-random-variables-that-are-not-independent">2.1 An Example of Uncorrelated Random Variables that are not Independent</a></li>
   <li><a href="#sum-of-exponentials-is-gamma" id="toc-sum-of-exponentials-is-gamma">2.2 Sum of Exponentials is Gamma</a></li>
-  </ul></li>
-  <li><a href="#why-sqrt2-pi" id="toc-why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</a>
-  <ul>
+  <li><a href="#why-sqrt2-pi" id="toc-why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</a></li>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
   </ul></li>
   </ul>
@@ -292,7 +290,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-4-output-2.png" width="575" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-4-output-2.png" width="575" height="413"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
@@ -381,9 +379,8 @@ f(x) &amp;= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\
 \]</span></p>
 <p>The MGF characterises the distribution of the random variable so the proof is complete.</p>
 </section>
-</section>
-<section id="why-sqrt2-pi" class="level1">
-<h1>2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</h1>
+<section id="why-sqrt2-pi" class="level2">
+<h2 class="anchored" data-anchor-id="why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</h2>
 <p>Using polar coordinates</p>
 <p><span class="math display">\[
 \begin{align}
@@ -412,6 +409,7 @@ f(x) &amp;= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\
 &amp;= \frac{1}{\sqrt{2}} \int_{-\infty}^{\infty} e^{-y^2/2} dy = \sqrt{\pi}.
 \end{align}
 \]</span></p>
+</section>
 <section id="box-muller" class="level2">
 <h2 class="anchored" data-anchor-id="box-muller">2.4 Box-Muller</h2>
 <p>Let <span class="math inline">\(U_1 \sim U(0,1)\)</span> and <span class="math inline">\(U_2 \sim U(0,1)\)</span>. Define random variables</p>
