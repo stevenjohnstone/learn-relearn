@@ -250,3 +250,66 @@ e^{-r^2/2} & \text{for } 0 \leq e^{-r^2/2} < 1, \\
 $$
 
 Obviously, $\Theta \sim U(0, 2 \pi)$. Therefore, $(Z_1, Z_2)$ has the same distribution as $(X, Y)$ where $X, Y$ are IID standard Gaussians.
+
+## 2.5 Marginally Gaussian but not Jointly Gaussian.
+
+Let $X$ be a standard Gaussian and define
+
+$$
+Y = \begin{cases}
+X & \text{if } |X| \leq 1, \\
+-X & \text{otherwise.}
+\end{cases}
+$$
+
+$Y$ is also a standard Gaussian.
+
+Proof:
+
+Let 
+
+$$
+g(x) = \begin{cases}
+x & \text{if } |x| \leq 1, \\
+-x & \text{otherwise.}
+\end{cases}
+$$
+
+Then the MGF of $Y$ can be expressed (using LOTUS) as
+
+$$
+\begin{align}
+\sqrt{2 \pi} \E(e^{tY}) &= \sqrt{2 \pi} \E(e^tg(X)) \\ 
+&= \int_{-\infty}^{\infty} e^{tg(x)} e^{-x^2/2} dx \\ 
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{-\infty}^{-1} + \int_1^{\infty}) e^{-t x} e^{-x^2/2} dx \\ 
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\ 
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\ 
+&= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\ 
+&= \sqrt{2 \pi} \E(e^{tY}).
+\end{align}
+$$
+
+Therefore, $Y$ and $X$ are indentically distributed. They are definitely
+not independent as $Y$ is a function of $X$ and so we have no
+right to expect that $X + Y$ is also Gaussian.
+
+To see that $X +Y$ is not Gaussian, note that its range is in $[-2,2]$; there are lower bounds on the tail of Gaussian tails which are non-zero.
+
+```{python}
+X = rg.normal(0,1, N)
+Y = [x if np.abs(x) <=1 else -x for x in X]
+plt.hist(X+Y, bins=bins, label='X + Y', alpha=0.5)
+plt.hist(X, bins, label='X', alpha=0.5)
+plt.hist(Y, bins, label='Y', alpha=0.5)
+plt.legend(loc='upper right')
+plt.plot()
+```
+
+```{python}
+data=[X+Y, X, Y]
+ax = plt.subplot()
+ax.violinplot(data, range(len(data)), vert=False)
+ax.set_yticks(range(len(data)))
+ax.set_yticklabels(['X+Y', 'X', 'Y'])
+plt.plot()
+```
