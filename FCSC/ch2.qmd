@@ -97,6 +97,68 @@ $$
 \end{align}
 $$
 
+## 2.2 Sum of Exponentials is Gamma
+
+The sum of $n$ IID random variables with exponential distribution
+with parameter $\lambda$ is gamma with pdf
+
+$$
+\begin{align}
+f(x) = \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} &, x \geq 0.
+\end{align}
+$$ {#eq-gamma-pdf}
+
+Proof:
+
+The pdf of the sum of two IID random variables is the convolution of the pdfs of the summands.
+
+Therefore,
+$$
+\begin{align}
+f(x) &= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\ 
+&= \lambda^2 e^{-\lambda x} \int_{0}^{x} dy \\ 
+&= \lambda^2 x e^{-\lambda x}.
+\end{align}
+$$
+
+So, it's at least plausible.
+
+To prove the result, we use the MGF of the exponential random variables $X$ with parameter $\lambda$:
+
+$$
+\begin{align}
+\E(e^{tX}) &= \frac{\lambda}{\lambda -t} &, t < \lambda.
+\end{align}
+$$
+
+Let $X_i$ be a collection of IID exponential random variables with
+parameter $\lambda$. Then $Z = \sum X_i$ satisfies
+
+$$
+\E(e^{tZ}) = \prod_{i=1}^n \E(e^{tX_i}) = \frac{\lambda^n}{(\lambda -t)^n}.
+$$
+
+Suppose that $Y$ has pdf (@eq-gamma-pdf), then for $t < \lambda$ we see that be repeated integration by parts
+
+$$
+\begin{align}
+\E(e^{tY}) &= \int_0^{\infty} e^{tx} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} dx \\ 
+&=    \int_0^{\infty} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{(t -\lambda) x} dx \\ 
+&= \int_0^{\infty} \frac{\lambda^n}{(n-1)!} x^{n-1} \frac{(-1)^n}{(\lambda -t)^n} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\ 
+&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} \int_0^{\infty} x^{n-1} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\ 
+&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} (-(n-1)\int_0^{\infty} x^{n-2} \frac{d^{n-1}}{dx^{n-1}}e^{(t-\lambda)x} dx) \\ 
+&= \frac{\lambda^n}{(\lambda - t)^n} \frac{(-1)^n}{(n-1)!}(-1)^{n-1} (n-1)!(e^{(t-\lambda)x}\rvert_0^{\infty}) \\ 
+&= \frac{\lambda^n}{(\lambda - t)^n} (-1)^{2n-1} (-1) \\ 
+&= \frac{\lambda^n}{(\lambda -t)^n}.
+\end{align}
+$$
+
+The MGF characterises the distribution of the random variable so the proof is complete.
+
+
+
+
+
 
 ## 2.4 Box-Muller
 
