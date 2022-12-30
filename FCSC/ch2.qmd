@@ -1,0 +1,17 @@
+---
+title: "A First Course in Stochastic Calculus"
+subtitle: "Chapter Two Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+# Computer Experiments
+
+# Exercises
