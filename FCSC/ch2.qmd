@@ -155,7 +155,7 @@ $$
 
 The MGF characterises the distribution of the random variable so the proof is complete.
 
-# 2.3 Why $\sqrt{2 \pi}$?
+## 2.3 Why $\sqrt{2 \pi}$?
 
 Using polar coordinates
 
