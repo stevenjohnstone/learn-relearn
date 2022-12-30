@@ -285,7 +285,7 @@ $$
 &= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\ 
 &= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\ 
 &= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\ 
-&= \sqrt{2 \pi} \E(e^{tY}).
+&= \sqrt{2 \pi} \E(e^{tX}).
 \end{align}
 $$
 
