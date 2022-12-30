@@ -155,6 +155,46 @@ $$
 
 The MGF characterises the distribution of the random variable so the proof is complete.
 
+# 2.3 Why $\sqrt{2 \pi}$?
+
+Using polar coordinates
+
+$$
+\begin{align}
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy &= \int_0^{2 \pi} \int_0^{\infty} r e^{-r^2} dr d\theta \\ 
+&=  2 \pi \int_0^{\infty} r e^{-r^2} dr \\ 
+&=  2 \pi \int_0^{\infty} \frac{-1}{2} \frac{d}{dr}(e^{-r^2}) dr \\ 
+&=  - \pi e^{-r^2} \rvert_0^{\infty} \\ 
+&= \pi.
+\end{align}
+$$
+
+Now,
+$$
+(\int_{-\infty}^{\infty} e^{-x^2} dx)^2 = 
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy = \pi.
+$$
+
+Therefore
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}.
+$$
+
+I think the author may have meant for us to show that
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2/2} dx = \sqrt{2 \pi}
+$$
+
+which follows by a change of variables $x = y/\sqrt{2}$
+
+$$
+\begin{align}
+\int_{-\infty}^{\infty} e^{-x^2} dx &= \int_{-\infty}^{\infty} e^{-(y/\sqrt{2})^2} \frac{1}{\sqrt{2}} dy \\
+&= \frac{1}{\sqrt{2}} \int_{-\infty}^{\infty} e^{-y^2/2} dy = \sqrt{\pi}.
+\end{align}
+$$
+
 
 
 
