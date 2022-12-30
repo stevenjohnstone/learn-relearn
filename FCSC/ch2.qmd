@@ -293,7 +293,7 @@ Therefore, $Y$ and $X$ are indentically distributed. They are definitely
 not independent as $Y$ is a function of $X$ and so we have no
 right to expect that $X + Y$ is also Gaussian.
 
-To see that $X +Y$ is not Gaussian, note that its range is in $[-2,2]$; there are lower bounds on the tail of Gaussian tails which are non-zero.
+To see that $X +Y$ is not Gaussian, note that its range is in $[-2,2]$; there are lower bounds on Gaussian tails which are non-zero.
 
 ```{python}
 X = rg.normal(0,1, N)
