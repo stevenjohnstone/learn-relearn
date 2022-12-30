@@ -13,5 +13,138 @@ format:
 ---
 
 # Computer Experiments
+## 2.1 The Box-Muller Method
+
+Let $U_1 \sim U(0,1)$ and $U_2 \sim U(0,1)$. Define random variables
+
+$$
+Z_1 = \sqrt{-2\log(U_1)} \cos(2 \pi U_2)
+$$
+and
+$$
+Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
+$$
+
+Generate $10000$ samples of $(Z_1, Z_2)$ and plot the histograms of each random variable.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+rg = np.random.default_rng()
+
+N = 10000
+bins=100
+
+U1 = rg.uniform(0, 1, N)
+U2 = rg.uniform(0, 1, N)
+
+normal = rg.normal(0, 1, N)
+
+Z1 = [np.sqrt(-2 * np.log(u[0])) * np.cos(2 * np.pi * u[1]) for u in zip(U1, U2)]
+Z2 = [np.sqrt(-2 * np.log(u[0])) * np.sin(2 * np.pi * u[1]) for u in zip(U1, U2)]
+```
+```{python}
+plt.hist(normal, bins=bins, label='normal', alpha=0.5)
+plt.hist(Z1, bins=bins, label='Z1', alpha=0.5)
+plt.legend(loc='upper right')
+plt.plot()
+```
+
+```{python}
+plt.hist(normal, bins=bins, label='normal', alpha=0.5)
+plt.hist(Z2, bins=bins, label='Z2', alpha=0.5)
+plt.legend(loc='upper right')
+plt.plot()
+```
+
+```{python}
+plt.hist2d(Z1, Z2, bins=bins, density=True)
+plt.plot()
+```
+
+{{< include /_macros.qmd >}}
+
 
 # Exercises
+
+## 2.1 An Example of Uncorrelated Random Variable that are not Independent
+
+Let $X$ be a standard Gaussian. Show that $\Cov(X^2, X) = 0$.
+
+$$
+\Cov(X^2, X) = \E(X^3) - \E(X^2)\E(X)
+$$
+
+The standard Gaussian has odd moments equal to zero so
+
+$$
+\Cov(X^2, X) = 0 - \E(X^2).0 = 0.
+$$
+
+If you don't have the knowledge at your fingertips, there's always
+direct calculation:
+
+We already know that $\E(X) = 0$ for the standard Gaussian (it has mean $0$).
+
+Using integration by parts:
+$$
+\begin{align}
+\E(X^3) & = \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^3 e^{-x^2/2} dx \\ 
+&=  \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^2 \frac{d}{dx}(-e^{-x^2/2}) dx \\ 
+&= -x^2 e^{-x^2/2} \rvert_{-\infty}^{\infty} + \int_{-\infty}^{\infty} 2 x e^{-x^2/2} dx \\ 
+& = 2 \E(X) = 0.
+\end{align}
+$$
+
+
+## 2.4 Box-Muller
+
+Let $U_1 \sim U(0,1)$ and $U_2 \sim U(0,1)$. Define random variables
+
+$$
+Z_1 = \sqrt{-2 \log(U_1)} \cos(2 \pi U_2)
+$$
+and
+$$
+Z_2 = \sqrt{-2 \log(U_1)} \sin(2 \pi U_2).
+$$
+
+Show that $Z_1$ and $Z_2$ are independent standard Gaussians.
+
+Change to polar coordinates.
+
+Note that
+
+$$
+R = \sqrt{Z_1^2 + Z_2^2} = \sqrt{-2 \log(U_1)}
+$$
+
+and
+
+$$
+\tan(\Theta) = \frac{Z_2}{Z_1} = \tan(2 \pi U_2).
+$$
+so
+$$
+\Theta = 2 \pi U_2
+$$.
+
+The random variable $R$ has CDF 
+
+$$
+\begin{align}
+F_R(r) &= P(R \leq r) \\ 
+&= P(\sqrt{-2 \log(U_2)} \leq r) \\
+&= P(U_2 \geq e^{-r^2/2}) \\ 
+&= 1 - P(U_2 < e^{-r^2/2})
+&= 1 - \begin{cases}
+0 & \text{if } e^{-r^2/2} <0, \\ 
+e^{-r^2/2} & \text{for } 0 \leq e^{-r^2/2} < 1, \\ 
+1 & \text{if } e^{-r^2/2} \geq 1
+\end{cases} \\
+&= 1 - e^{-r^2/2}.
+\end{align}
+$$
+
+Obviously, $\Theta \sim U(0, 2 \pi)$. Therefore, $(Z_1, Z_2)$ has the same distribution as $(X, Y)$ where $X, Y$ are IID standard Gaussians.

@@ -1,0 +1,8 @@
+::: {.hidden}
+$$
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\P}{\operatorname{P}}
+$$
+:::
