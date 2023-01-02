@@ -313,3 +313,63 @@ ax.set_yticks(range(len(data)))
 ax.set_yticklabels(['X+Y', 'X', 'Y'])
 plt.plot()
 ```
+
+## 2.7 The Covariance of a Random Vector is Always Positive Semidefinite
+
+Let $\mathcal{C}$ be the covariance matrix of a random vector $X = (X_i)$.
+
+We must demonstrate that
+
+$$
+\sum_{i,j} a_i a_j \mathcal{C}_{ij} \geq 0
+$$ {#eq-covariance-pos-semidef}
+for any $a \in \mathbb{R}^n$. 
+
+Define
+$$
+Y = \sum_{i=1}^n a_i X_i
+$$
+
+and calculate the variance of $Y$ showing that it is equal to the left-hand side of (@eq-covariance-pos-semidef):
+
+$$
+\begin{align}
+\Var(Y) &= \E(Y^2) - \E(Y)^2 \\ 
+      &= \E(\sum_{i,j=1} a_i a_j X_i X_j ) - \sum_{i,j=1}^n a_i a_j \E(X_i)\E(X_j) \\ 
+      &= \sum_{i,j=1}^n a_i a_j (\E(X_i X_j) - \E(X_i) \E(X_j)) \\ 
+      &=  \sum_{i,j=1}^n a_i a_j \mathcal{C}_{ij}.
+\end{align}
+$$
+
+The proof is complete by noting that $\Var(Y) \geq 0$.
+
+::: {.callout-note}
+The variance of a random variable is invariant under translation i.e.
+
+if $X$ is a random variable and $c \in \mathbb{R}$, then
+
+$$
+\Var(X + c) = \Var(X).
+$$
+This follows by a simple book-keeping exercise:
+$$
+\begin{align}
+\Var(X+c) &= \E(X^2 + 2cX + c^2) - (\E(X) + c)^2\\ 
+&= \E(X^2) +2c\E(x) +c^2 - \E(X)^2  - 2x \E(X) - c^2 \\ 
+&= \E(X^2) - \E(X)^2 \\ 
+&= \Var(X).
+\end{align}
+$$
+
+It is clear that $\Var(X) \geq 0$ when $X$ has mean zero:
+
+$$
+\Var(X) = \E(X^2) = \int_{-\infty}^{\infty} x^2 dF(x) \geq 0.
+$$
+
+If $m$ is the mean of $X$, then $X -m$ has mean zero and so using invariance of the variance:
+
+$$
+\Var(X) = \Var(X - m) \geq 0.
+$$
+:::
