@@ -343,6 +343,7 @@ $$
 
 The proof is complete by noting that $\Var(Y) \geq 0$.
 
+
 ::: {.callout-note}
 The variance of a random variable is invariant under translation i.e.
 
@@ -372,4 +373,53 @@ If $m$ is the mean of $X$, then $X -m$ has mean zero and so using invariance of 
 $$
 \Var(X) = \Var(X - m) \geq 0.
 $$
+
 :::
+
+ 
+::: {.callout-note}
+
+$X$ is a constant with probability 1 $\iff \Var(X) = 0$.
+
+Proof:
+
+If $X = c$, then
+$$
+\Var(X) = \E(c^2) - \E(c)^2 = c^2 - c^2 = 0.
+$$
+
+If $\Var(X) = 0$,  then $\Var(X - \E(X)) = 0$, by translation invariance of $\Var$. Let $Y = X - \E(X)$. Then
+
+$$
+\Var(Y) = \int_{-\infty}^{\infty} y^2 dF_Y(y)
+$$
+and so 
+$$
+F_Y(y) = \begin{cases}
+0 & \text{for } y < 0, \\ 
+1 & \text{otherwise}.
+\end{cases}
+$$
+Therefore, $Y = 0$ with probability 1 and so $X = \E(X)$ with probability 1 i.e. $X$ is a constant.
+:::
+
+Since the LHS of (@eq-covariance-pos-semidef) is the variance of $\sum_i a_i X_i$, we see that $\mathcal{C}$ is positive _definite_
+if and only if the variance of $\sum_i a_i X_i$ is non-zero for all non-zero $a$.
+
+The covariance matrix of a random vector $X = (X_i)$ is postive-definite if and only if each linear combination of the coordinates is non-constant.
+
+When $X_i$ are jointly Gaussian, then each linear
+combination is a Gaussian random variable: the only constant a linear combination of Gaussian cvariables can sum to is zero.
+
+Therefore, for jointly Gaussian random variables,
+the covariance matrix is positive-definite if and only if the
+the variables are linearly independent.
+
+
+
+ 
+
+
+
+
+
