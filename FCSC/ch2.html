@@ -239,6 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#why-sqrt2-pi" id="toc-why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</a></li>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
   <li><a href="#marginally-gaussian-but-not-jointly-gaussian." id="toc-marginally-gaussian-but-not-jointly-gaussian.">2.5 Marginally Gaussian but not Jointly Gaussian.</a></li>
+  <li><a href="#the-covariance-of-a-random-vector-is-always-positive-semidefinite" id="toc-the-covariance-of-a-random-vector-is-always-positive-semidefinite">2.7 The Covariance of a Random Vector is Always Positive Semidefinite</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -279,7 +280,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="576" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-3-output-2.png" width="575" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -301,7 +302,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-5-output-2.png" width="569" height="413"></p>
+<p><img src="ch2_files/figure-html/cell-5-output-2.png" width="569" height="411"></p>
 </div>
 </div>
 <div class="hidden">
@@ -507,6 +508,59 @@ x &amp; \text{if } |x| \leq 1, \\
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch2_files/figure-html/cell-7-output-2.png" width="578" height="411"></p>
+</div>
+</div>
+</section>
+<section id="the-covariance-of-a-random-vector-is-always-positive-semidefinite" class="level2">
+<h2 class="anchored" data-anchor-id="the-covariance-of-a-random-vector-is-always-positive-semidefinite">2.7 The Covariance of a Random Vector is Always Positive Semidefinite</h2>
+<p>Let <span class="math inline">\(\mathcal{C}\)</span> be the covariance matrix of a random vector <span class="math inline">\(X = (X_i)\)</span>.</p>
+<p>We must demonstrate that</p>
+<p><span id="eq-covariance-pos-semidef"><span class="math display">\[
+\sum_{i,j} a_i a_j \mathcal{C}_{ij} \geq 0
+\tag{2}\]</span></span> for any <span class="math inline">\(a \in \mathbb{R}^n\)</span>.</p>
+<p>Define <span class="math display">\[
+Y = \sum_{i=1}^n a_i X_i
+\]</span></p>
+<p>and calculate the variance of <span class="math inline">\(Y\)</span> showing that it is equal to the left-hand side of (<a href="#eq-covariance-pos-semidef">Equation&nbsp;2</a>):</p>
+<p><span class="math display">\[
+\begin{align}
+\Var(Y) &amp;= \E(Y^2) - \E(Y)^2 \\
+      &amp;= \E(\sum_{i,j=1} a_i a_j X_i X_j ) - \sum_{i,j=1}^n a_i a_j \E(X_i)\E(X_j) \\
+      &amp;= \sum_{i,j=1}^n a_i a_j (\E(X_i X_j) - \E(X_i) \E(X_j)) \\
+      &amp;=  \sum_{i,j=1}^n a_i a_j \mathcal{C}_{ij}.
+\end{align}
+\]</span></p>
+<p>The proof is complete by noting that <span class="math inline">\(\Var(Y) \geq 0\)</span>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The variance of a random variable is invariant under translation i.e.</p>
+<p>if <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(c \in \mathbb{R}\)</span>, then</p>
+<p><span class="math display">\[
+\Var(X + c) = \Var(X).
+\]</span> This follows by a simple book-keeping exercise: <span class="math display">\[
+\begin{align}
+\Var(X+c) &amp;= \E(X^2 + 2cX + c^2) - (\E(X) + c)^2\\
+&amp;= \E(X^2) +2c\E(x) +c^2 - \E(X)^2  - 2x \E(X) - c^2 \\
+&amp;= \E(X^2) - \E(X)^2 \\
+&amp;= \Var(X).
+\end{align}
+\]</span></p>
+<p>It is clear that <span class="math inline">\(\Var(X) \geq 0\)</span> when <span class="math inline">\(X\)</span> has mean zero:</p>
+<p><span class="math display">\[
+\Var(X) = \E(X^2) = \int_{-\infty}^{\infty} x^2 dF(x) \geq 0.
+\]</span></p>
+<p>If <span class="math inline">\(m\)</span> is the mean of <span class="math inline">\(X\)</span>, then <span class="math inline">\(X -m\)</span> has mean zero and so using invariance of the variance:</p>
+<p><span class="math display">\[
+\Var(X) = \Var(X - m) \geq 0.
+\]</span></p>
 </div>
 </div>
 
