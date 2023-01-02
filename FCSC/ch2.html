@@ -276,7 +276,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z1, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z1'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -288,7 +288,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z2, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z2'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -298,7 +298,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.hist2d(Z1, Z2, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -489,7 +489,7 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.hist(Y, bins, label<span class="op">=</span><span class="st">'Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -503,7 +503,7 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(data)))</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="st">'X+Y'</span>, <span class="st">'X'</span>, <span class="st">'Y'</span>])</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -563,6 +563,36 @@ Note
 \]</span></p>
 </div>
 </div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(X\)</span> is a constant with probability 1 <span class="math inline">\(\iff \Var(X) = 0\)</span>.</p>
+<p>Proof:</p>
+<p>If <span class="math inline">\(X = c\)</span>, then <span class="math display">\[
+\Var(X) = \E(c^2) - \E(c)^2 = c^2 - c^2 = 0.
+\]</span></p>
+<p>If <span class="math inline">\(\Var(X) = 0\)</span>, then <span class="math inline">\(\Var(X - \E(X)) = 0\)</span>, by translation invariance of <span class="math inline">\(\Var\)</span>. Let <span class="math inline">\(Y = X - \E(X)\)</span>. Then</p>
+<p><span class="math display">\[
+\Var(Y) = \int_{-\infty}^{\infty} y^2 dF_Y(y)
+\]</span> and so <span class="math display">\[
+F_Y(y) = \begin{cases}
+0 &amp; \text{for } y &lt; 0, \\
+1 &amp; \text{otherwise}.
+\end{cases}
+\]</span> Therefore, <span class="math inline">\(Y = 0\)</span> with probability 1 and so <span class="math inline">\(X = \E(X)\)</span> with probability 1 i.e.&nbsp;<span class="math inline">\(X\)</span> is a constant.</p>
+</div>
+</div>
+<p>Since the LHS of (<a href="#eq-covariance-pos-semidef">Equation&nbsp;2</a>) is the variance of <span class="math inline">\(\sum_i a_i X_i\)</span>, we see that <span class="math inline">\(\mathcal{C}\)</span> is positive <em>definite</em> if and only if the variance of <span class="math inline">\(\sum_i a_i X_i\)</span> is non-zero for all non-zero <span class="math inline">\(a\)</span>.</p>
+<p>The covariance matrix of a random vector <span class="math inline">\(X = (X_i)\)</span> is postive-definite if and only if each linear combination of the coordinates is non-constant.</p>
+<p>When <span class="math inline">\(X_i\)</span> are jointly Gaussian, then each linear combination is a Gaussian random variable: the only constant a linear combination of Gaussian cvariables can sum to is zero.</p>
+<p>Therefore, for jointly Gaussian random variables, the covariance matrix is positive-definite if and only if the the variables are linearly independent.</p>
 
 
 </section>
