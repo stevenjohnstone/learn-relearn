@@ -493,12 +493,84 @@ $\rank(\Cov(Y)) = \rank(M)$.
 For $\Cov(Y)$ to be invertible (making $\Cov(Y)$ positive _definite_), we require $\rank(M) = m$ i.e $M$ must be full-rank.  Given that $\rank(M) \leq \min(m, n)$, when $M$ is full-rank $m \leq n$.
 :::
 
+## 2.9 IID Decomposition
+
+Let $(X, Y)$  be a Gaussian vector with mean $0$ and covariance
+matrix
+$$
+\mathcal{C} = \begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix},
+$$
+for $\rho \in (-1, 1)$.
+
+Take $Z_1 = X$. $Z_1$ is a standard Gaussian: it has mean $0$ by
+assumption and the covariance matrix tells us that $\Var(X_1) = 1$.
+
+We perform Gram-Schmidt to express $(X, Y)$ as a linear combination
+of IID standard Gaussians. Start with
+$$
+\begin{align}
+Z^{'}_2 &= Y - \E(YZ_1)Z_1 \\
+&= Y - \rho Z_1.
+\end{align}
+$$
+
+By linearity of expectation,
+$$
+\begin{align}
+\Var(Z^{'}_2) &= \E((Y - \rho Z_1)^2) \\ 
+&= \E(Y^2) - 2\rho \E(Y Z_1) + \rho^2 \E(Z_1^2) \\
+&= 1 -  \rho^2.
+\end{align}
+$$
+We set
+$$
+Z_2 = \frac{1}{\sqrt{1 - \rho^2}} Z_2^{'}
+$$
+and so $Z_2$ has variance 1: $Z_1$ is a standard Gaussian.
+
+::: {.callout-note collapse="true"}
+# $Z_1$ and $Z_2$ are independent
+
+For Gaussians, it is sufficient to demonstrate that
+$$
+\E(Z_1 Z_2) = 0.
+$$
+We expect this from the Gram-Schmidt process but it doesn't hurt
+to check:
+
+$$
+\begin{align}
+\E(Z_1Z_2) & = \frac{1}{\sqrt{1 - \rho^2}}\E(X(Y - \rho X)) \\ 
+&= \frac{\E(XY) - \rho\E(X^2)}{\sqrt{1 -\rho^2}} \\ 
+&= 0.
+\end{align}
+$$
+:::
+
+We can write
+$$
+(X, Y) = (Z_1, \rho Z_1 + \sqrt{1 - \rho^2} Z_2)
+$$
+to express $(X, Y)$ as a linear combination of IID standard Gaussians.
+
+The PDF of $(X, Y)$ is given by
+```{python}
+#| code-fold: true
+import sympy as sp
+from sympy.abc import x, y, rho
+from fractions import Fraction
+
+sp.init_printing()
 
 
+C = sp.Matrix([[1, rho], [rho, 1]])
+Cinv = C.inv()
+factor = sp.gcd(tuple(Cinv))
+xy = sp.Matrix([x, y])
 
- 
 
-
-
-
-
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det())); f[0]
+```
