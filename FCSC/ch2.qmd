@@ -415,6 +415,85 @@ Therefore, for jointly Gaussian random variables,
 the covariance matrix is positive-definite if and only if the
 the variables are linearly independent.
 
+## 2.8 A Linear Tranformation of Gaussian Vector is Also Gaussian
+
+Let $X = (X_i)_{i=1}^n$ be a Gaussian vector an $M$ be an $m \times n$ matrix.
+
+$Y = MX$ is also Gaussian.
+
+Proof:
+
+We can write
+
+$$
+\begin{align}
+Y &= (\sum_{i=1}^n M_{ij} X_i)_{j=1}^m
+\end{align}
+$$
+and so express $Y$ as a vector of linear combinations of $X_i$ making its components Gaussian. Moreover, we can express any
+linear combination of components of $MX$ as a linear combination of $X_i$:
+
+$$
+\begin{align}
+\sum_{j=1}^m a_j Y_j &= \sum_{j=1}^m a_j (\sum_{i=1}^n M_{ji} X_i) \\ 
+&= \sum_{i,j} a_j M_{ji} X_i \\
+&= \sum_{i} b_i X_i
+\end{align}
+$$
+where
+$$
+b_i = \sum_j a_j M_{ji}.
+$$
+Written in a more suggestive manner:
+$$
+a^T MX = (M^T a)^T X.
+$$
+$\square$
+
+Let $\mathcal{C}$ be the covariance matrix of $X$.
+
+We can express
+the covariance matrix of $Y$ in terms of $M$ and $\mathcal{C}$:
+
+$$
+\begin{align}
+\Cov(Y_i, Y_j) &= \E(Y_i Y_j) - \E(Y_i) \E(Y_j) \\ 
+&= \E( \sum_\alpha M_{i \alpha} X_\alpha \sum_\beta M_{j \beta} X_\beta ) - \sum_\alpha M_{i \alpha} \E(Y_i) \sum_\beta M_{j \beta } \E(Y_j) \\
+&= \sum_\alpha \sum_\beta M_{i\alpha }M_{j \beta} (\E(X_\alpha X_\beta) - \E(X_\alpha) \E(X_\beta)) \\
+&= \sum_\alpha \sum_\beta M_{i \alpha}\mathcal{C}_{\alpha \beta} M^T_{\beta j}. \\
+\end{align}
+$$
+
+In shorter notation:
+
+$$
+\Cov(Y) = M \mathcal{C}M^T.
+$$
+
+Suppose that $m =n$. Then,
+
+$$
+\begin{align}
+\det(\Cov(Y)) &= \det(M)\det(\mathcal{C})\det(M^T) \\ 
+&= \det(M)^2\det(\mathcal{C}).
+\end{align}
+$$
+If follows that $Y$ is non-degenerate ($\det(\Cov(Y)) \neq 0$) $\iff$ $\det(M) \neq 0$.
+
+For general $M$, it is necessary that $m \leq n$ and $M$ is full-rank $m$ for $\Cov(Y)$ to be positive definite. 
+
+
+::: {.callout-note}
+
+The domain of $M^T$ is $m$-dimensional. The range of $M^T$, $\mathcal{R}(M^T)$, has dimension $\rank(M^T$). Since
+$\mathcal{C}$ is invertible, $\mathcal{C}(\mathcal{R}(M^T))$ has dimension
+$\rank(M^T)$. Finally, $\dim(M(\mathcal{C}(\mathcal{R}(M^T)))) = \rank(M)$ by virtue of $\rank(M^T) = \rank(M)$. That is,
+$\rank(\Cov(Y)) = \rank(M)$.
+
+For $\Cov(Y)$ to be invertible (making $\Cov(Y)$ positive _definite_), we require $\rank(M) = m$ i.e $M$ must be full-rank.  Given that $\rank(M) \leq \min(m, n)$, when $M$ is full-rank $m \leq n$.
+:::
+
+
 
 
  
