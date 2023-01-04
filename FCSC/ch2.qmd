@@ -413,7 +413,7 @@ combination is a Gaussian random variable: the only constant a linear combinatio
 
 Therefore, for jointly Gaussian random variables,
 the covariance matrix is positive-definite if and only if the
-the variables are linearly independent.
+the variables are linearly independent. See @sec-degenerate-is-li.
 
 ## 2.8 A Linear Tranformation of Gaussian Vector is Also Gaussian
 
@@ -574,3 +574,135 @@ xy = sp.Matrix([x, y])
 
 f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det())); f[0]
 ```
+
+## 2.10 IID Decomposition
+
+```{python}
+C = sp.Matrix([[2, 1, 1], [1, 2, 1], [1, 1, 2]])
+A = C.cholesky()
+Ainv = A.inv()
+
+z1, z2, z3, x1, x2, x3 = sp.symbols('z_1 z_2 z_3 x_1 x_2 x_3')
+
+x = sp.Matrix([x1, x2, x3])
+
+
+z = sp.MatMul(Ainv, x, evaluate=True); z
+
+```
+
+## 2.12 Degenerate Means Linearly Independent {#sec-degenerate-is-li}
+
+Let $X = (X_i)_{i=1}^n$ be a Gaussian vector with covariance $\mathcal{C}$.
+
+$\det{\mathcal{C}} = 0 \iff$ there exists $c \in \mathbb{R}^n\setminus{0}$ such that
+
+$$
+\sum_i c_i X_i = 0.
+$$
+
+Proof:
+
+By definition, $X$ is a degenerate Gaussian vector iff $\det{\mathcal{C}} = 0$. Since $\mathcal{C}$ is symmetric semi-positive
+definite, $\det{\mathcal{C}} = 0$ iff there exists $c \in \mathbb{R}^n\setminus{0}$ such that
+
+$$
+c^T \mathcal{C} c = 0.
+$$
+
+This can be written as a statement about the variance of a Gaussian
+random variable:
+
+$$
+c^T \mathcal{C} c = \Var(\sum_i c_i X_i) = 0.
+$$
+
+A random variable with variance 0 is a constant; the only constant
+a Gaussian variable can equal is 0.
+
+Therefore,
+
+$$
+c^T C c = 0 \iff \sum_i c_i X_i = 0.
+$$
+$\square$
+
+The textbook hints that we should use $\mathcal{C} = AA^T$ but
+I think this needs some care to avoid circularity if we're using
+this to fill in proofs in the text. Obviously, we can't use
+results where the existence of $A$ is predicated on $X$ being
+non-degenerate!
+
+The approach I take here is to prove the equivalent theorem
+
+$\det{\mathcal{C}} \neq 0 \iff X_i$ are linearly independent.
+
+Proof:
+
+
+Suppose that $X$ has mean zero without loss of generality.
+
+
+Suppose $(X_i)$ are linearly independent and so form an $n$-dimensional
+vector space $V$ with addition being the usual addition of random
+variables. The vector space is equipped with the inner product $\E: V \times V \mapsto \mathbb{R}$. This allows us to
+can use the Gram-Schmidt
+process to create $n$ IID (orthogonal wrt $\E$) Gaussian standard vectors $(Z_i)$ with mean zero. The space $V$ is spanned by both $(X_i)$ and $(Z_i)$ and so they are related by an invertible change of coordinates $A$
+such that $X = AZ$. In addition,
+
+$$
+\mathcal{C} = AA^T
+$$
+
+since
+
+$$
+\mathcal{C}_{ij} = \E(X_i Xj) = \E(\sum_m A_{im} Z_m \sum_n A_{jn} Z_n) = (AA^T)_{ij}.
+$$
+
+
+
+Since $A$ is invertible, $\det(A) = \det(A^T) \neq 0$ and so
+
+
+$$
+\det(\mathcal{C} ) = \det(A)^2  > 0.
+$$
+
+Now, suppose that $\det{C} \neq 0$. Then $X$ is non-degenerate and
+so there exists an invertible matrix $A$ and $n$ IID standard Gaussian random variables such that $X=AZ$. The variables $Z_i$ are
+linearly independent and we can leverage this and the invertibility of $A^T$:
+
+
+$$
+\sum_i c_i X_i = \sum_i c_i A^T Z_i = A^T (\sum_i c_i Z_i)
+$$
+and so $\sum_i c_i X_i = 0$ iff $\sum_i c_i Z_i = 0$ which would be
+a contradiction if the $c_i$ are not all zero.
+
+
+We have shown that
+
+$\det{\mathcal{C}} \neq 0 \iff X_i$ are linearly independent.
+
+Equivalently,
+$$
+\det{\mathcal{C}} = 0 \iff \exists c \in \mathbb{R}^n\setminus{0} \text{ such that } \sum_i c_i X_i = 0.
+$$
+
+$\square$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
