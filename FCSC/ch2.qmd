@@ -473,6 +473,60 @@ ax.set_yticklabels(['X+Y', 'X', 'Y'])
 plt.plot()
 ```
 
+## 2.6 PDF of Brownian Bridge
+
+Let $(M_t, t \in [0,1])$ be a Brownian bridge.
+
+(a) write down the PDF of $(M_{1/4}, M_{3/4})$
+
+The covariance matrix is
+
+```{python}
+#| code-fold: true
+import sympy as sp
+from sympy.abc import s,t
+
+def cov(s, t):
+    return sp.Min(s,t) -s * t
+
+a, b = sp.Rational(1, 4), sp.Rational(3/4)
+
+C = sp.Matrix([[cov(a, a), cov(a, b)],[cov(b, a), cov(b, b)]]); C
+```
+
+
+Using sympy, we can get the PDF easily:
+
+
+```{python}
+#| code-fold: true
+from fractions import Fraction
+from sympy.abc import x,y
+
+sp.init_printing()
+
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+pdf
+```
+
+(b) write down the probability of the event ${M_{1/4}^2 + M_{3/4}^2 \leq 1}$ as a double integral
+
+```{python}
+#| code-fold: true
+r = sp.symbols('r', nonegative=True)
+theta = sp.symbols('theta')
+
+pdf = pdf.subs({x: r*sp.cos(theta), y: r*sp.sin(theta)}).simplify()
+
+prob = sp.Integral(pdf * r, (r, 0, 1), (theta, 0, 2 *sp.pi)); prob
+```
+
 ## 2.7 The Covariance of a Random Vector is Always Positive Semidefinite
 
 Let $\mathcal{C}$ be the covariance matrix of a random vector $X = (X_i)$.
@@ -986,6 +1040,9 @@ $$
 $$
 using the two-term triangle inequality. The result follows by
 induction since the triangle inequality holds for $k=2$.
+
+
+
 
 
 
