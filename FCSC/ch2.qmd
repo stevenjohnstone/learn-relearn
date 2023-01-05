@@ -527,6 +527,60 @@ pdf = pdf.subs({x: r*sp.cos(theta), y: r*sp.sin(theta)}).simplify()
 prob = sp.Integral(pdf * r, (r, 0, 1), (theta, 0, 2 *sp.pi)); prob
 ```
 
+The integral can be calculated numerically using Simpson's rule or a Monte Carlo simulation:
+```{python}
+from scipy.integrate import simps
+
+def evaluate_integral(integrand):
+    r = np.linspace(0, 1, 1000)
+    theta = np.linspace(0, 2* np.pi, 1000)
+
+    zz = integrand(r.reshape(-1, 1), theta.reshape(1, -1))
+    return simps([simps(zz_r, r) for zz_r in zz], theta)
+
+def monte_carlo(integrand):
+    samples = 1000
+    sum = 0
+    for _ in range(samples):
+        u = np.random.default_rng().uniform(0, 1, 2)
+        r, theta = u[0], 2*np.pi*u[1]
+        sum +=integrand(r, theta)
+    return 2*np.pi * sum/samples
+
+numerical_soln = evaluate_integral(sp.lambdify([r, theta], pdf *r)); print(numerical_soln)
+
+monte_carlo(sp.lambdify([r, theta], pdf*r))
+```
+
+Alternatively, we can approximate the desired probability by
+using the Cholesky decomposition:
+```{python}
+
+def simulate(samples):
+    rg = np.random.default_rng()
+    C = [[3/16, 1/16], [1/16, 3/16]]
+    A = np.linalg.cholesky(C)
+    samples = 1000
+    in_disk = 0
+    for _ in range(samples):
+        sample = A.dot(rg.normal(0,1, 2))
+        if sample[0]**2 + sample[1]**2 <= 1:
+            in_disk += 1
+    return in_disk/samples
+    
+simulated_result = simulate(1000); simulated_result
+```
+
+
+The two approaches differ by
+```{python}
+abs(simulated_result - numerical_soln)
+```
+
+
+
+
+
 ## 2.7 The Covariance of a Random Vector is Always Positive Semidefinite
 
 Let $\mathcal{C}$ be the covariance matrix of a random vector $X = (X_i)$.
