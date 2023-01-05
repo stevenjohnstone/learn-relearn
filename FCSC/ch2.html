@@ -231,6 +231,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#computer-experiments" id="toc-computer-experiments">Computer Experiments</a>
   <ul>
   <li><a href="#the-box-muller-method" id="toc-the-box-muller-method">2.1 The Box-Muller Method</a></li>
+  <li><a href="#simulating-brownian-motion" id="toc-simulating-brownian-motion">2.2 Simulating Brownian Motion</a></li>
+  <li><a href="#simulating-the-ornstein-uhlenbeck-process" id="toc-simulating-the-ornstein-uhlenbeck-process">2.3 Simulating the Ornstein-Uhlenbeck Process</a></li>
+  <li><a href="#simulating-fractional-brownian-motion" id="toc-simulating-fractional-brownian-motion">2.4 Simulating Fractional Brownian Motion</a></li>
+  <li><a href="#simulating-the-brownian-bridge" id="toc-simulating-the-brownian-bridge">2.5 Simulating the Brownian Bridge</a></li>
   </ul></li>
   <li><a href="#exercises" id="toc-exercises">Exercises</a>
   <ul>
@@ -239,7 +243,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#why-sqrt2-pi" id="toc-why-sqrt2-pi">2.3 Why <span class="math inline">\(\sqrt{2 \pi}\)</span>?</a></li>
   <li><a href="#box-muller" id="toc-box-muller">2.4 Box-Muller</a></li>
   <li><a href="#marginally-gaussian-but-not-jointly-gaussian." id="toc-marginally-gaussian-but-not-jointly-gaussian.">2.5 Marginally Gaussian but not Jointly Gaussian.</a></li>
+  <li><a href="#pdf-of-brownian-bridge" id="toc-pdf-of-brownian-bridge">2.6 PDF of Brownian Bridge</a></li>
   <li><a href="#the-covariance-of-a-random-vector-is-always-positive-semidefinite" id="toc-the-covariance-of-a-random-vector-is-always-positive-semidefinite">2.7 The Covariance of a Random Vector is Always Positive Semidefinite</a></li>
+  <li><a href="#a-linear-tranformation-of-gaussian-vector-is-also-gaussian" id="toc-a-linear-tranformation-of-gaussian-vector-is-also-gaussian">2.8 A Linear Tranformation of Gaussian Vector is Also Gaussian</a></li>
+  <li><a href="#iid-decomposition" id="toc-iid-decomposition">2.9 IID Decomposition</a></li>
+  <li><a href="#iid-decomposition-1" id="toc-iid-decomposition-1">2.10 IID Decomposition</a></li>
+  <li><a href="#sec-degenerate-is-li" id="toc-sec-degenerate-is-li">2.12 Degenerate Means Linearly Independent</a></li>
+  <li><a href="#iid-decomposition-for-degenerate-vectors" id="toc-iid-decomposition-for-degenerate-vectors">2.13 IID Decomposition For Degenerate Vectors</a></li>
+  <li><a href="#brownian-bridge-from-brownian-motion" id="toc-brownian-bridge-from-brownian-motion">2.14 Brownian Bridge From Brownian Motion</a></li>
+  <li><a href="#triangle-inequality" id="toc-triangle-inequality">2.15 Triangle Inequality</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -276,7 +288,7 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z1, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z1'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -288,17 +300,17 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.hist(Z2, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'Z2'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-4-output-2.png" width="575" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-4-output-2.png" width="576" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.hist2d(Z1, Z2, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -311,7 +323,197 @@ Z_2 = \sqrt{-2\log(U_1)} \sin(2 \pi U_2).
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\E}{\operatorname{E}}
 \newcommand{\P}{\operatorname{P}}
+\newcommand{\rank}{\operatorname{rank}}
 \]</span></p>
+</div>
+</section>
+<section id="simulating-brownian-motion" class="level2">
+<h2 class="anchored" data-anchor-id="simulating-brownian-motion">2.2 Simulating Brownian Motion</h2>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Brownian:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, samples):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        covariance <span class="op">=</span> [[<span class="bu">min</span>(i,j) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples)] <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples)]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>np.sqrt(samples))<span class="op">*</span>np.linalg.cholesky(covariance)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.r_[<span class="dv">0</span>, <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, samples <span class="op">-</span><span class="dv">1</span>))]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>x_axis <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, samples)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>brownian <span class="op">=</span> Brownian(samples)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, brownian.path())</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Brownian motion'</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-6-output-1.png" width="569" height="431"></p>
+</div>
+</div>
+</section>
+<section id="simulating-the-ornstein-uhlenbeck-process" class="level2">
+<h2 class="anchored" data-anchor-id="simulating-the-ornstein-uhlenbeck-process">2.3 Simulating the Ornstein-Uhlenbeck Process</h2>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OU:</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, samples):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        covariance <span class="op">=</span> [ [ (<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>np.exp(<span class="op">-</span>(<span class="dv">2</span><span class="op">/</span>samples) <span class="op">*</span> np.<span class="bu">abs</span>(i <span class="op">-</span>j))<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span> np.exp(<span class="op">-</span>(<span class="dv">2</span><span class="op">/</span>samples)<span class="op">*</span><span class="bu">min</span>(i, j))) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples)] <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples)]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> np.linalg.cholesky(covariance)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.r_[<span class="dv">0</span>, <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, samples<span class="op">-</span><span class="dv">1</span>))]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ou <span class="op">=</span> OU(samples)    </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, ou.path())</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Ornstein-Uhlenbeck Process'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-7-output-1.png" width="569" height="431"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OUStationary:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, samples):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        covariance <span class="op">=</span> [ [ (<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>np.exp(<span class="op">-</span>(<span class="dv">2</span><span class="op">/</span>samples) <span class="op">*</span> np.<span class="bu">abs</span>((i <span class="op">-</span>j))) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(samples)] <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(samples)]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> np.linalg.cholesky(covariance)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, samples))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ouStationary <span class="op">=</span> OUStationary(samples)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, ouStationary.path())</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Stationary Ornstein-Uhlenbeck Process'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>Text(0.5, 1.0, 'Stationary Ornstein-Uhlenbeck Process')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-8-output-2.png" width="569" height="431"></p>
+</div>
+</div>
+</section>
+<section id="simulating-fractional-brownian-motion" class="level2">
+<h2 class="anchored" data-anchor-id="simulating-fractional-brownian-motion">2.4 Simulating Fractional Brownian Motion</h2>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FractionalBrownian:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, samples, H):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> cov(i,j):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            scale <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>samples</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            i, j <span class="op">=</span> scale<span class="op">*</span>i, scale<span class="op">*</span>j</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="op">*</span>(i<span class="op">**</span>(<span class="dv">2</span><span class="op">*</span>H) <span class="op">+</span> j<span class="op">**</span>(<span class="dv">2</span><span class="op">*</span>H) <span class="op">-</span> np.<span class="bu">abs</span>(i <span class="op">-</span>j)<span class="op">**</span>(<span class="dv">2</span><span class="op">*</span>H))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        covariance <span class="op">=</span> [[cov(i, j) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples)] <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples)]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> np.linalg.cholesky(covariance)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.r_[<span class="dv">0</span>, <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, samples<span class="op">-</span><span class="dv">1</span>))]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> H <span class="kw">in</span> [<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>]:</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    fractionalBrownian <span class="op">=</span> FractionalBrownian(samples, H)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        plt.plot(x_axis, fractionalBrownian.path())</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'Fractional Brownian H = </span><span class="sc">{</span>H<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-9-output-1.png" width="569" height="431"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-9-output-2.png" width="569" height="431"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-9-output-3.png" width="569" height="431"></p>
+</div>
+</div>
+</section>
+<section id="simulating-the-brownian-bridge" class="level2">
+<h2 class="anchored" data-anchor-id="simulating-the-brownian-bridge">2.5 Simulating the Brownian Bridge</h2>
+<ol type="a">
+<li></li>
+</ol>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BrownianBridge:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, samples):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> cov(i, j):</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            scale <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>samples</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            s <span class="op">=</span> <span class="bu">min</span>(i,j)<span class="op">*</span>scale</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            t <span class="op">=</span> <span class="bu">max</span>(i,j)<span class="op">*</span>scale</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> s<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span> t)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        covariance <span class="op">=</span> [[cov(i,j) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples <span class="op">-</span><span class="dv">1</span>)] <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, samples <span class="op">-</span><span class="dv">1</span>)]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> np.linalg.cholesky(covariance)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.r_[np.r_[<span class="dv">0</span>, <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, samples<span class="op">-</span><span class="dv">2</span>))], <span class="dv">0</span>]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>brownianBridge <span class="op">=</span> BrownianBridge(samples)    </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, brownianBridge.path())</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Brownian Bridge'</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-10-output-1.png" width="582" height="431"></p>
+</div>
+</div>
+<ol start="2" type="a">
+<li></li>
+</ol>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BrownianBridgeAlt:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, samples):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__brownian <span class="op">=</span> Brownian(samples)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        path <span class="op">=</span> <span class="va">self</span>.__brownian.path(rg)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [ path[i] <span class="op">-</span> (i<span class="op">/</span>samples) <span class="op">*</span> path[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(path)) ]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>brownianBridgeAlt <span class="op">=</span> BrownianBridgeAlt(samples)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, brownianBridgeAlt.path())</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Brownian Bridge Generated from Brownian Motion'</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-11-output-1.png" width="582" height="431"></p>
+</div>
+</div>
+<ol start="3" type="a">
+<li></li>
+</ol>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>path_a <span class="op">=</span> brownianBridge.path(rg <span class="op">=</span> np.random.default_rng(seed))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>path_b <span class="op">=</span> brownianBridgeAlt.path(rg <span class="op">=</span> np.random.default_rng(seed))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x_axis, path_a, label<span class="op">=</span><span class="st">'(a)'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x_axis, path_b, label<span class="op">=</span><span class="st">'(b)'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>plt.plot(x_axis, path_b <span class="op">-</span> path_a)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>plt.plot(x_axis, x_axis)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'difference between brownian bridge paths'</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-12-output-1.png" width="582" height="411"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="ch2_files/figure-html/cell-12-output-2.png" width="571" height="431"></p>
+</div>
 </div>
 </section>
 </section>
@@ -481,33 +683,153 @@ x &amp; \text{if } |x| \leq 1, \\
 \]</span></p>
 <p>Therefore, <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are indentically distributed. They are definitely not independent as <span class="math inline">\(Y\)</span> is a function of <span class="math inline">\(X\)</span> and so we have no right to expect that <span class="math inline">\(X + Y\)</span> is also Gaussian.</p>
 <p>To see that <span class="math inline">\(X +Y\)</span> is not Gaussian, note that its range is in <span class="math inline">\([-2,2]\)</span>; there are lower bounds on Gaussian tails which are non-zero.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, N)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [x <span class="cf">if</span> np.<span class="bu">abs</span>(x) <span class="op">&lt;=</span><span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span>x <span class="cf">for</span> x <span class="kw">in</span> X]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.hist(X<span class="op">+</span>Y, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'X + Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.hist(X, bins, label<span class="op">=</span><span class="st">'X'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.hist(Y, bins, label<span class="op">=</span><span class="st">'Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, N)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [x <span class="cf">if</span> np.<span class="bu">abs</span>(x) <span class="op">&lt;=</span><span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span>x <span class="cf">for</span> x <span class="kw">in</span> X]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.hist(X<span class="op">+</span>Y, bins<span class="op">=</span>bins, label<span class="op">=</span><span class="st">'X + Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.hist(X, bins, label<span class="op">=</span><span class="st">'X'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.hist(Y, bins, label<span class="op">=</span><span class="st">'Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-6-output-2.png" width="583" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-13-output-2.png" width="587" height="411"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data<span class="op">=</span>[X<span class="op">+</span>Y, X, Y]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot()</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ax.violinplot(data, <span class="bu">range</span>(<span class="bu">len</span>(data)), vert<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(data)))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="st">'X+Y'</span>, <span class="st">'X'</span>, <span class="st">'Y'</span>])</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data<span class="op">=</span>[X<span class="op">+</span>Y, X, Y]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ax.violinplot(data, <span class="bu">range</span>(<span class="bu">len</span>(data)), vert<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(data)))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="st">'X+Y'</span>, <span class="st">'X'</span>, <span class="st">'Y'</span>])</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>[]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_files/figure-html/cell-7-output-2.png" width="578" height="411"></p>
+<p><img src="ch2_files/figure-html/cell-14-output-2.png" width="582" height="411"></p>
+</div>
+</div>
+</section>
+<section id="pdf-of-brownian-bridge" class="level2">
+<h2 class="anchored" data-anchor-id="pdf-of-brownian-bridge">2.6 PDF of Brownian Bridge</h2>
+<p>Let <span class="math inline">\((M_t, t \in [0,1])\)</span> be a Brownian bridge.</p>
+<ol type="a">
+<li>write down the PDF of <span class="math inline">\((M_{1/4}, M_{3/4})\)</span></li>
+</ol>
+<p>The covariance matrix is</p>
+<div class="cell" data-execution_count="14">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> s,t</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cov(s, t):</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sp.Min(s,t) <span class="op">-</span>s <span class="op">*</span> t</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> sp.Rational(<span class="dv">1</span>, <span class="dv">4</span>), sp.Rational(<span class="dv">3</span><span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[cov(a, a), cov(a, b)],[cov(b, a), cov(b, b)]])<span class="op">;</span> C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}\frac{3}{16} &amp; \frac{1}{16}\\\frac{1}{16} &amp; \frac{3}{16}\end{matrix}\right]\)</span></p>
+</div>
+</div>
+<p>Using sympy, we can get the PDF easily:</p>
+<div class="cell" data-execution_count="15">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x,y</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>sp.init_printing()</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span>sp.pi <span class="op">*</span> sp.sqrt(C.det(), evaluate<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> f[<span class="dv">0</span>]</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>pdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<p><span class="math inline">\(\displaystyle \frac{2 \sqrt{2} e^{- 3 x^{2} + 2 x y - 3 y^{2}}}{\pi}\)</span></p>
+</div>
+</div>
+<ol start="2" type="a">
+<li>write down the probability of the event <span class="math inline">\({M_{1/4}^2 + M_{3/4}^2 \leq 1}\)</span> as a double integral</li>
+</ol>
+<div class="cell" data-execution_count="16">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> sp.symbols(<span class="st">'r'</span>, nonegative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> sp.symbols(<span class="st">'theta'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> pdf.subs({x: r<span class="op">*</span>sp.cos(theta), y: r<span class="op">*</span>sp.sin(theta)}).simplify()</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> sp.Integral(pdf <span class="op">*</span> r, (r, <span class="dv">0</span>, <span class="dv">1</span>), (theta, <span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span>sp.pi))<span class="op">;</span> prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<p><span class="math inline">\(\displaystyle \int\limits_{0}^{2 \pi}\int\limits_{0}^{1} \frac{2 \sqrt{2} r e^{r^{2} \left(\sin{\left(2 \theta \right)} - 3\right)}}{\pi}\, dr\, d\theta\)</span></p>
+</div>
+</div>
+<p>The integral can be calculated numerically using Simpson’s rule or a Monte Carlo simulation:</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> simps</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_integral(integrand):</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span> np.pi, <span class="dv">1000</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    zz <span class="op">=</span> integrand(r.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), theta.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> simps([simps(zz_r, r) <span class="cf">for</span> zz_r <span class="kw">in</span> zz], theta)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monte_carlo(integrand):</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> np.random.default_rng().uniform(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        r, theta <span class="op">=</span> u[<span class="dv">0</span>], <span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>u[<span class="dv">1</span>]</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span>integrand(r, theta)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>np.pi <span class="op">*</span> <span class="bu">sum</span><span class="op">/</span>samples</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>numerical_soln <span class="op">=</span> evaluate_integral(sp.lambdify([r, theta], pdf <span class="op">*</span>r))<span class="op">;</span> <span class="bu">print</span>(numerical_soln)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>monte_carlo(sp.lambdify([r, theta], pdf<span class="op">*</span>r))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.926901699267537</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<p><span class="math inline">\(\displaystyle 0.929397304132345\)</span></p>
+</div>
+</div>
+<p>Alternatively, we can approximate the desired probability by using the Cholesky decomposition:</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(samples):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    rg <span class="op">=</span> np.random.default_rng()</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> [[<span class="dv">3</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>], [<span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="op">/</span><span class="dv">16</span>]]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.linalg.cholesky(C)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    in_disk <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        sample <span class="op">=</span> A.dot(rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> sample[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> sample[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>            in_disk <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> in_disk<span class="op">/</span>samples</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>simulated_result <span class="op">=</span> simulate(<span class="dv">1000</span>)<span class="op">;</span> simulated_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<p><span class="math inline">\(\displaystyle 0.922\)</span></p>
+</div>
+</div>
+<p>The two approaches differ by</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">abs</span>(simulated_result <span class="op">-</span> numerical_soln)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<p><span class="math inline">\(\displaystyle 0.00490169926753692\)</span></p>
 </div>
 </div>
 </section>
@@ -592,7 +914,313 @@ F_Y(y) = \begin{cases}
 <p>Since the LHS of (<a href="#eq-covariance-pos-semidef">Equation&nbsp;2</a>) is the variance of <span class="math inline">\(\sum_i a_i X_i\)</span>, we see that <span class="math inline">\(\mathcal{C}\)</span> is positive <em>definite</em> if and only if the variance of <span class="math inline">\(\sum_i a_i X_i\)</span> is non-zero for all non-zero <span class="math inline">\(a\)</span>.</p>
 <p>The covariance matrix of a random vector <span class="math inline">\(X = (X_i)\)</span> is postive-definite if and only if each linear combination of the coordinates is non-constant.</p>
 <p>When <span class="math inline">\(X_i\)</span> are jointly Gaussian, then each linear combination is a Gaussian random variable: the only constant a linear combination of Gaussian cvariables can sum to is zero.</p>
-<p>Therefore, for jointly Gaussian random variables, the covariance matrix is positive-definite if and only if the the variables are linearly independent.</p>
+<p>Therefore, for jointly Gaussian random variables, the covariance matrix is positive-definite if and only if the the variables are linearly independent. See <a href="#sec-degenerate-is-li">Section&nbsp;2.11</a>.</p>
+</section>
+<section id="a-linear-tranformation-of-gaussian-vector-is-also-gaussian" class="level2">
+<h2 class="anchored" data-anchor-id="a-linear-tranformation-of-gaussian-vector-is-also-gaussian">2.8 A Linear Tranformation of Gaussian Vector is Also Gaussian</h2>
+<p>Let <span class="math inline">\(X = (X_i)_{i=1}^n\)</span> be a Gaussian vector an <span class="math inline">\(M\)</span> be an <span class="math inline">\(m \times n\)</span> matrix.</p>
+<p><span class="math inline">\(Y = MX\)</span> is also Gaussian.</p>
+<p>Proof:</p>
+<p>We can write</p>
+<p><span class="math display">\[
+\begin{align}
+Y &amp;= (\sum_{i=1}^n M_{ij} X_i)_{j=1}^m
+\end{align}
+\]</span> and so express <span class="math inline">\(Y\)</span> as a vector of linear combinations of <span class="math inline">\(X_i\)</span> making its components Gaussian. Moreover, we can express any linear combination of components of <span class="math inline">\(MX\)</span> as a linear combination of <span class="math inline">\(X_i\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\sum_{j=1}^m a_j Y_j &amp;= \sum_{j=1}^m a_j (\sum_{i=1}^n M_{ji} X_i) \\
+&amp;= \sum_{i,j} a_j M_{ji} X_i \\
+&amp;= \sum_{i} b_i X_i
+\end{align}
+\]</span> where <span class="math display">\[
+b_i = \sum_j a_j M_{ji}.
+\]</span> Written in a more suggestive manner: <span class="math display">\[
+a^T MX = (M^T a)^T X.
+\]</span> <span class="math inline">\(\square\)</span></p>
+<p>Let <span class="math inline">\(\mathcal{C}\)</span> be the covariance matrix of <span class="math inline">\(X\)</span>.</p>
+<p>We can express the covariance matrix of <span class="math inline">\(Y\)</span> in terms of <span class="math inline">\(M\)</span> and <span class="math inline">\(\mathcal{C}\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\Cov(Y_i, Y_j) &amp;= \E(Y_i Y_j) - \E(Y_i) \E(Y_j) \\
+&amp;= \E( \sum_\alpha M_{i \alpha} X_\alpha \sum_\beta M_{j \beta} X_\beta ) - \sum_\alpha M_{i \alpha} \E(Y_i) \sum_\beta M_{j \beta } \E(Y_j) \\
+&amp;= \sum_\alpha \sum_\beta M_{i\alpha }M_{j \beta} (\E(X_\alpha X_\beta) - \E(X_\alpha) \E(X_\beta)) \\
+&amp;= \sum_\alpha \sum_\beta M_{i \alpha}\mathcal{C}_{\alpha \beta} M^T_{\beta j}. \\
+\end{align}
+\]</span></p>
+<p>In shorter notation:</p>
+<p><span class="math display">\[
+\Cov(Y) = M \mathcal{C}M^T.
+\]</span></p>
+<p>Suppose that <span class="math inline">\(m =n\)</span>. Then,</p>
+<p><span class="math display">\[
+\begin{align}
+\det(\Cov(Y)) &amp;= \det(M)\det(\mathcal{C})\det(M^T) \\
+&amp;= \det(M)^2\det(\mathcal{C}).
+\end{align}
+\]</span> If follows that <span class="math inline">\(Y\)</span> is non-degenerate (<span class="math inline">\(\det(\Cov(Y)) \neq 0\)</span>) <span class="math inline">\(\iff\)</span> <span class="math inline">\(\det(M) \neq 0\)</span>.</p>
+<p>For general <span class="math inline">\(M\)</span>, it is necessary that <span class="math inline">\(m \leq n\)</span> and <span class="math inline">\(M\)</span> is full-rank <span class="math inline">\(m\)</span> for <span class="math inline">\(\Cov(Y)\)</span> to be positive definite.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The domain of <span class="math inline">\(M^T\)</span> is <span class="math inline">\(m\)</span>-dimensional. The range of <span class="math inline">\(M^T\)</span>, <span class="math inline">\(\mathcal{R}(M^T)\)</span>, has dimension <span class="math inline">\(\rank(M^T\)</span>). Since <span class="math inline">\(\mathcal{C}\)</span> is invertible, <span class="math inline">\(\mathcal{C}(\mathcal{R}(M^T))\)</span> has dimension <span class="math inline">\(\rank(M^T)\)</span>. Finally, <span class="math inline">\(\dim(M(\mathcal{C}(\mathcal{R}(M^T)))) = \rank(M)\)</span> by virtue of <span class="math inline">\(\rank(M^T) = \rank(M)\)</span>. That is, <span class="math inline">\(\rank(\Cov(Y)) = \rank(M)\)</span>.</p>
+<p>For <span class="math inline">\(\Cov(Y)\)</span> to be invertible (making <span class="math inline">\(\Cov(Y)\)</span> positive <em>definite</em>), we require <span class="math inline">\(\rank(M) = m\)</span> i.e <span class="math inline">\(M\)</span> must be full-rank. Given that <span class="math inline">\(\rank(M) \leq \min(m, n)\)</span>, when <span class="math inline">\(M\)</span> is full-rank <span class="math inline">\(m \leq n\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="iid-decomposition" class="level2">
+<h2 class="anchored" data-anchor-id="iid-decomposition">2.9 IID Decomposition</h2>
+<p>Let <span class="math inline">\((X, Y)\)</span> be a Gaussian vector with mean <span class="math inline">\(0\)</span> and covariance matrix <span class="math display">\[
+\mathcal{C} = \begin{bmatrix}
+1 &amp; \rho \\
+\rho &amp; 1
+\end{bmatrix},
+\]</span> for <span class="math inline">\(\rho \in (-1, 1)\)</span>.</p>
+<p>Take <span class="math inline">\(Z_1 = X\)</span>. <span class="math inline">\(Z_1\)</span> is a standard Gaussian: it has mean <span class="math inline">\(0\)</span> by assumption and the covariance matrix tells us that <span class="math inline">\(\Var(X_1) = 1\)</span>.</p>
+<p>We perform Gram-Schmidt to express <span class="math inline">\((X, Y)\)</span> as a linear combination of IID standard Gaussians. Start with <span class="math display">\[
+\begin{align}
+Z^{'}_2 &amp;= Y - \E(YZ_1)Z_1 \\
+&amp;= Y - \rho Z_1.
+\end{align}
+\]</span></p>
+<p>By linearity of expectation, <span class="math display">\[
+\begin{align}
+\Var(Z^{'}_2) &amp;= \E((Y - \rho Z_1)^2) \\
+&amp;= \E(Y^2) - 2\rho \E(Y Z_1) + \rho^2 \E(Z_1^2) \\
+&amp;= 1 -  \rho^2.
+\end{align}
+\]</span> We set <span class="math display">\[
+Z_2 = \frac{1}{\sqrt{1 - \rho^2}} Z_2^{'}
+\]</span> and so <span class="math inline">\(Z_2\)</span> has variance 1: <span class="math inline">\(Z_1\)</span> is a standard Gaussian.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> are independent
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For Gaussians, it is sufficient to demonstrate that <span class="math display">\[
+\E(Z_1 Z_2) = 0.
+\]</span> We expect this from the Gram-Schmidt process but it doesn’t hurt to check:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(Z_1Z_2) &amp; = \frac{1}{\sqrt{1 - \rho^2}}\E(X(Y - \rho X)) \\
+&amp;= \frac{\E(XY) - \rho\E(X^2)}{\sqrt{1 -\rho^2}} \\
+&amp;= 0.
+\end{align}
+\]</span></p>
+</div>
+</div>
+</div>
+<p>We can write <span class="math display">\[
+(X, Y) = (Z_1, \rho Z_1 + \sqrt{1 - \rho^2} Z_2)
+\]</span> to express <span class="math inline">\((X, Y)\)</span> as a linear combination of IID standard Gaussians.</p>
+<p>The PDF of <span class="math inline">\((X, Y)\)</span> is given by</p>
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x, y, rho</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>sp.init_printing()</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">1</span>, rho], [rho, <span class="dv">1</span>]])</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>factor <span class="op">=</span> sp.gcd(<span class="bu">tuple</span>(Cinv))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span>sp.pi <span class="op">*</span> sp.sqrt(C.det()))<span class="op">;</span> f[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<p><span class="math inline">\(\displaystyle \frac{e^{\frac{- 2 \rho x y + x^{2} + y^{2}}{2 \left(\rho - 1\right) \left(\rho + 1\right)}}}{2 \pi \sqrt{1 - \rho^{2}}}\)</span></p>
+</div>
+</div>
+</section>
+<section id="iid-decomposition-1" class="level2">
+<h2 class="anchored" data-anchor-id="iid-decomposition-1">2.10 IID Decomposition</h2>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>]])</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> C.cholesky()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>Ainv <span class="op">=</span> A.inv()</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>z1, z2, z3, x1, x2, x3 <span class="op">=</span> sp.symbols(<span class="st">'z_1 z_2 z_3 x_1 x_2 x_3'</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sp.Matrix([x1, x2, x3])</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> sp.MatMul(Ainv, x, evaluate<span class="op">=</span><span class="va">True</span>)<span class="op">;</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}\frac{\sqrt{2} x_{1}}{2}\\- \frac{\sqrt{6} x_{1}}{6} + \frac{\sqrt{6} x_{2}}{3}\\- \frac{\sqrt{3} x_{1}}{6} - \frac{\sqrt{3} x_{2}}{6} + \frac{\sqrt{3} x_{3}}{2}\end{matrix}\right]\)</span></p>
+</div>
+</div>
+</section>
+<section id="sec-degenerate-is-li" class="level2">
+<h2 class="anchored" data-anchor-id="sec-degenerate-is-li">2.12 Degenerate Means Linearly Independent</h2>
+<p>Let <span class="math inline">\(X = (X_i)_{i=1}^n\)</span> be a Gaussian vector with covariance <span class="math inline">\(\mathcal{C}\)</span>.</p>
+<p><span class="math inline">\(\det{\mathcal{C}} = 0 \iff\)</span> there exists <span class="math inline">\(c \in \mathbb{R}^n\setminus{0}\)</span> such that</p>
+<p><span class="math display">\[
+\sum_i c_i X_i = 0.
+\]</span></p>
+<p>Proof:</p>
+<p>By definition, <span class="math inline">\(X\)</span> is a degenerate Gaussian vector iff <span class="math inline">\(\det{\mathcal{C}} = 0\)</span>. Since <span class="math inline">\(\mathcal{C}\)</span> is symmetric semi-positive definite, <span class="math inline">\(\det{\mathcal{C}} = 0\)</span> iff there exists <span class="math inline">\(c \in \mathbb{R}^n\setminus{0}\)</span> such that</p>
+<p><span class="math display">\[
+c^T \mathcal{C} c = 0.
+\]</span></p>
+<p>This can be written as a statement about the variance of a Gaussian random variable:</p>
+<p><span class="math display">\[
+c^T \mathcal{C} c = \Var(\sum_i c_i X_i) = 0.
+\]</span></p>
+<p>A random variable with variance 0 is a constant; the only constant a Gaussian variable can equal is 0.</p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+c^T C c = 0 \iff \sum_i c_i X_i = 0.
+\]</span> <span class="math inline">\(\square\)</span></p>
+<p>The textbook hints that we should use <span class="math inline">\(\mathcal{C} = AA^T\)</span> but I think this needs some care to avoid circularity if we’re using this to fill in proofs in the text. Obviously, we can’t use results where the existence of <span class="math inline">\(A\)</span> is predicated on <span class="math inline">\(X\)</span> being non-degenerate!</p>
+<p>The approach I take here is to prove the equivalent theorem</p>
+<p><span class="math inline">\(\det{\mathcal{C}} \neq 0 \iff X_i\)</span> are linearly independent.</p>
+<p>Proof:</p>
+<p>Suppose that <span class="math inline">\(X\)</span> has mean zero without loss of generality.</p>
+<p>Suppose <span class="math inline">\((X_i)\)</span> are linearly independent and so form an <span class="math inline">\(n\)</span>-dimensional vector space <span class="math inline">\(V\)</span> with addition being the usual addition of random variables. The vector space is equipped with the inner product <span class="math inline">\(\E: V \times V \mapsto \mathbb{R}\)</span>. This allows us to can use the Gram-Schmidt process to create <span class="math inline">\(n\)</span> IID (orthogonal wrt <span class="math inline">\(\E\)</span>) Gaussian standard vectors <span class="math inline">\((Z_i)\)</span> with mean zero. The space <span class="math inline">\(V\)</span> is spanned by both <span class="math inline">\((X_i)\)</span> and <span class="math inline">\((Z_i)\)</span> and so they are related by an invertible change of coordinates <span class="math inline">\(A\)</span> such that <span class="math inline">\(X = AZ\)</span>. In addition,</p>
+<p><span class="math display">\[
+\mathcal{C} = AA^T
+\]</span></p>
+<p>since</p>
+<p><span class="math display">\[
+\mathcal{C}_{ij} = \E(X_i Xj) = \E(\sum_m A_{im} Z_m \sum_n A_{jn} Z_n) = (AA^T)_{ij}.
+\]</span></p>
+<p>Since <span class="math inline">\(A\)</span> is invertible, <span class="math inline">\(\det(A) = \det(A^T) \neq 0\)</span> and so</p>
+<p><span class="math display">\[
+\det(\mathcal{C} ) = \det(A)^2  &gt; 0.
+\]</span></p>
+<p>Now, suppose that <span class="math inline">\(\det{C} \neq 0\)</span>. Then <span class="math inline">\(X\)</span> is non-degenerate and so there exists an invertible matrix <span class="math inline">\(A\)</span> and <span class="math inline">\(n\)</span> IID standard Gaussian random variables such that <span class="math inline">\(X=AZ\)</span>. The variables <span class="math inline">\(Z_i\)</span> are linearly independent and we can leverage this and the invertibility of <span class="math inline">\(A^T\)</span>:</p>
+<p><span class="math display">\[
+\sum_i c_i X_i = \sum_i c_i A^T Z_i = A^T (\sum_i c_i Z_i)
+\]</span> and so <span class="math inline">\(\sum_i c_i X_i = 0\)</span> iff <span class="math inline">\(\sum_i c_i Z_i = 0\)</span> which would be a contradiction if the <span class="math inline">\(c_i\)</span> are not all zero.</p>
+<p>We have shown that</p>
+<p><span class="math inline">\(\det{\mathcal{C}} \neq 0 \iff X_i\)</span> are linearly independent.</p>
+<p>Equivalently, <span class="math display">\[
+\det{\mathcal{C}} = 0 \iff \exists c \in \mathbb{R}^n\setminus{0} \text{ such that } \sum_i c_i X_i = 0.
+\]</span></p>
+<p><span class="math inline">\(\square\)</span></p>
+</section>
+<section id="iid-decomposition-for-degenerate-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="iid-decomposition-for-degenerate-vectors">2.13 IID Decomposition For Degenerate Vectors</h2>
+<p>Let <span class="math inline">\(X = (X_i)_{i=1}^{n}\)</span> be a degenerate Gaussian vector with mean zero.</p>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The question does not state that the mean of <span class="math inline">\(X\)</span> is zero: this appear to be an error.</p>
+</div>
+</div>
+<p>The Gaussian variables <span class="math inline">\(X_i\)</span> form a finite-dimensional vector space <span class="math inline">\(V\)</span> under addition of random variables and multiplication by reals. The dimension of <span class="math inline">\(V\)</span> is less than <span class="math inline">\(n\)</span>, because the <span class="math inline">\(X_i\)</span> are linearly dependent.</p>
+<p>The expectation operator is an inner-product on <span class="math inline">\(V\)</span> and we can use this inner-product to to form a basis <span class="math inline">\(Z = (Z_i)_{i=1}^m\)</span> <span class="math inline">\(m &lt; n\)</span> for <span class="math inline">\(V\)</span> of IID standard Gaussian variables. Each <span class="math inline">\(X_i\)</span> can be written in exactly one way as a linear combination of <span class="math inline">\(Z\)</span>:</p>
+<p><span class="math display">\[
+X_i = \sum_{j=1}^m a_{ij} Z_j.
+\]</span> That is, there is an <span class="math inline">\(m \times n\)</span> matrix <span class="math inline">\(A\)</span> such that <span class="math display">\[
+X = A Z.
+\]</span></p>
+<p>The elements of the covariance matrix of <span class="math inline">\(X\)</span> can be expressed in terms of <span class="math inline">\(A\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathcal{C}_{ij} &amp;= \E(X_i X_j) \\
+&amp;= \E(\sum_\alpha a_{i\alpha} Z_\alpha \sum_\beta a_{j \beta} Z_\beta) \\
+&amp;= \sum_{\alpha, \beta} a_{i\alpha}a_{j\beta} \E(Z_\alpha Z_\beta) \\
+&amp;= \sum_\alpha a_{i \alpha} a_{j \alpha} \\
+&amp;= (A A^T)_{ij}.
+\end{align}
+\]</span></p>
+</section>
+<section id="brownian-bridge-from-brownian-motion" class="level2">
+<h2 class="anchored" data-anchor-id="brownian-bridge-from-brownian-motion">2.14 Brownian Bridge From Brownian Motion</h2>
+<p>Let <span class="math inline">\((B_t, t \in [0, 1])\)</span> be a Brownian motion.</p>
+<ol type="a">
+<li>Show that the process given by <span class="math inline">\((M_t = B_t - t B_1, t \in [0, 1])\)</span> is a Brownian bridge.</li>
+</ol>
+<p>Step 1: show that <span class="math inline">\(M_t\)</span> is a Gaussian process.</p>
+<p>Choose <span class="math inline">\(0 = t_1 &lt; t_2 &lt; ... t_n =1\)</span>. The process <span class="math inline">\((M_{t_i})\)</span> is a linear transformation of <span class="math inline">\((B_{t_i})\)</span>:</p>
+<p><span class="math display">\[
+A_{ij} = \delta_{ij} - t \delta_{nj}
+\]</span></p>
+<p>e.g for a process with three time points</p>
+<p><span class="math display">\[
+A = \begin{bmatrix}
+1 &amp; 0 &amp; -t \\
+0 &amp; 1 &amp; -t \\
+0 &amp; 0 &amp; 1-t
+\end{bmatrix}.
+\]</span></p>
+<p>Step 2: Show that the mean of <span class="math inline">\((M_t)\)</span> is equal to zero</p>
+<p><span class="math display">\[
+\E(M_t) = \E(B_t - t B_1) = \E(B_t) - t\E(B_1) = 0.
+\]</span></p>
+<p>Step 3: Show that the <span class="math inline">\(\Cov(M_t, M_s) = \min(s,t) - st\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+\Cov(M_t, M_s) &amp;= \Cov(B_t -t B_1, B_s - t B_1) \\
+&amp;= \E(B_t B_s - t B_t B_1 -t B_s B_1 + t^2 B_1^2) \\
+&amp;= \E(B_t B_s) -t \E(B_t B_1) -t \E(B_s B_1) + t^2 \E(B_1^2) \\
+&amp;= \min(s, t) - st.
+\end{align}
+\]</span></p>
+<ol start="2" type="a">
+<li>Show that the random variable <span class="math inline">\(B_t - t B_1\)</span> is independent of of <span class="math inline">\(B_1\)</span> for any <span class="math inline">\(t \in [0, 1]\)</span>.</li>
+</ol>
+<p>Consider the covariance:</p>
+<p><span class="math display">\[
+\begin{align}
+\Cov(B_t - t B_1, B_1) &amp;= \E(B_tB_1 -t B_1 B_1) \\
+&amp;= \E(B_tB_1) -t \E(B_1^2) \\
+&amp;= t - t \\
+&amp;= 0.
+\end{align}
+\]</span></p>
+<p>Since <span class="math inline">\(B_t -t B_1\)</span> and <span class="math inline">\(B_1\)</span> are Gaussian variables, this is enough to establish independence.</p>
+</section>
+<section id="triangle-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="triangle-inequality">2.15 Triangle Inequality</h2>
+<p>Let <span class="math inline">\(X, Y\)</span> be two random variables in <span class="math inline">\(L^2(\Sigma, \mathcal{F}, \P)\)</span>. Prove the triangle inequality</p>
+<p><span class="math display">\[
+\sqrt{\E((X+Y)^2)} \leq \sqrt{\E(X^2) + \E(Y^2)}.
+\]</span></p>
+<p>Expand the square and use Cauchy-Schwarz:</p>
+<p><span class="math display">\[
+\begin{align}
+\E((X+Y)^2) &amp;= \E(X^2 + 2 X Y + Y^2) \\
+&amp;= \E(X^2) + 2 \E(XY) + \E(Y^2) \\
+&amp;\leq \E(X^2) + 2 \sqrt{\E(X^2) \E(Y^2)} + \E(Y^2) \\
+&amp;= (\sqrt{\E(X^2)} + \sqrt{\E(Y^2)})^2.
+\end{align}
+\]</span></p>
+<p>Let <span class="math inline">\(S_k = \sum_{i=1}^k X_i\)</span>. Suppose that the triangle inequality holds for <span class="math inline">\(S_k\)</span>:</p>
+<p><span class="math display">\[
+\sqrt{\E(S_k^2)} \leq \sum_{i=1}^k\sqrt{\E(X_i^2)}.
+\]</span></p>
+<p>Consider the next case <span class="math inline">\(S_{k+1}\)</span>:</p>
+<p><span class="math display">\[
+\sqrt{\E(S_{k+1}^2)}  = \sqrt{\E((X_{k+1} + S_k)^2)} \leq \sqrt{\E(X_{k+1}^2)} + \sqrt{\E(S_k^2)} = \sum_{i=1}^{k+1}\sqrt{\E(X_k^2)}
+\]</span> using the two-term triangle inequality. The result follows by induction since the triangle inequality holds for <span class="math inline">\(k=2\)</span>.</p>
 
 
 </section>
