@@ -71,8 +71,8 @@ plt.plot()
 
 class Brownian:
     def __init__(self, samples):
-        covariance = [[(1/samples)*min(i,j) for i in range(1, samples)] for j in range(1, samples)]
-        self.__A = np.linalg.cholesky(covariance)
+        covariance = [[min(i,j) for i in range(1, samples)] for j in range(1, samples)]
+        self.__A = (1/np.sqrt(samples))*np.linalg.cholesky(covariance)
         return
     
     def path(self, rg = np.random.default_rng()):
@@ -164,15 +164,16 @@ class BrownianBridge:
     def __init__(self, samples):
         def cov(i, j):
             scale = 1/samples
-            i, j = scale*i, scale*j
-            return min(i,j) - i*j
+            s = min(i,j)*scale
+            t = max(i,j)*scale
+            return s*(1 - t)
         
         covariance = [[cov(i,j) for i in range(1, samples -1)] for j in range(1, samples -1)]
         self.__A = np.linalg.cholesky(covariance)
         return
 
     def path(self, rg = np.random.default_rng()):
-        return np.r_[0, self.__A.dot(rg.normal(0, 1, samples-2)), 0]
+        return np.r_[np.r_[0, self.__A.dot(rg.normal(0, 1, samples-2))], 0]
 
     
 brownianBridge = BrownianBridge(samples)    
@@ -205,13 +206,18 @@ plt.show()
 (c)
 
 ```{python}
-seed = 1337
+seed = 2
 path_a = brownianBridge.path(rg = np.random.default_rng(seed))
 path_b = brownianBridgeAlt.path(rg = np.random.default_rng(seed))
 
 plt.plot(x_axis, path_a, label='(a)')
 plt.plot(x_axis, path_b, label='(b)')
 plt.legend(loc='upper right')
+plt.show()
+
+plt.plot(x_axis, path_b - path_a)
+plt.plot(x_axis, x_axis)
+plt.title('difference between brownian bridge paths')
 plt.show()
 ```
 
@@ -844,6 +850,149 @@ $$
 $$
 
 $\square$
+
+## 2.13 IID Decomposition For Degenerate Vectors
+
+Let $X = (X_i)_{i=1}^{n}$ be a degenerate Gaussian vector with mean
+zero.
+
+::: {.callout-warning}
+The question does not state that the mean of $X$ is zero: this appear
+to be an error.
+:::
+
+The Gaussian variables $X_i$ form a finite-dimensional vector space $V$
+under addition of random variables and multiplication by reals.
+The dimension of $V$ is less than $n$, because the $X_i$ are linearly
+dependent.
+
+The expectation operator is an inner-product on $V$ and we can
+use this inner-product to to form a basis $Z = (Z_i)_{i=1}^m$ $m < n$ for $V$ of IID standard
+Gaussian variables. Each $X_i$ can be written in exactly one way
+as a linear combination of $Z$:
+
+$$
+X_i = \sum_{j=1}^m a_{ij} Z_j.
+$$
+That is, there is an $m \times n$ matrix $A$ such that
+$$
+X = A Z.
+$$
+
+The elements of the covariance matrix of $X$ can be expressed
+in terms of $A$:
+
+$$
+\begin{align}
+\mathcal{C}_{ij} &= \E(X_i X_j) \\ 
+&= \E(\sum_\alpha a_{i\alpha} Z_\alpha \sum_\beta a_{j \beta} Z_\beta) \\ 
+&= \sum_{\alpha, \beta} a_{i\alpha}a_{j\beta} \E(Z_\alpha Z_\beta) \\ 
+&= \sum_\alpha a_{i \alpha} a_{j \alpha} \\ 
+&= (A A^T)_{ij}.
+\end{align}
+$$
+
+## 2.14 Brownian Bridge From Brownian Motion
+
+Let $(B_t, t \in [0, 1])$ be a Brownian motion.
+
+(a) Show that the process given by $(M_t = B_t - t B_1, t \in [0, 1])$ is a Brownian bridge.
+
+Step 1: show that $M_t$ is a Gaussian process.
+
+Choose $0 = t_1 < t_2 < ... t_n =1$. The process $(M_{t_i})$ is a
+linear transformation of $(B_{t_i})$:
+
+$$
+A_{ij} = \delta_{ij} - t \delta_{nj}
+$$
+
+e.g for a process with three time points
+
+$$
+A = \begin{bmatrix}
+1 & 0 & -t \\ 
+0 & 1 & -t \\ 
+0 & 0 & 1-t
+\end{bmatrix}.
+$$
+
+Step 2: Show that the mean of $(M_t)$ is equal to zero
+
+$$
+\E(M_t) = \E(B_t - t B_1) = \E(B_t) - t\E(B_1) = 0.
+$$
+
+Step 3: Show that the $\Cov(M_t, M_s) = \min(s,t) - st$.
+
+$$
+\begin{align}
+\Cov(M_t, M_s) &= \Cov(B_t -t B_1, B_s - t B_1) \\
+&= \E(B_t B_s - t B_t B_1 -t B_s B_1 + t^2 B_1^2) \\
+&= \E(B_t B_s) -t \E(B_t B_1) -t \E(B_s B_1) + t^2 \E(B_1^2) \\
+&= \min(s, t) - st.
+\end{align}
+$$
+
+
+(b) Show that the random variable $B_t - t B_1$ is independent of
+of $B_1$ for any $t \in [0, 1]$.
+
+Consider the covariance:
+
+$$
+\begin{align}
+\Cov(B_t - t B_1, B_1) &= \E(B_tB_1 -t B_1 B_1) \\ 
+&= \E(B_tB_1) -t \E(B_1^2) \\
+&= t - t \\
+&= 0.
+\end{align}
+$$
+
+Since $B_t -t B_1$ and $B_1$ are Gaussian variables, this is enough
+to establish independence.
+
+## 2.15 Triangle Inequality
+
+Let $X, Y$ be two random variables in $L^2(\Sigma, \mathcal{F}, \P)$. Prove the triangle inequality
+
+$$
+\sqrt{\E((X+Y)^2)} \leq \sqrt{\E(X^2) + \E(Y^2)}.
+$$
+
+Expand the square and use Cauchy-Schwarz:
+
+$$
+\begin{align}
+\E((X+Y)^2) &= \E(X^2 + 2 X Y + Y^2) \\ 
+&= \E(X^2) + 2 \E(XY) + \E(Y^2) \\ 
+&\leq \E(X^2) + 2 \sqrt{\E(X^2) \E(Y^2)} + \E(Y^2) \\ 
+&= (\sqrt{\E(X^2)} + \sqrt{\E(Y^2)})^2.
+\end{align}
+$$
+
+
+Let $S_k = \sum_{i=1}^k X_i$. Suppose that the triangle inequality
+holds for $S_k$:
+
+$$
+\sqrt{\E(S_k^2)} \leq \sum_{i=1}^k\sqrt{\E(X_i^2)}.
+$$
+
+Consider the next case $S_{k+1}$:
+
+$$
+\sqrt{\E(S_{k+1}^2)}  = \sqrt{\E((X_{k+1} + S_k)^2)} \leq \sqrt{\E(X_{k+1}^2)} + \sqrt{\E(S_k^2)} = \sum_{i=1}^{k+1}\sqrt{\E(X_k^2)}
+$$
+using the two-term triangle inequality. The result follows by
+induction since the triangle inequality holds for $k=2$.
+
+
+
+
+
+
+
 
 
 
