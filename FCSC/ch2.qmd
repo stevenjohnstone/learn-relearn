@@ -96,7 +96,7 @@ plt.show()
 ```{python}
 class OU:
     def __init__(self, samples):
-        covariance = [ [ (1/2)*np.exp(-(2/samples) * np.abs(i -j))*(1 - np.exp(-(2/samples)*min(i, j))) for i in range(1, samples)] for j in range(1, samples)]
+        covariance = [ [ (1/2)*np.exp(-(1/samples) * np.abs(i -j))*(1 - np.exp(-(2/samples)*min(i, j))) for i in range(1, samples)] for j in range(1, samples)]
         self.__A = np.linalg.cholesky(covariance)
         return
 
@@ -113,7 +113,7 @@ plt.show()
 ```{python}
 class OUStationary:
     def __init__(self, samples):
-        covariance = [ [ (1/2)*np.exp(-(2/samples) * np.abs((i -j))) for i in range(samples)] for j in range(samples)]
+        covariance = [ [ (1/2)*np.exp(-(1/samples) * np.abs((i -j))) for i in range(samples)] for j in range(samples)]
         self.__A = np.linalg.cholesky(covariance)
         return
 
@@ -1389,6 +1389,7 @@ $\square$
 
 
 
+```
 
 
 
