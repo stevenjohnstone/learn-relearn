@@ -1,0 +1,516 @@
+---
+title: "A First Course in Stochastic Calculus"
+subtitle: "Chapter Three Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+# Exercises
+## 3.1 Brownian Moments
+
+(a) $\E(B_t^6)$
+
+
+We can use [Wick's/Isserlis' formula](https://en.wikipedia.org/wiki/Isserlis%27_theorem) to calculate this: there are
+$(6  -1)!! = 15$ different pairings of the $6$-tuple $\{B_t, \ldots, B_t\}$ and so
+
+
+$$
+\begin{align}
+\E(B_t^6) &= 15 \E(B_t^2)^3 \\ 
+&= 15 t^3.
+\end{align}
+$$
+
+::: {.callout-note}
+In general, for a zero mean Gaussian variable $X$ and $n >= 1$
+
+$$
+\E(X^{2n}) = (2n -1)!!\E(X^2)^n.
+$$
+
+This can be seen with Wick's formula:
+
+there are $(2n - 1)!!$ different pairings of the set of $2n$ elements $(X,\ldots, X)$ and each pairing results in $n$ pairs.
+:::
+
+(b) $\E((B_{t_2} - B_{t_1})(B_{t_3} - B_{t_2}))$ if $t_1 < t_2 < t_3$
+
+$$
+\begin{align}
+\E((B_{t_2} - B_{t_1})(B_{t_3} - B_{t_2})) &= \E(B_{t_2} B_{t_3}) - \E(B_{t_2}^2) - \E(B_{t_1} B_{t_3}) + \E(B_{t_1}B_{t_2}) \\ 
+&= t_2 - t_2 - t_1 + t_1 \\ 
+&= 0.
+\end{align}
+$$
+
+(c) $\E(B_s^2 B_t^2)$ if $s < t$.
+
+The pairings of $(B_s, B_s, B_t, B_t)$ are
+
+$((B_s, B_s),(B_t, B_t)), ((B_s, B_t), (B_s, B_t)), ((B_s, B_t),(B_s, B_t))$ and so by Wick's formula
+
+$$
+\begin{align}
+\E(B_s^2B_t^2) &= \E(B_s^2)\E(B_t^2) + 2 \E(B_sB_t)^2 \\ 
+&= st + 2 s^2.
+\end{align}
+$$
+
+(d) $\E(B_s B_t^3)$ if $s < t$.
+
+The pairings of $(B_s, B_t, B_t, B_t)$ are 
+$((B_s, B_t),(B_t, B_t)), ((B_s, B_t), (B_t, B_t)), ((B_s, B_t),(B_t, B_t))$ and so by Wick's formula
+
+$$
+\begin{align}
+\E(B_s B_t^3)  &= 3 \E(B_sB_t)\E(B_t^2) \\ 
+&= 3st.
+\end{align}
+$$
+
+(e) $\E(B_s^{100} B_t^{101})$.
+
+
+$\E(B_s^{100} B_t^{101}) = 0$ because there are an odd number of
+multiplicands.
+
+
+## 3.2 Brownian Probabilities
+
+(a) $\P(B_1 > 1, B_2 > 1)$
+
+The integral is given by
+
+```{python}
+#| code-fold: true
+import sympy as sp
+from fractions import Fraction
+from sympy.abc import x,y
+
+sp.init_printing()
+C=sp.Matrix([[1, 1], [1, 2]])
+
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+integral = sp.Integral(pdf, (x, 1, sp.oo), (y, 1, sp.oo))
+integral
+```
+A change of variables gives a finite domain of integration:
+
+```{python}
+#| code-fold: true
+pdf = pdf.subs({x: 1/x, y: 1/y})*sp.diff(1/x, x)*sp.diff(1/y, y)
+
+sp.Integral(pdf , (x, 0, 1), (y, 0, 1))
+```
+
+This can be calculated using a monte-carlo approximation:
+
+```{python}
+import numpy as np
+
+def monte_carlo(integrand):
+    samples = 10000
+    sum = 0
+    for _ in range(samples):
+        x, y = np.random.default_rng().uniform(0, 1, 2)
+        sum +=integrand(x, y)
+    return sum/samples
+
+probability = monte_carlo(sp.lambdify([x, y], pdf))
+probability
+```
+
+Alternatively, we can evaluate the integral with Simpson's rule:
+
+```{python}
+from scipy.integrate import simps
+
+def simpsons(integrand):
+    x = np.linspace(0.01, 1, 1000)
+    y=  np.linspace(0.01, 1, 1000)
+
+    zz = integrand(x.reshape(-1, 1), y.reshape(1, -1))
+    return simps([simps(zz_r, x) for zz_r in zz], y)
+    
+simpsons(sp.lambdify([x, y], pdf))
+```
+
+We can check this makes sense by simulating a number of Brownian
+motion paths and checking the ratio of the samples satisfying $B_1 >1, B_2>1$ to the total number of samples.
+
+```{python}
+class Brownian:
+    def __init__(self, C):
+        self.__A = np.linalg.cholesky(C)
+        return
+    def path(self):
+        n = len(self.__A[0])
+        return self.__A.dot(np.random.default_rng().normal(0, 1, n))
+        
+brownian = Brownian(np.array(C.tolist()).astype(np.float64))
+
+
+samples=10000
+count = 0
+for _ in range(samples):
+    b_1, b_2 = brownian.path()
+    if b_1 > 1 and b_2 > 1:
+        count+=1
+
+count/samples
+```
+
+(b) $\P(B_1 > 1, B_2 > 1, B_3 > 1)$
+
+```{python}
+#| code-fold: true
+import sympy as sp
+from fractions import Fraction
+from sympy.abc import x,y,z
+
+sp.init_printing()
+C=sp.Matrix([[1, 1, 1], [1, 2, 2], [1, 2, 3]])
+
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y, z])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/((2 *sp.pi)**Fraction(3,2) * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+integral = sp.Integral(pdf, (x, 1, sp.oo), (y, 1, sp.oo), (z, 1, sp.oo))
+integral
+```
+
+A change of variables gives a finite domain of integration:
+
+```{python}
+#| code-fold: true
+pdf = pdf.subs({x: -1/x, y: -1/y, z: -1/z})*sp.diff(-1/x, x)*sp.diff(-1/y, y)*sp.diff(-1/z, z)
+
+sp.Integral(pdf , (x, -1, 0), (y, -1, 0), (z, -1, 0))
+```
+
+```{python}
+from scipy.integrate import tplquad
+
+def integrate(integrand):
+    return tplquad(integrand, -1, 0, -1, 0, -1, 0)
+    
+integrate(sp.lambdify([x, y, z], pdf))
+
+```
+```{python}
+def monte_carlo(integrand):
+    samples = 10000
+    sum = 0
+    for _ in range(samples):
+        x, y, z = np.random.default_rng().uniform(-1, 0, 3)
+        sum +=integrand(x, y, z)
+    return sum/samples
+
+probability = monte_carlo(sp.lambdify([x, y, z], pdf))
+probability
+```
+
+```{python}
+def decomposition():
+    brownian = Brownian(np.array(C.tolist()).astype(np.float64))
+
+    samples=10000
+    count = 0
+    for _ in range(samples):
+        b_1 , b_2, b_3 = brownian.path()
+        if b_1 > 1 and b_2 > 1 and b_3 > 1:
+            count+=1
+    return count/samples
+    
+decomposition()
+```
+
+## 3.3 Equivalence of Definition of Brownian Motion
+
+If $X = (X_i)_{i=1}^n = (B_{t_1} - 0, B_{t_2} - B_{t_1}, \ldots, B_{t_n} - B_{t_{n-1}})$
+are independent Gaussians with mean zero and variance $t_{j+1} -t_j$ for $j \leq n-1$, then the vector $Y = (Y_i)_{i=1}^n = (B_{t_1}, \ldots, B_{t_n} )$ is Gaussian with mean zero and covariance $\E(B_tB_s) = t \wedge s$.
+
+Proof:
+
+
+The linear transformation $A$ maps $X$ to $Y$:
+
+$$
+A = \begin{bmatrix}
+1  &  0    &  \ldots  &  0 \\
+-1 &  1    &  \ldots  &  0 \\
+\vdots    & \ddots & &  \vdots \\
+0  &     \ldots  &  -1      &  1 
+\end{bmatrix}
+$$
+
+or
+
+$$
+A_{ij} = \begin{cases}
+1 & \text{if } i=j, \\ 
+-1 & \text{if } i = j-1, \\ 
+0 & \text{otherwise}
+\end{cases}
+$$
+
+The mean vector of $Y$ is $A\textbf{0} = \textbf{0}$. The covariance of $Y$, $C_Y$, is related to the covariance of $X$, $C_X$ by
+
+$$
+A C_X A^T = C_Y.
+$$
+
+
+This linear relationship can be expressed using cancellation of
+the telescopic sum:
+$$
+Y_i = \sum_{k=1}^i X_k.
+$$
+
+For $i < j$,
+
+$$
+Y_j = Y_i + \sum_{k=i+1}^j X_k.
+$$
+
+So,
+
+$$
+Y_j Y_i = Y_i^2 + Y_i \sum_{k=i+1}^j X_k.
+$$
+
+Then, using the independence of $X$:
+$$
+\begin{align}
+\E(Y_j Y_i) &= \E(Y_i^2) + \sum_{k=i+1}^j \E(Y_i X_k) \\
+&= \E(Y_i^2) + \sum_{k=i+1}^j \E(\sum_{l=1}^i X_l X_k) \\ 
+&= \E(Y_i^2).
+\end{align}
+$$
+
+We can calculate the variance of $Y_j$:
+
+$$
+\begin{align}
+\E(Y_j^2) & = \E((\sum_{k=1}^j X_k)^2) \\
+&=  \E(\sum_{k=1}^j X_k^2 + 2 \sum_{k,l = 1}^j X_k X_l) \\ 
+&= \sum_{k=1}^j \E(X_k^2) \\ 
+&= \sum_{k=2}^j (t_{i_{k}} -t_{i_{k-1}}) + t_{i_1} \\ 
+&= t_{i_j}
+\end{align}
+$$
+
+This proves that
+
+$\E(B_{t_i} B_{t_j}) = t_i \wedge t_j$.
+
+## 3.4 Reflection at time $s$
+
+For any $s \geq 0$, the process $(\tilde{B}_t, t\geq 0)$ defined by
+
+$$
+\tilde{B}_t = \begin{cases}
+B_t & \text{if } t \leq s, \\
+B_s - (B_t - B_s) & \text{otherwise}
+\end{cases}
+$$
+is a Brownian motion.
+
+Proof:
+
+Clearly, $\tilde{B}_0 = 0$. For each continuous path, $B_t(\omega)$ we can have a continuous path $\tilde{B}(\omega)$:
+
+$\tilde{B}_t(\omega)$ is piecewise two obviously continuous functions $B_t(\omega)$ and $2B_s(\omega) - B_t(\omega)$ which are
+equal at $t = s$. Therefore, for a set of $\omega$ of probability one, $\tilde{B}_t(\omega)$ is continuous.
+
+For any $t_1 < t_2 < \ldots < t_n$, the vector $(\tilde{B}_{t_i})_{i=1}^n$ is Gaussian of mean zero because it is a transformation of $(B_{t_i})_{i=1}^n$:
+
+$$
+\tilde{B} = A B + C
+$$
+
+where
+
+$$
+A_{ij} = \begin{cases}
+1 & \text{if } i=j \text{ and } t_i \leq s, \\ 
+-1& \text{if } i=j \text{ and } t_i > s, \\ 
+0 & \text{otherwise}
+\end{cases}
+$$
+
+and $C$ is the Gaussian vector defined
+$$
+C_i = \begin{cases}
+2 B_s & \text{if } t_i > s, \\ 
+0 & \text{otherwise.}
+\end{cases}
+$$
+The linear transformation $AB$ results in a Gaussian vector; adding $C$ results in another Gaussian vector because the components of $C$ are in the span of the components of $B$. The mean of the result is zero.
+
+
+If $t_1, t_2 \leq s$, then
+$$
+\begin{align}
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} B_{t_2}) \\ 
+&= t_1 \wedge t_2.
+\end{align}
+$$
+
+If $t_1 \leq s$ and $t_2 > s$, then
+$$
+\begin{align}
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} (2B_s - B_{t_2})) \\ 
+&= 2 \E(B_{t_1} B_s) - \E(B_{t_1} B_{t_2}) \\ 
+&= 2 t_1 - t_1 \\ 
+&= t_1 \\
+&= t_1 \wedge t_2.
+\end{align}
+$$
+
+If $t_1, t_2 > s$, then
+$$
+\begin{align}
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E((2B_{s} - B_{t_1})(2B_s - B_{t_2})) \\ 
+&= 4 \E(B_s^2) -2 \E(B_s B_{t_2}) -2 \E(B_s B_{t_1}) + \E(B_{t_1}B_{t_2}) \\ 
+&= 4 s - 2 s - 2s  + t_1 \wedge t_2 \\ 
+&= t_1 \wedge t_2.
+\end{align}
+$$
+
+Therefore, for any $s, t$
+
+$$
+\E(\tilde{B}_s \tilde{B}_t) = s \wedge t.
+$$
+
+## 3.5 Time Reversal
+
+Let $(B_t, t \geq 0)$ be a Brownian motion. The process
+$(B_1 - B_{1-t}, t \in [0,1])$ has the distribution of a standard
+Brownian motion on $[0, 1]$.
+
+Proof:
+
+$B_1 - B_{1-t} = 0$ when $t = 0$. If $\omega$ is such that $B_t(\omega)$ is continuous, then $B_{1-t}(\omega)$ is continuous since $t \mapsto 1-t$ is continuous. It follows that $B_1(\omega) - B_{1-t}(\omega)$ is continuous. Therefore, for $\omega$ in a set of probability one, $B_1(\omega) - B_{1-t}(\omega)$ is continuous.
+
+Let $0 \leq t_1 < t_2 < \ldots < t_n \leq 1$. The vector $(B_1 -B_{1-t_i})_{i=1}^n$ is Gaussian: it is simply a Brownian Gaussian
+vector written in reverse with $B_1$ added, which results in
+a Gaussian vector. It is
+easy to see that the mean is zero by linearity of expectation.
+
+
+The covariance reveals the distribution:
+
+$$
+\begin{align}
+\Cov((B_1 - B_{1-t_i}), (B_1 - B_{1-t_j})) &= \E((B_1 - B_{1-t_i})(B_1 - B_{1-t_j})) \\ 
+&= \E(B_1^2) - \E(B_{1-t_i}B_1) - \E(B_{1 -t_j}B_1) + \E(B_{1-t_i} B_{1-t_j}) \\ 
+&= 1 - (1-t_i) - (1-t_j) + (1-t_i) \wedge (1-t_j) \\ 
+&= t_i + t_j -1 + 1 - t_i \vee t_j \\
+&= t_i + t_j - t_i \vee t_j \\
+& = t_i \wedge t_j.
+\end{align}
+$$
+
+## 3.6 Time Inversion
+
+(a) Let $(B_t, t \geq 0)$ be a standard Brownian motion. The process
+
+$$
+X_t = t B_{1/t} \text{ for } t > 0,
+$$
+
+has the distribution of a Brownian motion on $t > 0$.
+
+Proof:
+
+Let $0 < t_1 < \ldots < t_n$ and define $s_{n-i} = 1/t_i$, so that
+$0 < s_1 < \ldots < s_n$. The vector $T=(B_{t_i})_{i=1}^n$ is Gaussian by assumption. $S=(\frac{1}{s_i} B_{s_i})_{i=1}^{n}$ is a
+linear transformation of $T$ and so is also Gaussian with mean zero:
+
+$$
+S = \begin{bmatrix}
+0 & \ldots & 0 & \frac{1}{s_1} \\
+0 & \ldots & \frac{1}{s_2} & 0 \\ 
+\vdots & \iddots & 0 & 0 \\
+\frac{1}{s_n} & 0 & \ldots & 0
+\end{bmatrix}\,T.
+$$
+
+The covariance, and hence the distribution, of $S$ can be found by simple calculation:
+
+$$
+\begin{align}
+\E(t_i B_{1/t_i} t_jB_{1/t_j}) &= t_it_j \frac{1}{t_i} \wedge \frac{1}{t_j} \\ 
+&= \frac{t_it_j}{t_i \vee t_j} \\ 
+&= t_i \wedge t_j.
+\end{align}
+$$
+
+
+(b) $X_t \to 0$ in $L^2$ as $t \to 0$.
+
+
+Proof:
+
+
+$$
+\begin{align}
+\| X_t \|_2 &= \| t B_{1/t} \|_2 \\ 
+&= \E(t^2 B_{1/t}^2) \\ 
+&= t^2 1/t \\ 
+&= t \to 0
+\end{align}
+$$
+as $t \to 0$.
+
+(c)
+$$
+\lim_{t \to \infty} \frac{B_t}{t} = 0
+$$
+almost surely.
+
+
+Proof:
+
+We are allowed to use
+
+$$
+X_t \to 0
+$$
+as $t \to 0$ almost surely. Note: we didn't show this above.
+
+
+
+$$
+\lim_{t\to \infty} \frac{B_t}{t} &= \frac{X_{1/t}} \to 0
+$$
+as $t \to \infty$, almost surely.
+
+
+
+
+
+
+
+

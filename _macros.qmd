@@ -4,5 +4,9 @@ $$
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\E}{\operatorname{E}}
 \newcommand{\P}{\operatorname{P}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\trace}{\operatorname{trace}}
+\def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
+\raise12mu{.}}}
 $$
 :::
