@@ -150,7 +150,7 @@ plt.legend(loc='upper right')
 plt.show()
 ```
     
-Note how the emperical means with 10 samples and 100 samples appear to be identically distributed. The Cauchy distribution has no defined mean (even though it is symmetrical about 0) so the Central Limit Theorem does not apply.
+Note how the empirical means with 10 samples and 100 samples appear to be identically distributed. The Cauchy distribution has no defined mean (even though it is symmetrical about 0) so the Central Limit Theorem does not apply.
 
 If we have two iid variables $X$ and $Y$ with Cauchy distribution i.e. with pdf
 
@@ -548,7 +548,7 @@ P(X \leq x + h) - P(X < x) &= 1 - P(X > x + h) -1 + P(X > x) \\
 \end{align}
 $$
 
-So we can assert that the CDF $F$ satisifies
+So we can assert that the CDF $F$ satisfies
 
 $$
 \begin{align}
@@ -702,7 +702,7 @@ For $\lambda > 0$
 $$
 P(X > a) = P(e^{\lambda X} > e^{\lambda a})
 $$
-by the monitonicity of the exponential. By Markov's inequality and \eqref{gtail}
+by the monotonicity of the exponential. By Markov's inequality and \eqref{gtail}
 $$
 P(e^{\lambda X} > e^{\lambda a}) \leq \frac{E(e^{\lambda X})}{e^{\lambda a}} \leq e^{\lambda^2/2 - \lambda a}.
 $$
@@ -756,7 +756,7 @@ $$
 Subtle point: we're using the fact that X >= 0 to arrive at zero for the lower limit of the inner integral.
 
 ::: {.callout-tip collapse="true"}
-# Consequence: LOTUS (Law Of The Unconcious Statistician)
+# Consequence: LOTUS (Law Of The Unconscious Statistician)
 
 Let $g: \mathbb{R} \mapsto \mathbb{R}$ be measurable. Then $E(g(X)) = \int_{-\infty}^{\infty} g(x) dF(x)$.
 

@@ -448,7 +448,7 @@ $$
 \end{align}
 $$
 
-Therefore, $Y$ and $X$ are indentically distributed. They are definitely
+Therefore, $Y$ and $X$ are identically distributed. They are definitely
 not independent as $Y$ is a function of $X$ and so we have no
 right to expect that $X + Y$ is also Gaussian.
 
@@ -673,16 +673,16 @@ Therefore, $Y = 0$ with probability 1 and so $X = \E(X)$ with probability 1 i.e.
 Since the LHS of (@eq-covariance-pos-semidef) is the variance of $\sum_i a_i X_i$, we see that $\mathcal{C}$ is positive _definite_
 if and only if the variance of $\sum_i a_i X_i$ is non-zero for all non-zero $a$.
 
-The covariance matrix of a random vector $X = (X_i)$ is postive-definite if and only if each linear combination of the coordinates is non-constant.
+The covariance matrix of a random vector $X = (X_i)$ is positive-definite if and only if each linear combination of the coordinates is non-constant.
 
 When $X_i$ are jointly Gaussian, then each linear
-combination is a Gaussian random variable: the only constant a linear combination of Gaussian cvariables can sum to is zero.
+combination is a Gaussian random variable: the only constant a linear combination of Gaussian variables can sum to is zero.
 
 Therefore, for jointly Gaussian random variables,
 the covariance matrix is positive-definite if and only if the
 the variables are linearly independent. See @sec-degenerate-is-li.
 
-## 2.8 A Linear Tranformation of Gaussian Vector is Also Gaussian
+## 2.8 A Linear Transformation of Gaussian Vector is Also Gaussian
 
 Let $X = (X_i)_{i=1}^n$ be a Gaussian vector an $M$ be an $m \times n$ matrix.
 
