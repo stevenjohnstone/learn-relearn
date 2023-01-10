@@ -14,6 +14,191 @@ format:
 
 {{< include /_macros.qmd >}}
 
+# Numerical Projects and Exercises
+
+## 3.1 Simulating Brownian Motion Using Increments
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def brownian(steps, time_interval):
+    normal_samples = np.random.default_rng().normal(0, np.sqrt((time_interval[1] - time_interval[0])/steps), steps)
+    return np.r_[0, np.cumsum(normal_samples)]
+    
+
+def plot_brownian(steps, time_interval):
+    for _ in range(10):
+        plt.plot(brownian(steps, time_interval))
+    plt.title('Brownian Motion')
+    plt.show()
+    
+plot_brownian(100, [0, 1])
+plot_brownian(1000, [0, 1])
+```
+
+## 3.2 Simulating the Poisson Process
+
+```{python}
+def poisson(rate, steps, time_interval):
+    poisson_samples = np.random.default_rng().poisson(rate*(time_interval[1] - time_interval[0])/steps, steps)
+    return np.cumsum(poisson_samples)
+    
+def plot_poisson(samples, rate, steps, time_interval):
+    for _ in range(samples):
+        plt.plot(np.linspace(time_interval[0], time_interval[1], steps), poisson(rate, steps, time_interval))
+    plt.title(f'Poisson Process, rate = {rate}')
+    plt.show()
+
+plot_poisson(10, 1, 100, [0,10])
+
+```
+
+## 3.3 Arcsine Law
+
+```{python}
+
+def proportion_positive(samples):
+    positive = 0
+    for s in samples:
+        if s >= 0:
+            positive+=1
+    return positive/len(samples)
+            
+
+brownian_samples = [ proportion_positive(brownian(100, [0,1])) for _ in range(1000) ]
+
+def pdf(x):
+    return (1/np.pi) * 1 /(np.sqrt(x*(1-x)))
+
+fig, ax = plt.subplots()
+ax.hist(brownian_samples, label='histogram', density=True, bins=50)
+x = np.linspace(0, 1, 1000)
+ax.plot(x, pdf(x), label='pdf')
+ax.legend(loc='upper right')
+```
+
+## 3.4 Arcsine Law for Ornstein-Uhlenbeck
+
+```{python}
+class OU:
+    def __init__(self, samples):
+        covariance = [ [ (1/2)*np.exp(-(1/samples) * np.abs(i -j))*(1 - np.exp(-(2/samples)*min(i, j))) for i in range(1, samples)] for j in range(1, samples)]
+        self.__A = np.linalg.cholesky(covariance)
+        self.__samples = samples
+        return
+
+    def path(self, rg = np.random.default_rng()):
+        return np.r_[0, self.__A.dot(rg.normal(0, 1, self.__samples-1))]
+
+ou = OU(100)
+
+rg = np.random.default_rng()
+
+ou_samples = [ proportion_positive(ou.path(rg)) for _ in range(10000)]
+
+fig, ax = plt.subplots()
+ax.hist(ou_samples, label='histogram', density=True, bins=100)
+ax.legend(loc='upper right')
+```
+
+## Brownian Variations
+
+```{python}
+def variation(samples):
+    return np.sum([ np.abs(samples[i+1] - samples[i]) for i in range(len(samples) - 1)])
+
+
+def quadratic_variation(samples):
+    return np.sum([ (samples[i+1] - samples[i])**2 for i in range(len(samples) - 1)])
+
+brownian_samples = brownian(2**20, [0,1])
+plt.plot(brownian_samples)
+plt.show()
+
+quadratic_variations = [ quadratic_variation(brownian_samples[::2**i]) for i in range(20, 0, -1) ]
+
+plt.plot(quadratic_variations)
+plt.title('Quadratic Variation')
+plt.show()
+
+variations = [ variation(brownian_samples[::2**i]) for i in range(20, 0, -1) ]
+
+plt.plot(variations)
+plt.title('Variation')
+plt.show()
+```
+
+## 3.6 Simulating Brownian Motion Using Lévy's Construction 
+
+```{python}
+        
+def levy(N, sample_points):
+    def counter(N):
+        n = 1 
+        j = 0
+        while True:
+            for k in range(2**j):
+                n = 2**j + k
+                if n >= N:
+                    return
+                yield j, k, n
+            j+=1
+
+    def Lambda(t):
+        if 0 <= t <= 1/2:
+            return t
+        elif 1/2 <= t <= 1:
+            return 1 - t
+        return 0
+    
+    normal_samples = np.random.default_rng().normal(0, 1, N)
+    
+    def B(t):
+        b = normal_samples[0] * t
+        for j, k, n in counter(N):
+            b+= 2**(-j/2) * Lambda((2**j) * t - k) * normal_samples[n]
+        return b
+        
+    return [B(p) for p in sample_points]
+    
+"""
+def test_levy(N):
+    sum_t_1, sum_t_2 = 0, 0
+    time_values = np.linspace(0, 1, 3)
+    samples = 10000
+    for _ in range(samples):
+        _, t_1, t_2 = levy(N, time_values)
+        sum_t_1 += t_1**2
+        sum_t_2 += t_2**2
+    return sum_t_1/samples, sum_t_2/samples
+    
+t_1_av, t_2_av = test_levy(100)
+print(t_1_av, t_2_av) # we expect somewhere close to 0.5 and 1
+"""
+    
+    
+time_values = np.linspace(0, 1, 100)
+for N in [5, 20, 100]:
+    for _ in range(10):
+        plt.plot(levy(N, time_values))
+    plt.title(f'N={N}')
+    plt.show()
+```
+:::{.callout-warning}
+I think $\Lambda$ is incorrectly defined on page 61. Should read
+
+$$
+\Lambda(t) = \begin{cases}
+t & \text{if } 0 \leq t \leq 1/2, \\ 
+1 - t & \text{if } 1/2 < t \leq 1, \\ 
+0 & \text{otherwise}.
+\end{cases}
+$$
+
+The text is also inconsistent about the $2^{-j/2}$ factor.
+:::
+
 # Exercises
 ## 3.1 Brownian Moments
 
@@ -175,6 +360,90 @@ for _ in range(samples):
 
 count/samples
 ```
+
+We can also use the fact that $(B_1, B_2 - B_1)$ are independent:
+
+
+$$
+\begin{align}
+\P(B_1 > 1, B_2> 1) &= \int \int_{\{x > 1, x + y > 1\}} \frac{e^{\frac{-1}{2}(x^2 + y^2)}}{2 \pi} dx \, dy.
+\end{align}
+$$
+
+The domain of integration is:
+
+```{python}
+#| code-fold: true
+from matplotlib.patches import Polygon
+ 
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+plt.xlim(-1, 3)
+plt.ylim(-1, 3)
+
+for spine in ['top', 'right']:
+    ax.spines[spine].set_visible(False)
+
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+
+axis = plt.gca()
+axis.add_patch(Polygon([[1, 0], [1,3], [3, 3], [3,-2]], label='domain of integration'))
+def f(x):
+    return 1 - x
+    
+x = np.linspace(-1, 3, 1000)
+
+plt.plot(x, f(x), 'k--', label='y= 1 - x')
+plt.axvline(1, color='b', linestyle='--', label = 'x=1')
+plt.legend(loc='upper left')
+```
+
+We can calculate in chunks.
+```{python}
+#| code-fold: true
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+ 
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+plt.xlim(-3, 3)
+plt.ylim(-3, 3)
+
+for spine in ['top', 'right']:
+    ax.spines[spine].set_visible(False)
+
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+
+axis = plt.gca()
+axis.add_patch(Polygon([[1, 0], [1,3], [3, 3], [3,0]], label='A'))
+axis.add_patch(Polygon([[1, 0], [3,0], [3, -3]], label='B', color='red'))
+plt.legend(loc='upper left')
+```
+
+
+```{python}
+import sympy as sp
+from fractions import Fraction
+from sympy.abc import x,y
+
+pdf = sp.exp(Fraction(-1, 2) *(x**2 + y**2))/(2*sp.pi)
+
+A = sp.integrate(pdf, (x, 1, sp.oo), (y, 0, sp.oo));A
+
+```
+
+```{python}
+
+B = sp.integrate(pdf, (x, 1-y, sp.oo), (y, -sp.oo, 0)); B
+```
+
+```{python}
+(A + B).evalf()
+```
+
+
 
 (b) $\P(B_1 > 1, B_2 > 1, B_3 > 1)$
 
@@ -503,7 +772,7 @@ as $t \to 0$ almost surely. Note: we didn't show this above.
 
 
 $$
-\lim_{t\to \infty} \frac{B_t}{t} &= \frac{X_{1/t}} \to 0
+\lim_{t\to \infty} \frac{B_t}{t} = X_{1/t} \to 0
 $$
 as $t \to \infty$, almost surely.
 
