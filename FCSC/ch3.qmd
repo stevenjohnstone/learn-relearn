@@ -440,7 +440,11 @@ B = sp.integrate(pdf, (x, 1-y, sp.oo), (y, -sp.oo, 0)); B
 ```
 
 ```{python}
-(A + B).evalf()
+prob = (A+B).simplify(); prob
+```
+
+```{python}
+prob.evalf()
 ```
 
 
@@ -775,6 +779,322 @@ $$
 \lim_{t\to \infty} \frac{B_t}{t} = X_{1/t} \to 0
 $$
 as $t \to \infty$, almost surely.
+
+## 3.8 Convergence in mean or in $L^1$
+
+If $X_n \to X$ in $L^1(\Omega, \mathcal{F}, \P)$, then $X_n \to X$
+in probability.
+
+Proof:
+
+$X_n \to X$ in $L^1$ iff $\E(|X_n - X|) \to 0$ as $n \to \infty$.
+
+By Markov's inequality, for any $\delta > 0$
+
+$$
+\begin{align}
+\P(|X_n - X| > \delta) &\leq \frac{1}{\delta} \E(|X_n - X|).
+\end{align}
+$$
+The RHS tends to zero as $n \to \infty$ so the LHS must also. That is,
+$X_n \to X$ in probability as $n \to \infty$.
+
+## 3.9 Fractional Brownian Motion
+
+Fractional Brownian motion $(Y_t, t\geq 0)$ with index $0 < H < 1$, is the Gaussian process with mean zero and covariance
+$$
+\Cov(Y_s, Y_t) = \frac{1}{2}(t^{2H} + s^{2H} - \left | t - s \right |^{2H}).
+$$
+
+(a) The standard Brownian motion corresponds to $H= 1/2$.
+
+Proof:
+
+When $H=1/2$, 
+$$
+\begin{align}
+\Cov(Y_s, Y_t) &= \frac{1}{2}(t + s - \left | t - s\right |) \\ 
+&= s \wedge t.
+\end{align}
+$$
+
+(b) $Y_{at}$ has the same distribution as $a^{2H} Y_t$ for $a > 0$.
+
+Proof:
+
+$$
+\begin{align}
+\Cov(Y_{as}, Y_{at}) &= \frac{1}{2}(a^{2H}t^{2H} + a^{2H}s^{2H} - \left | at - as\right |^{2H}) \\ 
+&= a^{2H} \frac{1}{2}(t^{2H} + s^{2H} - \left | t - s \right |^{2H}) \\ 
+&= a^{2H} \Cov(Y_s, Y_t) \\ 
+&= \Cov(a^H Y_s, a^H Y_t).
+\end{align}
+$$
+
+
+(c) The increment $Y_t - Y_s$ has a Gaussian distribution and is stationary.
+
+Proof:
+
+By definition, $(Y_t, Y_s)$ is a Gaussian vector so $Y_t - Y_s$ is Gaussian. The covariance depends only on $t - s$ so $Y_t - Y_s$ is stationary:
+
+$$
+\begin{align}
+\Var(Y_t - Y_s) &= \E((Y_t - Y_s)^2) \\
+&= \E(Y_t^2 - 2 Y_tY_s + Y_s^2) \\ 
+&= \E(Y_t^2) -2 \E(Y_tY_s) + \E(Y_s^2) \\ 
+&= t^{2H} + s^{2H} -(t^{2H} + s^{2H} - \left| t - s \right|^{2H}) \\ 
+&= \left| t - s \right|^{2H}.
+\end{align}
+$$
+
+(d) The increments $Y_t - Y_s$ are independent if and only if $H=1/2$. The increments are negatively correlated if $H < 1/2$ and positively correlated if $H > 1/2$.
+
+Proof:
+
+If $H=1/2$, then the process is the standard Brownian motion and so
+the increments are independent.
+
+Suppose that the increments are independent. Since they are Gaussian,
+this is equivalent to the covariance of the increments being zero:
+
+
+for all $a \leq b \leq c \leq d$
+$$
+\begin{align}
+\E((Y_a - Y_b)(Y_c - Y_d)) &= \E(Y_aY_c) - \E(Y_a Y_d) - \E(Y_b Y_c) + \E(Y_b Y_d) \\ 
+&= \frac{1}{2}\left ( a^{2H} + c^{2H} - |a - c|^{2H} - a^{2H} - d^{2H} + |a - d|^{2H} - b^{2H} - c^{2H} + |b - c|^{2H} + b^{2H} +d^{2H} - |b -d |^{2H}\right) \\
+&= \frac{1}{2} \left ( (d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H}\right) \\
+&= 0.
+\end{align}
+$$
+
+In particular, If we set $a=0, b=1, c=1, d=2$, then the condition becomes
+
+$$
+\begin{align}
+(d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H} \\ 
+= 2^{2H} - 1^{2H} + 0^{2H} - 1^{2H} \\ 
+= 2^{2H} - 2 = 0
+\end{align}
+$$
+
+and so $H=1/2$.
+
+Let $0 \leq s_1 \leq t_1 \leq s_2 \leq t_2$. Set
+
+$a_1 = t_2 - s_1$, $a_2 = t_2 - t_1$, $b_1 = s_2 - s_1$ and
+$b_2 = s_2 - t_1$.
+
+
+$$
+\E((Y_{t_1} - Y_{s_1})(Y_{t_2}-Y_{s_2})) = \frac{1}{2} \left ( f(a_1) - f(a_2) - (f(b_1) - f(b_2)) \right )
+$$
+
+where $f=x^{2H}$. $a_1 - a_2 =  b_1 - b_2 = t_1 - s_1$ and so using convexity of $f$ when $H > 1/2$, the covariance is positive; when $H < 1/2$, the covariance is negative because f is concave.
+
+:::{.callout-note}
+```{python}
+#| code-fold: true
+def f(x, H):
+    return np.power(x,2*H)
+
+H = 99/100
+
+plt.xlim(0.5, 4)
+
+
+ax = [3.5, 2]
+for i,x in enumerate(ax):
+    plt.axvline(x, color='r', linestyle='--', label = f'a_{i}')
+
+plt.plot(ax, f(ax, H))
+
+bx = [2.5, 1]
+for i,x in enumerate(bx):
+    plt.axvline(x, color='r', linestyle='-', label = f'b_{i}')
+    
+plt.plot(bx, f(bx, H))
+
+x = np.linspace(0,4, 1000)
+plt.plot(x, f(x, H))
+plt.legend(loc='upper left')
+plt.show()
+
+
+```
+$$
+f(a_1) - f(a_2) \geq f(a_1) -f(b_2) \geq f'(b_2) (a_1 - a_2) = f'(b_2) (t_1 -s_1)
+$$
+
+$$
+f(b_1) - f(b_2) \leq f'(b_1) (b_1 - b_2) = f'(b_1) (t_1 - s_1)
+$$
+
+$$
+f(a_1) - f(a_2) -(f(b_1) - f(b_2)) \geq 0.
+$$
+:::
+
+## 3.10 The Arcsine Law on $[0, T]$
+
+By the scaling property of Brownian motions, $(B_t, t \in [0,T])$ has the same distribution as $(\frac{1}{\sqrt{T}} B_{Tt}, t \in [0, 1])$. The multiplicative factor does not change the proportion of
+time the path is positive: the CDF is the same as for motion on $[0,1]$.
+
+## 3.11 An Application of the Monotone Convergence Theorem
+
+Let $X_n \geq 0$ be a sequence of random variables on $(\Omega, \mathcal{F}, \P)$. Then
+
+$$
+\E(\sum_{n\geq 1} X_n) = \sum_{n \geq n} \E(X_n).
+$$
+
+Proof:
+
+Define
+
+$$
+Y_k = \sum_{n=1}^k X_n.
+$$
+Then $Y_k$ is a sequence of random variables such that $0 \leq Y_k \leq Y_{k+1}$ for all $k$.
+
+By the monotone convergence theorem,
+
+$$
+\lim_{k \to \infty} \E(Y_k) = \E(\lim_{k \to \infty} Y_k).
+$$
+That is,
+
+$$
+\sum_{n \geq 1} \E(X_n) = \E(\sum_{n \geq 1} X_n).
+$$
+
+## 3.12 Borel-Contelli Lemma I
+
+Let $(A_n)$ be a sequence of events in $(\Omega, \mathcal{F}, \P)$
+such that
+
+$$
+\sum_n \P(A_n) < \infty.
+$$
+
+Then 
+$$
+\P(\{ \omega \in \Omega: \omega \in A_n \text{ for infinitely many } n\}) = 0.
+$$
+
+Proof:
+
+Immediately,
+$$
+\begin{align}
+\sum_n \P(A_n) = \sum_n \E(\mathbb{1}_{A_n}) < \infty.
+\end{align}
+$$
+
+By the monotone convergence theorem
+
+$$
+\sum_n \E(\mathbb{1}_{A_n}) = \E(\sum_n \mathbb{1}_{A_n}) < \infty.
+$$
+
+It follows that
+$$
+\P(\sum_n \mathbb{1}_{A_n} < \infty) = 1.
+$$
+
+The sum of indicator functions is a sum of ones and zeros. For the
+sum to be finite for any $\omega$, $\mathbb{1}_{A_n}(\omega) = 1$ for only finitely many $n$
+with probability 1 i.e. any $\omega \in A_n$ for only finitely many $n$. Therefore,
+
+$$
+\P(\left \{\omega \in \Omega : \omega \in A_n \text{ for finitely many } n\right \}) = 1
+$$
+and the result follows by taking the complement.
+
+## 3.13 Convergence in Probability $\nRightarrow$ Convergence Almost Surely
+
+Let $U$ be a uniform random variable taking values in $[0, 1]$.
+
+Express each $n$ as
+
+$$
+n = 2^j + k
+$$
+where $k= 0, \ldots, 2^j-1$.
+
+Define
+
+$$
+X_n = \mathbb{1}_{A_n}
+$$
+where $A_n = \{\omega \in \Omega : U(\omega) \in [2^{-j}k, 2^{-j}(k+1) ]\}$.
+
+$X_n$ converges to $0$ in probability.
+
+Proof:
+
+$$
+\begin{align}
+\P( |X_n| > \delta ) &= \begin{cases}
+2^{-j} & 0 < \delta <= 1, \\ 
+0 & \text{otherwise}
+\end{cases} \\
+&\to 0
+\end{align}
+$$
+
+as $n \to \infty$. 
+
+$\square$
+
+$X_n$ does not converge to $0$ almost surely.
+
+Proof:
+
+Let $\omega \in \Omega$. Let $x = U(\omega)$. For $n = 2^j + k$,
+
+$x \in [2^{-j}k, 2^{-j}(k+1)]$ for exactly one $k$. Therefore,
+$(X_n(\omega))$ is an infinite sequence of $0$ and $1$ which never converges.
+
+$\square$
+
+## 3.14 But OK on a Subsequence
+
+
+Let $X_n \to X$ in probability as $n \to \infty$ and let $\delta > 0$. For each $n$, there is $m(n)$ such that
+
+$$ 
+\P(|X_{n_k} - X| > \delta) < \frac{1}{2^n}
+$$
+for $n_k \geq m(n)$. Choose one such $n_k$ for each $n$ to create a subsequence for $(X_{n_k})$.
+
+$$
+\begin{align}
+\sum_k \P(|X_{n_k} - X| > \delta) &< \sum_n \frac{1}{2^n} < \infty.
+\end{align}
+$$
+
+This subsequence will converge almost surely.
+
+## 3.15 Construction of the Poisson Process
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
