@@ -1079,12 +1079,107 @@ This subsequence will converge almost surely.
 
 ## 3.15 Construction of the Poisson Process
 
+::: {.callout-warning}
+The book says that $\tau_k$ are exponential with parameter $1/\lambda$. I
+think the parameter should be $\lambda$. The mean would then be $1/\lambda$: maybe there's some confusion here between the parameter and the
+mean arrival time?
+:::
+
+We know that
+
+$$
+\tau_1 + \cdots + \tau_k \sim \ \operatorname{Gamma}\left (k+1, \lambda \right).
+$$
+
+The PDF of $\operatorname{Gamma}\left (k, \lambda \right)$ is
+
+$$
+f(x) = \frac{\lambda^k}{(k-1)!} x^{k-1} e^{-\lambda x}.
+$$
+
+Therefore,
+
+$$
+\begin{align}
+\P(\tau_1 + \ldots + \tau_k \leq t) &= \int_0^t \frac{\lambda^k}{ (k-1)!} x^{k-1} e^{-\lambda x}\, dx \\
+&= \frac{1}{(k-1)!}\int_0^{\lambda t} x^{k-1} e^{-x}\, dx \\ 
+&= 1 - e^{-\lambda t} \sum_{n=0}^{k-1} \frac{t^{n} \lambda^{n}}{n!}
+\end{align}
+$$
+
+Now $$\P(N_t \geq k) = \P(\tau_1 + \cdots \tau_k \leq t)$$ and so
+
+$$
+\begin{align}
+\P(N_t = k) &= \P(N_t \geq k+ 1) - \P(N_t \geq k) \\ 
+&= \frac{e^{-\lambda t}}{k!} t^k\lambda^k.
+\end{align}
+$$
+
+That is, $N_t$ has Poisson distribution with parameter $\lambda t$.
+
+Define $J_n = \sum_{i=1}^n \tau_i$. Then using the memory loss property of exponential variables
+
+
+$$
+\begin{align}
+\P(\tau_{l+1} - (s - J_l) > t | N_s = l) &= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, J_{l+1} > s) \\ 
+&= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, \tau_{l+1} > s - J_l) \\ 
+&= \int_0^s \P(\tau_{l+1} > t + s - x | \tau_{l+1} > s - x) d\P_{J_l}(x) \\ 
+&= \int_0^s \P(\tau_{l+1} > t) d\P_{J_l}(x) \\ 
+&= \P(\tau_{l+1} > t) \\ 
+&= \P(\tau_1 > t).
+\end{align}
+$$
+Therefore, $\tau_{l+1} - (s - J_l)$ conditioned on $N_s = l$ is exponential
+with parameter $\lambda$.
+
+For $i > 1$, $\tau_{l+i}$ are independent of $\tau_j$ for $j \leq l$ and so are independent of $(N_r)_{r \leq s}$. So, conditioned on $N_s=l$, $\tau_{l+i}$ are exponential with parameter $\lambda$  for $i \geq 1$.
 
 
 
+Define
 
+$$
+t_i = \begin{cases}
+\tau_{l+1} - (s - J_l) & \text{ for } i = 0, \\
+\tau_{l+i} & \text{ otherwise}
+\end{cases}.
+$$
 
+We have shown so far that $t_i$ are exponentially distributed with parameter $\lambda$, conditioned on $N_s = l$. They are also independent since
 
+$$
+\P(t_1 > s_1, \ldots, t_k > s_k | N_s = l) = \P(\tau_1 > s_1, \ldots, \tau_k > s_k).
+$$
+
+If we use the law of total probability
+$$
+\begin{align}
+\P(t_1 > s_1, \ldots, t_k > s_k) &= \sum_l \P(t_1 > s_1, \ldots, t_k > s_k | N_s = l) \P(N_s = l) \\
+&= \P(\tau_1 > s_1, \ldots, \tau_k > s_k)
+\end{align}
+$$
+we see that $(t_i)$ are exponentially distributed with parameter $\lambda$ without conditioning! They are also independent without conditioning.
+We can also work backwards to state that $(t_i)$ are independent of $N_s$. In fact, $(t_i)$ are independent of $(N_r)_{r \leq s}$.
+
+Therefore, $Y_t$ is the sum of IID exponential variables and has Poisson distribution with parameter $\lambda t$:
+
+$$
+\begin{align}
+\P(Y_t \geq k) &= \frac{e^{-\lambda t}}{k!} t^k\lambda^k.
+\end{align}
+$$
+
+That is, $Y_t = N_{t + s} - N_s$ is Poisson distributed with parameter $\lambda t$ or, what is the same, $N_t - N_s$ is Poisson distributed with
+parameter $\lambda(t - s)$.
+
+We established that $N_s$ and $(t_i)$ are independent. Since $Y_t$ is a sum
+of $(t_i)$, it must be independent of $(N_r)_{r \leq s}$. That is, $N_t - N_s$ is
+independent of $N_s = N_s - N_0$. So, at least two increments, $N_t - N_s$ and $N_s - N_0$, are independent. Suppose that $t_1 = 0 < t_1 < t_2 < \ldots < t_n$. For $n=2$, we have established that $(N_{t_{i+1}} - N_{t_i})_{i=0}^n$ are independent. Suppose that
+the increments of a Poisson process are independent for $n=k$ and consider the case $n=k+1$. The increments $(N_{t_{i+1}} - N_{t_i})_{i=1}^{k}$ are independent because these
+can be considered to be $n$ increments of the Poisson process $N'_t = N_t - N_{t_1}$.
+We know that each of these increments is independent of $N_{t_1}$ which completes the proof by induction.
 
 
 
