@@ -3,7 +3,7 @@ title: "Probabilistic Machine Learning"
 subtitle: "Chapter Two Exercises"
 toc: true
 toc-location: body
-execute: 
+execute:
   freeze: true
 description: "Solutions to starred exercises"
 
@@ -35,7 +35,7 @@ For $i \in \{1, \ldots, K\}$,
 
 $$
 \begin{align}
-P(H=i|e_1, e_2) &= \frac{P(H=i,e_1, e_2)}{P(e_1, e_2)} \\ 
+P(H=i|e_1, e_2) &= \frac{P(H=i,e_1, e_2)}{P(e_1, e_2)} \\
                 &= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)}.
 \end{align}
 $$
@@ -57,14 +57,14 @@ for all $i \in \{1, \ldots, K\}$. With this assumption $\{P(e_1, e_2), P(H), P(e
 
 $$
 \begin{align}
-P(H=i|e_1, e_2) &= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)} \\ 
+P(H=i|e_1, e_2) &= \frac{P(e_1, e_2 |H=i) P(H=i)}{P(e_1, e_2)} \\
 &= \frac{P(e_1 |H=i) P(e_2|H=i) P(H=i)}{P(e_1, e_2)}
 \end{align}
 $$
 for all $i \in \{1, \ldots, K\}$.
-    
+
 # Exercise 2.3
-    
+
 The question is unclear about notation. We'll assume that
 $p$ will denote probability density functions i.e.
 
@@ -82,16 +82,16 @@ $$
 By definition
 $$
 \begin{align}
-p(x | z) &= \int p(x, y |z) dy \\ 
-         &= \int g(x, z) h(y, z) dy \\ 
+p(x | z) &= \int p(x, y |z) dy \\
+         &= \int g(x, z) h(y, z) dy \\
          &= g(x, z) \int h(y, z) dy.
 \end{align}
 $$
 Similarly,
 $$
 \begin{align}
-p(y | z) &= \int p(x, y |z) dx \\ 
-         &= \int g(x, z) h(y, z) dx \\ 
+p(y | z) &= \int p(x, y |z) dx \\
+         &= \int g(x, z) h(y, z) dx \\
          &= h(y, z) \int g(x, z) dx.
 \end{align}
 $$
@@ -119,13 +119,13 @@ of the leftmost point?
 By independence, we can express the joint CDF of $X$ and $Y$ as follows:
 $$
 \begin{align}
-F_{X,Y}(x, y) &= P(X \leq x, Y \leq y) \\ 
-&= P(X \leq x) P(Y \leq y) \\ 
+F_{X,Y}(x, y) &= P(X \leq x, Y \leq y) \\
+&= P(X \leq x) P(Y \leq y) \\
 & = \begin{cases}
-1  & \text{for } x, y > 1,\\ 
+1  & \text{for } x, y > 1,\\
 x & \text{for } x  \in [0,1], y > 1,\\
 y & \text{for } y \in [0,1], x > 1,\\
-xy & \text{for } x, y \in [0,1],\\ 
+xy & \text{for } x, y \in [0,1],\\
 0  & \text{otherwise}
 \end{cases}
 \end{align}
@@ -134,7 +134,7 @@ $$
 The joint probability density is then
 $$
 \begin{align}
-p(x, y) &= \frac{\partial^2}{\partial_x \partial_y}F_{X,Y}(x, y) \\ 
+p(x, y) &= \frac{\partial^2}{\partial_x \partial_y}F_{X,Y}(x, y) \\
 &= \begin{cases}
 1 & \text{for } x,y \in [0,1], \\
 0 & \text{otherwise}
@@ -146,11 +146,11 @@ Using [LOTUS](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician)
 
 $$
 \begin{align}
-E(\min(X, Y)) &= \int_0^1 \int_0^1 \min(x, y) dx dy \\ 
+E(\min(X, Y)) &= \int_0^1 \int_0^1 \min(x, y) dx dy \\
 &= \int_0^1 (\int_0^y x dx + \int_y^1 y dx) dy \\
 &= \int_0^1 (y - \frac{y^2}{2}) dy \\
-&= \frac{y^2}{2} -\frac{y^3}{6} \rvert_0^1 \\ 
-&= \frac{1}{2} - \frac{1}{6} \\ 
+&= \frac{y^2}{2} -\frac{y^3}{6} \rvert_0^1 \\
+&= \frac{1}{2} - \frac{1}{6} \\
 &=  \frac{1}{3}.
 \end{align}
 $$
@@ -165,7 +165,7 @@ If we set $Z = \min(X, Y)$, then
 
 $$
 \begin{align}
-E(Z) &= \int_0^{\infty} P(\min(X,Y) > z) dz \\ 
+E(Z) &= \int_0^{\infty} P(\min(X,Y) > z) dz \\
 &= \int_0^1 P(\min(X, Y) > z) dz \\
 &= \int_0^1 P(X > z, Y > z) dz \\
 &= \int_0^1 P(X > z) P(Y > z) dz \\
@@ -214,7 +214,7 @@ $$
 
 :::
 
-Therefore, the pdf of $Y$ is 
+Therefore, the pdf of $Y$ is
 $$
 \frac{b^a}{\Gamma(a)} (1/y)^{a-1}(1/y)^2e^{-b/y} = \frac{b^a}{\Gamma(a)} y^{-(a+1)}e^{-b/y}
 $$
@@ -249,7 +249,7 @@ $$
 Using python as a calculator
 
 ```{python}
-accuracy= 99/100 
+accuracy= 99/100
 prevalance=1/10000
 
 answer= accuracy*prevalance/(accuracy*prevalance + (1-accuracy)*(1 -prevalance))
@@ -286,25 +286,25 @@ We can write
 $$
 \begin{align}
 P(A) &= P(T | H) \\
-     &= \frac{P(T \cap H)}{P(H)} \\ 
+     &= \frac{P(T \cap H)}{P(H)} \\
      &= \frac{P((T_1 \cup T_2) \cap (H_1 \cup H_2))}{P(H_1 \cup H_2)} \\
      &= \frac{P((T_1 \cap H_2) \cup (T_2 \cap H_1))}{P(H_1 \cup H_2)}.
 \end{align}
 $$
 
-Now, 
+Now,
 
 $$
 P(H_1 \cup H_2) = 3/4
 $$
-because there are $3$ out of $4$ equally likely outcomes that have at least one head, 
+because there are $3$ out of $4$ equally likely outcomes that have at least one head,
 
 and
 
 $$
 \begin{align}
-P((T_1 \cap H_2) \cup (T_2 \cap H_1)) &= P(T_1 \cap H_2) + P(T_2 \cap H_1) \\ 
-&= P(T_1)P(H_2) + P(T_2)P(H_1) \\ 
+P((T_1 \cap H_2) \cup (T_2 \cap H_1)) &= P(T_1 \cap H_2) + P(T_2 \cap H_1) \\
+&= P(T_1)P(H_2) + P(T_2)P(H_1) \\
 &= 1/4 + 1/4 \\
 & = 1/2.
 \end{align}
@@ -319,7 +319,7 @@ Similarly,
 
 $$
 \begin{align}
-P(B) &= P(T | (H_1 \cap C_1) \cup (H_2 \cap C_2)) \\ 
+P(B) &= P(T | (H_1 \cap C_1) \cup (H_2 \cap C_2)) \\
      &= \frac{P(T \cap ((H_1 \cap C_1) \cup (H_2 \cap C_2)))}{P((H_1 \cap C_1) \cup (H_2 \cap C_2))} \\
      &= \frac{P((H_1 \cap T_2 \cap C_1) \cup (H_2 \cap T_1 \cap C_2))}{P((H_1 \cap C_1) \cup (H_2 \cap C_2))}.
 \end{align}
@@ -330,7 +330,7 @@ We know that the events $C_1$ and $C_2$ are disjoint. So
 $$
 \begin{align}
 P((H_1 \cap T_2 \cap C_1) \cup (H_2 \cap T_1 \cap C_2)) &= P(H_1 \cap T_2 \cap C_1) + P(H_2 \cap T_1 \cap C_2) \\
-&= P(C_1 | H_1 \cap T_2)P(H_1 \cap T_2) + P(C_2 |H_2 \cap T_1) P(H_2 \cap T_1) \\ 
+&= P(C_1 | H_1 \cap T_2)P(H_1 \cap T_2) + P(C_2 |H_2 \cap T_1) P(H_2 \cap T_1) \\
 &= \frac{1}{4}  (P(C_1|H_1 \cap T_2) + P(C_2| H_2 \cap T_1))
 \end{align}
 $$
@@ -339,8 +339,8 @@ Similarly,
 
 $$
 \begin{align}
-P((H_1 \cap C_1) \cup (H_2 \cap C_2)) &= P(H_1 \cap C_1) + P(H_2 \cap C_2) \\ 
-&= P(C_1 | H_1)P(H_1) + P(C_2| H_2)P(H_2) \\ 
+P((H_1 \cap C_1) \cup (H_2 \cap C_2)) &= P(H_1 \cap C_1) + P(H_2 \cap C_2) \\
+&= P(C_1 | H_1)P(H_1) + P(C_2| H_2)P(H_2) \\
 &= \frac{1}{2} (P(C_1 |H_1) + P(C_2| H_2)).
 \end{align}
 $$
