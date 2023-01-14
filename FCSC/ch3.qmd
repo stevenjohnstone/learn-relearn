@@ -25,14 +25,14 @@ import matplotlib.pyplot as plt
 def brownian(steps, time_interval):
     normal_samples = np.random.default_rng().normal(0, np.sqrt((time_interval[1] - time_interval[0])/steps), steps)
     return np.r_[0, np.cumsum(normal_samples)]
-    
+
 
 def plot_brownian(steps, time_interval):
     for _ in range(10):
         plt.plot(brownian(steps, time_interval))
     plt.title('Brownian Motion')
     plt.show()
-    
+
 plot_brownian(100, [0, 1])
 plot_brownian(1000, [0, 1])
 ```
@@ -43,7 +43,7 @@ plot_brownian(1000, [0, 1])
 def poisson(rate, steps, time_interval):
     poisson_samples = np.random.default_rng().poisson(rate*(time_interval[1] - time_interval[0])/steps, steps)
     return np.cumsum(poisson_samples)
-    
+
 def plot_poisson(samples, rate, steps, time_interval):
     for _ in range(samples):
         plt.plot(np.linspace(time_interval[0], time_interval[1], steps), poisson(rate, steps, time_interval))
@@ -64,7 +64,7 @@ def proportion_positive(samples):
         if s >= 0:
             positive+=1
     return positive/len(samples)
-            
+
 
 brownian_samples = [ proportion_positive(brownian(100, [0,1])) for _ in range(1000) ]
 
@@ -129,13 +129,13 @@ plt.title('Variation')
 plt.show()
 ```
 
-## 3.6 Simulating Brownian Motion Using Lévy's Construction 
+## 3.6 Simulating Brownian Motion Using Lévy's Construction
 
 ```{python}
-        
+
 def levy(N, sample_points):
     def counter(N):
-        n = 1 
+        n = 1
         j = 0
         while True:
             for k in range(2**j):
@@ -151,17 +151,17 @@ def levy(N, sample_points):
         elif 1/2 <= t <= 1:
             return 1 - t
         return 0
-    
+
     normal_samples = np.random.default_rng().normal(0, 1, N)
-    
+
     def B(t):
         b = normal_samples[0] * t
         for j, k, n in counter(N):
             b+= 2**(-j/2) * Lambda((2**j) * t - k) * normal_samples[n]
         return b
-        
+
     return [B(p) for p in sample_points]
-    
+
 """
 def test_levy(N):
     sum_t_1, sum_t_2 = 0, 0
@@ -172,12 +172,12 @@ def test_levy(N):
         sum_t_1 += t_1**2
         sum_t_2 += t_2**2
     return sum_t_1/samples, sum_t_2/samples
-    
+
 t_1_av, t_2_av = test_levy(100)
 print(t_1_av, t_2_av) # we expect somewhere close to 0.5 and 1
 """
-    
-    
+
+
 time_values = np.linspace(0, 1, 100)
 for N in [5, 20, 100]:
     for _ in range(10):
@@ -190,8 +190,8 @@ I think $\Lambda$ is incorrectly defined on page 61. Should read
 
 $$
 \Lambda(t) = \begin{cases}
-t & \text{if } 0 \leq t \leq 1/2, \\ 
-1 - t & \text{if } 1/2 < t \leq 1, \\ 
+t & \text{if } 0 \leq t \leq 1/2, \\
+1 - t & \text{if } 1/2 < t \leq 1, \\
 0 & \text{otherwise}.
 \end{cases}
 $$
@@ -211,7 +211,7 @@ $(6  -1)!! = 15$ different pairings of the $6$-tuple $\{B_t, \ldots, B_t\}$ and 
 
 $$
 \begin{align}
-\E(B_t^6) &= 15 \E(B_t^2)^3 \\ 
+\E(B_t^6) &= 15 \E(B_t^2)^3 \\
 &= 15 t^3.
 \end{align}
 $$
@@ -232,8 +232,8 @@ there are $(2n - 1)!!$ different pairings of the set of $2n$ elements $(X,\ldots
 
 $$
 \begin{align}
-\E((B_{t_2} - B_{t_1})(B_{t_3} - B_{t_2})) &= \E(B_{t_2} B_{t_3}) - \E(B_{t_2}^2) - \E(B_{t_1} B_{t_3}) + \E(B_{t_1}B_{t_2}) \\ 
-&= t_2 - t_2 - t_1 + t_1 \\ 
+\E((B_{t_2} - B_{t_1})(B_{t_3} - B_{t_2})) &= \E(B_{t_2} B_{t_3}) - \E(B_{t_2}^2) - \E(B_{t_1} B_{t_3}) + \E(B_{t_1}B_{t_2}) \\
+&= t_2 - t_2 - t_1 + t_1 \\
 &= 0.
 \end{align}
 $$
@@ -246,19 +246,19 @@ $((B_s, B_s),(B_t, B_t)), ((B_s, B_t), (B_s, B_t)), ((B_s, B_t),(B_s, B_t))$ and
 
 $$
 \begin{align}
-\E(B_s^2B_t^2) &= \E(B_s^2)\E(B_t^2) + 2 \E(B_sB_t)^2 \\ 
+\E(B_s^2B_t^2) &= \E(B_s^2)\E(B_t^2) + 2 \E(B_sB_t)^2 \\
 &= st + 2 s^2.
 \end{align}
 $$
 
 (d) $\E(B_s B_t^3)$ if $s < t$.
 
-The pairings of $(B_s, B_t, B_t, B_t)$ are 
+The pairings of $(B_s, B_t, B_t, B_t)$ are
 $((B_s, B_t),(B_t, B_t)), ((B_s, B_t), (B_t, B_t)), ((B_s, B_t),(B_t, B_t))$ and so by Wick's formula
 
 $$
 \begin{align}
-\E(B_s B_t^3)  &= 3 \E(B_sB_t)\E(B_t^2) \\ 
+\E(B_s B_t^3)  &= 3 \E(B_sB_t)\E(B_t^2) \\
 &= 3st.
 \end{align}
 $$
@@ -332,7 +332,7 @@ def simpsons(integrand):
 
     zz = integrand(x.reshape(-1, 1), y.reshape(1, -1))
     return simps([simps(zz_r, x) for zz_r in zz], y)
-    
+
 simpsons(sp.lambdify([x, y], pdf))
 ```
 
@@ -347,7 +347,7 @@ class Brownian:
     def path(self):
         n = len(self.__A[0])
         return self.__A.dot(np.random.default_rng().normal(0, 1, n))
-        
+
 brownian = Brownian(np.array(C.tolist()).astype(np.float64))
 
 
@@ -375,7 +375,7 @@ The domain of integration is:
 ```{python}
 #| code-fold: true
 from matplotlib.patches import Polygon
- 
+
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 plt.xlim(-1, 3)
@@ -391,7 +391,7 @@ axis = plt.gca()
 axis.add_patch(Polygon([[1, 0], [1,3], [3, 3], [3,-2]], label='domain of integration'))
 def f(x):
     return 1 - x
-    
+
 x = np.linspace(-1, 3, 1000)
 
 plt.plot(x, f(x), 'k--', label='y= 1 - x')
@@ -404,7 +404,7 @@ We can calculate in chunks.
 #| code-fold: true
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
- 
+
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 plt.xlim(-3, 3)
@@ -485,7 +485,7 @@ from scipy.integrate import tplquad
 
 def integrate(integrand):
     return tplquad(integrand, -1, 0, -1, 0, -1, 0)
-    
+
 integrate(sp.lambdify([x, y, z], pdf))
 
 ```
@@ -513,7 +513,7 @@ def decomposition():
         if b_1 > 1 and b_2 > 1 and b_3 > 1:
             count+=1
     return count/samples
-    
+
 decomposition()
 ```
 
@@ -532,7 +532,7 @@ A = \begin{bmatrix}
 1  &  0    &  \ldots  &  0 \\
 -1 &  1    &  \ldots  &  0 \\
 \vdots    & \ddots & &  \vdots \\
-0  &     \ldots  &  -1      &  1 
+0  &     \ldots  &  -1      &  1
 \end{bmatrix}
 $$
 
@@ -540,8 +540,8 @@ or
 
 $$
 A_{ij} = \begin{cases}
-1 & \text{if } i=j, \\ 
--1 & \text{if } i = j-1, \\ 
+1 & \text{if } i=j, \\
+-1 & \text{if } i = j-1, \\
 0 & \text{otherwise}
 \end{cases}
 $$
@@ -575,7 +575,7 @@ Then, using the independence of $X$:
 $$
 \begin{align}
 \E(Y_j Y_i) &= \E(Y_i^2) + \sum_{k=i+1}^j \E(Y_i X_k) \\
-&= \E(Y_i^2) + \sum_{k=i+1}^j \E(\sum_{l=1}^i X_l X_k) \\ 
+&= \E(Y_i^2) + \sum_{k=i+1}^j \E(\sum_{l=1}^i X_l X_k) \\
 &= \E(Y_i^2).
 \end{align}
 $$
@@ -585,9 +585,9 @@ We can calculate the variance of $Y_j$:
 $$
 \begin{align}
 \E(Y_j^2) & = \E((\sum_{k=1}^j X_k)^2) \\
-&=  \E(\sum_{k=1}^j X_k^2 + 2 \sum_{k,l = 1}^j X_k X_l) \\ 
-&= \sum_{k=1}^j \E(X_k^2) \\ 
-&= \sum_{k=2}^j (t_{i_{k}} -t_{i_{k-1}}) + t_{i_1} \\ 
+&=  \E(\sum_{k=1}^j X_k^2 + 2 \sum_{k,l = 1}^j X_k X_l) \\
+&= \sum_{k=1}^j \E(X_k^2) \\
+&= \sum_{k=2}^j (t_{i_{k}} -t_{i_{k-1}}) + t_{i_1} \\
 &= t_{i_j}
 \end{align}
 $$
@@ -625,8 +625,8 @@ where
 
 $$
 A_{ij} = \begin{cases}
-1 & \text{if } i=j \text{ and } t_i \leq s, \\ 
--1& \text{if } i=j \text{ and } t_i > s, \\ 
+1 & \text{if } i=j \text{ and } t_i \leq s, \\
+-1& \text{if } i=j \text{ and } t_i > s, \\
 0 & \text{otherwise}
 \end{cases}
 $$
@@ -634,7 +634,7 @@ $$
 and $C$ is the Gaussian vector defined
 $$
 C_i = \begin{cases}
-2 B_s & \text{if } t_i > s, \\ 
+2 B_s & \text{if } t_i > s, \\
 0 & \text{otherwise.}
 \end{cases}
 $$
@@ -644,7 +644,7 @@ The linear transformation $AB$ results in a Gaussian vector; adding $C$ results 
 If $t_1, t_2 \leq s$, then
 $$
 \begin{align}
-\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} B_{t_2}) \\ 
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} B_{t_2}) \\
 &= t_1 \wedge t_2.
 \end{align}
 $$
@@ -652,9 +652,9 @@ $$
 If $t_1 \leq s$ and $t_2 > s$, then
 $$
 \begin{align}
-\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} (2B_s - B_{t_2})) \\ 
-&= 2 \E(B_{t_1} B_s) - \E(B_{t_1} B_{t_2}) \\ 
-&= 2 t_1 - t_1 \\ 
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} (2B_s - B_{t_2})) \\
+&= 2 \E(B_{t_1} B_s) - \E(B_{t_1} B_{t_2}) \\
+&= 2 t_1 - t_1 \\
 &= t_1 \\
 &= t_1 \wedge t_2.
 \end{align}
@@ -663,9 +663,9 @@ $$
 If $t_1, t_2 > s$, then
 $$
 \begin{align}
-\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E((2B_{s} - B_{t_1})(2B_s - B_{t_2})) \\ 
-&= 4 \E(B_s^2) -2 \E(B_s B_{t_2}) -2 \E(B_s B_{t_1}) + \E(B_{t_1}B_{t_2}) \\ 
-&= 4 s - 2 s - 2s  + t_1 \wedge t_2 \\ 
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E((2B_{s} - B_{t_1})(2B_s - B_{t_2})) \\
+&= 4 \E(B_s^2) -2 \E(B_s B_{t_2}) -2 \E(B_s B_{t_1}) + \E(B_{t_1}B_{t_2}) \\
+&= 4 s - 2 s - 2s  + t_1 \wedge t_2 \\
 &= t_1 \wedge t_2.
 \end{align}
 $$
@@ -696,9 +696,9 @@ The covariance reveals the distribution:
 
 $$
 \begin{align}
-\Cov((B_1 - B_{1-t_i}), (B_1 - B_{1-t_j})) &= \E((B_1 - B_{1-t_i})(B_1 - B_{1-t_j})) \\ 
-&= \E(B_1^2) - \E(B_{1-t_i}B_1) - \E(B_{1 -t_j}B_1) + \E(B_{1-t_i} B_{1-t_j}) \\ 
-&= 1 - (1-t_i) - (1-t_j) + (1-t_i) \wedge (1-t_j) \\ 
+\Cov((B_1 - B_{1-t_i}), (B_1 - B_{1-t_j})) &= \E((B_1 - B_{1-t_i})(B_1 - B_{1-t_j})) \\
+&= \E(B_1^2) - \E(B_{1-t_i}B_1) - \E(B_{1 -t_j}B_1) + \E(B_{1-t_i} B_{1-t_j}) \\
+&= 1 - (1-t_i) - (1-t_j) + (1-t_i) \wedge (1-t_j) \\
 &= t_i + t_j -1 + 1 - t_i \vee t_j \\
 &= t_i + t_j - t_i \vee t_j \\
 & = t_i \wedge t_j.
@@ -724,7 +724,7 @@ linear transformation of $T$ and so is also Gaussian with mean zero:
 $$
 S = \begin{bmatrix}
 0 & \ldots & 0 & \frac{1}{s_1} \\
-0 & \ldots & \frac{1}{s_2} & 0 \\ 
+0 & \ldots & \frac{1}{s_2} & 0 \\
 \vdots & \iddots & 0 & 0 \\
 \frac{1}{s_n} & 0 & \ldots & 0
 \end{bmatrix}\,T.
@@ -734,8 +734,8 @@ The covariance, and hence the distribution, of $S$ can be found by simple calcul
 
 $$
 \begin{align}
-\E(t_i B_{1/t_i} t_jB_{1/t_j}) &= t_it_j \frac{1}{t_i} \wedge \frac{1}{t_j} \\ 
-&= \frac{t_it_j}{t_i \vee t_j} \\ 
+\E(t_i B_{1/t_i} t_jB_{1/t_j}) &= t_it_j \frac{1}{t_i} \wedge \frac{1}{t_j} \\
+&= \frac{t_it_j}{t_i \vee t_j} \\
 &= t_i \wedge t_j.
 \end{align}
 $$
@@ -749,9 +749,9 @@ Proof:
 
 $$
 \begin{align}
-\| X_t \|_2 &= \| t B_{1/t} \|_2 \\ 
-&= \E(t^2 B_{1/t}^2) \\ 
-&= t^2 1/t \\ 
+\| X_t \|_2 &= \| t B_{1/t} \|_2 \\
+&= \E(t^2 B_{1/t}^2) \\
+&= t^2 1/t \\
 &= t \to 0
 \end{align}
 $$
@@ -810,10 +810,10 @@ $$
 
 Proof:
 
-When $H=1/2$, 
+When $H=1/2$,
 $$
 \begin{align}
-\Cov(Y_s, Y_t) &= \frac{1}{2}(t + s - \left | t - s\right |) \\ 
+\Cov(Y_s, Y_t) &= \frac{1}{2}(t + s - \left | t - s\right |) \\
 &= s \wedge t.
 \end{align}
 $$
@@ -824,9 +824,9 @@ Proof:
 
 $$
 \begin{align}
-\Cov(Y_{as}, Y_{at}) &= \frac{1}{2}(a^{2H}t^{2H} + a^{2H}s^{2H} - \left | at - as\right |^{2H}) \\ 
-&= a^{2H} \frac{1}{2}(t^{2H} + s^{2H} - \left | t - s \right |^{2H}) \\ 
-&= a^{2H} \Cov(Y_s, Y_t) \\ 
+\Cov(Y_{as}, Y_{at}) &= \frac{1}{2}(a^{2H}t^{2H} + a^{2H}s^{2H} - \left | at - as\right |^{2H}) \\
+&= a^{2H} \frac{1}{2}(t^{2H} + s^{2H} - \left | t - s \right |^{2H}) \\
+&= a^{2H} \Cov(Y_s, Y_t) \\
 &= \Cov(a^H Y_s, a^H Y_t).
 \end{align}
 $$
@@ -841,9 +841,9 @@ By definition, $(Y_t, Y_s)$ is a Gaussian vector so $Y_t - Y_s$ is Gaussian. The
 $$
 \begin{align}
 \Var(Y_t - Y_s) &= \E((Y_t - Y_s)^2) \\
-&= \E(Y_t^2 - 2 Y_tY_s + Y_s^2) \\ 
-&= \E(Y_t^2) -2 \E(Y_tY_s) + \E(Y_s^2) \\ 
-&= t^{2H} + s^{2H} -(t^{2H} + s^{2H} - \left| t - s \right|^{2H}) \\ 
+&= \E(Y_t^2 - 2 Y_tY_s + Y_s^2) \\
+&= \E(Y_t^2) -2 \E(Y_tY_s) + \E(Y_s^2) \\
+&= t^{2H} + s^{2H} -(t^{2H} + s^{2H} - \left| t - s \right|^{2H}) \\
 &= \left| t - s \right|^{2H}.
 \end{align}
 $$
@@ -862,7 +862,7 @@ this is equivalent to the covariance of the increments being zero:
 for all $a \leq b \leq c \leq d$
 $$
 \begin{align}
-\E((Y_a - Y_b)(Y_c - Y_d)) &= \E(Y_aY_c) - \E(Y_a Y_d) - \E(Y_b Y_c) + \E(Y_b Y_d) \\ 
+\E((Y_a - Y_b)(Y_c - Y_d)) &= \E(Y_aY_c) - \E(Y_a Y_d) - \E(Y_b Y_c) + \E(Y_b Y_d) \\
 &= \frac{1}{2}\left ( a^{2H} + c^{2H} - |a - c|^{2H} - a^{2H} - d^{2H} + |a - d|^{2H} - b^{2H} - c^{2H} + |b - c|^{2H} + b^{2H} +d^{2H} - |b -d |^{2H}\right) \\
 &= \frac{1}{2} \left ( (d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H}\right) \\
 &= 0.
@@ -873,8 +873,8 @@ In particular, If we set $a=0, b=1, c=1, d=2$, then the condition becomes
 
 $$
 \begin{align}
-(d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H} \\ 
-= 2^{2H} - 1^{2H} + 0^{2H} - 1^{2H} \\ 
+(d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H} \\
+= 2^{2H} - 1^{2H} + 0^{2H} - 1^{2H} \\
 = 2^{2H} - 2 = 0
 \end{align}
 $$
@@ -913,7 +913,7 @@ plt.plot(ax, f(ax, H))
 bx = [2.5, 1]
 for i,x in enumerate(bx):
     plt.axvline(x, color='r', linestyle='-', label = f'b_{i}')
-    
+
 plt.plot(bx, f(bx, H))
 
 x = np.linspace(0,4, 1000)
@@ -978,7 +978,7 @@ $$
 \sum_n \P(A_n) < \infty.
 $$
 
-Then 
+Then
 $$
 \P(\{ \omega \in \Omega: \omega \in A_n \text{ for infinitely many } n\}) = 0.
 $$
@@ -1037,14 +1037,14 @@ Proof:
 $$
 \begin{align}
 \P( |X_n| > \delta ) &= \begin{cases}
-2^{-j} & 0 < \delta <= 1, \\ 
+2^{-j} & 0 < \delta <= 1, \\
 0 & \text{otherwise}
 \end{cases} \\
 &\to 0
 \end{align}
 $$
 
-as $n \to \infty$. 
+as $n \to \infty$.
 
 $\square$
 
@@ -1064,7 +1064,7 @@ $\square$
 
 Let $X_n \to X$ in probability as $n \to \infty$ and let $\delta > 0$. For each $n$, there is $m(n)$ such that
 
-$$ 
+$$
 \P(|X_{n_k} - X| > \delta) < \frac{1}{2^n}
 $$
 for $n_k \geq m(n)$. Choose one such $n_k$ for each $n$ to create a subsequence for $(X_{n_k})$.
@@ -1102,7 +1102,7 @@ Therefore,
 $$
 \begin{align}
 \P(\tau_1 + \ldots + \tau_k \leq t) &= \int_0^t \frac{\lambda^k}{ (k-1)!} x^{k-1} e^{-\lambda x}\, dx \\
-&= \frac{1}{(k-1)!}\int_0^{\lambda t} x^{k-1} e^{-x}\, dx \\ 
+&= \frac{1}{(k-1)!}\int_0^{\lambda t} x^{k-1} e^{-x}\, dx \\
 &= 1 - e^{-\lambda t} \sum_{n=0}^{k-1} \frac{t^{n} \lambda^{n}}{n!}
 \end{align}
 $$
@@ -1111,7 +1111,7 @@ Now $$\P(N_t \geq k) = \P(\tau_1 + \cdots \tau_k \leq t)$$ and so
 
 $$
 \begin{align}
-\P(N_t = k) &= \P(N_t \geq k+ 1) - \P(N_t \geq k) \\ 
+\P(N_t = k) &= \P(N_t \geq k+ 1) - \P(N_t \geq k) \\
 &= \frac{e^{-\lambda t}}{k!} t^k\lambda^k.
 \end{align}
 $$
@@ -1123,11 +1123,11 @@ Define $J_n = \sum_{i=1}^n \tau_i$. Then using the memory loss property of expon
 
 $$
 \begin{align}
-\P(\tau_{l+1} - (s - J_l) > t | N_s = l) &= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, J_{l+1} > s) \\ 
-&= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, \tau_{l+1} > s - J_l) \\ 
-&= \int_0^s \P(\tau_{l+1} > t + s - x | \tau_{l+1} > s - x) d\P_{J_l}(x) \\ 
-&= \int_0^s \P(\tau_{l+1} > t) d\P_{J_l}(x) \\ 
-&= \P(\tau_{l+1} > t) \\ 
+\P(\tau_{l+1} - (s - J_l) > t | N_s = l) &= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, J_{l+1} > s) \\
+&= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, \tau_{l+1} > s - J_l) \\
+&= \int_0^s \P(\tau_{l+1} > t + s - x | \tau_{l+1} > s - x) d\P_{J_l}(x) \\
+&= \int_0^s \P(\tau_{l+1} > t) d\P_{J_l}(x) \\
+&= \P(\tau_{l+1} > t) \\
 &= \P(\tau_1 > t).
 \end{align}
 $$

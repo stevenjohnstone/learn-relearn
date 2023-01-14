@@ -74,11 +74,11 @@ class Brownian:
         covariance = [[min(i,j) for i in range(1, samples)] for j in range(1, samples)]
         self.__A = (1/np.sqrt(samples))*np.linalg.cholesky(covariance)
         return
-    
+
     def path(self, rg = np.random.default_rng()):
         return np.r_[0, self.__A.dot(rg.normal(0, 1, samples -1))]
 
-    
+
 
 samples = 100
 x_axis = np.linspace(0, 1, samples)
@@ -102,8 +102,8 @@ class OU:
 
     def path(self, rg = np.random.default_rng()):
         return np.r_[0, self.__A.dot(rg.normal(0, 1, samples-1))]
-        
-ou = OU(samples)    
+
+ou = OU(samples)
 
 for _ in range(100):
     plt.plot(x_axis, ou.path())
@@ -146,7 +146,7 @@ class FractionalBrownian:
         return np.r_[0, self.__A.dot(rg.normal(0, 1, samples-1))]
 
 
-    
+
 
 for H in [0.1, 0.5, 0.9]:
     fractionalBrownian = FractionalBrownian(samples, H)
@@ -167,7 +167,7 @@ class BrownianBridge:
             s = min(i,j)*scale
             t = max(i,j)*scale
             return s*(1 - t)
-        
+
         covariance = [[cov(i,j) for i in range(1, samples -1)] for j in range(1, samples -1)]
         self.__A = np.linalg.cholesky(covariance)
         return
@@ -175,8 +175,8 @@ class BrownianBridge:
     def path(self, rg = np.random.default_rng()):
         return np.r_[np.r_[0, self.__A.dot(rg.normal(0, 1, samples-2))], 0]
 
-    
-brownianBridge = BrownianBridge(samples)    
+
+brownianBridge = BrownianBridge(samples)
 for _ in range(100):
     plt.plot(x_axis, brownianBridge.path())
 plt.title('Brownian Bridge')
@@ -194,7 +194,7 @@ class BrownianBridgeAlt:
     def path(self, rg = np.random.default_rng()):
         path = self.__brownian.path(rg)
         return [ path[i] - (i/samples) * path[-1] for i in range(len(path)) ]
-        
+
 brownianBridgeAlt = BrownianBridgeAlt(samples)
 
 for _ in range(100):
@@ -249,9 +249,9 @@ We already know that $\E(X) = 0$ for the standard Gaussian (it has mean $0$).
 Using integration by parts:
 $$
 \begin{align}
-\E(X^3) & = \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^3 e^{-x^2/2} dx \\ 
-&=  \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^2 \frac{d}{dx}(-e^{-x^2/2}) dx \\ 
-&= \frac{1}{\sqrt{2 \pi}} (-x^2 e^{-x^2/2} \rvert_{-\infty}^{\infty} + \int_{-\infty}^{\infty} 2 x e^{-x^2/2} dx) \\ 
+\E(X^3) & = \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^3 e^{-x^2/2} dx \\
+&=  \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^2 \frac{d}{dx}(-e^{-x^2/2}) dx \\
+&= \frac{1}{\sqrt{2 \pi}} (-x^2 e^{-x^2/2} \rvert_{-\infty}^{\infty} + \int_{-\infty}^{\infty} 2 x e^{-x^2/2} dx) \\
 & = 2 \E(X) = 0.
 \end{align}
 $$
@@ -274,8 +274,8 @@ The pdf of the sum of two IID random variables is the convolution of the pdfs of
 Therefore,
 $$
 \begin{align}
-f(x) &= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\ 
-&= \lambda^2 e^{-\lambda x} \int_{0}^{x} dy \\ 
+f(x) &= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\
+&= \lambda^2 e^{-\lambda x} \int_{0}^{x} dy \\
 &= \lambda^2 x e^{-\lambda x}.
 \end{align}
 $$
@@ -301,13 +301,13 @@ Suppose that $Y$ has pdf (@eq-gamma-pdf), then for $t < \lambda$ we see that be 
 
 $$
 \begin{align}
-\E(e^{tY}) &= \int_0^{\infty} e^{tx} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} dx \\ 
-&=    \int_0^{\infty} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{(t -\lambda) x} dx \\ 
-&= \int_0^{\infty} \frac{\lambda^n}{(n-1)!} x^{n-1} \frac{(-1)^n}{(\lambda -t)^n} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\ 
-&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} \int_0^{\infty} x^{n-1} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\ 
-&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} (-(n-1)\int_0^{\infty} x^{n-2} \frac{d^{n-1}}{dx^{n-1}}e^{(t-\lambda)x} dx) \\ 
-&= \frac{\lambda^n}{(\lambda - t)^n} \frac{(-1)^n}{(n-1)!}(-1)^{n-1} (n-1)!(e^{(t-\lambda)x}\rvert_0^{\infty}) \\ 
-&= \frac{\lambda^n}{(\lambda - t)^n} (-1)^{2n-1} (-1) \\ 
+\E(e^{tY}) &= \int_0^{\infty} e^{tx} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} dx \\
+&=    \int_0^{\infty} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{(t -\lambda) x} dx \\
+&= \int_0^{\infty} \frac{\lambda^n}{(n-1)!} x^{n-1} \frac{(-1)^n}{(\lambda -t)^n} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\
+&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} \int_0^{\infty} x^{n-1} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\
+&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} (-(n-1)\int_0^{\infty} x^{n-2} \frac{d^{n-1}}{dx^{n-1}}e^{(t-\lambda)x} dx) \\
+&= \frac{\lambda^n}{(\lambda - t)^n} \frac{(-1)^n}{(n-1)!}(-1)^{n-1} (n-1)!(e^{(t-\lambda)x}\rvert_0^{\infty}) \\
+&= \frac{\lambda^n}{(\lambda - t)^n} (-1)^{2n-1} (-1) \\
 &= \frac{\lambda^n}{(\lambda -t)^n}.
 \end{align}
 $$
@@ -320,17 +320,17 @@ Using polar coordinates
 
 $$
 \begin{align}
-\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy &= \int_0^{2 \pi} \int_0^{\infty} r e^{-r^2} dr d\theta \\ 
-&=  2 \pi \int_0^{\infty} r e^{-r^2} dr \\ 
-&=  2 \pi \int_0^{\infty} \frac{-1}{2} \frac{d}{dr}(e^{-r^2}) dr \\ 
-&=  - \pi e^{-r^2} \rvert_0^{\infty} \\ 
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy &= \int_0^{2 \pi} \int_0^{\infty} r e^{-r^2} dr d\theta \\
+&=  2 \pi \int_0^{\infty} r e^{-r^2} dr \\
+&=  2 \pi \int_0^{\infty} \frac{-1}{2} \frac{d}{dr}(e^{-r^2}) dr \\
+&=  - \pi e^{-r^2} \rvert_0^{\infty} \\
 &= \pi.
 \end{align}
 $$
 
 Now,
 $$
-(\int_{-\infty}^{\infty} e^{-x^2} dx)^2 = 
+(\int_{-\infty}^{\infty} e^{-x^2} dx)^2 =
 \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy = \pi.
 $$
 
@@ -391,17 +391,17 @@ $$
 \Theta = 2 \pi U_2
 $$.
 
-The random variable $R$ has CDF 
+The random variable $R$ has CDF
 
 $$
 \begin{align}
-F_R(r) &= P(R \leq r) \\ 
+F_R(r) &= P(R \leq r) \\
 &= P(\sqrt{-2 \log(U_2)} \leq r) \\
-&= P(U_2 \geq e^{-r^2/2}) \\ 
+&= P(U_2 \geq e^{-r^2/2}) \\
 &= 1 - P(U_2 < e^{-r^2/2})
 &= 1 - \begin{cases}
-0 & \text{if } e^{-r^2/2} <0, \\ 
-e^{-r^2/2} & \text{for } 0 \leq e^{-r^2/2} < 1, \\ 
+0 & \text{if } e^{-r^2/2} <0, \\
+e^{-r^2/2} & \text{for } 0 \leq e^{-r^2/2} < 1, \\
 1 & \text{if } e^{-r^2/2} \geq 1
 \end{cases} \\
 &= 1 - e^{-r^2/2}.
@@ -425,7 +425,7 @@ $Y$ is also a standard Gaussian.
 
 Proof:
 
-Let 
+Let
 
 $$
 g(x) = \begin{cases}
@@ -438,12 +438,12 @@ Then the MGF of $Y$ can be expressed (using LOTUS) as
 
 $$
 \begin{align}
-\sqrt{2 \pi} \E(e^{tY}) &= \sqrt{2 \pi} \E(e^{tg(X)}) \\ 
-&= \int_{-\infty}^{\infty} e^{tg(x)} e^{-x^2/2} dx \\ 
-&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{-\infty}^{-1} + \int_1^{\infty}) e^{-t x} e^{-x^2/2} dx \\ 
-&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\ 
-&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\ 
-&= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\ 
+\sqrt{2 \pi} \E(e^{tY}) &= \sqrt{2 \pi} \E(e^{tg(X)}) \\
+&= \int_{-\infty}^{\infty} e^{tg(x)} e^{-x^2/2} dx \\
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{-\infty}^{-1} + \int_1^{\infty}) e^{-t x} e^{-x^2/2} dx \\
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\
+&= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\
 &= \sqrt{2 \pi} \E(e^{tX}).
 \end{align}
 $$
@@ -567,7 +567,7 @@ def simulate(samples):
         if sample[0]**2 + sample[1]**2 <= 1:
             in_disk += 1
     return in_disk/samples
-    
+
 simulated_result = simulate(1000); simulated_result
 ```
 
@@ -590,7 +590,7 @@ We must demonstrate that
 $$
 \sum_{i,j} a_i a_j \mathcal{C}_{ij} \geq 0
 $$ {#eq-covariance-pos-semidef}
-for any $a \in \mathbb{R}^n$. 
+for any $a \in \mathbb{R}^n$.
 
 Define
 $$
@@ -601,9 +601,9 @@ and calculate the variance of $Y$ showing that it is equal to the left-hand side
 
 $$
 \begin{align}
-\Var(Y) &= \E(Y^2) - \E(Y)^2 \\ 
-      &= \E(\sum_{i,j=1} a_i a_j X_i X_j ) - \sum_{i,j=1}^n a_i a_j \E(X_i)\E(X_j) \\ 
-      &= \sum_{i,j=1}^n a_i a_j (\E(X_i X_j) - \E(X_i) \E(X_j)) \\ 
+\Var(Y) &= \E(Y^2) - \E(Y)^2 \\
+      &= \E(\sum_{i,j=1} a_i a_j X_i X_j ) - \sum_{i,j=1}^n a_i a_j \E(X_i)\E(X_j) \\
+      &= \sum_{i,j=1}^n a_i a_j (\E(X_i X_j) - \E(X_i) \E(X_j)) \\
       &=  \sum_{i,j=1}^n a_i a_j \mathcal{C}_{ij}.
 \end{align}
 $$
@@ -622,9 +622,9 @@ $$
 This follows by a simple book-keeping exercise:
 $$
 \begin{align}
-\Var(X+c) &= \E(X^2 + 2cX + c^2) - (\E(X) + c)^2\\ 
-&= \E(X^2) +2c\E(x) +c^2 - \E(X)^2  - 2x \E(X) - c^2 \\ 
-&= \E(X^2) - \E(X)^2 \\ 
+\Var(X+c) &= \E(X^2 + 2cX + c^2) - (\E(X) + c)^2\\
+&= \E(X^2) +2c\E(x) +c^2 - \E(X)^2  - 2x \E(X) - c^2 \\
+&= \E(X^2) - \E(X)^2 \\
 &= \Var(X).
 \end{align}
 $$
@@ -643,7 +643,7 @@ $$
 
 :::
 
- 
+
 ::: {.callout-note}
 
 $X$ is a constant with probability 1 $\iff \Var(X) = 0$.
@@ -660,10 +660,10 @@ If $\Var(X) = 0$,  then $\Var(X - \E(X)) = 0$, by translation invariance of $\Va
 $$
 \Var(Y) = \int_{-\infty}^{\infty} y^2 dF_Y(y)
 $$
-and so 
+and so
 $$
 F_Y(y) = \begin{cases}
-0 & \text{for } y < 0, \\ 
+0 & \text{for } y < 0, \\
 1 & \text{otherwise}.
 \end{cases}
 $$
@@ -702,7 +702,7 @@ linear combination of components of $MX$ as a linear combination of $X_i$:
 
 $$
 \begin{align}
-\sum_{j=1}^m a_j Y_j &= \sum_{j=1}^m a_j (\sum_{i=1}^n M_{ji} X_i) \\ 
+\sum_{j=1}^m a_j Y_j &= \sum_{j=1}^m a_j (\sum_{i=1}^n M_{ji} X_i) \\
 &= \sum_{i,j} a_j M_{ji} X_i \\
 &= \sum_{i} b_i X_i
 \end{align}
@@ -724,7 +724,7 @@ the covariance matrix of $Y$ in terms of $M$ and $\mathcal{C}$:
 
 $$
 \begin{align}
-\Cov(Y_i, Y_j) &= \E(Y_i Y_j) - \E(Y_i) \E(Y_j) \\ 
+\Cov(Y_i, Y_j) &= \E(Y_i Y_j) - \E(Y_i) \E(Y_j) \\
 &= \E( \sum_\alpha M_{i \alpha} X_\alpha \sum_\beta M_{j \beta} X_\beta ) - \sum_\alpha M_{i \alpha} \E(Y_i) \sum_\beta M_{j \beta } \E(Y_j) \\
 &= \sum_\alpha \sum_\beta M_{i\alpha }M_{j \beta} (\E(X_\alpha X_\beta) - \E(X_\alpha) \E(X_\beta)) \\
 &= \sum_\alpha \sum_\beta M_{i \alpha}\mathcal{C}_{\alpha \beta} M^T_{\beta j}. \\
@@ -741,13 +741,13 @@ Suppose that $m =n$. Then,
 
 $$
 \begin{align}
-\det(\Cov(Y)) &= \det(M)\det(\mathcal{C})\det(M^T) \\ 
+\det(\Cov(Y)) &= \det(M)\det(\mathcal{C})\det(M^T) \\
 &= \det(M)^2\det(\mathcal{C}).
 \end{align}
 $$
 If follows that $Y$ is non-degenerate ($\det(\Cov(Y)) \neq 0$) $\iff$ $\det(M) \neq 0$.
 
-For general $M$, it is necessary that $m \leq n$ and $M$ is full-rank $m$ for $\Cov(Y)$ to be positive definite. 
+For general $M$, it is necessary that $m \leq n$ and $M$ is full-rank $m$ for $\Cov(Y)$ to be positive definite.
 
 
 ::: {.callout-note}
@@ -787,7 +787,7 @@ $$
 By linearity of expectation,
 $$
 \begin{align}
-\Var(Z^{'}_2) &= \E((Y - \rho Z_1)^2) \\ 
+\Var(Z^{'}_2) &= \E((Y - \rho Z_1)^2) \\
 &= \E(Y^2) - 2\rho \E(Y Z_1) + \rho^2 \E(Z_1^2) \\
 &= 1 -  \rho^2.
 \end{align}
@@ -810,8 +810,8 @@ to check:
 
 $$
 \begin{align}
-\E(Z_1Z_2) & = \frac{1}{\sqrt{1 - \rho^2}}\E(X(Y - \rho X)) \\ 
-&= \frac{\E(XY) - \rho\E(X^2)}{\sqrt{1 -\rho^2}} \\ 
+\E(Z_1Z_2) & = \frac{1}{\sqrt{1 - \rho^2}}\E(X(Y - \rho X)) \\
+&= \frac{\E(XY) - \rho\E(X^2)}{\sqrt{1 -\rho^2}} \\
 &= 0.
 \end{align}
 $$
@@ -862,8 +862,8 @@ z = sp.MatMul(Ainv, x, evaluate=True); z
 
 $$
 \mathcal{C}= \begin{bmatrix}
-3 & 1 & 1 \\ 
-1 & 3 & -1 \\ 
+3 & 1 & 1 \\
+1 & 3 & -1 \\
 1 & -1 & 3
 \end{bmatrix}
 $$
@@ -886,7 +886,7 @@ class Sim211:
 
     def path(self, rg = np.random.default_rng()):
         return self.__A.dot(rg.normal(0, 1, len(C[0])))
-        
+
 sim = Sim211()
 
 for _ in range(100):
@@ -1031,10 +1031,10 @@ in terms of $A$:
 
 $$
 \begin{align}
-\mathcal{C}_{ij} &= \E(X_i X_j) \\ 
-&= \E(\sum_\alpha a_{i\alpha} Z_\alpha \sum_\beta a_{j \beta} Z_\beta) \\ 
-&= \sum_{\alpha, \beta} a_{i\alpha}a_{j\beta} \E(Z_\alpha Z_\beta) \\ 
-&= \sum_\alpha a_{i \alpha} a_{j \alpha} \\ 
+\mathcal{C}_{ij} &= \E(X_i X_j) \\
+&= \E(\sum_\alpha a_{i\alpha} Z_\alpha \sum_\beta a_{j \beta} Z_\beta) \\
+&= \sum_{\alpha, \beta} a_{i\alpha}a_{j\beta} \E(Z_\alpha Z_\beta) \\
+&= \sum_\alpha a_{i \alpha} a_{j \alpha} \\
 &= (A A^T)_{ij}.
 \end{align}
 $$
@@ -1058,8 +1058,8 @@ e.g for a process with three time points
 
 $$
 A = \begin{bmatrix}
-1 & 0 & -t \\ 
-0 & 1 & -t \\ 
+1 & 0 & -t \\
+0 & 1 & -t \\
 0 & 0 & 1-t
 \end{bmatrix}.
 $$
@@ -1089,7 +1089,7 @@ Consider the covariance:
 
 $$
 \begin{align}
-\Cov(B_t - t B_1, B_1) &= \E(B_tB_1 -t B_1 B_1) \\ 
+\Cov(B_t - t B_1, B_1) &= \E(B_tB_1 -t B_1 B_1) \\
 &= \E(B_tB_1) -t \E(B_1^2) \\
 &= t - t \\
 &= 0.
@@ -1111,9 +1111,9 @@ Expand the square and use Cauchy-Schwarz:
 
 $$
 \begin{align}
-\E((X+Y)^2) &= \E(X^2 + 2 X Y + Y^2) \\ 
-&= \E(X^2) + 2 \E(XY) + \E(Y^2) \\ 
-&\leq \E(X^2) + 2 \sqrt{\E(X^2) \E(Y^2)} + \E(Y^2) \\ 
+\E((X+Y)^2) &= \E(X^2 + 2 X Y + Y^2) \\
+&= \E(X^2) + 2 \E(XY) + \E(Y^2) \\
+&\leq \E(X^2) + 2 \sqrt{\E(X^2) \E(Y^2)} + \E(Y^2) \\
 &= (\sqrt{\E(X^2)} + \sqrt{\E(Y^2)})^2.
 \end{align}
 $$
@@ -1242,7 +1242,7 @@ the law of total expectation
 
 $$
 \begin{align}
-\E(\E(\partial_iG(Z)|\cap_{j\neq i} Z_j)) &= \E(\E(Z_i G(Z)|\cap_{j \neq i} Z_j)) \\ 
+\E(\E(\partial_iG(Z)|\cap_{j\neq i} Z_j)) &= \E(\E(Z_i G(Z)|\cap_{j \neq i} Z_j)) \\
 &= E(Z_i G(Z)).
 \end{align}
 $$
@@ -1281,7 +1281,7 @@ Define $G(Z) = F(AZ)$. Then
 $$
 \begin{align}
 \E(Z_i G(Z)) &= \E(\partial_i G(Z)) \\
-&= \E(\partial_i F(AZ)) \\ 
+&= \E(\partial_i F(AZ)) \\
 &= \E(\sum_j \partial_j F(X) A_{ji}) \\
 &= \sum_j A_{ji} E(\partial_j F(X)) \\.
 \end{align}
@@ -1291,7 +1291,7 @@ $$
 Define $a(x) = Ax$. Then by the chain rule
 $$
 \begin{align}
-\partial_i(F(a_1(x), \ldots, a_n(x))) &= \sum_j \frac{\partial F}{\partial a_j}\frac{\partial a_j}{\partial x_i} \\ 
+\partial_i(F(a_1(x), \ldots, a_n(x))) &= \sum_j \frac{\partial F}{\partial a_j}\frac{\partial a_j}{\partial x_i} \\
 &= \sum_j \partial_j F(a_1(x), \ldots, a_n(x)) A_{ji}.
 \end{align}
 $$
@@ -1300,7 +1300,7 @@ $$
 $$
 \begin{align}
 \E(X_i F(X)) &= \E(\sum_k A_{ik} Z_k G(Z)) \\
-&= \sum_k A_{ik} \E(\partial_k G(Z)) \\ 
+&= \sum_k A_{ik} \E(\partial_k G(Z)) \\
 &= \sum_k A_{ik} \sum_j \E(\partial_j F(X) A_{kj}) \\
 &= \sum_j \sum_k A_{ik} A_{kj} \E(\partial_j F(X) ) \\
 &= \sum_j  (AA^T)_{ij} \E(\partial_j F(X)) \\
@@ -1329,8 +1329,8 @@ Then
 
 $$
 \begin{align}
-\E(X_{i_1} \ldots X_{i_{m+2}}) &= \E(F(X) X_{i_{m+2}}) \\ 
-&= \sum_{j \leq m+1} \E(X_{i_{m+2}} X_j) \sum_{p\in P_m} \prod_{p=(p_1, p2)} E(X_{p_1}X_{p_2}) \\ 
+\E(X_{i_1} \ldots X_{i_{m+2}}) &= \E(F(X) X_{i_{m+2}}) \\
+&= \sum_{j \leq m+1} \E(X_{i_{m+2}} X_j) \sum_{p\in P_m} \prod_{p=(p_1, p2)} E(X_{p_1}X_{p_2}) \\
 &= \sum_{p \in P_{m+2}^2} \prod_{p = (p_1, p_2)} \E(X_{p_1} X_{p_2}).
 \end{align}
 $$
@@ -1342,7 +1342,7 @@ Define $F(X) = X_{i_2} X_{i_3}$.
 Then
 $$
 \begin{align}
-\E(X_{i_1} X_{i_2} X_{i_3}) &= \E(X_{i_1} X_{i_2})\E(X_{i_3}) + \E(X_{i_1} X_{i_3}) \E(X_{i_4}) \\ 
+\E(X_{i_1} X_{i_2} X_{i_3}) &= \E(X_{i_1} X_{i_2})\E(X_{i_3}) + \E(X_{i_1} X_{i_3}) \E(X_{i_4}) \\
 &= 0.
 \end{align}
 $$
@@ -1351,8 +1351,8 @@ Suppose that the theorem is true for odd $m$. Then for $m+2$, define $F(X) = X_{
 
 $$
 \begin{align}
-\E(X_{i_1} \ldots X_{i_{m+2}}) &= \E(F(X) X_{i_{m+2}}) \\ 
-&= \sum_{j \leq m+2} \E(X_{i_{m+2}}X_j) \E(\partial_j F(X)) \\ 
+\E(X_{i_1} \ldots X_{i_{m+2}}) &= \E(F(X) X_{i_{m+2}}) \\
+&= \sum_{j \leq m+2} \E(X_{i_{m+2}}X_j) \E(\partial_j F(X)) \\
 &= 0
 \end{align}
 $$

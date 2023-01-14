@@ -149,7 +149,7 @@ plt.hist([cauchy_empirical_mean(100) for _ in range(0, 10000)], bins, label='N=1
 plt.legend(loc='upper right')
 plt.show()
 ```
-    
+
 Note how the empirical means with 10 samples and 100 samples appear to be identically distributed. The Cauchy distribution has no defined mean (even though it is symmetrical about 0) so the Central Limit Theorem does not apply.
 
 If we have two iid variables $X$ and $Y$ with Cauchy distribution i.e. with pdf
@@ -181,7 +181,7 @@ This follows from Definition 2.3 (3) with $A = A_1$, $B = A_2$ and $A_i = \empty
 $$
 \begin{align}
 P(A \cup B) &= P (\cup_{i} A_i) = P(A_1) + P(A_2) + \cup_{i > 2} P(A_i) \\
-            &= P(A) + P(B) + \cup_{i > 2} P(\emptyset) \\ 
+            &= P(A) + P(B) + \cup_{i > 2} P(\emptyset) \\
             &= P(A) + P(B).
 \end{align}
 $$
@@ -190,7 +190,7 @@ $$
 
 $\Omega$ is the disjoint union of $A$ and $A^c$. By (1) above
 $$
-1 = P(\Omega) = P(A \cup A^c) = P(A) + P(A^c) 
+1 = P(\Omega) = P(A \cup A^c) = P(A) + P(A^c)
 $$
 so
 $$
@@ -255,9 +255,9 @@ Then
 
 $$
 \begin{align}
-P(\cup_{i=1}^{\infty} A_n) &= P(\cup_{i=1}^{N} A_n)\\ 
-&= \frac{\sum_{i=1}^N \# A_n}{\# \Omega} \\ 
-&= \sum_{i=1}^N P(A_n) \\ 
+P(\cup_{i=1}^{\infty} A_n) &= P(\cup_{i=1}^{N} A_n)\\
+&= \frac{\sum_{i=1}^N \# A_n}{\# \Omega} \\
+&= \sum_{i=1}^N P(A_n) \\
 &= \sum_{i=1}^{\infty} P(A_n).
 \end{align}
 $$.
@@ -279,7 +279,7 @@ $$
 
 We note that $P_X$ extends $\rho_X$.
 
-For notational simplicity, we write 
+For notational simplicity, we write
 
 $$
 X^{-1}(A) = \{\omega \in \Omega: X(\omega) \in A\}.
@@ -306,7 +306,7 @@ Let $A_1, A_2, \ldots$ be an infinite sequence of events in $\mathcal{F}_X$ that
 
 
 $$
-P_X(\cup_{i=1}^{\infty} A_i) = P(\cup_{i=1}^{\infty} X^{-1}(A_i)) = \sum_{i=1}^{\infty} P(X^{-1}(A_i)) = \sum_{i=1}^{\infty} P_X(A_i). 
+P_X(\cup_{i=1}^{\infty} A_i) = P(\cup_{i=1}^{\infty} X^{-1}(A_i)) = \sum_{i=1}^{\infty} P(X^{-1}(A_i)) = \sum_{i=1}^{\infty} P_X(A_i).
 $$
 
 This shows that $P_X$ satisfies (3) of Definition 2.1.
@@ -376,13 +376,13 @@ Let $F$ denote the CDF of $Y$ and $F_X$ denote the CDF of X.
 
 Then
 $$
-G(x) = P(Y \leq x) = P(X^2 \leq x) = P(X \leq \sqrt{x}) = F(\sqrt{x}). 
+G(x) = P(Y \leq x) = P(X^2 \leq x) = P(X \leq \sqrt{x}) = F(\sqrt{x}).
 $$
 
-Now, 
+Now,
 
 $$
-F(x) = 
+F(x) =
 \begin{cases}
 0 & \text{if } x \leq 0, \\
 x & \text{if } 0 < x < 1, \\
@@ -398,7 +398,7 @@ I've taken $F$ to be different to that in the book (the first case in the book u
 and so
 
 $$
-G(x) = 
+G(x) =
 \begin{cases}
 0 & \text{if } x <= 0, \\
 \sqrt{x} & \text{if } 0 < x < 1, \\
@@ -493,7 +493,7 @@ $$
 Now,
 
 \begin{align}
-P(X = a) &= \lim_{n \to \infty} P(A_n)\\ 
+P(X = a) &= \lim_{n \to \infty} P(A_n)\\
          &= \lim_{n \to \infty} (F_X(a) - F_X(a - 1/n))\\
          &= F_X(a) - \lim_{n \to \infty} (F_X(a - 1/n)) = F_X(a) - F_X(a-).
 \end{align}
@@ -540,10 +540,10 @@ Using the memory property
 $$
 \begin{align}
 P(X \leq x + h) - P(X < x) &= 1 - P(X > x + h) -1 + P(X > x) \\
-&= P(X > x) - P(X > x + h) \\ 
-&= P(X > x) - P(X > x + h | X > x) P(X > x) \\ 
-&= P(X > x)(1 - P(X > x + h | X > x)) \\ 
-&= P(X > x)(1 - P(X >  h)) \\ 
+&= P(X > x) - P(X > x + h) \\
+&= P(X > x) - P(X > x + h | X > x) P(X > x) \\
+&= P(X > x)(1 - P(X > x + h | X > x)) \\
+&= P(X > x)(1 - P(X >  h)) \\
 &= P(X > x)(P(X \leq h) - P( X\leq 0)).
 \end{align}
 $$
@@ -553,8 +553,8 @@ So we can assert that the CDF $F$ satisfies
 $$
 \begin{align}
 F'(x) &= \lim_{h\to 0} \frac{P(X \leq x +h) - P(X \leq x)}{h} \\
-&= P(X > x) \lim_{h \to 0} \frac{P(X \leq h) - P(X \leq 0)}{h} \\ 
-&= P(X > x) F'(0) \\ 
+&= P(X > x) \lim_{h \to 0} \frac{P(X \leq h) - P(X \leq 0)}{h} \\
+&= P(X > x) F'(0) \\
 &= (1 - F(x)) F'(0).
 \end{align}
 $$
@@ -588,7 +588,7 @@ E(Z g(Z)) = \int_{-\infty}^{\infty} z g(z) p(z) dz  &=  \frac{1}{\sqrt{2 \pi}} \
  &= E(g'(Z)).
 \end{align}
 
-Note that 
+Note that
 
 $$
 -g(z) p(z) \rvert_{-\infty}^{\infty} = 0
@@ -606,9 +606,9 @@ We see that
 
 $$
 \begin{align}
-E(Z^{2n}) &= (2n -1) E(Z^{2n -2})\\ 
-          &= (2n -1) (2n -3) E(Z^{2n - 4})\\ 
-          &= (2n - 1) (2n -3) \ldots 1 E(Z^2)\\ 
+E(Z^{2n}) &= (2n -1) E(Z^{2n -2})\\
+          &= (2n -1) (2n -3) E(Z^{2n - 4})\\
+          &= (2n - 1) (2n -3) \ldots 1 E(Z^2)\\
           &= (2n -1) (2n -3) \ldots 1.
 \end{align}
 $$
@@ -617,9 +617,9 @@ Similarly,
 
 $$
 \begin{align}
-E(Z^{2n + 1}) &= (2n) E(Z^{2n -1})\\ 
-          &= (2n) (2n -2) E(Z^{2n - 3})\\ 
-          &= (2n) (2n -2) \ldots 1 E(Z)\\ 
+E(Z^{2n + 1}) &= (2n) E(Z^{2n -1})\\
+          &= (2n) (2n -2) E(Z^{2n - 3})\\
+          &= (2n) (2n -2) \ldots 1 E(Z)\\
           &= 0.
 \end{align}
 $$
@@ -787,8 +787,8 @@ $$
 
 $$
 \begin{align}
-E(g(X)) &= E(g_+(X)) - E(g_{-}(X)) \\ 
-&= \int_{-\infty}^{\infty} g_+(x) dF(x) - \int_{-\infty}^{\infty} g_{-}(x) dF(x) \\ 
+E(g(X)) &= E(g_+(X)) - E(g_{-}(X)) \\
+&= \int_{-\infty}^{\infty} g_+(x) dF(x) - \int_{-\infty}^{\infty} g_{-}(x) dF(x) \\
 &= \int_{-\infty}^{\infty} g(x) dF(x).
 \end{align}
 $$
@@ -797,26 +797,26 @@ $$
 ::: {.callout-tip collapse="true"}
 # Consequence: Limit of xP(X>x)
 
-If $E(X_+) < \infty$, then $\lim_{x \to \infty} x P(X > x) = 0$. 
-    
+If $E(X_+) < \infty$, then $\lim_{x \to \infty} x P(X > x) = 0$.
+
 We prove this by contradiction. Suppose that there exists $c > 0$ such that
 $lim_{x \to \infty} xP(X >x) \geq c$. Then for some $x(c)$, $xP(X>x) \geq c$ for all $x > x(c)$ and so
-    
+
 $$
 E(X+) = \int_0^{\infty} P(X > x) dx \geq \int_{x(c)}^{\infty} P(X > x) dx \geq \int_{x(c)}^{\infty} \frac{c}{x} dx = \infty.
 $$
-    
+
 This contradicts $E(X_+) < \infty$.
-    
+
 
 Contrast this with the Markov inequality which states that
-    
+
 $$
 P(X > x) <= \frac{E(X)}{x}
 $$
-    
+
 which puts a bound on $x P(X > x)$:
-    
+
 $$
 x P(X > x) <= E(X).
 $$
@@ -940,7 +940,7 @@ g'(t) &= \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} i x e^{itx} e^{-\frac{1}
 
 Use integration by parts:
 
-Set $u = ie^{itx}$ so $du = -t e^{itx}$ and 
+Set $u = ie^{itx}$ so $du = -t e^{itx}$ and
 
 \begin{align}
 dv &= \frac{1}{\sqrt{2 \pi}} x e^{-\frac{1}{2}x^2}\\
@@ -982,7 +982,7 @@ E(e^{itZ}) &= E(e^{it(\sigma X + \mu)}) \\
            &= E(e^{\sigma X} e^{it\mu}) \\
            &= e^{it\mu}  E(e^{it\sigma X})\\
            &= e^{it\mu}e^{-(t\sigma)^2/2}\\
-           &= e^{it \mu - \sigma^2t^2/2}. 
+           &= e^{it \mu - \sigma^2t^2/2}.
 \end{align}
 
 ## 1.15 When $E(X) < \infty$
@@ -1022,7 +1022,7 @@ $$
 P(X \leq 1/n) = 1 - P(X > 1/n) = 1.
 $$
 
-The sequence of events $\{ X \leq 1/n \}$ is decreasing and 
+The sequence of events $\{ X \leq 1/n \}$ is decreasing and
 
 $$
 \{ X = 0 \} = \cap \{ X \leq 1/n \}.
