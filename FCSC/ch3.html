@@ -94,7 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../FCSC/ch2.html" rel="next">
+<link href="../FCSC/ch4.html" rel="next">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -169,6 +169,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../FCSC/ch3.html" class="sidebar-item-text sidebar-link active">A First Course in Stochastic Calculus</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../FCSC/ch4.html" class="sidebar-item-text sidebar-link">A First Course in Stochastic Calculus</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -284,21 +289,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> brownian(steps, time_interval):</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    normal_samples <span class="op">=</span> np.random.default_rng().normal(<span class="dv">0</span>, np.sqrt((time_interval[<span class="dv">1</span>] <span class="op">-</span> time_interval[<span class="dv">0</span>])<span class="op">/</span>steps), steps)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.r_[<span class="dv">0</span>, np.cumsum(normal_samples)]</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_brownian(steps, time_interval):</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        plt.plot(brownian(steps, time_interval))</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Brownian Motion'</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plot_brownian(<span class="dv">100</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plot_brownian(<span class="dv">1000</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch3_files/figure-html/cell-2-output-1.png" width="582" height="431"></p>
+<p><img src="ch3_files/figure-html/cell-2-output-1.png" width="569" height="431"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch3_files/figure-html/cell-2-output-2.png" width="582" height="431"></p>
+<p><img src="ch3_files/figure-html/cell-2-output-2.png" width="569" height="431"></p>
 </div>
 </div>
 </section>
@@ -308,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson(rate, steps, time_interval):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    poisson_samples <span class="op">=</span> np.random.default_rng().poisson(rate<span class="op">*</span>(time_interval[<span class="dv">1</span>] <span class="op">-</span> time_interval[<span class="dv">0</span>])<span class="op">/</span>steps, steps)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.cumsum(poisson_samples)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_poisson(samples, rate, steps, time_interval):</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        plt.plot(np.linspace(time_interval[<span class="dv">0</span>], time_interval[<span class="dv">1</span>], steps), poisson(rate, steps, time_interval))</span>
@@ -330,7 +335,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> s <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            positive<span class="op">+=</span><span class="dv">1</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> positive<span class="op">/</span><span class="bu">len</span>(samples)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>brownian_samples <span class="op">=</span> [ proportion_positive(brownian(<span class="dv">100</span>, [<span class="dv">0</span>,<span class="dv">1</span>])) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>) ]</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
@@ -343,11 +348,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>ax.plot(x, pdf(x), label<span class="op">=</span><span class="st">'pdf'</span>)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_234465/2567682607.py:12: RuntimeWarning: divide by zero encountered in divide
-  return (1/np.pi) * 1 /(np.sqrt(x*(1-x)))</code></pre>
+<pre><code>/tmp/ipykernel_305652/2072009517.py:12: RuntimeWarning:
+
+divide by zero encountered in divide
+</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;matplotlib.legend.Legend at 0x7fc4f8899300&gt;</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fed181c7130&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch3_files/figure-html/cell-4-output-3.png" width="566" height="411"></p>
@@ -377,12 +384,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>ax.hist(ou_samples, label<span class="op">=</span><span class="st">'histogram'</span>, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>&lt;matplotlib.legend.Legend at 0x7fc4c44a0d90&gt;</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fed18c41fd0&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch3_files/figure-html/cell-5-output-2.png" width="571" height="411"></p>
 </div>
 </div>
+<p><span class="math display">\[
+\begin{align}
+\end{align}
+\]</span></p>
 </section>
 <section id="brownian-variations" class="level2">
 <h2 class="anchored" data-anchor-id="brownian-variations">Brownian Variations</h2>
@@ -410,10 +421,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Variation'</span>)</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch3_files/figure-html/cell-6-output-1.png" width="582" height="428"></p>
+<p><img src="ch3_files/figure-html/cell-6-output-1.png" width="571" height="428"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch3_files/figure-html/cell-6-output-2.png" width="579" height="431"></p>
+<p><img src="ch3_files/figure-html/cell-6-output-2.png" width="571" height="431"></p>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch3_files/figure-html/cell-6-output-3.png" width="575" height="431"></p>
@@ -425,7 +436,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> levy(N, sample_points):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> counter(N):</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="dv">1</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        j <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span><span class="op">**</span>j):</span>
@@ -441,17 +452,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span> <span class="op">&lt;=</span> t <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> t</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    normal_samples <span class="op">=</span> np.random.default_rng().normal(<span class="dv">0</span>, <span class="dv">1</span>, N)</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> B(t):</span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> normal_samples[<span class="dv">0</span>] <span class="op">*</span> t</span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, k, n <span class="kw">in</span> counter(N):</span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>            b<span class="op">+=</span> <span class="dv">2</span><span class="op">**</span>(<span class="op">-</span>j<span class="op">/</span><span class="dv">2</span>) <span class="op">*</span> Lambda((<span class="dv">2</span><span class="op">**</span>j) <span class="op">*</span> t <span class="op">-</span> k) <span class="op">*</span> normal_samples[n]</span>
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> b</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [B(p) <span class="cf">for</span> p <span class="kw">in</span> sample_points]</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">def test_levy(N):</span></span>
 <span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">    sum_t_1, sum_t_2 = 0, 0</span></span>
@@ -462,12 +473,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">        sum_t_1 += t_1**2</span></span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co">        sum_t_2 += t_2**2</span></span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="co">    return sum_t_1/samples, sum_t_2/samples</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co">t_1_av, t_2_av = test_levy(100)</span></span>
 <span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="co">print(t_1_av, t_2_av) # we expect somewhere close to 0.5 and 1</span></span>
 <span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>time_values <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
 <span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> [<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">100</span>]:</span>
 <span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
@@ -478,10 +489,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="ch3_files/figure-html/cell-7-output-1.png" width="582" height="431"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch3_files/figure-html/cell-7-output-2.png" width="569" height="431"></p>
+<p><img src="ch3_files/figure-html/cell-7-output-2.png" width="582" height="431"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch3_files/figure-html/cell-7-output-3.png" width="569" height="431"></p>
+<p><img src="ch3_files/figure-html/cell-7-output-3.png" width="582" height="431"></p>
 </div>
 </div>
 <div class="callout-warning callout callout-style-default callout-captioned">
@@ -632,7 +643,7 @@ Note
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>probability <span class="op">=</span> monte_carlo(sp.lambdify([x, y], pdf))</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>probability</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<p><span class="math inline">\(\displaystyle 0.108779260061586\)</span></p>
+<p><span class="math inline">\(\displaystyle 0.109948601206495\)</span></p>
 </div>
 </div>
 <p>Alternatively, we can evaluate the integral with Simpson’s rule:</p>
@@ -645,7 +656,7 @@ Note
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    zz <span class="op">=</span> integrand(x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), y.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> simps([simps(zz_r, x) <span class="cf">for</span> zz_r <span class="kw">in</span> zz], y)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>simpsons(sp.lambdify([x, y], pdf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <p><span class="math inline">\(\displaystyle 0.108067672895208\)</span></p>
@@ -660,7 +671,7 @@ Note
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>):</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.__A[<span class="dv">0</span>])</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.__A.dot(np.random.default_rng().normal(<span class="dv">0</span>, <span class="dv">1</span>, n))</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>brownian <span class="op">=</span> Brownian(np.array(C.tolist()).astype(np.float64))</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
@@ -673,7 +684,7 @@ Note
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>count<span class="op">/</span>samples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
-<p><span class="math inline">\(\displaystyle 0.1081\)</span></p>
+<p><span class="math inline">\(\displaystyle 0.1032\)</span></p>
 </div>
 </div>
 <p>We can also use the fact that <span class="math inline">\((B_1, B_2 - B_1)\)</span> are independent:</p>
@@ -687,7 +698,7 @@ Note
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Polygon</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>)</span>
@@ -703,7 +714,7 @@ Note
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>axis.add_patch(Polygon([[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>,<span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>,<span class="op">-</span><span class="dv">2</span>]], label<span class="op">=</span><span class="st">'domain of integration'</span>))</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> x</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1000</span>)</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.plot(x, f(x), <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'y= 1 - x'</span>)</span>
@@ -711,7 +722,7 @@ Note
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>&lt;matplotlib.legend.Legend at 0x7fc4bd35caf0&gt;</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fed10ee8340&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch3_files/figure-html/cell-13-output-2.png" width="567" height="402"></p>
@@ -723,7 +734,7 @@ Note
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Polygon</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>)</span>
@@ -741,7 +752,7 @@ Note
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>&lt;matplotlib.legend.Legend at 0x7fc4bb3a9ff0&gt;</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fecfb9c3040&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch3_files/figure-html/cell-14-output-2.png" width="554" height="402"></p>
@@ -821,7 +832,7 @@ Note
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> integrate(integrand):</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tplquad(integrand, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>integrate(sp.lambdify([x, y, z], pdf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <p><span class="math inline">\(\displaystyle \left( 0.087052233285984, \  1.48956711000826 \cdot 10^{-8}\right)\)</span></p>
@@ -839,7 +850,7 @@ Note
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>probability <span class="op">=</span> monte_carlo(sp.lambdify([x, y, z], pdf))</span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>probability</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
-<p><span class="math inline">\(\displaystyle 0.0892905458247034\)</span></p>
+<p><span class="math inline">\(\displaystyle 0.0879273883072192\)</span></p>
 </div>
 </div>
 <div class="cell" data-execution_count="22">
@@ -853,10 +864,10 @@ Note
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> b_1 <span class="op">&gt;</span> <span class="dv">1</span> <span class="kw">and</span> b_2 <span class="op">&gt;</span> <span class="dv">1</span> <span class="kw">and</span> b_3 <span class="op">&gt;</span> <span class="dv">1</span>:</span>
 <span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>            count<span class="op">+=</span><span class="dv">1</span></span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count<span class="op">/</span>samples</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>decomposition()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
-<p><span class="math inline">\(\displaystyle 0.0907\)</span></p>
+<p><span class="math inline">\(\displaystyle 0.0863\)</span></p>
 </div>
 </div>
 </section>
@@ -1157,7 +1168,7 @@ Note
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>bx <span class="op">=</span> [<span class="fl">2.5</span>, <span class="dv">1</span>]</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i,x <span class="kw">in</span> <span class="bu">enumerate</span>(bx):</span>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    plt.axvline(x, color<span class="op">=</span><span class="st">'r'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, label <span class="op">=</span> <span class="ss">f'b_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>plt.plot(bx, f(bx, H))</span>
 <span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">4</span>, <span class="dv">1000</span>)</span>
@@ -1349,7 +1360,7 @@ t_i = \begin{cases}
 \end{align}
 \]</span></p>
 <p>That is, <span class="math inline">\(Y_t = N_{t + s} - N_s\)</span> is Poisson distributed with parameter <span class="math inline">\(\lambda t\)</span> or, what is the same, <span class="math inline">\(N_t - N_s\)</span> is Poisson distributed with parameter <span class="math inline">\(\lambda(t - s)\)</span>.</p>
-<p>We established that <span class="math inline">\(N_s\)</span> and <span class="math inline">\((t_i)\)</span> are independent. Since <span class="math inline">\(Y_t\)</span> is a sum of <span class="math inline">\((t_i)\)</span>, it must be independent of <span class="math inline">\((N_r)_{r \leq s}\)</span>. That is, <span class="math inline">\(N_t - N_s\)</span> is independent of <span class="math inline">\(N_s = N_s - N_0\)</span>. So, at least two increments, <span class="math inline">\(N_t - N_s\)</span> and <span class="math inline">\(N_s - N_0\)</span>, are independent. This can be extended: For any <span class="math inline">\(t_3 &gt; t_2 &gt; t_1\)</span>, <span class="math inline">\(N_{t_3} - N_{t_2}\)</span> is independent of <span class="math inline">\(N_{t_2}\)</span> and <span class="math inline">\(N_{t_1}\)</span> so is independent of <span class="math inline">\(N_{t_2} - N_{t_1}\)</span>. This establishes pairwise independence of intervals. Suppose that <span class="math inline">\(t_1 &lt; t_2 &lt; \ldots &lt; t_n\)</span>. For <span class="math inline">\(n=2\)</span>, we have established that <span class="math inline">\((N_{t_{i+1}} - N_{t_i})\)</span> are independent. Suppose that this is true for <span class="math inline">\(n=k\)</span> and consider the case <span class="math inline">\(n=k+1\)</span>. The increments <span class="math inline">\((N_{t_{i+1}} - N_{t_i})_{i=1}^{k}\)</span> (<span class="math inline">\(n\)</span> increments) are independent because these can be considered to be increments of the process <span class="math inline">\(N'_t = N_t - N_{t_1}\)</span>. We know that each of these increments is independent of <span class="math inline">\(N_{t_1}\)</span> which completes the proof by induction.</p>
+<p>We established that <span class="math inline">\(N_s\)</span> and <span class="math inline">\((t_i)\)</span> are independent. Since <span class="math inline">\(Y_t\)</span> is a sum of <span class="math inline">\((t_i)\)</span>, it must be independent of <span class="math inline">\((N_r)_{r \leq s}\)</span>. That is, <span class="math inline">\(N_t - N_s\)</span> is independent of <span class="math inline">\(N_s = N_s - N_0\)</span>. So, at least two increments, <span class="math inline">\(N_t - N_s\)</span> and <span class="math inline">\(N_s - N_0\)</span>, are independent. Suppose that <span class="math inline">\(t_1 = 0 &lt; t_1 &lt; t_2 &lt; \ldots &lt; t_n\)</span>. For <span class="math inline">\(n=2\)</span>, we have established that <span class="math inline">\((N_{t_{i+1}} - N_{t_i})_{i=0}^n\)</span> are independent. Suppose that the increments of a Poisson process are independent for <span class="math inline">\(n=k\)</span> and consider the case <span class="math inline">\(n=k+1\)</span>. The increments <span class="math inline">\((N_{t_{i+1}} - N_{t_i})_{i=1}^{k}\)</span> are independent because these can be considered to be <span class="math inline">\(n\)</span> increments of the Poisson process <span class="math inline">\(N'_t = N_t - N_{t_1}\)</span>. We know that each of these increments is independent of <span class="math inline">\(N_{t_1}\)</span> which completes the proof by induction.</p>
 
 
 </section>
@@ -1493,7 +1504,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../FCSC/ch2.html" class="pagination-link">
+      <a href="../FCSC/ch4.html" class="pagination-link">
         <span class="nav-page-text">A First Course in Stochastic Calculus</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
