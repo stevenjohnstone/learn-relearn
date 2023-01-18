@@ -2,10 +2,13 @@
   {
     "listing": "/index.html",
     "items": [
-      "/FCSC/ch3.html",
-      "/FCSC/ch4.html",
-      "/FCSC/ch2.html",
-      "/FCSC/ch1.html",
+      "/FCSC/ch4/ch4.html",
+      "/FCSC/ch1/ch1_experiments.html",
+      "/FCSC/ch1/ch1_exercises.html",
+      "/FCSC/ch3/ch3_exercises.html",
+      "/FCSC/ch3/ch3.html",
+      "/FCSC/ch2/ch2_experiments.html",
+      "/FCSC/ch2/ch2_exercises.html",
       "/PML/ch2.html"
     ]
   }

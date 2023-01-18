@@ -254,12 +254,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#numerical-projects-and-exercises" id="toc-numerical-projects-and-exercises">Numerical Projects and Exercises</a>
   <ul>
-  <li><a href="#simulating-martingales" id="toc-simulating-martingales">Simulating Martingales</a></li>
+  <li><a href="#simulating-martingales" id="toc-simulating-martingales">4.1 Simulating Martingales</a></li>
   <li><a href="#maximum-of-brownian-motion" id="toc-maximum-of-brownian-motion">4.2 Maximum of Brownian Motion</a></li>
   <li><a href="#first-passage-time" id="toc-first-passage-time">4.3 First Passage Time</a></li>
   <li><a href="#gamblers-ruin-at-the-french-roulette" id="toc-gamblers-ruin-at-the-french-roulette">Gambler’s Ruin at the French Roulette</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises">Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises">Exercises</a>
+  <ul>
+  <li><a href="#conditional-expectation-of-continuous-random-variables" id="toc-conditional-expectation-of-continuous-random-variables">4.1 Conditional Expectation of Continuous Random Variables</a></li>
+  <li><a href="#exercises-on-sigma-fields" id="toc-exercises-on-sigma-fields">4.2 Exercises on Sigma-Fields</a></li>
+  <li><a href="#another-look-at-conditional-expectation-for-gaussians" id="toc-another-look-at-conditional-expectation-for-gaussians">4.3 Another Look at Conditional Expectation For Gaussians</a></li>
+  <li><a href="#gaussian-conditioning" id="toc-gaussian-conditioning">4.5 Gaussian Conditioning</a></li>
+  <li><a href="#gaussian-conditioning-1" id="toc-gaussian-conditioning-1">4.6 Gaussian Conditioning</a></li>
+  <li><a href="#gaussian-conditioning-2" id="toc-gaussian-conditioning-2">4.7 Gaussian Conditioning</a></li>
+  <li><a href="#gaussian-conditioning-3" id="toc-gaussian-conditioning-3">4.8 Gaussian Conditioning</a></li>
+  </ul></li>
   </ul>
 </nav>
 <div class="hidden">
@@ -370,7 +379,7 @@ E(S_{n+k} | \F_n) &amp;= E(S_n + \sum_{i=n+1}^k S_i | \F_n) \\
 <section id="numerical-projects-and-exercises" class="level1">
 <h1>Numerical Projects and Exercises</h1>
 <section id="simulating-martingales" class="level2">
-<h2 class="anchored" data-anchor-id="simulating-martingales">Simulating Martingales</h2>
+<h2 class="anchored" data-anchor-id="simulating-martingales">4.1 Simulating Martingales</h2>
 <ol type="a">
 <li><span class="math inline">\(B_t^2 -t\)</span>, <span class="math inline">\(t \in [0, 1]\)</span></li>
 </ol>
@@ -400,7 +409,7 @@ E(S_{n+k} | \F_n) &amp;= E(S_n + \sum_{i=n+1}^k S_i | \F_n) \\
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'</span><span class="sc">{</span>N<span class="sc">}</span><span class="ss"> $B_t^2 -t$ samples'</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch4_files/figure-html/cell-3-output-1.png" width="582" height="434"></p>
+<p><img src="ch4_files/figure-html/cell-3-output-1.png" width="566" height="434"></p>
 </div>
 </div>
 <ol start="2" type="a">
@@ -431,7 +440,7 @@ E(S_{n+k} | \F_n) &amp;= E(S_n + \sum_{i=n+1}^k S_i | \F_n) \\
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'</span><span class="sc">{</span>N<span class="sc">}</span><span class="ss"> $N_t - 1$ samples'</span>)</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="ch4_files/figure-html/cell-5-output-1.png" width="569" height="432"></p>
+<p><img src="ch4_files/figure-html/cell-5-output-1.png" width="590" height="432"></p>
 </div>
 </div>
 </section>
@@ -451,7 +460,7 @@ E(S_{n+k} | \F_n) &amp;= E(S_n + \sum_{i=n+1}^k S_i | \F_n) \\
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.plot(s, (<span class="dv">2</span><span class="op">/</span>np.sqrt(<span class="dv">2</span><span class="op">*</span>np.pi))<span class="op">*</span>np.exp(<span class="op">-</span>(s<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">2</span>))</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.0596</code></pre>
+<pre><code>0.0523</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="ch4_files/figure-html/cell-6-output-2.png" width="558" height="411"></p>
@@ -532,8 +541,8 @@ E(S_{n+k} | \F_n) &amp;= E(S_n + \sum_{i=n+1}^k S_i | \F_n) \\
 <p>We can also retrieve an approximation from our simulation:</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span>(t <span class="op">==</span> <span class="dv">10</span> <span class="cf">for</span> t <span class="kw">in</span> tau_samples)<span class="op">/</span><span class="bu">len</span>(tau_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<p><span class="math inline">\(\displaystyle 0.2646\)</span></p>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<p><span class="math inline">\(\displaystyle 0.2618\)</span></p>
 </div>
 </div>
 </section>
@@ -571,8 +580,304 @@ E(S_{n+k} | \F_n) &amp;= E(S_n + \sum_{i=n+1}^k S_i | \F_n) \\
 </section>
 <section id="exercises" class="level1">
 <h1>Exercises</h1>
+<section id="conditional-expectation-of-continuous-random-variables" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-expectation-of-continuous-random-variables">4.1 Conditional Expectation of Continuous Random Variables</h2>
+<p>Let <span class="math inline">\((X, Y)\)</span> be two random variables with joint density <span class="math inline">\(f(x, y)\)</span> on <span class="math inline">\(\mathbb{R}^2\)</span>. Suppose that</p>
+<p><span class="math display">\[
+\int_{\mathbb{R}} f(x, y)\, dx &gt; 0
+\]</span> for every <span class="math inline">\(y \in \mathbb{R}\)</span>.</p>
+<p>Then <span class="math inline">\(\E(Y | X) = h(X)\)</span> where</p>
+<p><span class="math display">\[
+h(x) = \frac{\int_{\mathbb{R}} y f(x, y) dy}{\int_{\mathbb{R}} f(x, y) dy}.
+\]</span></p>
+<p>Proof:</p>
+<p>The conditional expectation <span class="math inline">\(E(Y | X)\)</span> is the function <span class="math inline">\(\eta : \mathbb{R} \to \mathbb{R}\)</span> satisifying</p>
+<p><span id="eq-conditional-orthogonal"><span class="math display">\[
+\E(g(X) Y) = \E(g(X)\eta(X))
+\tag{1}\]</span></span></p>
+<p>for any bounded random variable of the form <span class="math inline">\(g(X)\)</span> for some function <span class="math inline">\(g\)</span>. That is,</p>
+<p><span class="math display">\[
+Y - \eta
+\]</span> is othorgonal to <span class="math inline">\(g(X)\)</span>.</p>
+<p>We can show that <span class="math inline">\(h(X) = \E(Y | X)\)</span> by showing that it satisfies (<a href="#eq-conditional-orthogonal">Equation&nbsp;1</a>) and invoking the uniqueness of such a function.</p>
+<p>Let <span class="math inline">\(g\)</span> be any function such that <span class="math inline">\(g(X)\)</span> is bounded and measurable. Using LOTUS</p>
+<p><span class="math display">\[
+\begin{align}
+\E(g(X) Y) &amp;= \int \int g(x) y f(x, y)\, dx\, dy \\
+&amp;= \int g(x) \left (\int y f(x, y) \, dy\,\right) dx \\
+&amp;= \int g(x) \left (\frac{\int y f(x, y) \, dy}{\int f(x, y)\, dy}\right )\left(\int f(x, y)\, dy\right) \, dx \\
+&amp;= \int \int g(x) h(x) f(x, y) \,dx\,dy \\
+&amp;= \int g(x) h(x) f_X(x) \,dx \\
+&amp;= \E(g(X) h(X)).
+\end{align}
+\]</span></p>
+<p>Therefore <span class="math inline">\(h= \E(Y|X)\)</span>. In particular, setting <span class="math inline">\(g = 1\)</span>, we see that</p>
+<p><span class="math display">\[
+\E(\E(Y|X)) = \E(Y).
+\]</span></p>
+</section>
+<section id="exercises-on-sigma-fields" class="level2">
+<h2 class="anchored" data-anchor-id="exercises-on-sigma-fields">4.2 Exercises on Sigma-Fields</h2>
+<ol type="a">
+<li>Let <span class="math inline">\(A, B\)</span> be two proper subset of <span class="math inline">\(\Omega\)</span> such that <span class="math inline">\(A \cap B \neq \emptyset\)</span>.</li>
+</ol>
+<p>Partition <span class="math inline">\(\Omega\)</span> into <span class="math inline">\(4\)</span> disjoint elements of <span class="math inline">\(\sigma\)</span>:</p>
+<p><span class="math display">\[
+\Omega = (A\setminus B) \cup (B \setminus A) \cup (A \cap B) \cup (A \cup B)^c.
+\]</span></p>
+<p>To ease notation, define</p>
+<p><span class="math display">\[
+\begin{align}
+S_0 &amp;= A \setminus B, \\
+S_1 &amp;= B \setminus A, \\
+S_2 &amp;= A \cap B \\
+S_3 &amp;= (A \cup B)^c.
+\end{align}
+\]</span></p>
+<p>Each element of <span class="math inline">\(\sigma\)</span> can be expressed as a union of at most <span class="math inline">\(4\)</span> of these sets: the number of elements of <span class="math inline">\(\sigma\)</span> is <span class="math inline">\(2^4 = 16\)</span>.</p>
+<p>Enumerating these:</p>
+<p><span class="math display">\[
+\begin{align}
+0000 &amp;\to \emptyset, \\
+0001 &amp;\to A \setminus B, \\
+0010 &amp;\to B \setminus A, \\
+0011 &amp;\to (A \setminus B) \cup (B \setminus A) = (A \cup B) \setminus (A\cap B), \\
+0100 &amp;\to A \cap B, \\
+0101 &amp;\to (A \cap B) \cup (A \setminus B) = A, \\
+0110 &amp;\to (A \cap B) \cup (B \setminus A) = B, \\
+0111 &amp;\to (A \cap B) \cup (B \setminus B) \cup (A \setminus B) = A \cup B, \\
+1000 &amp;\to (A \cup B)^c, \\
+1001 &amp;\to (A \cup B)^c \cup (A \setminus B) = B^c,\\
+1010 &amp;\to (A \cup B)^c \cup (B \setminus A) = A^c, \\
+1011 &amp;\to (A \cup B)^c \cup (B \setminus A) \cup (A \setminus B) = (A \cap B)^c,\\
+1100 &amp;\to (A \cup B)^c \cup (A \cap B) = (A \setminus B)^c \cap (B \setminus A)^c, \\
+1101 &amp;\to (A \cup B)^c \cup (A \cap B) \cup (A \setminus B) = (B \setminus A)^c, \\
+1110 &amp;\to (A \cup B)^c \cup (A \cap B) \cup (B \setminus A) = (A \setminus B)^c, \\
+1111 &amp;\to \Omega.
+\end{align}
+\]</span></p>
+<p>If <span class="math inline">\(A \cap B = \emptyset\)</span>, then <span class="math inline">\(\Omega\)</span> can be paritioned into the union of <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\((A \cup B)^c\)</span>: there are <span class="math inline">\(2^3 = 8\)</span> events in <span class="math inline">\(\sigma\)</span>. Alternatively, we can just go through the list of <span class="math inline">\(16\)</span> above and cross off those which end up being empty or duplicate.</p>
+<ol start="2" type="a">
+<li>Show that the singleton <span class="math inline">\(\{b\} \in \mathcal{B}(\mathbb{R})\)</span>.</li>
+</ol>
+<p>For <span class="math inline">\(n \geq 0\)</span>, <span class="math inline">\(I_n = (b - 1/n, b] \in \mathcal{B}(\mathbb{R})\)</span>. The countable itersection of <span class="math inline">\(\cap_{n \geq 1} I_n = \{b\}\)</span> is also in the sigma-algebra.</p>
+<p>All open intervals are in the Borel sigma-field: <span class="math inline">\((a, b) = (a, b] \cap \{b\}^c\)</span>. All closed intervals are in the Borel sigma-field: <span class="math inline">\([a, b] = \{a\} \cup (a, b) \cup \{b\}\)</span>.</p>
+<p>Is the subset <span class="math inline">\(\mathbb{Q}\)</span> a Borel set? That is, is <span class="math inline">\(\mathcal{Q} \in \mathcal{B}(\mathbb{R})\)</span>? Yes: the rationals are countable, so they can be expressed as the union of singleton rational sets which are in the sigma-field <span class="math inline">\(\mathcal{B}(\mathbb{R})\)</span>.</p>
+</section>
+<section id="another-look-at-conditional-expectation-for-gaussians" class="level2">
+<h2 class="anchored" data-anchor-id="another-look-at-conditional-expectation-for-gaussians">4.3 Another Look at Conditional Expectation For Gaussians</h2>
+<p>Let <span class="math inline">\((X, Y)\)</span> be a Gaussian vector with mean <span class="math inline">\(0\)</span> and covariance matrix</p>
+<p><span class="math display">\[
+\begin{align}
+\mathcal{C} &amp;= \begin{bmatrix}
+1 &amp; \rho \\
+\rho &amp; 1.
+\end{bmatrix}
+\end{align}
+\]</span></p>
+<ol type="a">
+<li>The conditional expectation can be calculated using the <span class="math inline">\(L^2\)</span> best approximation form:</li>
+</ol>
+<p><span class="math display">\[
+\begin{align}
+\E(Y|X) &amp;= \frac{\E(XY) X}{\E(X^2)} \\
+&amp;= \rho X.
+\end{align}
+\]</span></p>
+<ol start="2" type="a">
+<li>The joint pdf of <span class="math inline">\((X, Y)\)</span> is</li>
+</ol>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>x, y, rho <span class="op">=</span> sp.symbols(<span class="st">'x, y, rho'</span>, real<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">1</span>, rho], [rho, <span class="dv">1</span>]])</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>((<span class="dv">2</span> <span class="op">*</span> sp.pi)<span class="op">**</span>(Fraction(<span class="bu">len</span>(xy),<span class="dv">2</span>)) <span class="op">*</span> sp.sqrt(C.det()))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>pdf[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<p><span class="math inline">\(\displaystyle \frac{e^{\frac{- 2 \rho x y + x^{2} + y^{2}}{2 \left(\rho - 1\right) \left(\rho + 1\right)}}}{2 \pi \sqrt{1 - \rho^{2}}}\)</span></p>
+</div>
+</div>
+<p><span class="math display">\[
+\begin{align}
+\frac{\int_{\mathbb{R}} y f(x, y)\, dy}{\int_{\mathbb{R}} f (x, y) \, dy} &amp;= \frac{\int_{\mathbb{R}} y e^{\frac{-2 \rho xy + x^2 + y^2}{2(\rho -1)(\rho + 1)}}\, dy}{\int_{\mathbb{R}}e^{\frac{-2 \rho xy + x^2 + y^2}{2(\rho -1)(\rho + 1)}}\, dy} \\
+&amp;= \frac{\int_{\mathbb{R}} y e^{\frac{-2 \rho xy + y^2}{2(\rho -1)(\rho + 1)}}\, dy}{\int_{\mathbb{R}}e^{\frac{-2 \rho xy + y^2}{2(\rho -1)(\rho + 1)}}\, dy} \\
+&amp;= \frac{\int_{\mathbb{R}} (t + \rho x) e^{\frac{-t^2}{2(1-\rho)(1+\rho)}} \, dt}{\int_{\mathbb{R}} e^{\frac{-t^2}{2(1 -\rho)(1 + \rho)}} \, dt} \\
+&amp;= \sqrt{1 - \rho^2} \frac{\int_{\mathbb{R}} t e^{-t^2/2}\,dt}{\int_{\mathbb{R}} e^{-t^2/2}\, dt} + \rho x \\
+&amp;= \rho x = h(x).
+\end{align}
+\]</span></p>
+<p>This is another way of arriving at <span class="math display">\[
+\E(Y|X) = h(X).
+\]</span></p>
+</section>
+<section id="gaussian-conditioning" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-conditioning">4.5 Gaussian Conditioning</h2>
+<p><span class="math display">\[
+\mathcal{C} = \begin{bmatrix}
+2 &amp; 2 &amp; 0 \\
+2 &amp; 4 &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}.
+\]</span></p>
+<p>It is easy to see that <span class="math inline">\(\det{C} = 4\)</span>; non-zero determinant means that the vector <span class="math inline">\((X_1, X_2, X_3 X_3)\)</span> is non-degenerate.</p>
+<p>From the covariance matrix, we see that <span class="math inline">\(\E(X_1X_3) = \E(X_2 X_3) = 0\)</span>, so <span class="math inline">\(X_3\)</span> is independent of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+\E(X_2 | X_1) &amp;= \frac{\E(X_2X_1)}{\E(X_1^2)}X_1 \\
+&amp;= \frac{2}{2} X_1 \\
+&amp;= X_1.
+\end{align}
+\]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[
+X_2 = X_1 + (X_2 - X_1)
+\]</span></p>
+<p>is a decomposition of <span class="math inline">\(X_2\)</span> into a linear combination of <span class="math inline">\(X_1\)</span> and a random variable independent of <span class="math inline">\(X_1\)</span>, namely <span class="math inline">\(X_2 - X_1\)</span>.</p>
+</section>
+<section id="gaussian-conditioning-1" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-conditioning-1">4.6 Gaussian Conditioning</h2>
+<p><span class="math inline">\((X, Y)\)</span> is a Gaussian random vector with mean <span class="math inline">\(0\)</span> and covariance given by</p>
+<p><span class="math display">\[
+\mathcal{C} = \begin{bmatrix}
+3/16 &amp; 1/8 \\
+1/8 &amp; 1/4 \\
+\end{bmatrix}.
+\]</span></p>
+<p><span class="math inline">\((X, Y)\)</span> is non-degenerate because <span class="math inline">\(\det{C} &gt; 0\)</span>:</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[Fraction(<span class="dv">3</span>, <span class="dv">16</span>), Fraction(<span class="dv">1</span>, <span class="dv">8</span>)], [Fraction(<span class="dv">1</span>,<span class="dv">8</span>), Fraction(<span class="dv">1</span>,<span class="dv">4</span>)]])</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>C.det()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<p><span class="math inline">\(\displaystyle \frac{1}{32}\)</span></p>
+</div>
+</div>
+<p><span class="math display">\[
+\E(Y|X) = \frac{\E(YX)}{\E(X^2)}X = (1/8) * (16/3)X =2X/3.
+\]</span></p>
+<p><span class="math inline">\(W = (Y - 2X/3)\)</span> is independent of <span class="math inline">\(X\)</span> (it is orthogonal to all functions of <span class="math inline">\(X\)</span>). We need</p>
+<p><span class="math display">\[
+\E(W^2) = \E(Y^2 - 4XY/3 + 4X^2/9) = \frac{1}{4} - \frac{4}{8.3} + \frac{4.3}{9.16} = \frac{1}{6}.
+\]</span></p>
+<p>We can calculate the MGF of <span class="math inline">\(Y\)</span> conditioned on <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{aY} | X) &amp;= \E(e^{a(W + 2X/3)} | X) \\
+&amp;= e^{2X/3} \E(e^{aW} X) \\
+&amp;= e^{2X/3} \E(e^{aW})  \\
+&amp;= e^{2X/3+ a^2/12}  \\
+\end{align}
+\]</span></p>
+<p>and so the conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is a Gaussian with mean <span class="math inline">\(2X/3\)</span> and variance <span class="math inline">\(1/6\)</span>.</p>
+<p>We define <span class="math inline">\(Z_1 = 16X/3\)</span> and <span class="math inline">\(Z_2 = 6(Y - 2X/3)\)</span>: <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> are standard Gaussians and</p>
+<p><span class="math display">\[
+X = 16X/3
+\]</span> and <span class="math display">\[
+Y = Z_1/9 + Z_2/6.
+\]</span></p>
+</section>
+<section id="gaussian-conditioning-2" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-conditioning-2">4.7 Gaussian Conditioning</h2>
+<p><span class="math display">\[
+\mathcal{C} = \begin{bmatrix}
+1 &amp; -1 \\
+-1 &amp; 2 \\
+\end{bmatrix}.
+\]</span></p>
+<p><span class="math inline">\(Z_1 = X_1\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+X_2 &amp;= (X_2 - \E(X_2| Z_1)Z_1) + \E(X_2|Z_1) Z_1 \\
+&amp;= (X_2 + Z_1) - Z_1.
+\end{align}
+\]</span></p>
+<p>So, set <span class="math inline">\(Z_2 = X_2 + X_1\)</span>.</p>
+<p>Checking:</p>
+<p><span class="math display">\[
+\E(Z_1) = \E(X_1) = 0
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\E(Z_1^2) = \E(X_1^2) = 1.
+\]</span></p>
+<p><span class="math display">\[
+\E(Z_2) = \E(X_2) + \E(X_1) = 0
+\]</span> and</p>
+<p><span class="math display">\[
+\begin{align}
+\E(Z_2^2) &amp;= \E(X_1^2 + 2X_1X_2  + X_2^2)  \\
+&amp;= 1 -2.1 + 2 \\
+&amp;= 1.
+\end{align}
+\]</span></p>
+<p>Moreover,</p>
+<p><span class="math display">\[
+\begin{align}
+\E(Z_2Z_1)  &amp;= \E((X_1 + X_2) X_1) \\
+&amp;= \E(X_1^2 + X_1 X_2) \\
+&amp;= 1 - 1 \\
+&amp;= 0.
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\E(X_2 | X_1) = \frac{\E(X_2 X_1)}{\E(X_1^2)}X_1 = -X_1.
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{a X_2} | X_1) &amp;= \E(e^{a (Z_2 - Z_1)}| Z_1) \\
+&amp;= e^{-a Z_1} \E(e^{a Z_2}| Z_1) \\
+&amp;= e^{-a Z_1} \E(e^{a Z_2}) \\
+&amp;= e^{-aZ_1 + a^2/2} \\
+&amp;= e^{-aX_1 + a^2/2}.
+\end{align}
+\]</span> using the independence of <span class="math inline">\(Z_2\)</span> and <span class="math inline">\(Z_1\)</span> and the MGF of a Gaussian of mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(1\)</span>. The conditional distribution of <span class="math inline">\(X_2\)</span> given <span class="math inline">\(X_1\)</span> is a Gaussian with mean <span class="math inline">\(-X_1\)</span> and variance <span class="math inline">\(1\)</span>.</p>
+</section>
+<section id="gaussian-conditioning-3" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-conditioning-3">4.8 Gaussian Conditioning</h2>
+<p>We can use the Cholesky factorisation of the covariance matrix to get a mapping from <span class="math inline">\((Z_1, Z_2, Z_3)\)</span> of IID standard Gaussians to <span class="math inline">\((X_1, X_2, X_3)\)</span>:</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sp.Matrix([[<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>]]).cholesky()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}\sqrt{2} &amp; 0 &amp; 0\\\frac{\sqrt{2}}{2} &amp; \frac{\sqrt{6}}{2} &amp; 0\\\frac{\sqrt{2}}{2} &amp; \frac{\sqrt{6}}{6} &amp; \frac{2 \sqrt{3}}{3}\end{matrix}\right]\)</span></p>
+</div>
+</div>
+<p><span class="math display">\[
+\begin{align}
+X_1 &amp;= \sqrt{2} Z_1, \\
+X_2 &amp;= \frac{Z_1}{\sqrt{2}} + \sqrt{\frac{3}{2}} Z_2, \\
+X_3  &amp;= \frac{Z_1}{\sqrt{2}} + \frac{Z_2}{\sqrt{6}} + \frac{2 Z_3}{\sqrt{3}}.
+\end{align}
+\]</span></p>
+<p>We note that</p>
+<p><span class="math display">\[
+X_3 = X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2 Z_3}{\sqrt{3}}.
+\]</span></p>
+<p>This can be used to compute <span class="math inline">\(\E(X_3 |X_2, X_1)\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(X_3 | X_2, X_1) &amp;= \E(X_2 - \frac{\sqrt{3}}{2}X_1 + \frac{2 Z_3}{\sqrt{3}}| X_2, X_1) \\
+&amp;=  X_2 - \frac{\sqrt{3}}{2} X_1 + \E(\frac{2 Z_3}{\sqrt{3}}|X_2, X_1) \\
+&amp;=  X_2 - \frac{\sqrt{3}}{2} X_1 + \E(\frac{2 Z_3}{\sqrt{3}}) \\
+&amp;=  X_2 - \frac{\sqrt{3}}{2} X_1,
+\end{align}
+\]</span></p>
+<p>where we’ve used <span class="math inline">\(E(X_1|X_1, X_2) = X_1\)</span> and that <span class="math inline">\(Z_3\)</span> is independent of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> (they are linear combinations of <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>).</p>
+<p>We can also compute <span class="math inline">\(\E(e^{aX_3} | X_2, X_1)\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{aX_3}| X_2, X_1) &amp;= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1)} \E(e^{\frac{2 a Z_3}{\sqrt{3}}}|X_2, X_1) \\
+&amp;= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1)} \E(e^{\frac{2 a Z_3}{\sqrt{3}}}) \\
+&amp;= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2a^2}{3})}.
+\end{align}
+\]</span> The conditional distribution is a Gaussian with mean <span class="math inline">\(X_2 - \frac{\sqrt{3}}{2}X_1\)</span> and variance <span class="math inline">\(4/3\)</span>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
