@@ -1,0 +1,996 @@
+---
+title: "Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+## 3.1 Brownian Moments
+
+(a) $\E(B_t^6)$
+
+
+We can use [Wick's/Isserlis' formula](https://en.wikipedia.org/wiki/Isserlis%27_theorem) to calculate this: there are
+$(6  -1)!! = 15$ different pairings of the $6$-tuple $\{B_t, \ldots, B_t\}$ and so
+
+
+$$
+\begin{align}
+\E(B_t^6) &= 15 \E(B_t^2)^3 \\
+&= 15 t^3.
+\end{align}
+$$
+
+::: {.callout-note}
+In general, for a zero mean Gaussian variable $X$ and $n >= 1$
+
+$$
+\E(X^{2n}) = (2n -1)!!\E(X^2)^n.
+$$
+
+This can be seen with Wick's formula:
+
+there are $(2n - 1)!!$ different pairings of the set of $2n$ elements $(X,\ldots, X)$ and each pairing results in $n$ pairs.
+:::
+
+(b) $\E((B_{t_2} - B_{t_1})(B_{t_3} - B_{t_2}))$ if $t_1 < t_2 < t_3$
+
+$$
+\begin{align}
+\E((B_{t_2} - B_{t_1})(B_{t_3} - B_{t_2})) &= \E(B_{t_2} B_{t_3}) - \E(B_{t_2}^2) - \E(B_{t_1} B_{t_3}) + \E(B_{t_1}B_{t_2}) \\
+&= t_2 - t_2 - t_1 + t_1 \\
+&= 0.
+\end{align}
+$$
+
+(c) $\E(B_s^2 B_t^2)$ if $s < t$.
+
+The pairings of $(B_s, B_s, B_t, B_t)$ are
+
+$((B_s, B_s),(B_t, B_t)), ((B_s, B_t), (B_s, B_t)), ((B_s, B_t),(B_s, B_t))$ and so by Wick's formula
+
+$$
+\begin{align}
+\E(B_s^2B_t^2) &= \E(B_s^2)\E(B_t^2) + 2 \E(B_sB_t)^2 \\
+&= st + 2 s^2.
+\end{align}
+$$
+
+(d) $\E(B_s B_t^3)$ if $s < t$.
+
+The pairings of $(B_s, B_t, B_t, B_t)$ are
+$((B_s, B_t),(B_t, B_t)), ((B_s, B_t), (B_t, B_t)), ((B_s, B_t),(B_t, B_t))$ and so by Wick's formula
+
+$$
+\begin{align}
+\E(B_s B_t^3)  &= 3 \E(B_sB_t)\E(B_t^2) \\
+&= 3st.
+\end{align}
+$$
+
+(e) $\E(B_s^{100} B_t^{101})$.
+
+
+$\E(B_s^{100} B_t^{101}) = 0$ because there are an odd number of
+multiplicands.
+
+
+## 3.2 Brownian Probabilities
+
+(a) $\P(B_1 > 1, B_2 > 1)$
+
+The integral is given by
+
+```{python}
+#| code-fold: true
+import sympy as sp
+from fractions import Fraction
+from sympy.abc import x,y
+
+sp.init_printing()
+C=sp.Matrix([[1, 1], [1, 2]])
+
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+integral = sp.Integral(pdf, (x, 1, sp.oo), (y, 1, sp.oo))
+integral
+```
+A change of variables gives a finite domain of integration:
+
+```{python}
+#| code-fold: true
+pdf = pdf.subs({x: 1/x, y: 1/y})*sp.diff(1/x, x)*sp.diff(1/y, y)
+
+sp.Integral(pdf , (x, 0, 1), (y, 0, 1))
+```
+
+This can be calculated using a monte-carlo approximation:
+
+```{python}
+import numpy as np
+
+def monte_carlo(integrand):
+    samples = 10000
+    sum = 0
+    for _ in range(samples):
+        x, y = np.random.default_rng().uniform(0, 1, 2)
+        sum +=integrand(x, y)
+    return sum/samples
+
+probability = monte_carlo(sp.lambdify([x, y], pdf))
+probability
+```
+
+Alternatively, we can evaluate the integral with Simpson's rule:
+
+```{python}
+from scipy.integrate import simps
+
+def simpsons(integrand):
+    x = np.linspace(0.01, 1, 1000)
+    y=  np.linspace(0.01, 1, 1000)
+
+    zz = integrand(x.reshape(-1, 1), y.reshape(1, -1))
+    return simps([simps(zz_r, x) for zz_r in zz], y)
+
+simpsons(sp.lambdify([x, y], pdf))
+```
+
+We can check this makes sense by simulating a number of Brownian
+motion paths and checking the ratio of the samples satisfying $B_1 >1, B_2>1$ to the total number of samples.
+
+```{python}
+class Brownian:
+    def __init__(self, C):
+        self.__A = np.linalg.cholesky(C)
+        return
+    def path(self):
+        n = len(self.__A[0])
+        return self.__A.dot(np.random.default_rng().normal(0, 1, n))
+
+brownian = Brownian(np.array(C.tolist()).astype(np.float64))
+
+
+samples=10000
+count = 0
+for _ in range(samples):
+    b_1, b_2 = brownian.path()
+    if b_1 > 1 and b_2 > 1:
+        count+=1
+
+count/samples
+```
+
+We can also use the fact that $(B_1, B_2 - B_1)$ are independent:
+
+
+$$
+\begin{align}
+\P(B_1 > 1, B_2> 1) &= \int \int_{\{x > 1, x + y > 1\}} \frac{e^{\frac{-1}{2}(x^2 + y^2)}}{2 \pi} dx \, dy.
+\end{align}
+$$
+
+The domain of integration is:
+
+```{python}
+#| code-fold: true
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+plt.xlim(-1, 3)
+plt.ylim(-1, 3)
+
+for spine in ['top', 'right']:
+    ax.spines[spine].set_visible(False)
+
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+
+axis = plt.gca()
+axis.add_patch(Polygon([[1, 0], [1,3], [3, 3], [3,-2]], label='domain of integration'))
+def f(x):
+    return 1 - x
+
+x = np.linspace(-1, 3, 1000)
+
+plt.plot(x, f(x), 'k--', label='y= 1 - x')
+plt.axvline(1, color='b', linestyle='--', label = 'x=1')
+plt.legend(loc='upper left')
+```
+
+We can calculate in chunks.
+```{python}
+#| code-fold: true
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+plt.xlim(-3, 3)
+plt.ylim(-3, 3)
+
+for spine in ['top', 'right']:
+    ax.spines[spine].set_visible(False)
+
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+
+axis = plt.gca()
+axis.add_patch(Polygon([[1, 0], [1,3], [3, 3], [3,0]], label='A'))
+axis.add_patch(Polygon([[1, 0], [3,0], [3, -3]], label='B', color='red'))
+plt.legend(loc='upper left')
+```
+
+
+```{python}
+import sympy as sp
+from fractions import Fraction
+from sympy.abc import x,y
+
+pdf = sp.exp(Fraction(-1, 2) *(x**2 + y**2))/(2*sp.pi)
+
+A = sp.integrate(pdf, (x, 1, sp.oo), (y, 0, sp.oo));A
+
+```
+
+```{python}
+
+B = sp.integrate(pdf, (x, 1-y, sp.oo), (y, -sp.oo, 0)); B
+```
+
+```{python}
+prob = (A+B).simplify(); prob
+```
+
+```{python}
+prob.evalf()
+```
+
+
+
+(b) $\P(B_1 > 1, B_2 > 1, B_3 > 1)$
+
+```{python}
+#| code-fold: true
+import sympy as sp
+from fractions import Fraction
+from sympy.abc import x,y,z
+
+sp.init_printing()
+C=sp.Matrix([[1, 1, 1], [1, 2, 2], [1, 2, 3]])
+
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y, z])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/((2 *sp.pi)**Fraction(3,2) * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+integral = sp.Integral(pdf, (x, 1, sp.oo), (y, 1, sp.oo), (z, 1, sp.oo))
+integral
+```
+
+A change of variables gives a finite domain of integration:
+
+```{python}
+#| code-fold: true
+pdf = pdf.subs({x: -1/x, y: -1/y, z: -1/z})*sp.diff(-1/x, x)*sp.diff(-1/y, y)*sp.diff(-1/z, z)
+
+sp.Integral(pdf , (x, -1, 0), (y, -1, 0), (z, -1, 0))
+```
+
+```{python}
+from scipy.integrate import tplquad
+
+def integrate(integrand):
+    return tplquad(integrand, -1, 0, -1, 0, -1, 0)
+
+integrate(sp.lambdify([x, y, z], pdf))
+
+```
+```{python}
+def monte_carlo(integrand):
+    samples = 10000
+    sum = 0
+    for _ in range(samples):
+        x, y, z = np.random.default_rng().uniform(-1, 0, 3)
+        sum +=integrand(x, y, z)
+    return sum/samples
+
+probability = monte_carlo(sp.lambdify([x, y, z], pdf))
+probability
+```
+
+```{python}
+def decomposition():
+    brownian = Brownian(np.array(C.tolist()).astype(np.float64))
+
+    samples=10000
+    count = 0
+    for _ in range(samples):
+        b_1 , b_2, b_3 = brownian.path()
+        if b_1 > 1 and b_2 > 1 and b_3 > 1:
+            count+=1
+    return count/samples
+
+decomposition()
+```
+
+## 3.3 Equivalence of Definition of Brownian Motion
+
+If $X = (X_i)_{i=1}^n = (B_{t_1} - 0, B_{t_2} - B_{t_1}, \ldots, B_{t_n} - B_{t_{n-1}})$
+are independent Gaussians with mean zero and variance $t_{j+1} -t_j$ for $j \leq n-1$, then the vector $Y = (Y_i)_{i=1}^n = (B_{t_1}, \ldots, B_{t_n} )$ is Gaussian with mean zero and covariance $\E(B_tB_s) = t \wedge s$.
+
+Proof:
+
+
+The linear transformation $A$ maps $X$ to $Y$:
+
+$$
+A = \begin{bmatrix}
+1  &  0    &  \ldots  &  0 \\
+-1 &  1    &  \ldots  &  0 \\
+\vdots    & \ddots & &  \vdots \\
+0  &     \ldots  &  -1      &  1
+\end{bmatrix}
+$$
+
+or
+
+$$
+A_{ij} = \begin{cases}
+1 & \text{if } i=j, \\
+-1 & \text{if } i = j-1, \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+The mean vector of $Y$ is $A\textbf{0} = \textbf{0}$. The covariance of $Y$, $C_Y$, is related to the covariance of $X$, $C_X$ by
+
+$$
+A C_X A^T = C_Y.
+$$
+
+
+This linear relationship can be expressed using cancellation of
+the telescopic sum:
+$$
+Y_i = \sum_{k=1}^i X_k.
+$$
+
+For $i < j$,
+
+$$
+Y_j = Y_i + \sum_{k=i+1}^j X_k.
+$$
+
+So,
+
+$$
+Y_j Y_i = Y_i^2 + Y_i \sum_{k=i+1}^j X_k.
+$$
+
+Then, using the independence of $X$:
+$$
+\begin{align}
+\E(Y_j Y_i) &= \E(Y_i^2) + \sum_{k=i+1}^j \E(Y_i X_k) \\
+&= \E(Y_i^2) + \sum_{k=i+1}^j \E(\sum_{l=1}^i X_l X_k) \\
+&= \E(Y_i^2).
+\end{align}
+$$
+
+We can calculate the variance of $Y_j$:
+
+$$
+\begin{align}
+\E(Y_j^2) & = \E((\sum_{k=1}^j X_k)^2) \\
+&=  \E(\sum_{k=1}^j X_k^2 + 2 \sum_{k,l = 1}^j X_k X_l) \\
+&= \sum_{k=1}^j \E(X_k^2) \\
+&= \sum_{k=2}^j (t_{i_{k}} -t_{i_{k-1}}) + t_{i_1} \\
+&= t_{i_j}
+\end{align}
+$$
+
+This proves that
+
+$\E(B_{t_i} B_{t_j}) = t_i \wedge t_j$.
+
+## 3.4 Reflection at time $s$
+
+For any $s \geq 0$, the process $(\tilde{B}_t, t\geq 0)$ defined by
+
+$$
+\tilde{B}_t = \begin{cases}
+B_t & \text{if } t \leq s, \\
+B_s - (B_t - B_s) & \text{otherwise}
+\end{cases}
+$$
+is a Brownian motion.
+
+Proof:
+
+Clearly, $\tilde{B}_0 = 0$. For each continuous path, $B_t(\omega)$ we can have a continuous path $\tilde{B}(\omega)$:
+
+$\tilde{B}_t(\omega)$ is piecewise two obviously continuous functions $B_t(\omega)$ and $2B_s(\omega) - B_t(\omega)$ which are
+equal at $t = s$. Therefore, for a set of $\omega$ of probability one, $\tilde{B}_t(\omega)$ is continuous.
+
+For any $t_1 < t_2 < \ldots < t_n$, the vector $(\tilde{B}_{t_i})_{i=1}^n$ is Gaussian of mean zero because it is a transformation of $(B_{t_i})_{i=1}^n$:
+
+$$
+\tilde{B} = A B + C
+$$
+
+where
+
+$$
+A_{ij} = \begin{cases}
+1 & \text{if } i=j \text{ and } t_i \leq s, \\
+-1& \text{if } i=j \text{ and } t_i > s, \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+and $C$ is the Gaussian vector defined
+$$
+C_i = \begin{cases}
+2 B_s & \text{if } t_i > s, \\
+0 & \text{otherwise.}
+\end{cases}
+$$
+The linear transformation $AB$ results in a Gaussian vector; adding $C$ results in another Gaussian vector because the components of $C$ are in the span of the components of $B$. The mean of the result is zero.
+
+
+If $t_1, t_2 \leq s$, then
+$$
+\begin{align}
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} B_{t_2}) \\
+&= t_1 \wedge t_2.
+\end{align}
+$$
+
+If $t_1 \leq s$ and $t_2 > s$, then
+$$
+\begin{align}
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E(B_{t_1} (2B_s - B_{t_2})) \\
+&= 2 \E(B_{t_1} B_s) - \E(B_{t_1} B_{t_2}) \\
+&= 2 t_1 - t_1 \\
+&= t_1 \\
+&= t_1 \wedge t_2.
+\end{align}
+$$
+
+If $t_1, t_2 > s$, then
+$$
+\begin{align}
+\E(\tilde{B}_{t_1} \tilde{B}_{t_2}) &= \E((2B_{s} - B_{t_1})(2B_s - B_{t_2})) \\
+&= 4 \E(B_s^2) -2 \E(B_s B_{t_2}) -2 \E(B_s B_{t_1}) + \E(B_{t_1}B_{t_2}) \\
+&= 4 s - 2 s - 2s  + t_1 \wedge t_2 \\
+&= t_1 \wedge t_2.
+\end{align}
+$$
+
+Therefore, for any $s, t$
+
+$$
+\E(\tilde{B}_s \tilde{B}_t) = s \wedge t.
+$$
+
+## 3.5 Time Reversal
+
+Let $(B_t, t \geq 0)$ be a Brownian motion. The process
+$(B_1 - B_{1-t}, t \in [0,1])$ has the distribution of a standard
+Brownian motion on $[0, 1]$.
+
+Proof:
+
+$B_1 - B_{1-t} = 0$ when $t = 0$. If $\omega$ is such that $B_t(\omega)$ is continuous, then $B_{1-t}(\omega)$ is continuous since $t \mapsto 1-t$ is continuous. It follows that $B_1(\omega) - B_{1-t}(\omega)$ is continuous. Therefore, for $\omega$ in a set of probability one, $B_1(\omega) - B_{1-t}(\omega)$ is continuous.
+
+Let $0 \leq t_1 < t_2 < \ldots < t_n \leq 1$. The vector $(B_1 -B_{1-t_i})_{i=1}^n$ is Gaussian: it is simply a Brownian Gaussian
+vector written in reverse with $B_1$ added, which results in
+a Gaussian vector. It is
+easy to see that the mean is zero by linearity of expectation.
+
+
+The covariance reveals the distribution:
+
+$$
+\begin{align}
+\Cov((B_1 - B_{1-t_i}), (B_1 - B_{1-t_j})) &= \E((B_1 - B_{1-t_i})(B_1 - B_{1-t_j})) \\
+&= \E(B_1^2) - \E(B_{1-t_i}B_1) - \E(B_{1 -t_j}B_1) + \E(B_{1-t_i} B_{1-t_j}) \\
+&= 1 - (1-t_i) - (1-t_j) + (1-t_i) \wedge (1-t_j) \\
+&= t_i + t_j -1 + 1 - t_i \vee t_j \\
+&= t_i + t_j - t_i \vee t_j \\
+& = t_i \wedge t_j.
+\end{align}
+$$
+
+## 3.6 Time Inversion
+
+(a) Let $(B_t, t \geq 0)$ be a standard Brownian motion. The process
+
+$$
+X_t = t B_{1/t} \text{ for } t > 0,
+$$
+
+has the distribution of a Brownian motion on $t > 0$.
+
+Proof:
+
+Let $0 < t_1 < \ldots < t_n$ and define $s_{n-i} = 1/t_i$, so that
+$0 < s_1 < \ldots < s_n$. The vector $T=(B_{t_i})_{i=1}^n$ is Gaussian by assumption. $S=(\frac{1}{s_i} B_{s_i})_{i=1}^{n}$ is a
+linear transformation of $T$ and so is also Gaussian with mean zero:
+
+$$
+S = \begin{bmatrix}
+0 & \ldots & 0 & \frac{1}{s_1} \\
+0 & \ldots & \frac{1}{s_2} & 0 \\
+\vdots & \iddots & 0 & 0 \\
+\frac{1}{s_n} & 0 & \ldots & 0
+\end{bmatrix}\,T.
+$$
+
+The covariance, and hence the distribution, of $S$ can be found by simple calculation:
+
+$$
+\begin{align}
+\E(t_i B_{1/t_i} t_jB_{1/t_j}) &= t_it_j \frac{1}{t_i} \wedge \frac{1}{t_j} \\
+&= \frac{t_it_j}{t_i \vee t_j} \\
+&= t_i \wedge t_j.
+\end{align}
+$$
+
+
+(b) $X_t \to 0$ in $L^2$ as $t \to 0$.
+
+
+Proof:
+
+
+$$
+\begin{align}
+\| X_t \|_2 &= \| t B_{1/t} \|_2 \\
+&= \E(t^2 B_{1/t}^2) \\
+&= t^2 1/t \\
+&= t \to 0
+\end{align}
+$$
+as $t \to 0$.
+
+(c)
+$$
+\lim_{t \to \infty} \frac{B_t}{t} = 0
+$$
+almost surely.
+
+
+Proof:
+
+We are allowed to use
+
+$$
+X_t \to 0
+$$
+as $t \to 0$ almost surely. Note: we didn't show this above.
+
+
+
+$$
+\lim_{t\to \infty} \frac{B_t}{t} = X_{1/t} \to 0
+$$
+as $t \to \infty$, almost surely.
+
+## 3.8 Convergence in mean or in $L^1$
+
+If $X_n \to X$ in $L^1(\Omega, \mathcal{F}, \P)$, then $X_n \to X$
+in probability.
+
+Proof:
+
+$X_n \to X$ in $L^1$ iff $\E(|X_n - X|) \to 0$ as $n \to \infty$.
+
+By Markov's inequality, for any $\delta > 0$
+
+$$
+\begin{align}
+\P(|X_n - X| > \delta) &\leq \frac{1}{\delta} \E(|X_n - X|).
+\end{align}
+$$
+The RHS tends to zero as $n \to \infty$ so the LHS must also. That is,
+$X_n \to X$ in probability as $n \to \infty$.
+
+## 3.9 Fractional Brownian Motion
+
+Fractional Brownian motion $(Y_t, t\geq 0)$ with index $0 < H < 1$, is the Gaussian process with mean zero and covariance
+$$
+\Cov(Y_s, Y_t) = \frac{1}{2}(t^{2H} + s^{2H} - \left | t - s \right |^{2H}).
+$$
+
+(a) The standard Brownian motion corresponds to $H= 1/2$.
+
+Proof:
+
+When $H=1/2$,
+$$
+\begin{align}
+\Cov(Y_s, Y_t) &= \frac{1}{2}(t + s - \left | t - s\right |) \\
+&= s \wedge t.
+\end{align}
+$$
+
+(b) $Y_{at}$ has the same distribution as $a^{2H} Y_t$ for $a > 0$.
+
+Proof:
+
+$$
+\begin{align}
+\Cov(Y_{as}, Y_{at}) &= \frac{1}{2}(a^{2H}t^{2H} + a^{2H}s^{2H} - \left | at - as\right |^{2H}) \\
+&= a^{2H} \frac{1}{2}(t^{2H} + s^{2H} - \left | t - s \right |^{2H}) \\
+&= a^{2H} \Cov(Y_s, Y_t) \\
+&= \Cov(a^H Y_s, a^H Y_t).
+\end{align}
+$$
+
+
+(c) The increment $Y_t - Y_s$ has a Gaussian distribution and is stationary.
+
+Proof:
+
+By definition, $(Y_t, Y_s)$ is a Gaussian vector so $Y_t - Y_s$ is Gaussian. The covariance depends only on $t - s$ so $Y_t - Y_s$ is stationary:
+
+$$
+\begin{align}
+\Var(Y_t - Y_s) &= \E((Y_t - Y_s)^2) \\
+&= \E(Y_t^2 - 2 Y_tY_s + Y_s^2) \\
+&= \E(Y_t^2) -2 \E(Y_tY_s) + \E(Y_s^2) \\
+&= t^{2H} + s^{2H} -(t^{2H} + s^{2H} - \left| t - s \right|^{2H}) \\
+&= \left| t - s \right|^{2H}.
+\end{align}
+$$
+
+(d) The increments $Y_t - Y_s$ are independent if and only if $H=1/2$. The increments are negatively correlated if $H < 1/2$ and positively correlated if $H > 1/2$.
+
+Proof:
+
+If $H=1/2$, then the process is the standard Brownian motion and so
+the increments are independent.
+
+Suppose that the increments are independent. Since they are Gaussian,
+this is equivalent to the covariance of the increments being zero:
+
+
+for all $a \leq b \leq c \leq d$
+$$
+\begin{align}
+\E((Y_a - Y_b)(Y_c - Y_d)) &= \E(Y_aY_c) - \E(Y_a Y_d) - \E(Y_b Y_c) + \E(Y_b Y_d) \\
+&= \frac{1}{2}\left ( a^{2H} + c^{2H} - |a - c|^{2H} - a^{2H} - d^{2H} + |a - d|^{2H} - b^{2H} - c^{2H} + |b - c|^{2H} + b^{2H} +d^{2H} - |b -d |^{2H}\right) \\
+&= \frac{1}{2} \left ( (d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H}\right) \\
+&= 0.
+\end{align}
+$$
+
+In particular, If we set $a=0, b=1, c=1, d=2$, then the condition becomes
+
+$$
+\begin{align}
+(d -a)^{2H} - (c -a )^{2H} + (c -b)^{2H} - (d -b )^{2H} \\
+= 2^{2H} - 1^{2H} + 0^{2H} - 1^{2H} \\
+= 2^{2H} - 2 = 0
+\end{align}
+$$
+
+and so $H=1/2$.
+
+Let $0 \leq s_1 \leq t_1 \leq s_2 \leq t_2$. Set
+
+$a_1 = t_2 - s_1$, $a_2 = t_2 - t_1$, $b_1 = s_2 - s_1$ and
+$b_2 = s_2 - t_1$.
+
+
+$$
+\E((Y_{t_1} - Y_{s_1})(Y_{t_2}-Y_{s_2})) = \frac{1}{2} \left ( f(a_1) - f(a_2) - (f(b_1) - f(b_2)) \right )
+$$
+
+where $f=x^{2H}$. $a_1 - a_2 =  b_1 - b_2 = t_1 - s_1$ and so using convexity of $f$ when $H > 1/2$, the covariance is positive; when $H < 1/2$, the covariance is negative because f is concave.
+
+:::{.callout-note}
+```{python}
+#| code-fold: true
+def f(x, H):
+    return np.power(x,2*H)
+
+H = 99/100
+
+plt.xlim(0.5, 4)
+
+
+ax = [3.5, 2]
+for i,x in enumerate(ax):
+    plt.axvline(x, color='r', linestyle='--', label = f'a_{i}')
+
+plt.plot(ax, f(ax, H))
+
+bx = [2.5, 1]
+for i,x in enumerate(bx):
+    plt.axvline(x, color='r', linestyle='-', label = f'b_{i}')
+
+plt.plot(bx, f(bx, H))
+
+x = np.linspace(0,4, 1000)
+plt.plot(x, f(x, H))
+plt.legend(loc='upper left')
+plt.show()
+
+
+```
+$$
+f(a_1) - f(a_2) \geq f(a_1) -f(b_2) \geq f'(b_2) (a_1 - a_2) = f'(b_2) (t_1 -s_1)
+$$
+
+$$
+f(b_1) - f(b_2) \leq f'(b_1) (b_1 - b_2) = f'(b_1) (t_1 - s_1)
+$$
+
+$$
+f(a_1) - f(a_2) -(f(b_1) - f(b_2)) \geq 0.
+$$
+:::
+
+## 3.10 The Arcsine Law on $[0, T]$
+
+By the scaling property of Brownian motions, $(B_t, t \in [0,T])$ has the same distribution as $(\frac{1}{\sqrt{T}} B_{Tt}, t \in [0, 1])$. The multiplicative factor does not change the proportion of
+time the path is positive: the CDF is the same as for motion on $[0,1]$.
+
+## 3.11 An Application of the Monotone Convergence Theorem
+
+Let $X_n \geq 0$ be a sequence of random variables on $(\Omega, \mathcal{F}, \P)$. Then
+
+$$
+\E(\sum_{n\geq 1} X_n) = \sum_{n \geq n} \E(X_n).
+$$
+
+Proof:
+
+Define
+
+$$
+Y_k = \sum_{n=1}^k X_n.
+$$
+Then $Y_k$ is a sequence of random variables such that $0 \leq Y_k \leq Y_{k+1}$ for all $k$.
+
+By the monotone convergence theorem,
+
+$$
+\lim_{k \to \infty} \E(Y_k) = \E(\lim_{k \to \infty} Y_k).
+$$
+That is,
+
+$$
+\sum_{n \geq 1} \E(X_n) = \E(\sum_{n \geq 1} X_n).
+$$
+
+## 3.12 Borel-Contelli Lemma I
+
+Let $(A_n)$ be a sequence of events in $(\Omega, \mathcal{F}, \P)$
+such that
+
+$$
+\sum_n \P(A_n) < \infty.
+$$
+
+Then
+$$
+\P(\{ \omega \in \Omega: \omega \in A_n \text{ for infinitely many } n\}) = 0.
+$$
+
+Proof:
+
+Immediately,
+$$
+\begin{align}
+\sum_n \P(A_n) = \sum_n \E(\mathbb{1}_{A_n}) < \infty.
+\end{align}
+$$
+
+By the monotone convergence theorem
+
+$$
+\sum_n \E(\mathbb{1}_{A_n}) = \E(\sum_n \mathbb{1}_{A_n}) < \infty.
+$$
+
+It follows that
+$$
+\P(\sum_n \mathbb{1}_{A_n} < \infty) = 1.
+$$
+
+The sum of indicator functions is a sum of ones and zeros. For the
+sum to be finite for any $\omega$, $\mathbb{1}_{A_n}(\omega) = 1$ for only finitely many $n$
+with probability 1 i.e. any $\omega \in A_n$ for only finitely many $n$. Therefore,
+
+$$
+\P(\left \{\omega \in \Omega : \omega \in A_n \text{ for finitely many } n\right \}) = 1
+$$
+and the result follows by taking the complement.
+
+## 3.13 Convergence in Probability $\nRightarrow$ Convergence Almost Surely
+
+Let $U$ be a uniform random variable taking values in $[0, 1]$.
+
+Express each $n$ as
+
+$$
+n = 2^j + k
+$$
+where $k= 0, \ldots, 2^j-1$.
+
+Define
+
+$$
+X_n = \mathbb{1}_{A_n}
+$$
+where $A_n = \{\omega \in \Omega : U(\omega) \in [2^{-j}k, 2^{-j}(k+1) ]\}$.
+
+$X_n$ converges to $0$ in probability.
+
+Proof:
+
+$$
+\begin{align}
+\P( |X_n| > \delta ) &= \begin{cases}
+2^{-j} & 0 < \delta <= 1, \\
+0 & \text{otherwise}
+\end{cases} \\
+&\to 0
+\end{align}
+$$
+
+as $n \to \infty$.
+
+$\square$
+
+$X_n$ does not converge to $0$ almost surely.
+
+Proof:
+
+Let $\omega \in \Omega$. Let $x = U(\omega)$. For $n = 2^j + k$,
+
+$x \in [2^{-j}k, 2^{-j}(k+1)]$ for exactly one $k$. Therefore,
+$(X_n(\omega))$ is an infinite sequence of $0$ and $1$ which never converges.
+
+$\square$
+
+## 3.14 But OK on a Subsequence
+
+
+Let $X_n \to X$ in probability as $n \to \infty$ and let $\delta > 0$. For each $n$, there is $m(n)$ such that
+
+$$
+\P(|X_{n_k} - X| > \delta) < \frac{1}{2^n}
+$$
+for $n_k \geq m(n)$. Choose one such $n_k$ for each $n$ to create a subsequence for $(X_{n_k})$.
+
+$$
+\begin{align}
+\sum_k \P(|X_{n_k} - X| > \delta) &< \sum_n \frac{1}{2^n} < \infty.
+\end{align}
+$$
+
+This subsequence will converge almost surely.
+
+## 3.15 Construction of the Poisson Process
+
+::: {.callout-warning}
+The book says that $\tau_k$ are exponential with parameter $1/\lambda$. I
+think the parameter should be $\lambda$. The mean would then be $1/\lambda$: maybe there's some confusion here between the parameter and the
+mean arrival time?
+:::
+
+We know that
+
+$$
+\tau_1 + \cdots + \tau_k \sim \ \operatorname{Gamma}\left (k+1, \lambda \right).
+$$
+
+The PDF of $\operatorname{Gamma}\left (k, \lambda \right)$ is
+
+$$
+f(x) = \frac{\lambda^k}{(k-1)!} x^{k-1} e^{-\lambda x}.
+$$
+
+Therefore,
+
+$$
+\begin{align}
+\P(\tau_1 + \ldots + \tau_k \leq t) &= \int_0^t \frac{\lambda^k}{ (k-1)!} x^{k-1} e^{-\lambda x}\, dx \\
+&= \frac{1}{(k-1)!}\int_0^{\lambda t} x^{k-1} e^{-x}\, dx \\
+&= 1 - e^{-\lambda t} \sum_{n=0}^{k-1} \frac{t^{n} \lambda^{n}}{n!}
+\end{align}
+$$
+
+Now $$\P(N_t \geq k) = \P(\tau_1 + \cdots \tau_k \leq t)$$ and so
+
+$$
+\begin{align}
+\P(N_t = k) &= \P(N_t \geq k+ 1) - \P(N_t \geq k) \\
+&= \frac{e^{-\lambda t}}{k!} t^k\lambda^k.
+\end{align}
+$$
+
+That is, $N_t$ has Poisson distribution with parameter $\lambda t$.
+
+Define $J_n = \sum_{i=1}^n \tau_i$. Then using the memory loss property of exponential variables
+
+
+$$
+\begin{align}
+\P(\tau_{l+1} - (s - J_l) > t | N_s = l) &= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, J_{l+1} > s) \\
+&= \P(\tau_{l+1} > t + s - J_l | J_l \leq s, \tau_{l+1} > s - J_l) \\
+&= \int_0^s \P(\tau_{l+1} > t + s - x | \tau_{l+1} > s - x) d\P_{J_l}(x) \\
+&= \int_0^s \P(\tau_{l+1} > t) d\P_{J_l}(x) \\
+&= \P(\tau_{l+1} > t) \\
+&= \P(\tau_1 > t).
+\end{align}
+$$
+Therefore, $\tau_{l+1} - (s - J_l)$ conditioned on $N_s = l$ is exponential
+with parameter $\lambda$.
+
+For $i > 1$, $\tau_{l+i}$ are independent of $\tau_j$ for $j \leq l$ and so are independent of $(N_r)_{r \leq s}$. So, conditioned on $N_s=l$, $\tau_{l+i}$ are exponential with parameter $\lambda$  for $i \geq 1$.
+
+
+
+Define
+
+$$
+t_i = \begin{cases}
+\tau_{l+1} - (s - J_l) & \text{ for } i = 0, \\
+\tau_{l+i} & \text{ otherwise}
+\end{cases}.
+$$
+
+We have shown so far that $t_i$ are exponentially distributed with parameter $\lambda$, conditioned on $N_s = l$. They are also independent since
+
+$$
+\P(t_1 > s_1, \ldots, t_k > s_k | N_s = l) = \P(\tau_1 > s_1, \ldots, \tau_k > s_k).
+$$
+
+If we use the law of total probability
+$$
+\begin{align}
+\P(t_1 > s_1, \ldots, t_k > s_k) &= \sum_l \P(t_1 > s_1, \ldots, t_k > s_k | N_s = l) \P(N_s = l) \\
+&= \P(\tau_1 > s_1, \ldots, \tau_k > s_k)
+\end{align}
+$$
+we see that $(t_i)$ are exponentially distributed with parameter $\lambda$ without conditioning! They are also independent without conditioning.
+We can also work backwards to state that $(t_i)$ are independent of $N_s$. In fact, $(t_i)$ are independent of $(N_r)_{r \leq s}$.
+
+Therefore, $Y_t$ is the sum of IID exponential variables and has Poisson distribution with parameter $\lambda t$:
+
+$$
+\begin{align}
+\P(Y_t \geq k) &= \frac{e^{-\lambda t}}{k!} t^k\lambda^k.
+\end{align}
+$$
+
+That is, $Y_t = N_{t + s} - N_s$ is Poisson distributed with parameter $\lambda t$ or, what is the same, $N_t - N_s$ is Poisson distributed with
+parameter $\lambda(t - s)$.
+
+We established that $N_s$ and $(t_i)$ are independent. Since $Y_t$ is a sum
+of $(t_i)$, it must be independent of $(N_r)_{r \leq s}$. That is, $N_t - N_s$ is
+independent of $N_s = N_s - N_0$. So, at least two increments, $N_t - N_s$ and $N_s - N_0$, are independent. Suppose that $t_1 = 0 < t_1 < t_2 < \ldots < t_n$. For $n=2$, we have established that $(N_{t_{i+1}} - N_{t_i})_{i=0}^n$ are independent. Suppose that
+the increments of a Poisson process are independent for $n=k$ and consider the case $n=k+1$. The increments $(N_{t_{i+1}} - N_{t_i})_{i=1}^{k}$ are independent because these
+can be considered to be $n$ increments of the Poisson process $N'_t = N_t - N_{t_1}$.
+We know that each of these increments is independent of $N_{t_1}$ which completes the proof by induction.

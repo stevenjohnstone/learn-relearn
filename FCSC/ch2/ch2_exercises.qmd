@@ -1,0 +1,1198 @@
+---
+title: "Chapter Two: Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+## 2.1 An Example of Uncorrelated Random Variables that are not Independent
+
+Let $X$ be a standard Gaussian. Show that $\Cov(X^2, X) = 0$.
+
+$$
+\Cov(X^2, X) = \E(X^3) - \E(X^2)\E(X)
+$$
+
+The standard Gaussian has odd moments equal to zero so
+
+$$
+\Cov(X^2, X) = 0 - \E(X^2).0 = 0.
+$$
+
+If you don't have the knowledge at your fingertips, there's always
+direct calculation:
+
+We already know that $\E(X) = 0$ for the standard Gaussian (it has mean $0$).
+
+Using integration by parts:
+$$
+\begin{align}
+\E(X^3) & = \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^3 e^{-x^2/2} dx \\
+&=  \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{\infty} x^2 \frac{d}{dx}(-e^{-x^2/2}) dx \\
+&= \frac{1}{\sqrt{2 \pi}} (-x^2 e^{-x^2/2} \rvert_{-\infty}^{\infty} + \int_{-\infty}^{\infty} 2 x e^{-x^2/2} dx) \\
+& = 2 \E(X) = 0.
+\end{align}
+$$
+
+## 2.2 Sum of Exponentials is Gamma
+
+The sum of $n$ IID random variables with exponential distribution
+with parameter $\lambda$ is gamma with pdf
+
+$$
+\begin{align}
+f(x) = \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} &, x \geq 0.
+\end{align}
+$$ {#eq-gamma-pdf}
+
+Proof:
+
+The pdf of the sum of two IID random variables is the convolution of the pdfs of the summands.
+
+Therefore,
+$$
+\begin{align}
+f(x) &= \int_{0}^{x} \lambda^2 e^{-\lambda(x - y)}e^{-\lambda y} dy \\
+&= \lambda^2 e^{-\lambda x} \int_{0}^{x} dy \\
+&= \lambda^2 x e^{-\lambda x}.
+\end{align}
+$$
+
+So, it's at least plausible.
+
+To prove the result, we use the MGF of the exponential random variables $X$ with parameter $\lambda$:
+
+$$
+\begin{align}
+\E(e^{tX}) &= \frac{\lambda}{\lambda -t} &, t < \lambda.
+\end{align}
+$$
+
+Let $X_i$ be a collection of IID exponential random variables with
+parameter $\lambda$. Then $Z = \sum X_i$ satisfies
+
+$$
+\E(e^{tZ}) = \prod_{i=1}^n \E(e^{tX_i}) = \frac{\lambda^n}{(\lambda -t)^n}.
+$$
+
+Suppose that $Y$ has pdf (@eq-gamma-pdf), then for $t < \lambda$ we see that be repeated integration by parts
+
+$$
+\begin{align}
+\E(e^{tY}) &= \int_0^{\infty} e^{tx} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{-\lambda x} dx \\
+&=    \int_0^{\infty} \frac{\lambda^n}{(n-1)!}x^{n-1} e^{(t -\lambda) x} dx \\
+&= \int_0^{\infty} \frac{\lambda^n}{(n-1)!} x^{n-1} \frac{(-1)^n}{(\lambda -t)^n} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\
+&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} \int_0^{\infty} x^{n-1} \frac{d^n}{dx^n}e^{(t-\lambda)x} dx \\
+&= \frac{\lambda^n}{(n-1)!} \frac{(-1)^n}{(\lambda -t)^n} (-(n-1)\int_0^{\infty} x^{n-2} \frac{d^{n-1}}{dx^{n-1}}e^{(t-\lambda)x} dx) \\
+&= \frac{\lambda^n}{(\lambda - t)^n} \frac{(-1)^n}{(n-1)!}(-1)^{n-1} (n-1)!(e^{(t-\lambda)x}\rvert_0^{\infty}) \\
+&= \frac{\lambda^n}{(\lambda - t)^n} (-1)^{2n-1} (-1) \\
+&= \frac{\lambda^n}{(\lambda -t)^n}.
+\end{align}
+$$
+
+The MGF characterises the distribution of the random variable so the proof is complete.
+
+## 2.3 Why $\sqrt{2 \pi}$?
+
+Using polar coordinates
+
+$$
+\begin{align}
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy &= \int_0^{2 \pi} \int_0^{\infty} r e^{-r^2} dr d\theta \\
+&=  2 \pi \int_0^{\infty} r e^{-r^2} dr \\
+&=  2 \pi \int_0^{\infty} \frac{-1}{2} \frac{d}{dr}(e^{-r^2}) dr \\
+&=  - \pi e^{-r^2} \rvert_0^{\infty} \\
+&= \pi.
+\end{align}
+$$
+
+Now,
+$$
+(\int_{-\infty}^{\infty} e^{-x^2} dx)^2 =
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2 - y^2} dx dy = \pi.
+$$
+
+Therefore
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}.
+$$
+
+I think the author may have meant for us to show that
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2/2} dx = \sqrt{2 \pi}
+$$
+
+which follows by a change of variables $x = y/\sqrt{2}$
+
+$$
+\begin{align}
+\int_{-\infty}^{\infty} e^{-x^2} dx &= \int_{-\infty}^{\infty} e^{-(y/\sqrt{2})^2} \frac{1}{\sqrt{2}} dy \\
+&= \frac{1}{\sqrt{2}} \int_{-\infty}^{\infty} e^{-y^2/2} dy = \sqrt{\pi}.
+\end{align}
+$$
+
+
+
+
+
+
+## 2.4 Box-Muller
+
+Let $U_1 \sim U(0,1)$ and $U_2 \sim U(0,1)$. Define random variables
+
+$$
+Z_1 = \sqrt{-2 \log(U_1)} \cos(2 \pi U_2)
+$$
+and
+$$
+Z_2 = \sqrt{-2 \log(U_1)} \sin(2 \pi U_2).
+$$
+
+Show that $Z_1$ and $Z_2$ are independent standard Gaussians.
+
+Change to polar coordinates.
+
+Note that
+
+$$
+R = \sqrt{Z_1^2 + Z_2^2} = \sqrt{-2 \log(U_1)}
+$$
+
+and
+
+$$
+\tan(\Theta) = \frac{Z_2}{Z_1} = \tan(2 \pi U_2).
+$$
+so
+$$
+\Theta = 2 \pi U_2
+$$.
+
+The random variable $R$ has CDF
+
+$$
+\begin{align}
+F_R(r) &= P(R \leq r) \\
+&= P(\sqrt{-2 \log(U_2)} \leq r) \\
+&= P(U_2 \geq e^{-r^2/2}) \\
+&= 1 - P(U_2 < e^{-r^2/2})
+&= 1 - \begin{cases}
+0 & \text{if } e^{-r^2/2} <0, \\
+e^{-r^2/2} & \text{for } 0 \leq e^{-r^2/2} < 1, \\
+1 & \text{if } e^{-r^2/2} \geq 1
+\end{cases} \\
+&= 1 - e^{-r^2/2}.
+\end{align}
+$$
+
+Obviously, $\Theta \sim U(0, 2 \pi)$. Therefore, $(Z_1, Z_2)$ has the same distribution as $(X, Y)$ where $X, Y$ are IID standard Gaussians.
+
+## 2.5 Marginally Gaussian but not Jointly Gaussian.
+
+Let $X$ be a standard Gaussian and define
+
+$$
+Y = \begin{cases}
+X & \text{if } |X| \leq 1, \\
+-X & \text{otherwise.}
+\end{cases}
+$$
+
+$Y$ is also a standard Gaussian.
+
+Proof:
+
+Let
+
+$$
+g(x) = \begin{cases}
+x & \text{if } |x| \leq 1, \\
+-x & \text{otherwise.}
+\end{cases}
+$$
+
+Then the MGF of $Y$ can be expressed (using LOTUS) as
+
+$$
+\begin{align}
+\sqrt{2 \pi} \E(e^{tY}) &= \sqrt{2 \pi} \E(e^{tg(X)}) \\
+&= \int_{-\infty}^{\infty} e^{tg(x)} e^{-x^2/2} dx \\
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{-\infty}^{-1} + \int_1^{\infty}) e^{-t x} e^{-x^2/2} dx \\
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{\infty}^{1} + \int_{-1}^{-\infty}) - e^{t x} e^{-x^2/2} dx \\
+&= \int_{-1}^{1} e^{t x} e^{-x^2/2} dx + (\int_{1}^{\infty} + \int_{-\infty}^{-1} e^{t x} e^{-x^2/2} dx \\
+&= \int_{-\infty}^{\infty} e^{tx} e^{-x^2/2} dx \\
+&= \sqrt{2 \pi} \E(e^{tX}).
+\end{align}
+$$
+
+Therefore, $Y$ and $X$ are identically distributed. They are definitely
+not independent as $Y$ is a function of $X$ and so we have no
+right to expect that $X + Y$ is also Gaussian.
+
+To see that $X +Y$ is not Gaussian, note that its range is in $[-2,2]$; there are lower bounds on Gaussian tails which are non-zero.
+
+```{python}
+X = rg.normal(0,1, N)
+Y = [x if np.abs(x) <=1 else -x for x in X]
+plt.hist(X+Y, bins=bins, label='X + Y', alpha=0.5)
+plt.hist(X, bins, label='X', alpha=0.5)
+plt.hist(Y, bins, label='Y', alpha=0.5)
+plt.legend(loc='upper right')
+plt.plot()
+```
+
+```{python}
+data=[X+Y, X, Y]
+ax = plt.subplot()
+ax.violinplot(data, range(len(data)), vert=False)
+ax.set_yticks(range(len(data)))
+ax.set_yticklabels(['X+Y', 'X', 'Y'])
+plt.plot()
+```
+
+## 2.6 PDF of Brownian Bridge
+
+Let $(M_t, t \in [0,1])$ be a Brownian bridge.
+
+(a) write down the PDF of $(M_{1/4}, M_{3/4})$
+
+The covariance matrix is
+
+```{python}
+#| code-fold: true
+import sympy as sp
+from sympy.abc import s,t
+
+def cov(s, t):
+    return sp.Min(s,t) -s * t
+
+a, b = sp.Rational(1, 4), sp.Rational(3/4)
+
+C = sp.Matrix([[cov(a, a), cov(a, b)],[cov(b, a), cov(b, b)]]); C
+```
+
+
+Using sympy, we can get the PDF easily:
+
+
+```{python}
+#| code-fold: true
+from fractions import Fraction
+from sympy.abc import x,y
+
+sp.init_printing()
+
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+pdf
+```
+
+(b) write down the probability of the event ${M_{1/4}^2 + M_{3/4}^2 \leq 1}$ as a double integral
+
+```{python}
+#| code-fold: true
+r = sp.symbols('r', nonegative=True)
+theta = sp.symbols('theta')
+
+pdf = pdf.subs({x: r*sp.cos(theta), y: r*sp.sin(theta)}).simplify()
+
+prob = sp.Integral(pdf * r, (r, 0, 1), (theta, 0, 2 *sp.pi)); prob
+```
+
+The integral can be calculated numerically using Simpson's rule or a Monte Carlo simulation:
+```{python}
+from scipy.integrate import simps
+
+def evaluate_integral(integrand):
+    r = np.linspace(0, 1, 1000)
+    theta = np.linspace(0, 2* np.pi, 1000)
+
+    zz = integrand(r.reshape(-1, 1), theta.reshape(1, -1))
+    return simps([simps(zz_r, r) for zz_r in zz], theta)
+
+def monte_carlo(integrand):
+    samples = 1000
+    sum = 0
+    for _ in range(samples):
+        u = np.random.default_rng().uniform(0, 1, 2)
+        r, theta = u[0], 2*np.pi*u[1]
+        sum +=integrand(r, theta)
+    return 2*np.pi * sum/samples
+
+numerical_soln = evaluate_integral(sp.lambdify([r, theta], pdf *r)); print(numerical_soln)
+
+monte_carlo(sp.lambdify([r, theta], pdf*r))
+```
+
+Alternatively, we can approximate the desired probability by
+using the Cholesky decomposition:
+```{python}
+
+def simulate(samples):
+    rg = np.random.default_rng()
+    C = [[3/16, 1/16], [1/16, 3/16]]
+    A = np.linalg.cholesky(C)
+    samples = 1000
+    in_disk = 0
+    for _ in range(samples):
+        sample = A.dot(rg.normal(0,1, 2))
+        if sample[0]**2 + sample[1]**2 <= 1:
+            in_disk += 1
+    return in_disk/samples
+
+simulated_result = simulate(1000); simulated_result
+```
+
+
+The two approaches differ by
+```{python}
+abs(simulated_result - numerical_soln)
+```
+
+
+
+
+
+## 2.7 The Covariance of a Random Vector is Always Positive Semidefinite
+
+Let $\mathcal{C}$ be the covariance matrix of a random vector $X = (X_i)$.
+
+We must demonstrate that
+
+$$
+\sum_{i,j} a_i a_j \mathcal{C}_{ij} \geq 0
+$$ {#eq-covariance-pos-semidef}
+for any $a \in \mathbb{R}^n$.
+
+Define
+$$
+Y = \sum_{i=1}^n a_i X_i
+$$
+
+and calculate the variance of $Y$ showing that it is equal to the left-hand side of (@eq-covariance-pos-semidef):
+
+$$
+\begin{align}
+\Var(Y) &= \E(Y^2) - \E(Y)^2 \\
+      &= \E(\sum_{i,j=1} a_i a_j X_i X_j ) - \sum_{i,j=1}^n a_i a_j \E(X_i)\E(X_j) \\
+      &= \sum_{i,j=1}^n a_i a_j (\E(X_i X_j) - \E(X_i) \E(X_j)) \\
+      &=  \sum_{i,j=1}^n a_i a_j \mathcal{C}_{ij}.
+\end{align}
+$$
+
+The proof is complete by noting that $\Var(Y) \geq 0$.
+
+
+::: {.callout-note}
+The variance of a random variable is invariant under translation i.e.
+
+if $X$ is a random variable and $c \in \mathbb{R}$, then
+
+$$
+\Var(X + c) = \Var(X).
+$$
+This follows by a simple book-keeping exercise:
+$$
+\begin{align}
+\Var(X+c) &= \E(X^2 + 2cX + c^2) - (\E(X) + c)^2\\
+&= \E(X^2) +2c\E(x) +c^2 - \E(X)^2  - 2x \E(X) - c^2 \\
+&= \E(X^2) - \E(X)^2 \\
+&= \Var(X).
+\end{align}
+$$
+
+It is clear that $\Var(X) \geq 0$ when $X$ has mean zero:
+
+$$
+\Var(X) = \E(X^2) = \int_{-\infty}^{\infty} x^2 dF(x) \geq 0.
+$$
+
+If $m$ is the mean of $X$, then $X -m$ has mean zero and so using invariance of the variance:
+
+$$
+\Var(X) = \Var(X - m) \geq 0.
+$$
+
+:::
+
+
+::: {.callout-note}
+
+$X$ is a constant with probability 1 $\iff \Var(X) = 0$.
+
+Proof:
+
+If $X = c$, then
+$$
+\Var(X) = \E(c^2) - \E(c)^2 = c^2 - c^2 = 0.
+$$
+
+If $\Var(X) = 0$,  then $\Var(X - \E(X)) = 0$, by translation invariance of $\Var$. Let $Y = X - \E(X)$. Then
+
+$$
+\Var(Y) = \int_{-\infty}^{\infty} y^2 dF_Y(y)
+$$
+and so
+$$
+F_Y(y) = \begin{cases}
+0 & \text{for } y < 0, \\
+1 & \text{otherwise}.
+\end{cases}
+$$
+Therefore, $Y = 0$ with probability 1 and so $X = \E(X)$ with probability 1 i.e. $X$ is a constant.
+:::
+
+Since the LHS of (@eq-covariance-pos-semidef) is the variance of $\sum_i a_i X_i$, we see that $\mathcal{C}$ is positive _definite_
+if and only if the variance of $\sum_i a_i X_i$ is non-zero for all non-zero $a$.
+
+The covariance matrix of a random vector $X = (X_i)$ is positive-definite if and only if each linear combination of the coordinates is non-constant.
+
+When $X_i$ are jointly Gaussian, then each linear
+combination is a Gaussian random variable: the only constant a linear combination of Gaussian variables can sum to is zero.
+
+Therefore, for jointly Gaussian random variables,
+the covariance matrix is positive-definite if and only if the
+the variables are linearly independent. See @sec-degenerate-is-li.
+
+## 2.8 A Linear Transformation of Gaussian Vector is Also Gaussian
+
+Let $X = (X_i)_{i=1}^n$ be a Gaussian vector an $M$ be an $m \times n$ matrix.
+
+$Y = MX$ is also Gaussian.
+
+Proof:
+
+We can write
+
+$$
+\begin{align}
+Y &= (\sum_{i=1}^n M_{ij} X_i)_{j=1}^m
+\end{align}
+$$
+and so express $Y$ as a vector of linear combinations of $X_i$ making its components Gaussian. Moreover, we can express any
+linear combination of components of $MX$ as a linear combination of $X_i$:
+
+$$
+\begin{align}
+\sum_{j=1}^m a_j Y_j &= \sum_{j=1}^m a_j (\sum_{i=1}^n M_{ji} X_i) \\
+&= \sum_{i,j} a_j M_{ji} X_i \\
+&= \sum_{i} b_i X_i
+\end{align}
+$$
+where
+$$
+b_i = \sum_j a_j M_{ji}.
+$$
+Written in a more suggestive manner:
+$$
+a^T MX = (M^T a)^T X.
+$$
+$\square$
+
+Let $\mathcal{C}$ be the covariance matrix of $X$.
+
+We can express
+the covariance matrix of $Y$ in terms of $M$ and $\mathcal{C}$:
+
+$$
+\begin{align}
+\Cov(Y_i, Y_j) &= \E(Y_i Y_j) - \E(Y_i) \E(Y_j) \\
+&= \E( \sum_\alpha M_{i \alpha} X_\alpha \sum_\beta M_{j \beta} X_\beta ) - \sum_\alpha M_{i \alpha} \E(Y_i) \sum_\beta M_{j \beta } \E(Y_j) \\
+&= \sum_\alpha \sum_\beta M_{i\alpha }M_{j \beta} (\E(X_\alpha X_\beta) - \E(X_\alpha) \E(X_\beta)) \\
+&= \sum_\alpha \sum_\beta M_{i \alpha}\mathcal{C}_{\alpha \beta} M^T_{\beta j}. \\
+\end{align}
+$$
+
+In shorter notation:
+
+$$
+\Cov(Y) = M \mathcal{C}M^T.
+$$
+
+Suppose that $m =n$. Then,
+
+$$
+\begin{align}
+\det(\Cov(Y)) &= \det(M)\det(\mathcal{C})\det(M^T) \\
+&= \det(M)^2\det(\mathcal{C}).
+\end{align}
+$$
+If follows that $Y$ is non-degenerate ($\det(\Cov(Y)) \neq 0$) $\iff$ $\det(M) \neq 0$.
+
+For general $M$, it is necessary that $m \leq n$ and $M$ is full-rank $m$ for $\Cov(Y)$ to be positive definite.
+
+
+::: {.callout-note}
+
+The domain of $M^T$ is $m$-dimensional. The range of $M^T$, $\mathcal{R}(M^T)$, has dimension $\rank(M^T$). Since
+$\mathcal{C}$ is invertible, $\mathcal{C}(\mathcal{R}(M^T))$ has dimension
+$\rank(M^T)$. Finally, $\dim(M(\mathcal{C}(\mathcal{R}(M^T)))) = \rank(M)$ by virtue of $\rank(M^T) = \rank(M)$. That is,
+$\rank(\Cov(Y)) = \rank(M)$.
+
+For $\Cov(Y)$ to be invertible (making $\Cov(Y)$ positive _definite_), we require $\rank(M) = m$ i.e $M$ must be full-rank.  Given that $\rank(M) \leq \min(m, n)$, when $M$ is full-rank $m \leq n$.
+:::
+
+## 2.9 IID Decomposition
+
+Let $(X, Y)$  be a Gaussian vector with mean $0$ and covariance
+matrix
+$$
+\mathcal{C} = \begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix},
+$$
+for $\rho \in (-1, 1)$.
+
+Take $Z_1 = X$. $Z_1$ is a standard Gaussian: it has mean $0$ by
+assumption and the covariance matrix tells us that $\Var(X_1) = 1$.
+
+We perform Gram-Schmidt to express $(X, Y)$ as a linear combination
+of IID standard Gaussians. Start with
+$$
+\begin{align}
+Z^{'}_2 &= Y - \E(YZ_1)Z_1 \\
+&= Y - \rho Z_1.
+\end{align}
+$$
+
+By linearity of expectation,
+$$
+\begin{align}
+\Var(Z^{'}_2) &= \E((Y - \rho Z_1)^2) \\
+&= \E(Y^2) - 2\rho \E(Y Z_1) + \rho^2 \E(Z_1^2) \\
+&= 1 -  \rho^2.
+\end{align}
+$$
+We set
+$$
+Z_2 = \frac{1}{\sqrt{1 - \rho^2}} Z_2^{'}
+$$
+and so $Z_2$ has variance 1: $Z_1$ is a standard Gaussian.
+
+::: {.callout-note collapse="true"}
+# $Z_1$ and $Z_2$ are independent
+
+For Gaussians, it is sufficient to demonstrate that
+$$
+\E(Z_1 Z_2) = 0.
+$$
+We expect this from the Gram-Schmidt process but it doesn't hurt
+to check:
+
+$$
+\begin{align}
+\E(Z_1Z_2) & = \frac{1}{\sqrt{1 - \rho^2}}\E(X(Y - \rho X)) \\
+&= \frac{\E(XY) - \rho\E(X^2)}{\sqrt{1 -\rho^2}} \\
+&= 0.
+\end{align}
+$$
+:::
+
+We can write
+$$
+(X, Y) = (Z_1, \rho Z_1 + \sqrt{1 - \rho^2} Z_2)
+$$
+to express $(X, Y)$ as a linear combination of IID standard Gaussians.
+
+The PDF of $(X, Y)$ is given by
+```{python}
+#| code-fold: true
+import sympy as sp
+from sympy.abc import x, y, rho
+from fractions import Fraction
+
+sp.init_printing()
+
+
+C = sp.Matrix([[1, rho], [rho, 1]])
+Cinv = C.inv()
+factor = sp.gcd(tuple(Cinv))
+xy = sp.Matrix([x, y])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det())); f[0]
+```
+
+## 2.10 IID Decomposition
+
+```{python}
+C = sp.Matrix([[2, 1, 1], [1, 2, 1], [1, 1, 2]])
+A = C.cholesky()
+Ainv = A.inv()
+
+z1, z2, z3, x1, x2, x3 = sp.symbols('z_1 z_2 z_3 x_1 x_2 x_3')
+
+x = sp.Matrix([x1, x2, x3])
+
+
+z = sp.MatMul(Ainv, x, evaluate=True); z
+
+```
+
+## 2.11 IID Decomposition
+
+$$
+\mathcal{C}= \begin{bmatrix}
+3 & 1 & 1 \\
+1 & 3 & -1 \\
+1 & -1 & 3
+\end{bmatrix}
+$$
+
+$\det{\mathcal{C}}$ is
+```{python}
+#| code-fold: true
+C = [[3, 1, 1], [1,3,-1], [1, -1, 3]]
+np.linalg.det(C)
+```
+
+and so $X$ is non-degenerate.
+
+```{python}
+class Sim211:
+    C = [[3, 1, 1], [1,3,-1], [1, -1, 3]]
+    def __init__(self):
+        self.__A = np.linalg.cholesky(C)
+        return
+
+    def path(self, rg = np.random.default_rng()):
+        return self.__A.dot(rg.normal(0, 1, len(C[0])))
+
+sim = Sim211()
+
+for _ in range(100):
+    plt.plot(range(1, 4), sim.path())
+plt.show()
+
+
+
+```
+
+## 2.12 Degenerate Means Linearly Independent {#sec-degenerate-is-li}
+
+Let $X = (X_i)_{i=1}^n$ be a Gaussian vector with covariance $\mathcal{C}$.
+
+$\det{\mathcal{C}} = 0 \iff$ there exists $c \in \mathbb{R}^n\setminus{0}$ such that
+
+$$
+\sum_i c_i X_i = 0.
+$$
+
+Proof:
+
+By definition, $X$ is a degenerate Gaussian vector iff $\det{\mathcal{C}} = 0$. Since $\mathcal{C}$ is symmetric semi-positive
+definite, $\det{\mathcal{C}} = 0$ iff there exists $c \in \mathbb{R}^n\setminus{0}$ such that
+
+$$
+c^T \mathcal{C} c = 0.
+$$
+
+This can be written as a statement about the variance of a Gaussian
+random variable:
+
+$$
+c^T \mathcal{C} c = \Var(\sum_i c_i X_i) = 0.
+$$
+
+A random variable with variance 0 is a constant; the only constant
+a Gaussian variable can equal is 0.
+
+Therefore,
+
+$$
+c^T C c = 0 \iff \sum_i c_i X_i = 0.
+$$
+$\square$
+
+The textbook hints that we should use $\mathcal{C} = AA^T$ but
+I think this needs some care to avoid circularity if we're using
+this to fill in proofs in the text. Obviously, we can't use
+results where the existence of $A$ is predicated on $X$ being
+non-degenerate!
+
+The approach I take here is to prove the equivalent theorem
+
+$\det{\mathcal{C}} \neq 0 \iff X_i$ are linearly independent.
+
+Proof:
+
+
+Suppose that $X$ has mean zero without loss of generality.
+
+
+Suppose $(X_i)$ are linearly independent and so form an $n$-dimensional
+vector space $V$ with addition being the usual addition of random
+variables. The vector space is equipped with the inner product $\E: V \times V \mapsto \mathbb{R}$. This allows us to
+can use the Gram-Schmidt
+process to create $n$ IID (orthogonal wrt $\E$) Gaussian standard vectors $(Z_i)$ with mean zero. The space $V$ is spanned by both $(X_i)$ and $(Z_i)$ and so they are related by an invertible change of coordinates $A$
+such that $X = AZ$. In addition,
+
+$$
+\mathcal{C} = AA^T
+$$
+
+since
+
+$$
+\mathcal{C}_{ij} = \E(X_i Xj) = \E(\sum_m A_{im} Z_m \sum_n A_{jn} Z_n) = (AA^T)_{ij}.
+$$
+
+
+
+Since $A$ is invertible, $\det(A) = \det(A^T) \neq 0$ and so
+
+
+$$
+\det(\mathcal{C} ) = \det(A)^2  > 0.
+$$
+
+Now, suppose that $\det{C} \neq 0$. Then $X$ is non-degenerate and
+so there exists an invertible matrix $A$ and $n$ IID standard Gaussian random variables such that $X=AZ$. The variables $Z_i$ are
+linearly independent and we can leverage this and the invertibility of $A^T$:
+
+
+$$
+\sum_i c_i X_i = \sum_i c_i A^T Z_i = A^T (\sum_i c_i Z_i)
+$$
+and so $\sum_i c_i X_i = 0$ iff $\sum_i c_i Z_i = 0$ which would be
+a contradiction if the $c_i$ are not all zero.
+
+
+We have shown that
+
+$\det{\mathcal{C}} \neq 0 \iff X_i$ are linearly independent.
+
+Equivalently,
+$$
+\det{\mathcal{C}} = 0 \iff \exists c \in \mathbb{R}^n\setminus{0} \text{ such that } \sum_i c_i X_i = 0.
+$$
+
+$\square$
+
+## 2.13 IID Decomposition For Degenerate Vectors
+
+Let $X = (X_i)_{i=1}^{n}$ be a degenerate Gaussian vector with mean
+zero.
+
+::: {.callout-warning}
+The question does not state that the mean of $X$ is zero: this appear
+to be an error.
+:::
+
+The Gaussian variables $X_i$ form a finite-dimensional vector space $V$
+under addition of random variables and multiplication by reals.
+The dimension of $V$ is less than $n$, because the $X_i$ are linearly
+dependent.
+
+The expectation operator is an inner-product on $V$ and we can
+use this inner-product to to form a basis $Z = (Z_i)_{i=1}^m$ $m < n$ for $V$ of IID standard
+Gaussian variables. Each $X_i$ can be written in exactly one way
+as a linear combination of $Z$:
+
+$$
+X_i = \sum_{j=1}^m a_{ij} Z_j.
+$$
+That is, there is an $m \times n$ matrix $A$ such that
+$$
+X = A Z.
+$$
+
+The elements of the covariance matrix of $X$ can be expressed
+in terms of $A$:
+
+$$
+\begin{align}
+\mathcal{C}_{ij} &= \E(X_i X_j) \\
+&= \E(\sum_\alpha a_{i\alpha} Z_\alpha \sum_\beta a_{j \beta} Z_\beta) \\
+&= \sum_{\alpha, \beta} a_{i\alpha}a_{j\beta} \E(Z_\alpha Z_\beta) \\
+&= \sum_\alpha a_{i \alpha} a_{j \alpha} \\
+&= (A A^T)_{ij}.
+\end{align}
+$$
+
+## 2.14 Brownian Bridge From Brownian Motion
+
+Let $(B_t, t \in [0, 1])$ be a Brownian motion.
+
+(a) Show that the process given by $(M_t = B_t - t B_1, t \in [0, 1])$ is a Brownian bridge.
+
+Step 1: show that $M_t$ is a Gaussian process.
+
+Choose $0 = t_1 < t_2 < ... t_n =1$. The process $(M_{t_i})$ is a
+linear transformation of $(B_{t_i})$:
+
+$$
+A_{ij} = \delta_{ij} - t \delta_{nj}
+$$
+
+e.g for a process with three time points
+
+$$
+A = \begin{bmatrix}
+1 & 0 & -t \\
+0 & 1 & -t \\
+0 & 0 & 1-t
+\end{bmatrix}.
+$$
+
+Step 2: Show that the mean of $(M_t)$ is equal to zero
+
+$$
+\E(M_t) = \E(B_t - t B_1) = \E(B_t) - t\E(B_1) = 0.
+$$
+
+Step 3: Show that the $\Cov(M_t, M_s) = \min(s,t) - st$.
+
+$$
+\begin{align}
+\Cov(M_t, M_s) &= \Cov(B_t -t B_1, B_s - t B_1) \\
+&= \E(B_t B_s - t B_t B_1 -t B_s B_1 + t^2 B_1^2) \\
+&= \E(B_t B_s) -t \E(B_t B_1) -t \E(B_s B_1) + t^2 \E(B_1^2) \\
+&= \min(s, t) - st.
+\end{align}
+$$
+
+
+(b) Show that the random variable $B_t - t B_1$ is independent of
+of $B_1$ for any $t \in [0, 1]$.
+
+Consider the covariance:
+
+$$
+\begin{align}
+\Cov(B_t - t B_1, B_1) &= \E(B_tB_1 -t B_1 B_1) \\
+&= \E(B_tB_1) -t \E(B_1^2) \\
+&= t - t \\
+&= 0.
+\end{align}
+$$
+
+Since $B_t -t B_1$ and $B_1$ are Gaussian variables, this is enough
+to establish independence.
+
+## 2.15 Triangle Inequality
+
+Let $X, Y$ be two random variables in $L^2(\Sigma, \mathcal{F}, \P)$. Prove the triangle inequality
+
+$$
+\sqrt{\E((X+Y)^2)} \leq \sqrt{\E(X^2) + \E(Y^2)}.
+$$
+
+Expand the square and use Cauchy-Schwarz:
+
+$$
+\begin{align}
+\E((X+Y)^2) &= \E(X^2 + 2 X Y + Y^2) \\
+&= \E(X^2) + 2 \E(XY) + \E(Y^2) \\
+&\leq \E(X^2) + 2 \sqrt{\E(X^2) \E(Y^2)} + \E(Y^2) \\
+&= (\sqrt{\E(X^2)} + \sqrt{\E(Y^2)})^2.
+\end{align}
+$$
+
+
+Let $S_k = \sum_{i=1}^k X_i$. Suppose that the triangle inequality
+holds for $S_k$:
+
+$$
+\sqrt{\E(S_k^2)} \leq \sum_{i=1}^k\sqrt{\E(X_i^2)}.
+$$
+
+Consider the next case $S_{k+1}$:
+
+$$
+\sqrt{\E(S_{k+1}^2)}  = \sqrt{\E((X_{k+1} + S_k)^2)} \leq \sqrt{\E(X_{k+1}^2)} + \sqrt{\E(S_k^2)} = \sum_{i=1}^{k+1}\sqrt{\E(X_k^2)}
+$$
+using the two-term triangle inequality. The result follows by
+induction since the triangle inequality holds for $k=2$.
+
+## 2.16 The Space of Integrable Random Variables is $L^1$
+
+$L^1(\Omega, \mathcal{F}, \P)$ is a linear space.
+
+Proof:
+
+If $X, Y \in L^1$ and $a, b \in \mathbb{R}$, then
+
+$$
+aX + bY
+$$
+
+is a random variable on the probability space and by the triangle inequality
+
+$$
+|aX + bY| \leq |a| |X| + |b| |Y|.
+$$
+The right-hand side is integrable so |aX + BY| is integrable. Therefore,
+$aX + bY \in L^1$. The zero vector of $L^1$ is a random variable on the probability space
+which is zero with probability one.
+
+$\square$
+
+$\| X \|_1 \triangleq \E(|X|)$ is a norm for $L^1$.
+
+Proof:
+
+To verify that $\| \cdot \|_1$ is a norm for $L^1$ we must verify that
+
+1. $\| X + Y \|_1 \leq \| X\|_1 + \|Y \|_1$ for $X,Y \in L^1$
+2. For all scalars $a$ and $X \in L^1$, $\| a X\|_1 = |a| \| X \|_1$
+3. For all $X \in L^1$, if $\| X\|_1 = 0$, then $X=0$.
+
+
+(1)
+By the triangle inequality for the reals,
+
+$$
+| X + Y| \leq |X| + |Y|
+$$
+with probability one for $X, Y \in L^1$ and so
+
+$$
+\| X + Y \|_1 = \E(|X + Y|) \leq \E(|X|) + \E(|Y|) = \|X\|_1 + \|Y\|_1.
+$$
+
+(2)
+
+For scalar $a$ and $X \in L^1$,
+
+$$
+\| a X \|_1 = \E(|a X|) = |a| \E(|X|) = |a| \| X \|_1.
+$$
+
+(3)
+
+It is clear that if $X = 0$, then $\|X\|_1 = 0$.
+
+If $X \in L^1$ and $\| X \|_1 = 0$, then
+
+$$
+\E(|X|) =0.
+$$
+
+By Markov's inequality
+
+$$
+\P(|X| > x) \leq \frac{1}{x} \E(|X|) = 0
+$$
+for $x > 0$ i.e.
+
+$$
+P(|X| > x) = 0
+$$
+for $x> 0$. It follows that $P(|X| \leq 1/n) = 1$ for all $n=1, 2, \ldots$.
+
+Therefore, we can create a decreasing, nested sequence of events $A_n = \{\omega \in \Omega : \left |X(\omega)\right| \leq 1/n\}$ and by continuity
+of probability
+$$
+\P(X = 0) = \lim_{n\to\infty} P(X \leq 1/n) =  1.
+$$
+
+Therefore, $X = 0$.
+
+
+
+
+
+
+
+## 2.17 Wick's Formula
+
+(a) Let $Z=(Z_i)_{i=1}^n$ be IID standard Gaussians and let
+$G: \mathbb{R}^n \mapsto \mathbb{R}$ be a smooth function for
+which $\E(G(Z))$ and $\E(\partial_i G(Z))$ are well-defined for
+every $i \leq n$. Prove that
+
+$$
+\E(Z_i G(Z)) = \E(\partial_iG(Z)).
+$$
+
+Proof:
+
+By integration by parts for the one-dimensional Gaussian and
+the law of total expectation
+
+$$
+\begin{align}
+\E(\E(\partial_iG(Z)|\cap_{j\neq i} Z_j)) &= \E(\E(Z_i G(Z)|\cap_{j \neq i} Z_j)) \\
+&= E(Z_i G(Z)).
+\end{align}
+$$
+
+(b) Let $X$ be a non-degenerate Gaussian vector of mean zero, and
+let $F: \mathbb{R}^n \mapsto \mathbb{R}$ be a smooth function for
+which $\E(F(X))$ and $\E(\partial_iF(X))$ are well-defined for every
+$i \leq n$. Prove that
+
+$$
+\E(X_i F(X)) = \sum_{j \leq n} \E(X_i X_j) \E(\partial_iF(X))
+$$
+for $i \leq n$.
+
+::: {.callout-warning}
+Typo in the question.
+
+LHS should read $\E(X_i F(X))$ instead of $\E(X_i F(Z))$.
+:::
+
+
+Proof:
+
+Let $A$ be the Cholesky decomposition of the covariance matrix of
+$X$. Then
+
+$$
+X = AZ
+$$
+
+where $Z=(Z_i)$ are IID standard Gaussian variables with mean zero.
+
+Define $G(Z) = F(AZ)$. Then
+
+
+$$
+\begin{align}
+\E(Z_i G(Z)) &= \E(\partial_i G(Z)) \\
+&= \E(\partial_i F(AZ)) \\
+&= \E(\sum_j \partial_j F(X) A_{ji}) \\
+&= \sum_j A_{ji} E(\partial_j F(X)) \\.
+\end{align}
+$$
+
+::: {.callout-note collapse="true"}
+Define $a(x) = Ax$. Then by the chain rule
+$$
+\begin{align}
+\partial_i(F(a_1(x), \ldots, a_n(x))) &= \sum_j \frac{\partial F}{\partial a_j}\frac{\partial a_j}{\partial x_i} \\
+&= \sum_j \partial_j F(a_1(x), \ldots, a_n(x)) A_{ji}.
+\end{align}
+$$
+:::
+
+$$
+\begin{align}
+\E(X_i F(X)) &= \E(\sum_k A_{ik} Z_k G(Z)) \\
+&= \sum_k A_{ik} \E(\partial_k G(Z)) \\
+&= \sum_k A_{ik} \sum_j \E(\partial_j F(X) A_{kj}) \\
+&= \sum_j \sum_k A_{ik} A_{kj} \E(\partial_j F(X) ) \\
+&= \sum_j  (AA^T)_{ij} \E(\partial_j F(X)) \\
+&= \sum_j  \E(X_i X_j) \E(\partial_j F(X)).
+\end{align}
+$$
+
+(c) For any $m$-tuple $(i_1, \ldots , i_m)$ where $i_k \leq n$ we
+have the $E(X_{i_1}\ldots X_{i_m}) = 0$ if $m$ is odd, and if $m$
+is even,
+
+$$
+\E(X_{i_1} \ldots X_{i_m}) = \sum_{p \in P_m^2} \prod_{p = (p_1, p_2)} \E(X_{p_1} X_{p_2})
+$$
+
+where $P_m^2$ is the set of all pairing of elements of the $m$-tuple.
+
+Proof:
+
+
+For $m=2$, the result is trivial.
+
+Suppose true for $m$ even. Define $F(X) = X_{i_1} \ldots X_{i_m} X_{i_{m+1}}$
+
+Then
+
+$$
+\begin{align}
+\E(X_{i_1} \ldots X_{i_{m+2}}) &= \E(F(X) X_{i_{m+2}}) \\
+&= \sum_{j \leq m+1} \E(X_{i_{m+2}} X_j) \sum_{p\in P_m} \prod_{p=(p_1, p2)} E(X_{p_1}X_{p_2}) \\
+&= \sum_{p \in P_{m+2}^2} \prod_{p = (p_1, p_2)} \E(X_{p_1} X_{p_2}).
+\end{align}
+$$
+By induction, the theorem is true for even $m$.
+
+For $m$ odd, the base case is $m=3$.
+Define $F(X) = X_{i_2} X_{i_3}$.
+
+Then
+$$
+\begin{align}
+\E(X_{i_1} X_{i_2} X_{i_3}) &= \E(X_{i_1} X_{i_2})\E(X_{i_3}) + \E(X_{i_1} X_{i_3}) \E(X_{i_4}) \\
+&= 0.
+\end{align}
+$$
+
+Suppose that the theorem is true for odd $m$. Then for $m+2$, define $F(X) = X_{i_1}\ldots X_{i_{m+1}}$.
+
+$$
+\begin{align}
+\E(X_{i_1} \ldots X_{i_{m+2}}) &= \E(F(X) X_{i_{m+2}}) \\
+&= \sum_{j \leq m+2} \E(X_{i_{m+2}}X_j) \E(\partial_j F(X)) \\
+&= 0
+\end{align}
+$$
+
+since $\partial_j F(X)$ is the product of an odd number of elements of $X$.
+
+Another approach to proving the odd case is to appeal to symmetry:
+
+for any $i$, the distribution of $-X_i$ is the same as that of $X_i$. Moreover,
+any product $X_{i_1} \ldots X_{i_n}$ will have the same distribution
+as $(-1)^n X_{i_1} \ldots X_{i_n}$. Therefore,
+
+$$
+\E (X_{i_1} \ldots X_{i_n}) = (-1)^n\E(X_{i_1} \ldots X_{i_n}).
+$$
+When $n$ is odd,
+$$
+\E (X_{i_1} \ldots X_{i_n}) = -\E(X_{i_1} \ldots X_{i_n}) = 0.
+$$
+
+
+
+
+
+
+
+$\square$
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
