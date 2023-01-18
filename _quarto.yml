@@ -3,11 +3,23 @@ project:
 
 website:
   title: "learn-relearn"
-  page-navigation: true
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        file: index.qmd
+      - sidebar:FCSC
+      - sidebar:PML
   sidebar:
-    style: "docked"
-    contents:
-      auto: true
+    - id: FCSC
+      title: "First Course in Stochastic Calculus"
+      contents:
+        - auto: FCSC
+    - id: PML
+      title: "Probabilistic Machine Learning"
+      contents:
+        - auto: PML
 
 format:
   html:

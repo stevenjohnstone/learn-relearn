@@ -1,5 +1,5 @@
 ---
-title: "Chapter One: Exercises"
+title: "Exercises"
 toc: true
 toc-location: body
 execute:
@@ -253,6 +253,9 @@ We plot this below:
 
 ```{python}
 #| collapse: true
+import numpy as np
+import matplotlib.pyplot as plt
+
 def G(x):
     if x <= 0:
         return 0

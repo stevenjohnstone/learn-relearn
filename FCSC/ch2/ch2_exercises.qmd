@@ -1,5 +1,5 @@
 ---
-title: "Chapter Two: Exercises"
+title: "Exercises"
 toc: true
 toc-location: body
 execute:
@@ -10,6 +10,7 @@ format:
         code-fold: false
         html-math-method: mathjax
 ---
+{{< include /_macros.qmd >}}
 
 ## 2.1 An Example of Uncorrelated Random Variables that are not Independent
 
@@ -239,6 +240,13 @@ right to expect that $X + Y$ is also Gaussian.
 To see that $X +Y$ is not Gaussian, note that its range is in $[-2,2]$; there are lower bounds on Gaussian tails which are non-zero.
 
 ```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+rg = np.random.default_rng()
+N = 10000
+bins = 100
+
 X = rg.normal(0,1, N)
 Y = [x if np.abs(x) <=1 else -x for x in X]
 plt.hist(X+Y, bins=bins, label='X + Y', alpha=0.5)
