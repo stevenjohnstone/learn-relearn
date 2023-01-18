@@ -123,7 +123,7 @@ graph TD
 
 # Numerical Projects and Exercises
 
-## Simulating Martingales
+## 4.1 Simulating Martingales
 
 (a) $B_t^2 -t$, $t \in [0, 1]$
 
@@ -292,8 +292,384 @@ plt.show()
 ```
 
 
-
-
-
-
 # Exercises
+
+## 4.1 Conditional Expectation of Continuous Random Variables
+
+Let $(X, Y)$ be two random variables with joint density $f(x, y)$ on $\mathbb{R}^2$. Suppose that
+
+$$
+\int_{\mathbb{R}} f(x, y)\, dx > 0
+$$
+for every $y \in \mathbb{R}$.
+
+Then $\E(Y | X) = h(X)$ where
+
+$$
+h(x) = \frac{\int_{\mathbb{R}} y f(x, y) dy}{\int_{\mathbb{R}} f(x, y) dy}.
+$$
+
+Proof:
+
+The conditional expectation $E(Y | X)$ is the function $\eta : \mathbb{R} \to \mathbb{R}$ satisifying
+
+$$
+\E(g(X) Y) = \E(g(X)\eta(X))
+$$ {#eq-conditional-orthogonal}
+
+for any bounded random variable of the form $g(X)$ for some function $g$. That is,
+
+$$
+Y - \eta
+$$
+is othorgonal to $g(X)$.
+
+We can show that $h(X) = \E(Y | X)$ by showing that it satisfies (@eq-conditional-orthogonal) and invoking the uniqueness of such a function.
+
+Let $g$ be any function such that $g(X)$ is bounded and measurable. Using LOTUS
+
+$$
+\begin{align}
+\E(g(X) Y) &= \int \int g(x) y f(x, y)\, dx\, dy \\
+&= \int g(x) \left (\int y f(x, y) \, dy\,\right) dx \\
+&= \int g(x) \left (\frac{\int y f(x, y) \, dy}{\int f(x, y)\, dy}\right )\left(\int f(x, y)\, dy\right) \, dx \\
+&= \int \int g(x) h(x) f(x, y) \,dx\,dy \\
+&= \int g(x) h(x) f_X(x) \,dx \\
+&= \E(g(X) h(X)).
+\end{align}
+$$
+
+Therefore $h= \E(Y|X)$. In particular, setting $g = 1$, we see that
+
+$$
+\E(\E(Y|X)) = \E(Y).
+$$
+
+## 4.2 Exercises on Sigma-Fields
+
+(a) Let $A, B$ be two proper subset of $\Omega$ such that $A \cap B \neq \emptyset$.
+
+Partition $\Omega$ into $4$ disjoint elements of $\sigma$:
+
+$$
+\Omega = (A\setminus B) \cup (B \setminus A) \cup (A \cap B) \cup (A \cup B)^c.
+$$
+
+To ease notation, define
+
+$$
+\begin{align}
+S_0 &= A \setminus B, \\
+S_1 &= B \setminus A, \\
+S_2 &= A \cap B \\
+S_3 &= (A \cup B)^c.
+\end{align}
+$$
+
+Each element of $\sigma$ can be expressed as a union of at most $4$ of these sets: 
+the number of elements of $\sigma$ is $2^4 = 16$. 
+
+Enumerating these:
+
+$$
+\begin{align}
+0000 &\to \emptyset, \\
+0001 &\to A \setminus B, \\
+0010 &\to B \setminus A, \\
+0011 &\to (A \setminus B) \cup (B \setminus A) = (A \cup B) \setminus (A\cap B), \\
+0100 &\to A \cap B, \\
+0101 &\to (A \cap B) \cup (A \setminus B) = A, \\
+0110 &\to (A \cap B) \cup (B \setminus A) = B, \\
+0111 &\to (A \cap B) \cup (B \setminus B) \cup (A \setminus B) = A \cup B, \\
+1000 &\to (A \cup B)^c, \\
+1001 &\to (A \cup B)^c \cup (A \setminus B) = B^c,\\
+1010 &\to (A \cup B)^c \cup (B \setminus A) = A^c, \\
+1011 &\to (A \cup B)^c \cup (B \setminus A) \cup (A \setminus B) = (A \cap B)^c,\\
+1100 &\to (A \cup B)^c \cup (A \cap B) = (A \setminus B)^c \cap (B \setminus A)^c, \\
+1101 &\to (A \cup B)^c \cup (A \cap B) \cup (A \setminus B) = (B \setminus A)^c, \\
+1110 &\to (A \cup B)^c \cup (A \cap B) \cup (B \setminus A) = (A \setminus B)^c, \\
+1111 &\to \Omega.
+\end{align}
+$$
+
+If $A \cap B = \emptyset$, then $\Omega$ can be paritioned into the union of
+$A$, $B$, $(A \cup B)^c$: there are $2^3 = 8$ events in $\sigma$. Alternatively, we can just go through the list of $16$ above and cross off those which end up being empty or duplicate.
+
+(b) Show that the singleton $\{b\} \in \mathcal{B}(\mathbb{R})$.
+
+For $n \geq 0$, $I_n = (b - 1/n, b] \in \mathcal{B}(\mathbb{R})$. The countable
+itersection of $\cap_{n \geq 1} I_n = \{b\}$ is also in the sigma-algebra.
+
+All open intervals are in the Borel sigma-field: $(a, b) = (a, b] \cap \{b\}^c$.
+All closed intervals are in the Borel sigma-field: $[a, b] = \{a\} \cup (a, b) \cup \{b\}$.
+
+Is the subset $\mathbb{Q}$ a Borel set? That is, is $\mathcal{Q} \in \mathcal{B}(\mathbb{R})$? Yes: the rationals are countable, so they can be expressed as the union of singleton rational sets which are in the sigma-field $\mathcal{B}(\mathbb{R})$.
+
+
+## 4.3 Another Look at Conditional Expectation For Gaussians
+
+Let $(X, Y)$ be a Gaussian vector with mean $0$ and covariance matrix
+
+$$
+\begin{align}
+\mathcal{C} &= \begin{bmatrix}
+1 & \rho \\
+\rho & 1.
+\end{bmatrix}
+\end{align}
+$$
+
+(a) The conditional expectation can be calculated using the $L^2$ best approximation form:
+
+$$
+\begin{align}
+\E(Y|X) &= \frac{\E(XY) X}{\E(X^2)} \\
+&= \rho X.
+\end{align}
+$$
+
+(b) The joint pdf of $(X, Y)$ is
+
+```{python}
+import sympy as sp
+from fractions import Fraction
+x, y, rho = sp.symbols('x, y, rho', real=True)
+
+C = sp.Matrix([[1, rho], [rho, 1]])
+Cinv = C.inv()
+xy = sp.Matrix([x, y])
+
+
+pdf = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/((2 * sp.pi)**(Fraction(len(xy),2)) * sp.sqrt(C.det()))
+pdf[0]
+
+```
+
+
+
+$$
+\begin{align}
+\frac{\int_{\mathbb{R}} y f(x, y)\, dy}{\int_{\mathbb{R}} f (x, y) \, dy} &= \frac{\int_{\mathbb{R}} y e^{\frac{-2 \rho xy + x^2 + y^2}{2(\rho -1)(\rho + 1)}}\, dy}{\int_{\mathbb{R}}e^{\frac{-2 \rho xy + x^2 + y^2}{2(\rho -1)(\rho + 1)}}\, dy} \\
+&= \frac{\int_{\mathbb{R}} y e^{\frac{-2 \rho xy + y^2}{2(\rho -1)(\rho + 1)}}\, dy}{\int_{\mathbb{R}}e^{\frac{-2 \rho xy + y^2}{2(\rho -1)(\rho + 1)}}\, dy} \\
+&= \frac{\int_{\mathbb{R}} (t + \rho x) e^{\frac{-t^2}{2(1-\rho)(1+\rho)}} \, dt}{\int_{\mathbb{R}} e^{\frac{-t^2}{2(1 -\rho)(1 + \rho)}} \, dt} \\
+&= \sqrt{1 - \rho^2} \frac{\int_{\mathbb{R}} t e^{-t^2/2}\,dt}{\int_{\mathbb{R}} e^{-t^2/2}\, dt} + \rho x \\
+&= \rho x = h(x).
+\end{align}
+$$
+
+This is another way of arriving at
+$$
+\E(Y|X) = h(X).
+$$
+
+## 4.5 Gaussian Conditioning
+
+$$
+\mathcal{C} = \begin{bmatrix}
+2 & 2 & 0 \\
+2 & 4 & 0 \\
+0 & 0 & 1 
+\end{bmatrix}.
+$$
+
+It is easy to see that $\det{C} = 4$; non-zero determinant means that the vector
+$(X_1, X_2, X_3 X_3)$ is non-degenerate.
+
+From the covariance matrix, we see that $\E(X_1X_3) = \E(X_2 X_3) = 0$, so $X_3$ is
+independent of $X_1$ and $X_2$.
+
+
+$$
+\begin{align}
+\E(X_2 | X_1) &= \frac{\E(X_2X_1)}{\E(X_1^2)}X_1 \\
+&= \frac{2}{2} X_1 \\
+&= X_1.
+\end{align}
+$$
+
+Therefore
+
+$$
+X_2 = X_1 + (X_2 - X_1)
+$$
+
+is a decomposition of $X_2$ into a linear combination of $X_1$ and a random variable
+independent of $X_1$, namely $X_2 - X_1$.
+
+## 4.6 Gaussian Conditioning
+
+$(X, Y)$ is a Gaussian random vector with mean $0$ and covariance given by
+
+$$
+\mathcal{C} = \begin{bmatrix}
+3/16 & 1/8 \\
+1/8 & 1/4 \\
+\end{bmatrix}.
+$$
+
+$(X, Y)$ is non-degenerate because $\det{C} > 0$:
+
+```{python}
+C = sp.Matrix([[Fraction(3, 16), Fraction(1, 8)], [Fraction(1,8), Fraction(1,4)]])
+C.det()
+```
+
+$$
+\E(Y|X) = \frac{\E(YX)}{\E(X^2)}X = (1/8) * (16/3)X =2X/3.
+$$
+
+$W = (Y - 2X/3)$ is independent of $X$ (it is orthogonal to all functions of $X$). We need
+
+$$
+\E(W^2) = \E(Y^2 - 4XY/3 + 4X^2/9) = \frac{1}{4} - \frac{4}{8.3} + \frac{4.3}{9.16} = \frac{1}{6}. 
+$$
+
+
+
+We can calculate the MGF of $Y$ conditioned on $X$:
+
+$$
+\begin{align}
+\E(e^{aY} | X) &= \E(e^{a(W + 2X/3)} | X) \\
+&= e^{2X/3} \E(e^{aW} X) \\
+&= e^{2X/3} \E(e^{aW})  \\
+&= e^{2X/3+ a^2/12}  \\
+\end{align}
+$$
+
+and so the conditional distribution of $Y$ given $X$ is a Gaussian with mean $2X/3$ and variance $1/6$.
+
+We define $Z_1 = 16X/3$ and $Z_2 = 6(Y - 2X/3)$: $Z_1$ and $Z_2$ are standard Gaussians and
+
+$$
+X = 16X/3
+$$
+and
+$$
+Y = Z_1/9 + Z_2/6.
+$$
+
+
+
+## 4.7 Gaussian Conditioning
+
+$$
+\mathcal{C} = \begin{bmatrix}
+1 & -1 \\
+-1 & 2 \\
+\end{bmatrix}.
+$$
+
+$Z_1 = X_1$.
+
+$$
+\begin{align}
+X_2 &= (X_2 - \E(X_2| Z_1)Z_1) + \E(X_2|Z_1) Z_1 \\
+&= (X_2 + Z_1) - Z_1.
+\end{align}
+$$
+
+So, set $Z_2 = X_2 + X_1$.
+
+Checking:
+
+$$
+\E(Z_1) = \E(X_1) = 0
+$$
+
+and 
+
+$$
+\E(Z_1^2) = \E(X_1^2) = 1.
+$$
+
+$$
+\E(Z_2) = \E(X_2) + \E(X_1) = 0
+$$
+and
+
+$$
+\begin{align}
+\E(Z_2^2) &= \E(X_1^2 + 2X_1X_2  + X_2^2)  \\
+&= 1 -2.1 + 2 \\
+&= 1.
+\end{align}
+$$
+
+Moreover,
+
+$$
+\begin{align}
+\E(Z_2Z_1)  &= \E((X_1 + X_2) X_1) \\
+&= \E(X_1^2 + X_1 X_2) \\
+&= 1 - 1 \\
+&= 0.
+\end{align}
+$$
+
+$$
+\E(X_2 | X_1) = \frac{\E(X_2 X_1)}{\E(X_1^2)}X_1 = -X_1.
+$$
+
+$$
+\begin{align}
+\E(e^{a X_2} | X_1) &= \E(e^{a (Z_2 - Z_1)}| Z_1) \\
+&= e^{-a Z_1} \E(e^{a Z_2}| Z_1) \\
+&= e^{-a Z_1} \E(e^{a Z_2}) \\
+&= e^{-aZ_1 + a^2/2} \\
+&= e^{-aX_1 + a^2/2}.
+\end{align}
+$$
+using the independence of $Z_2$ and $Z_1$ and the MGF of a Gaussian of mean $0$ and
+variance $1$. The conditional distribution of $X_2$ given $X_1$ is a Gaussian with mean $-X_1$ and variance $1$.
+
+## 4.8 Gaussian Conditioning
+
+We can use the Cholesky factorisation of the covariance matrix
+to get a mapping from $(Z_1, Z_2, Z_3)$ of IID standard Gaussians to $(X_1, X_2, X_3)$:
+
+```{python}
+sp.Matrix([[2,1,1],[1,2,1],[1,1,2]]).cholesky()
+```
+
+$$
+\begin{align}
+X_1 &= \sqrt{2} Z_1, \\
+X_2 &= \frac{Z_1}{\sqrt{2}} + \sqrt{\frac{3}{2}} Z_2, \\
+X_3  &= \frac{Z_1}{\sqrt{2}} + \frac{Z_2}{\sqrt{6}} + \frac{2 Z_3}{\sqrt{3}}.
+\end{align}
+$$
+
+We note that
+
+$$
+X_3 = X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2 Z_3}{\sqrt{3}}.
+$$
+
+
+This can be used to compute $\E(X_3 |X_2, X_1)$:
+
+$$
+\begin{align}
+\E(X_3 | X_2, X_1) &= \E(X_2 - \frac{\sqrt{3}}{2}X_1 + \frac{2 Z_3}{\sqrt{3}}| X_2, X_1) \\
+&=  X_2 - \frac{\sqrt{3}}{2} X_1 + \E(\frac{2 Z_3}{\sqrt{3}}|X_2, X_1) \\
+&=  X_2 - \frac{\sqrt{3}}{2} X_1 + \E(\frac{2 Z_3}{\sqrt{3}}) \\
+&=  X_2 - \frac{\sqrt{3}}{2} X_1,
+\end{align}
+$$
+
+where we've used $E(X_1|X_1, X_2) = X_1$ and that $Z_3$ is independent of $X_1$ and $X_2$ (they are linear combinations of $Z_1$ and $Z_2$).
+
+We can also compute $\E(e^{aX_3} | X_2, X_1)$:
+
+$$
+\begin{align}
+\E(e^{aX_3}| X_2, X_1) &= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1)} \E(e^{\frac{2 a Z_3}{\sqrt{3}}}|X_2, X_1) \\
+&= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1)} \E(e^{\frac{2 a Z_3}{\sqrt{3}}}) \\
+&= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2a^2}{3})}.
+\end{align}
+$$
+The conditional distribution is a Gaussian with mean $X_2 - \frac{\sqrt{3}}{2}X_1$ and variance $4/3$.
+
+
+

@@ -76,6 +76,7 @@ ax.hist(brownian_samples, label='histogram', density=True, bins=50)
 x = np.linspace(0, 1, 1000)
 ax.plot(x, pdf(x), label='pdf')
 ax.legend(loc='upper right')
+plt.plot()
 ```
 
 ## 3.4 Arcsine Law for Ornstein-Uhlenbeck
@@ -100,6 +101,7 @@ ou_samples = [ proportion_positive(ou.path(rg)) for _ in range(10000)]
 fig, ax = plt.subplots()
 ax.hist(ou_samples, label='histogram', density=True, bins=100)
 ax.legend(loc='upper right')
+plt.show()
 ```
 
 ## Brownian Variations

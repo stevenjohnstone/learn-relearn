@@ -6,6 +6,7 @@ $$
 \newcommand{\P}{\operatorname{P}}
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\trace}{\operatorname{trace}}
+\newcommand{\F}{\mathcal{F}}
 \def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
 \raise12mu{.}}}
 $$
