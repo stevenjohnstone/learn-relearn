@@ -306,7 +306,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title d-none d-lg-block">Exercises</h1>
-<p class="subtitle lead">Computer Experiments</p>
 </div>
 
 <div>
@@ -331,11 +330,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#conditional-expectation-of-continuous-random-variables" id="toc-conditional-expectation-of-continuous-random-variables">4.1 Conditional Expectation of Continuous Random Variables</a></li>
   <li><a href="#exercises-on-sigma-fields" id="toc-exercises-on-sigma-fields">4.2 Exercises on Sigma-Fields</a></li>
-  <li><a href="#another-look-at-conditional-expectation-for-gaussians" id="toc-another-look-at-conditional-expectation-for-gaussians">4.3 Another Look at Conditional Expectation For Gaussians</a></li>
+  <li><a href="#proof-of-theorem-4.16" id="toc-proof-of-theorem-4.16">4.3 Proof of Theorem 4.16</a></li>
+  <li><a href="#another-look-at-conditional-expectation-for-gaussians" id="toc-another-look-at-conditional-expectation-for-gaussians">4.4 Another Look at Conditional Expectation For Gaussians</a></li>
   <li><a href="#gaussian-conditioning" id="toc-gaussian-conditioning">4.5 Gaussian Conditioning</a></li>
   <li><a href="#gaussian-conditioning-1" id="toc-gaussian-conditioning-1">4.6 Gaussian Conditioning</a></li>
   <li><a href="#gaussian-conditioning-2" id="toc-gaussian-conditioning-2">4.7 Gaussian Conditioning</a></li>
   <li><a href="#gaussian-conditioning-3" id="toc-gaussian-conditioning-3">4.8 Gaussian Conditioning</a></li>
+  <li><a href="#properties-of-conditional-expectation" id="toc-properties-of-conditional-expectation">4.9 Properties of Conditional Expectation</a></li>
+  <li><a href="#square-of-brownian-motion" id="toc-square-of-brownian-motion">4.10 Square of Brownian Motion</a></li>
+  <li><a href="#geometric-poisson-process" id="toc-geometric-poisson-process">4.11 Geometric Poisson Process</a></li>
+  <li><a href="#another-brownian-martingale" id="toc-another-brownian-martingale">4.12 Another Brownian Martingale</a></li>
+  <li><a href="#limit-of-geometric-brownian-motion" id="toc-limit-of-geometric-brownian-motion">4.13 Limit of Geometric Brownian Motion</a></li>
+  <li><a href="#gamblers-ruin-at-french-roulette" id="toc-gamblers-ruin-at-french-roulette">4.14 Gambler’s Ruin at French Roulette</a></li>
+  <li><a href="#zeros-of-brownian-motion" id="toc-zeros-of-brownian-motion">4.15 Zeros of Brownian Motion</a></li>
+  <li><a href="#doobs-maximal-inequalities" id="toc-doobs-maximal-inequalities">4.19 Doob’s Maximal Inequalities</a></li>
   </ul>
 </nav>
 <div class="hidden">
@@ -347,6 +355,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\trace}{\operatorname{trace}}
 \newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\qed}{\tag*{$\square$}}
 \def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
 \raise12mu{.}}}
 \]</span></p>
@@ -435,8 +445,66 @@ S_3 &amp;= (A \cup B)^c.
 <p>All open intervals are in the Borel sigma-field: <span class="math inline">\((a, b) = (a, b] \cap \{b\}^c\)</span>. All closed intervals are in the Borel sigma-field: <span class="math inline">\([a, b] = \{a\} \cup (a, b) \cup \{b\}\)</span>.</p>
 <p>Is the subset <span class="math inline">\(\mathbb{Q}\)</span> a Borel set? That is, is <span class="math inline">\(\mathcal{Q} \in \mathcal{B}(\mathbb{R})\)</span>? Yes: the rationals are countable, so they can be expressed as the union of singleton rational sets which are in the sigma-field <span class="math inline">\(\mathcal{B}(\mathbb{R})\)</span>.</p>
 </section>
+<section id="proof-of-theorem-4.16" class="level2">
+<h2 class="anchored" data-anchor-id="proof-of-theorem-4.16">4.3 Proof of Theorem 4.16</h2>
+<p>Define <span class="math inline">\(L^2(\G) = L^2(\Omega, \G, \P)\)</span>. Let <span class="math inline">\(Y\)</span> be a random variable in <span class="math inline">\(L^2(\Omega, \F, \P)\)</span> and let $Y^{} satisfy</p>
+<p><span id="eq-minimizer"><span class="math display">\[
+\min_{Z \in L^2(\G)} \E((Y - Z)^2) = \E((Y - Y^{\star})^2).
+\tag{2}\]</span></span></p>
+<p>We show that <span class="math inline">\(E(Y | X) = Y^{\star}\)</span>.</p>
+<p>Let <span class="math inline">\(W\)</span> be a random variable in <span class="math inline">\(L^2(\G)\)</span>: we show that <span class="math inline">\(W\)</span> is orthogonal to <span class="math inline">\(Y - Y^{\star}\)</span> which shows that <span class="math inline">\(Y^{\star}\)</span> is the orthogonal projection of <span class="math inline">\(Y\)</span> into <span class="math inline">\(L^2(\G)\)</span>.</p>
+<p>Developing the sqaure:</p>
+<p><span class="math display">\[
+\E((W - (Y - Y^{\star}))^2) = \E(W^2) - 2 \E(W(Y - Y^{\star})) + \E((Y - Y^{\star})^2).
+\]</span></p>
+<p>From the definition of <span class="math inline">\(Y^{\star}\)</span> (and the fact that <span class="math inline">\(W + Y^{\star} \in L^2(\G)\)</span>)</p>
+<p><span class="math display">\[
+\E((W - (Y - Y^{\star}))^2) \geq \E(Y - Y^{\star}).
+\]</span></p>
+<p>It follows that <span class="math display">\[
+\E(W^2) \geq 2\E(W(Y - Y^{\star})).
+\]</span></p>
+<p>This holds for any <span class="math inline">\(W\)</span> and so we can assert that <span class="math display">\[
+a^2\E(W^2) \geq 2 a\E(W(Y - Y^{\star})).
+\]</span> Taking <span class="math inline">\(a &gt; 0\)</span>, we find that</p>
+<p><span class="math display">\[
+\E(W(Y - Y^{\star})) \leq \frac{a\E(W^w)}{2}
+\]</span></p>
+<p>and for <span class="math inline">\(a &lt; 0\)</span></p>
+<p><span class="math display">\[
+\E(W(Y - Y^{\star})) \geq \frac{a\E(W^w)}{2}.
+\]</span></p>
+<p>Taking the limit as <span class="math inline">\(a \to 0\)</span>, we see that</p>
+<p><span class="math display">\[
+\E(W(Y - Y^{\star})) = 0
+\]</span></p>
+<p>which is a defining propery of the conditional expectation <span class="math inline">\(E(Y | \G)\)</span>.</p>
+<p>Uniqueness:</p>
+<p>Suppose that there are two conditional expectations of <span class="math inline">\(Y\)</span> given <span class="math inline">\(\G\)</span>, <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span>. Then for any <span class="math inline">\(W \in L^2(\G)\)</span>,</p>
+<p><span class="math display">\[
+\E(W(C_1 - C_2)) = 0.
+\]</span></p>
+<p>Setting <span class="math inline">\(W = C_1 - C_2\)</span>, we see that</p>
+<p><span class="math display">\[
+\E((C_1 - C_2)^2) = \| C_1 - C_2 \|_2^2 = 0
+\]</span></p>
+<p>and so <span class="math inline">\(C_1 = C_2\)</span>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The proof of Theorem 4.7 in the book shows uniqueness of <span class="math inline">\(Y^{\star}\)</span> satifying (<a href="#eq-minimizer">Equation&nbsp;2</a>) but does not actually show that a conditional expection is such a variable.</p>
+</div>
+</div>
+</section>
 <section id="another-look-at-conditional-expectation-for-gaussians" class="level2">
-<h2 class="anchored" data-anchor-id="another-look-at-conditional-expectation-for-gaussians">4.3 Another Look at Conditional Expectation For Gaussians</h2>
+<h2 class="anchored" data-anchor-id="another-look-at-conditional-expectation-for-gaussians">4.4 Another Look at Conditional Expectation For Gaussians</h2>
 <p>Let <span class="math inline">\((X, Y)\)</span> be a Gaussian vector with mean <span class="math inline">\(0\)</span> and covariance matrix</p>
 <p><span class="math display">\[
 \begin{align}
@@ -470,7 +538,7 @@ S_3 &amp;= (A \cup B)^c.
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>((<span class="dv">2</span> <span class="op">*</span> sp.pi)<span class="op">**</span>(Fraction(<span class="bu">len</span>(xy),<span class="dv">2</span>)) <span class="op">*</span> sp.sqrt(C.det()))</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pdf[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <p><span class="math inline">\(\displaystyle \frac{e^{\frac{- 2 \rho x y + x^{2} + y^{2}}{2 \left(\rho - 1\right) \left(\rho + 1\right)}}}{2 \pi \sqrt{1 - \rho^{2}}}\)</span></p>
 </div>
 </div>
@@ -524,7 +592,7 @@ X_2 = X_1 + (X_2 - X_1)
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[Fraction(<span class="dv">3</span>, <span class="dv">16</span>), Fraction(<span class="dv">1</span>, <span class="dv">8</span>)], [Fraction(<span class="dv">1</span>,<span class="dv">8</span>), Fraction(<span class="dv">1</span>,<span class="dv">4</span>)]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>C.det()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <p><span class="math inline">\(\displaystyle \frac{1}{32}\)</span></p>
 </div>
 </div>
@@ -613,7 +681,7 @@ X_2 &amp;= (X_2 - \E(X_2| Z_1)Z_1) + \E(X_2|Z_1) Z_1 \\
 <p>We can use the Cholesky factorisation of the covariance matrix to get a mapping from <span class="math inline">\((Z_1, Z_2, Z_3)\)</span> of IID standard Gaussians to <span class="math inline">\((X_1, X_2, X_3)\)</span>:</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sp.Matrix([[<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>]]).cholesky()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <p><span class="math inline">\(\displaystyle \left[\begin{matrix}\sqrt{2} &amp; 0 &amp; 0\\\frac{\sqrt{2}}{2} &amp; \frac{\sqrt{6}}{2} &amp; 0\\\frac{\sqrt{2}}{2} &amp; \frac{\sqrt{6}}{6} &amp; \frac{2 \sqrt{3}}{3}\end{matrix}\right]\)</span></p>
 </div>
 </div>
@@ -637,7 +705,7 @@ X_3 = X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2 Z_3}{\sqrt{3}}.
 &amp;=  X_2 - \frac{\sqrt{3}}{2} X_1,
 \end{align}
 \]</span></p>
-<p>where we’ve used <span class="math inline">\(E(X_1|X_1, X_2) = X_1\)</span> and that <span class="math inline">\(Z_3\)</span> is independent of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> (they are linear combinations of <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>).</p>
+<p>where we’ve used <span class="math inline">\(\E(X_1|X_1, X_2) = X_1\)</span> and that <span class="math inline">\(Z_3\)</span> is independent of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> (they are linear combinations of <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>).</p>
 <p>We can also compute <span class="math inline">\(\E(e^{aX_3} | X_2, X_1)\)</span>:</p>
 <p><span class="math display">\[
 \begin{align}
@@ -646,6 +714,350 @@ X_3 = X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2 Z_3}{\sqrt{3}}.
 &amp;= e^{a(X_2 -\frac{\sqrt{3}}{2}X_1 + \frac{2a^2}{3})}.
 \end{align}
 \]</span> The conditional distribution is a Gaussian with mean <span class="math inline">\(X_2 - \frac{\sqrt{3}}{2}X_1\)</span> and variance <span class="math inline">\(4/3\)</span>.</p>
+</section>
+<section id="properties-of-conditional-expectation" class="level2">
+<h2 class="anchored" data-anchor-id="properties-of-conditional-expectation">4.9 Properties of Conditional Expectation</h2>
+<ol start="2" type="1">
+<li>If <span class="math inline">\(Y\)</span> is a <span class="math inline">\(\G\)</span>-measurable random variable and <span class="math inline">\(X\)</span> is another integrable random variable (with <span class="math inline">\(XY\)</span> also integrable), then</li>
+</ol>
+<p><span class="math display">\[
+\E(XY | \G) = Y \E(X | \G).
+\]</span></p>
+<p>Proof:</p>
+<p>Let <span class="math inline">\(W\)</span> be a bounded, <span class="math inline">\(\G\)</span>-measurable random variable.</p>
+<p><span class="math display">\[
+\begin{align}
+\E (W Y \E( X | \G)) &amp;= \E(W XY) \\
+&amp;= \E(W \E(XY | \G)).
+\end{align}
+\]</span></p>
+<ol start="3" type="1">
+<li>If <span class="math inline">\(Y\)</span> is independent of <span class="math inline">\(\G\)</span>, that is, for any events <span class="math inline">\(I = \{Y \in (a, b]\}\)</span> and <span class="math inline">\(A \in \G\)</span>,</li>
+</ol>
+<p><span class="math display">\[
+\P(I \cap A) = \P(I) \P(A),
+\]</span> then, <span class="math display">\[
+\E(Y | \G) = \E(Y).
+\]</span></p>
+<p>Proof:</p>
+<p>If <span class="math inline">\(W\)</span> is <span class="math inline">\(\G\)</span>-measurable, then <span class="math inline">\(W\)</span> and <span class="math inline">\(Y\)</span> are independent.</p>
+<p><span class="math display">\[
+\begin{align}
+\E(W \E(Y)) &amp;= \E(Y) \E(W) &amp; (\text{linearity of expectation}) \\
+&amp;= \E(WY) &amp; (\text{$W$ and $Y$ are independent}) \\
+&amp;= \E(W \E(Y | \G)) &amp; (\text{by definition}).
+\end{align}
+\]</span></p>
+<p>By uniqueness of the conditional expectation, <span class="math inline">\(\E(Y) = \E(Y | \G)\)</span>.</p>
+<ol start="4" type="1">
+<li>Linearity: Let <span class="math inline">\(X\)</span> be another integrable random variable on <span class="math inline">\((\Omega, \F, \P)\)</span>. Then</li>
+</ol>
+<p><span class="math display">\[
+\E(a X + b Y| \G) = a \E(X | \G) + b \E( Y | \G),
+\]</span> for any <span class="math inline">\(a, b \in \mathbb{R}\)</span>.</p>
+<p>Proof:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(W (a X + b Y)) &amp;= a \E(WX) + b \E(WY) &amp; (\text{by linearity of expectation}) \\
+&amp;= a \E(W\E(X | \G)) + b \E(W \E(Y | \G)) &amp; (\text{by defn of conditional expectation})
+\end{align}
+\]</span></p>
+<p>but</p>
+<p><span class="math display">\[
+\E(W\E((a X + b Y) | \G)) = \E(W(a X + b Y))
+\]</span> by definition. It follows from the uniqueness of the conditional expectation that</p>
+<p><span class="math display">\[
+\E(W\E((a X + b Y) | \G)) = \E(W(a X + b Y)| \G)
+\]</span> for <span class="math inline">\(a, b \in \mathbb{R}\)</span>.</p>
+<ol start="5" type="1">
+<li>Tower Property: If <span class="math inline">\(\mathcal{H} \subseteq \mathcal{G}\)</span> is a sigma-field of <span class="math inline">\(\Omega\)</span>, the</li>
+</ol>
+<p><span class="math display">\[
+\E(Y | \mathcal{H}) = \E(\E(Y | \mathcal{G})|\mathcal{H}).
+\]</span></p>
+<p>Proof:</p>
+<p><span class="math display">\[
+\E(W \E(Y | \mathcal{H})) = \E(W Y)
+\]</span></p>
+<p>by definition.</p>
+<p><span class="math display">\[
+\E(W \E(\E(Y | \G) | \mathcal{H})) = \E(W \E(Y | \G)) = \E(WY)
+\]</span> by definition. Equating the two, we see that</p>
+<p><span class="math display">\[
+\E(W \E(\E(Y | \G) | \mathcal{H})) = \E(W \E(Y | \mathcal{H}))
+\]</span> and so</p>
+<p><span class="math display">\[
+\E(Y | \mathcal{H}) = \E(\E(Y | \mathcal{G})| \mathcal{H}).
+\]</span></p>
+</section>
+<section id="square-of-brownian-motion" class="level2">
+<h2 class="anchored" data-anchor-id="square-of-brownian-motion">4.10 Square of Brownian Motion</h2>
+<p>Let <span class="math inline">\((B_t, t \geq 0)\)</span> be a standard Brownian motion. Then <span class="math inline">\(M_t = B_t^2 - t\)</span> is a martingale for the Brownian filtration.</p>
+<p>Proof:</p>
+<p>Firstly, the process <span class="math inline">\((M_t)\)</span> is adapted to the Brownian filtration because both <span class="math inline">\(B_t^2\)</span> and <span class="math inline">\(t\)</span> are measurable w.r.t the Brownian filtration at <span class="math inline">\(t\)</span>.</p>
+<p>Secondly,</p>
+<p><span class="math display">\[
+\E(|M_t|) \leq E(B_t^2) + t = 2t &lt; \infty
+\]</span> for <span class="math inline">\(t \geq 0\)</span>.</p>
+<p>Lastly, we use</p>
+<p><span class="math display">\[
+\E(B_t - B_s | \F_s) = \E(B_t - B_s) = t - s
+\]</span> since <span class="math inline">\(B_t - B_s\)</span> is independent of <span class="math inline">\(B_s\)</span>, <span class="math display">\[
+\E(B_s^2 | \F_s) = B_s^2
+\]</span> because <span class="math inline">\(B_s^2\)</span> is <span class="math inline">\(F_s\)</span>-measurable:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(M_t | \F_s) &amp;= \E(B_t^2 - t |\F_s) \\
+&amp;= \E(B_t^2 | \F_s) - t \\
+&amp;= \E((B_t - B_s + B_s)^2 | \F_s) -t \\
+&amp;= \E((B_t - B_s)^2 + 2B_s(B_t - B_s) + B_s^2|\F_s) -t \\
+&amp;= \E((B_t - B_s)^2) + 2 \E(B_s) \E(B_t - B_s) + B_s^2 - t \\
+&amp;= (t -s) + B_s^2 -t \\
+&amp;= B_s^2 -t \\
+&amp;= M_s
+\end{align}
+\]</span> for any <span class="math inline">\(s \leq t\)</span>.</p>
+</section>
+<section id="geometric-poisson-process" class="level2">
+<h2 class="anchored" data-anchor-id="geometric-poisson-process">4.11 Geometric Poisson Process</h2>
+<p>Let <span class="math inline">\((N_t, t \geq 0)\)</span> be a Poisson proces of intensity <span class="math inline">\(\lambda\)</span>. For <span class="math inline">\(\alpha &gt; 0\)</span>, the process <span class="math inline">\((e^{\alpha N_t - \lambda t(e^{\alpha} -1)}, t \geq 0)\)</span> is a martingale for the filtration of the Poisson process <span class="math inline">\((N_t, t \geq 0)\)</span>.</p>
+<p>Proof: Let <span class="math inline">\(M_t\)</span> denote the process. Clearly, <span class="math inline">\(M_t\)</span> is measurable on the filtration of the Poisson process and, using the MGF of the Poisson distribution</p>
+<p><span class="math display">\[
+\begin{align}
+\E(|M_t|) &amp;= \E(M_t) \\
+&amp;= e^{-\lambda t(e^{\alpha} -1)} \E(e^{\alpha N_t}) \\
+&amp;= e^{-\lambda t(e^{\alpha} -1)} \E(e^{\alpha (N_t - N_0 + N_0}) \\
+&amp;= e^{-\lambda t(e^{\alpha} -1)} e^{\lambda t (e^{\alpha} - 1)} \E(e^{\alpha N_0}) \\
+&amp;= 1 &lt; \infty.
+\end{align}
+\]</span></p>
+<p>Using the MGF of the Poisson distribution (again):</p>
+<p><span class="math display">\[
+\begin{align}
+\E(M_t | \F_s) &amp;= \E(e^{\alpha N_t - \lambda t(e^{\alpha} -1)} | \F_s) \\
+&amp;= \E(e^{\alpha N_t} e^{- \lambda t(e^{\alpha} -1)} | \F_s) \\
+&amp;= e^{- \lambda t(e^{\alpha} -1)} \E(e^{\alpha N_t} | \F_s) \\
+&amp;= e^{- \lambda t(e^{\alpha} -1)} \E(e^{\alpha (N_t - N_s + N_s)} | \F_s) \\
+&amp;= e^{- \lambda t(e^{\alpha} -1)} \E(e^{\alpha (N_t - N_s)} e^{\alpha N_s} | \F_s) \\
+&amp;= e^{- \lambda t(e^{\alpha} -1)} e^{\alpha N_s}\E(e^{\alpha (N_t - N_s)}) \\
+&amp;= e^{- \lambda t(e^{\alpha} -1)} e^{\alpha N_s}e^{\lambda (t - s)(e^{\alpha} - 1)} \\
+&amp;= e^{\alpha N_s -\lambda s(e^{\alpha} - 1)} \\
+&amp;= M_s
+\end{align}
+\]</span> for <span class="math inline">\(t \geq s\)</span>.</p>
+</section>
+<section id="another-brownian-martingale" class="level2">
+<h2 class="anchored" data-anchor-id="another-brownian-martingale">4.12 Another Brownian Martingale</h2>
+<section id="a" class="level4">
+<h4 class="anchored" data-anchor-id="a">(a)</h4>
+<p><span class="math inline">\(M_t = t B_{t} - B_{t}^3/3\)</span> is a martingale</p>
+<p>Proof:</p>
+<p><span class="math inline">\(M_t\)</span> is measurable wrt the Brownian filtration.</p>
+<p>We use a standard trick of creatively adding zero to <span class="math inline">\(B_t\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(B_t^3 | \F_s) &amp;= \E(((B_t - B_s) + B_s)^3 | \F_s) \\
+&amp;= \E((B_t - B_s)^3 + 3(B_t - B_s)^2B_s + 3(B_t - B_s) B_s^2 + B_s^3 | \F_s) \\
+&amp;= \underbrace{\E((B_t -B_s)^3)}_{B_t - B_s, B_s \text{ are independent}} + \underbrace{3B_s \E((B_t - B_s)^2)}_{B_s \text{ is } \F_s-\text{measurable}} + B_s^3 \\
+&amp;= 3 B_s(t -s) + B_s^3.
+\end{align}
+\]</span></p>
+<p>Rearranging:</p>
+<p><span class="math display">\[
+\begin{align}
+M_s &amp;= sB_s - B_s^3/3\\
+&amp;= \underbrace{t B_s}_{\E(B_t|\F_s) = B_s} - \E(B_t^3/3|F_s) \\
+&amp;= \E(t B_t - B_t^3/3 | F_s) \\
+&amp;= \E(M_t | \F_s)
+\end{align}
+\]</span></p>
+<p>for any <span class="math inline">\(s \leq t\)</span>.</p>
+</section>
+<section id="b" class="level4">
+<h4 class="anchored" data-anchor-id="b">(b)</h4>
+<p>Let <span class="math inline">\(a &gt; 0\)</span></p>
+<p><span class="math inline">\(M_t = t B_{t} - B_{t}^3/3\)</span> is a martingale; the stopped martingale <span class="math inline">\(M_{t \wedge \tau}\)</span> is also a martingale and so</p>
+<p><span class="math display">\[
+\E(M_{\tau \wedge t}) = \E(M_0) = 0.
+\]</span></p>
+<p>We can’t use Doob’s optional stopping theorem directly as <span class="math inline">\(M_{\tau\wedge t}\)</span> is not bounded. However, we can argue that</p>
+<p><span class="math display">\[
+\lim_{t \to \infty} \E(\tau \wedge t B_{\tau \wedge t}) = \E(\tau B_\tau)
+\]</span> by the dominated convergence theorem:</p>
+<p><span class="math display">\[
+\left | \tau \wedge t B_{\tau \wedge t} \right| \leq \left| \tau (a \vee b) \right|
+\]</span> and <span class="math inline">\(\E(| \tau |) = \E(\tau) &lt; \infty\)</span>. Similar reasoning for <span class="math inline">\(B_{\tau \wedge t}^3\)</span> gives</p>
+<p><span class="math display">\[
+\begin{align}
+0 &amp;= \E(M_0) = E(M_{\tau\wedge t})\\
+&amp;= \lim_{t\to \infty} E(M_{\tau \wedge t})\\
+&amp;= \E(\tau B_{\tau} - B_{\tau}^3/3).
+\end{align}
+\]</span></p>
+<p>We apply this to get our result:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(\tau B_{\tau}) &amp;= \E(\tau B_{\tau} - B_{\tau}^3/3 + B_{\tau}^3/3) \\
+&amp;= \E(B_{\tau}^3/3) \\
+&amp;=  a^3 \P(B_{\tau} = a) + (-b)^3\P(B_{\tau} = -b)  \\
+&amp;=  \frac{a^3b + (-b)^3a}{3(a + b)} \\
+&amp;=  \frac{ab(a^2 -b^2)}{3(a + b)} \\
+&amp;= \frac{ab}{3}(a -b).
+\end{align}
+\]</span></p>
+</section>
+<section id="c" class="level4">
+<h4 class="anchored" data-anchor-id="c">(c)</h4>
+<p>The errata mentions that the notation chosen is unfortunate. Let’s consider</p>
+<p><span class="math display">\[
+M_t = e^{\lambda B_t - \lambda^2 t/2}.
+\]</span></p>
+<p><span class="math inline">\(M_t\)</span> is a martingale for <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
+<p>Proof:</p>
+<p><span class="math inline">\(M_t\)</span> is adapted to the Brownian filtration.</p>
+<p><span class="math inline">\(M_t\)</span> is integrable:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(|M_t|) &amp;= \E(e^{\lambda B_t - \lambda^2 t/2}) \\
+&amp;= e^{-\lambda^2 t/2} \underbrace{e^{\lambda^2 t/2}}_{\text{MGF of } \lambda B_t} \\
+&amp;= 1.
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{\lambda B_t - \lambda^2 t/2}| \F_s) &amp;= e^{\lambda^2 t/2} \E(e^{\lambda (B_t - B_s) + \lambda B_s } | \F_s) \\
+&amp;= e^{\lambda^2 t/2} e^{\lambda B_s} \E(e^{\lambda (B_t - B_s)}) \\
+&amp;= e^{\lambda^2 t/2} e^{\lambda B_s} \underbrace{e^{\lambda^2(t-s)/2}}_{\text{MGF of } \lambda(B_t - B_s)} \\
+&amp;= M_s.
+\end{align}
+\]</span> <span class="math display">\[\qed\]</span></p>
+<p>We can use Doob’s optional stopping theorem to assert that</p>
+<p><span class="math display">\[
+\E(e^{\lambda B_{\tau} - \lambda^2 \tau/2}) = 1.
+\]</span></p>
+</section>
+<section id="d" class="level4">
+<h4 class="anchored" data-anchor-id="d">(d)</h4>
+<p>With the notation <span class="math inline">\(X_\tau = \lambda B_{\tau} - \lambda^2 \tau/2\)</span>: <span class="math display">\[
+\begin{align}
+\frac{d}{d\lambda}\E(e^{X_\tau}) &amp;=  \E(e^{X_{\tau}}\frac{dX_\tau}{d\lambda}) = 0, \\
+\frac{d^2}{d\lambda^2}\E(e^{X_\tau}) &amp;=  \E(e^{X_{\tau}}(\frac{d^2X_\tau}{d\lambda^2} + (\frac{dX_{\tau}}{d\lambda})^2)) = 0,\\
+\frac{d^3}{d\lambda^3}\E(e^{X_\tau}) &amp;=  \E(\frac{dX_{\tau}}{d\lambda} e^{X_{\tau}}(\frac{d^2X_\tau}{d\lambda^2} + (\frac{dX_{\tau}}{d\lambda})^2) + e^{X_{\tau}}(\frac{d^3X_{\tau}}{d\lambda^3} + 2\frac{dX_{\tau}}{d\lambda}\frac{d^2X_{\tau})}{d\lambda^2}) = 0\\
+\end{align}
+\]</span> for <span class="math inline">\(n \geq 1\)</span>.</p>
+<p>We have the following:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{dX_\tau}{d\lambda} &amp;= B_{\tau} - \lambda \tau, \\
+\frac{d^2X_\tau}{d\lambda^2} &amp;= -\tau, \\
+\frac{d^3X_\tau}{d\lambda^3} &amp;= 0.
+\end{align}
+\]</span></p>
+<p>Substituting and taking the limit as <span class="math inline">\(\lambda \to 0\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{d^3}{d \lambda^3} \E(e^{X_{\tau}}) &amp;= \E(e^{X_\tau}\left ((B_\tau - \lambda \tau)(-\tau +B_{\tau}^2 -2 \lambda \tau B_{\tau} + \lambda \tau^2) -2 \tau(B_\tau - \lambda \tau) \right)) \\
+&amp; \to \E(B_{\tau}^3 - 3 \tau B_{\tau}) =0.
+\end{align}
+\]</span></p>
+<p>As we have already seen <span class="math display">\[
+\begin{align}
+\E(B_{\tau}^3) &amp;= (a^3b - b^3a)/(a + b) = ab(a^2 - b^2)/(a+b) = ab(a - b)
+\end{align}
+\]</span> so</p>
+<p><span class="math display">\[
+\E(\tau B_{\tau}) = \frac{1}{3}\E(B_{\tau}^3) = \frac{ab}{3}(a -b).
+\]</span></p>
+</section>
+</section>
+<section id="limit-of-geometric-brownian-motion" class="level2">
+<h2 class="anchored" data-anchor-id="limit-of-geometric-brownian-motion">4.13 Limit of Geometric Brownian Motion</h2>
+<p>Define <span class="math inline">\(M_t = S_0 e^{\sigma B_t + \mu t}\)</span> for fixed <span class="math inline">\(\sigma &gt; 0\)</span> andd <span class="math inline">\(\mu &lt; 0\)</span>.</p>
+<p>We have <span class="math display">\[
+\lim_{t \to \infty} \frac{B_t}{t} = 0
+\]</span> almost surely: in particular, there is an event <span class="math inline">\(A \subseteq \Omega\)</span> with <span class="math inline">\(\P(A) =1\)</span> such that for any <span class="math inline">\(\varepsilon &gt; 0\)</span> there exists <span class="math inline">\(t(\varepsilon) &gt; 0\)</span> such that for <span class="math inline">\(t &gt; t(\varepsilon)\)</span></p>
+<p><span class="math display">\[
+|B_t| &lt; \varepsilon t.
+\]</span></p>
+<p>For <span class="math inline">\(\omega \in A\)</span>, choose <span class="math inline">\(\varepsilon &lt; - \mu/ 2\sigma\)</span>, then</p>
+<p><span class="math display">\[
+e^{\sigma B_t + \mu t} \leq e^{\sigma |B_t| + \mu t} &lt; e^{\frac{\mu t}{2 \sigma}}
+\]</span> for <span class="math inline">\(t &gt; t(\varepsilon)\)</span> i.e.&nbsp;for <span class="math inline">\(\omega \in A\)</span>,</p>
+<p><span class="math display">\[
+e^{\sigma B_t + \mu t} \to 0
+\]</span> as <span class="math inline">\(t \to 0\)</span>.</p>
+<p>On the other hand,</p>
+<p><span class="math display">\[
+\begin{align}
+\E(e^{\sigma B_t + \mu t}| \F_s) &amp;= e^{\mu t} \E(e^{\sigma(B_t - B_s) + \sigma B_t}| \F_s) \\
+&amp;=  e^{\sigma B_s + \mu t} \E(e^{\sigma(B_t - B_s)}) \\
+&amp;=  e^{\sigma B_s + \mu t} e^{\sigma^2(t-s)^2/2}. \\
+\end{align}
+\]</span></p>
+<p>Taking the expectation of both sides we see that</p>
+<p><span class="math display">\[
+\E(M_t) = \E(M_s)e^{\sigma^2(t-s)^2/2}.
+\]</span></p>
+<p>In particular,</p>
+<p><span class="math display">\[
+\E(M_t) = S_0 e^{\sigma^2 t^2/2}.
+\]</span></p>
+<p>In <span class="math inline">\(L^1\)</span>:</p>
+<p><span class="math display">\[
+\| M_t \|_1 = |S_0| e^{\sigma^2 t^2/2} \to \infty
+\]</span> as <span class="math inline">\(t \to \infty\)</span>.</p>
+<p>In <span class="math inline">\(L^2\)</span>:</p>
+<p><span class="math display">\[
+\| M_t \|_1^2  = \E(M_t^2) = S_0^2 e^{2 \sigma^2 t^2} \to \infty
+\]</span> as <span class="math inline">\(t \to \infty\)</span>.</p>
+<p>Therefore <span class="math inline">\(M_t \to 0\)</span> almost surely but does not converge to zero in <span class="math inline">\(L^1\)</span> or <span class="math inline">\(L^2\)</span>.</p>
+</section>
+<section id="gamblers-ruin-at-french-roulette" class="level2">
+<h2 class="anchored" data-anchor-id="gamblers-ruin-at-french-roulette">4.14 Gambler’s Ruin at French Roulette</h2>
+</section>
+<section id="zeros-of-brownian-motion" class="level2">
+<h2 class="anchored" data-anchor-id="zeros-of-brownian-motion">4.15 Zeros of Brownian Motion</h2>
+<p>For any <span class="math inline">\(t &gt; 0\)</span>, <span class="math inline">\(\P(\max_{s\leq t} B_s &gt; 0) = \P(\min_{s \leq t} B_s &lt; 0) = 1\)</span></p>
+<p>Proof:</p>
+<p>Bachelier’s formula yields the following:</p>
+<p><span class="math display">\[
+\P(\max_{s \leq t} B_s \leq 0) = \P(|B_t| \leq 0) = 0.
+\]</span></p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Why is <span class="math inline">\(P(|B_t| = 0)\)</span>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We know that <span class="math inline">\(B_t\)</span> is continous: in fact, it is absolutely continous because it has a probability density function. By definition, a random variable <span class="math inline">\(X\)</span> is continous if</p>
+<p><span class="math display">\[
+\P(X = x) = 0
+\]</span> for all <span class="math inline">\(x\)</span>.</p>
+</div>
+</div>
+</div>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\P(\max_{s \leq t} B_s &gt; 0) = 1.
+\]</span></p>
+<p>The result follows by applying the result to <span class="math inline">\(-B_t\)</span>, which is also a Brownian motion. <span class="math display">\[\qed\]</span></p>
+<p>The function <span class="math inline">\(s \mapsto B_s(\omega)\)</span> has infinitely many zeros in the interval <span class="math inline">\([0, t]\)</span>, with probability one.</p>
+<p>Proof:</p>
+<p>In the interval <span class="math inline">\([0, t]\)</span>, our function takes a maximum value <span class="math inline">\(M&gt; 0\)</span> and a minimum <span class="math inline">\(m&lt;0\)</span>, at <span class="math inline">\(t_M&gt;0\)</span> and <span class="math inline">\(t_m&gt;0\)</span>, respectively. Between these times, the function has a zero by continuity. There exists a <span class="math inline">\(\varepsilon&gt;0\)</span> such that <span class="math inline">\(T = \min(t_M, t_m) - \varepsilon &gt; 0\)</span>. Repeating this argument for <span class="math inline">\([0, T]\)</span> we see that <span class="math inline">\(s \mapsto B_s(\omega)\)</span> has two zeros in [0, t] and we can repeat as many times as we wish to get <span class="math inline">\(n\)</span> zeros for any <span class="math inline">\(n \in \mathbb{N}\)</span> i.e.&nbsp;there are infinitely many zeros of <span class="math inline">\(s \mapsto B_s(\omega)\)</span> in <span class="math inline">\([0, t]\)</span>. <span class="math display">\[\qed\]</span></p>
+</section>
+<section id="doobs-maximal-inequalities" class="level2">
+<h2 class="anchored" data-anchor-id="doobs-maximal-inequalities">4.19 Doob’s Maximal Inequalities</h2>
+<p>Let <span class="math inline">\((M_k, k \geq 1)\)</span> be a positive submartingale for the filtration <span class="math inline">\(( \F_k, k \in \mathbb{N})\)</span>. Then for any <span class="math inline">\(1 \leq p &lt; \infty\)</span> and <span class="math inline">\(a &gt; 0\)</span></p>
+<p><span class="math display">\[
+\P(\max_{k\leq n}M_k &gt; a) \leq \frac{1}{a^p} \E(M_n^p).
+\]</span></p>
+<p>$$</p>
 
 
 </section>
