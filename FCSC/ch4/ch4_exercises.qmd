@@ -125,7 +125,88 @@ All closed intervals are in the Borel sigma-field: $[a, b] = \{a\} \cup (a, b) \
 Is the subset $\mathbb{Q}$ a Borel set? That is, is $\mathcal{Q} \in \mathcal{B}(\mathbb{R})$? Yes: the rationals are countable, so they can be expressed as the union of singleton rational sets which are in the sigma-field $\mathcal{B}(\mathbb{R})$.
 
 
-## 4.3 Another Look at Conditional Expectation For Gaussians
+## 4.3 Proof of Theorem 4.16
+
+Define $L^2(\G) = L^2(\Omega, \G, \P)$. Let $Y$ be a random variable in $L^2(\Omega, \F, \P)$ and let $Y^{\star} satisfy
+
+$$
+\min_{Z \in L^2(\G)} \E((Y - Z)^2) = \E((Y - Y^{\star})^2).
+$$ {#eq-minimizer}
+
+We show that $E(Y | X) = Y^{\star}$.
+
+
+Let $W$ be a random variable in $L^2(\G)$: we show that $W$ is orthogonal to $Y - Y^{\star}$ which shows that $Y^{\star}$ is the
+orthogonal projection of $Y$ into $L^2(\G)$.
+
+Developing the sqaure:
+
+$$
+\E((W - (Y - Y^{\star}))^2) = \E(W^2) - 2 \E(W(Y - Y^{\star})) + \E((Y - Y^{\star})^2).
+$$
+
+From the definition of $Y^{\star}$ (and the fact that $W + Y^{\star} \in L^2(\G)$)
+
+$$
+\E((W - (Y - Y^{\star}))^2) \geq \E(Y - Y^{\star}).
+$$
+
+It follows that
+$$
+\E(W^2) \geq 2\E(W(Y - Y^{\star})).
+$$
+
+This holds for any $W$ and so we can assert that
+$$
+a^2\E(W^2) \geq 2 a\E(W(Y - Y^{\star})).
+$$
+Taking $a > 0$, we find that
+
+$$
+\E(W(Y - Y^{\star})) \leq \frac{a\E(W^w)}{2}
+$$
+
+and for $a < 0$
+
+$$
+\E(W(Y - Y^{\star})) \geq \frac{a\E(W^w)}{2}.
+$$
+
+Taking the limit as $a \to 0$, we see that
+
+$$
+\E(W(Y - Y^{\star})) = 0
+$$
+
+which is a defining propery of the conditional expectation $E(Y | \G)$.
+
+Uniqueness:
+
+Suppose that there are two conditional expectations of $Y$ given $\G$, $C_1$ and $C_2$.
+Then for any $W \in L^2(\G)$,
+
+$$
+\E(W(C_1 - C_2)) = 0.
+$$
+
+Setting $W = C_1 - C_2$, we see that
+
+$$
+\E((C_1 - C_2)^2) = \| C_1 - C_2 \|_2^2 = 0
+$$
+
+and so $C_1 = C_2$.
+
+
+::: {.callout-note}
+The proof of Theorem 4.7 in the book shows uniqueness of $Y^{\star}$ satifying
+(@eq-minimizer) but does not actually show that a conditional expection is
+such a variable. 
+:::
+
+
+
+## 4.4 Another Look at Conditional Expectation For Gaussians
 
 Let $(X, Y)$ be a Gaussian vector with mean $0$ and covariance matrix
 
@@ -377,7 +458,7 @@ $$
 \end{align}
 $$
 
-where we've used $E(X_1|X_1, X_2) = X_1$ and that $Z_3$ is independent of $X_1$ and $X_2$ (they are linear combinations of $Z_1$ and $Z_2$).
+where we've used $\E(X_1|X_1, X_2) = X_1$ and that $Z_3$ is independent of $X_1$ and $X_2$ (they are linear combinations of $Z_1$ and $Z_2$).
 
 We can also compute $\E(e^{aX_3} | X_2, X_1)$:
 
@@ -389,6 +470,517 @@ $$
 \end{align}
 $$
 The conditional distribution is a Gaussian with mean $X_2 - \frac{\sqrt{3}}{2}X_1$ and variance $4/3$.
+
+## 4.9 Properties of Conditional Expectation
+
+(2) If $Y$ is a $\G$-measurable random variable and $X$ is another integrable random variable (with $XY$ also integrable), then
+
+$$
+\E(XY | \G) = Y \E(X | \G).
+$$
+
+
+Proof:
+
+Let $W$ be a bounded, $\G$-measurable random variable.
+
+$$
+\begin{align}
+\E (W Y \E( X | \G)) &= \E(W XY) \\
+&= \E(W \E(XY | \G)).
+\end{align}
+$$
+
+(3) If $Y$ is independent of $\G$, that is, for any events $I = \{Y \in (a, b]\}$ and $A \in \G$,
+
+$$
+\P(I \cap A) = \P(I) \P(A),
+$$
+then,
+$$
+\E(Y | \G) = \E(Y).
+$$
+
+Proof:
+
+If $W$ is $\G$-measurable, then $W$ and $Y$ are independent.
+
+$$
+\begin{align}
+\E(W \E(Y)) &= \E(Y) \E(W) & (\text{linearity of expectation}) \\
+&= \E(WY) & (\text{$W$ and $Y$ are independent}) \\
+&= \E(W \E(Y | \G)) & (\text{by definition}).
+\end{align}
+$$
+
+By uniqueness of the conditional expectation, $\E(Y) = \E(Y | \G)$.
+
+(4) Linearity: Let $X$ be another integrable random variable on $(\Omega, \F, \P)$. Then
+
+$$
+\E(a X + b Y| \G) = a \E(X | \G) + b \E( Y | \G),
+$$
+for any $a, b \in \mathbb{R}$.
+
+Proof:
+
+$$
+\begin{align}
+\E(W (a X + b Y)) &= a \E(WX) + b \E(WY) & (\text{by linearity of expectation}) \\
+&= a \E(W\E(X | \G)) + b \E(W \E(Y | \G)) & (\text{by defn of conditional expectation})
+\end{align}
+$$
+
+but
+
+$$
+\E(W\E((a X + b Y) | \G)) = \E(W(a X + b Y))
+$$
+by definition. It follows from the uniqueness of the conditional expectation that
+
+$$
+\E(W\E((a X + b Y) | \G)) = \E(W(a X + b Y)| \G)
+$$
+for $a, b \in \mathbb{R}$.
+
+(5) Tower Property: If $\mathcal{H} \subseteq \mathcal{G}$ is a sigma-field of $\Omega$, the
+
+$$
+\E(Y | \mathcal{H}) = \E(\E(Y | \mathcal{G})|\mathcal{H}).
+$$
+
+Proof:
+
+$$
+\E(W \E(Y | \mathcal{H})) = \E(W Y)
+$$
+
+by definition.
+
+$$
+\E(W \E(\E(Y | \G) | \mathcal{H})) = \E(W \E(Y | \G)) = \E(WY)
+$$
+by definition. Equating the two, we see that
+
+$$
+\E(W \E(\E(Y | \G) | \mathcal{H})) = \E(W \E(Y | \mathcal{H}))
+$$
+and so
+
+$$
+\E(Y | \mathcal{H}) = \E(\E(Y | \mathcal{G})| \mathcal{H}).
+$$
+
+## 4.10 Square of Brownian Motion
+
+Let $(B_t, t \geq 0)$ be a standard Brownian motion. Then $M_t = B_t^2 - t$ is a martingale for the Brownian filtration.
+
+
+Proof:
+
+
+Firstly, the process $(M_t)$ is adapted to the Brownian filtration because both $B_t^2$ and $t$ are measurable w.r.t the Brownian filtration at $t$.
+
+Secondly, 
+
+$$
+\E(|M_t|) \leq E(B_t^2) + t = 2t < \infty
+$$
+for $t \geq 0$.
+
+Lastly, we use
+
+$$
+\E(B_t - B_s | \F_s) = \E(B_t - B_s) = t - s
+$$
+since $B_t - B_s$ is independent of $B_s$,
+$$
+\E(B_s^2 | \F_s) = B_s^2
+$$
+because $B_s^2$ is $F_s$-measurable:
+
+$$
+\begin{align}
+\E(M_t | \F_s) &= \E(B_t^2 - t |\F_s) \\
+&= \E(B_t^2 | \F_s) - t \\
+&= \E((B_t - B_s + B_s)^2 | \F_s) -t \\
+&= \E((B_t - B_s)^2 + 2B_s(B_t - B_s) + B_s^2|\F_s) -t \\
+&= \E((B_t - B_s)^2) + 2 \E(B_s) \E(B_t - B_s) + B_s^2 - t \\
+&= (t -s) + B_s^2 -t \\
+&= B_s^2 -t \\
+&= M_s
+\end{align}
+$$
+for any $s \leq t$.
+
+## 4.11 Geometric Poisson Process
+
+Let $(N_t, t \geq 0)$ be a Poisson proces of intensity $\lambda$. For $\alpha > 0$, the process
+$(e^{\alpha N_t - \lambda t(e^{\alpha} -1)}, t \geq 0)$ is a martingale for the filtration of the Poisson process $(N_t, t \geq 0)$.
+
+
+Proof:
+Let $M_t$ denote the process. Clearly, $M_t$ is measurable on the filtration of the Poisson process and, using the MGF of the Poisson distribution
+
+$$
+\begin{align}
+\E(|M_t|) &= \E(M_t) \\
+&= e^{-\lambda t(e^{\alpha} -1)} \E(e^{\alpha N_t}) \\
+&= e^{-\lambda t(e^{\alpha} -1)} \E(e^{\alpha (N_t - N_0 + N_0}) \\
+&= e^{-\lambda t(e^{\alpha} -1)} e^{\lambda t (e^{\alpha} - 1)} \E(e^{\alpha N_0}) \\
+&= 1 < \infty.
+\end{align}
+$$
+
+
+Using the MGF of the Poisson distribution (again):
+
+$$
+\begin{align}
+\E(M_t | \F_s) &= \E(e^{\alpha N_t - \lambda t(e^{\alpha} -1)} | \F_s) \\
+&= \E(e^{\alpha N_t} e^{- \lambda t(e^{\alpha} -1)} | \F_s) \\
+&= e^{- \lambda t(e^{\alpha} -1)} \E(e^{\alpha N_t} | \F_s) \\
+&= e^{- \lambda t(e^{\alpha} -1)} \E(e^{\alpha (N_t - N_s + N_s)} | \F_s) \\
+&= e^{- \lambda t(e^{\alpha} -1)} \E(e^{\alpha (N_t - N_s)} e^{\alpha N_s} | \F_s) \\
+&= e^{- \lambda t(e^{\alpha} -1)} e^{\alpha N_s}\E(e^{\alpha (N_t - N_s)}) \\
+&= e^{- \lambda t(e^{\alpha} -1)} e^{\alpha N_s}e^{\lambda (t - s)(e^{\alpha} - 1)} \\
+&= e^{\alpha N_s -\lambda s(e^{\alpha} - 1)} \\
+&= M_s
+\end{align}
+$$
+for $t \geq s$.
+
+## 4.12 Another Brownian Martingale
+
+#### (a) 
+$M_t = t B_{t} - B_{t}^3/3$ is a martingale
+
+Proof:
+
+$M_t$ is measurable wrt the Brownian filtration.
+
+
+We use a standard trick of creatively adding zero to $B_t$:
+
+$$
+\begin{align}
+\E(B_t^3 | \F_s) &= \E(((B_t - B_s) + B_s)^3 | \F_s) \\
+&= \E((B_t - B_s)^3 + 3(B_t - B_s)^2B_s + 3(B_t - B_s) B_s^2 + B_s^3 | \F_s) \\
+&= \underbrace{\E((B_t -B_s)^3)}_{B_t - B_s, B_s \text{ are independent}} + \underbrace{3B_s \E((B_t - B_s)^2)}_{B_s \text{ is } \F_s-\text{measurable}} + B_s^3 \\
+&= 3 B_s(t -s) + B_s^3.
+\end{align}
+$$
+
+Rearranging:
+
+$$
+\begin{align}
+M_s &= sB_s - B_s^3/3\\
+&= \underbrace{t B_s}_{\E(B_t|\F_s) = B_s} - \E(B_t^3/3|F_s) \\
+&= \E(t B_t - B_t^3/3 | F_s) \\
+&= \E(M_t | \F_s)
+\end{align}
+$$
+
+for any $s \leq t$.
+
+
+
+
+#### (b)
+
+Let $a > 0$
+
+$M_t = t B_{t} - B_{t}^3/3$ is a martingale; the stopped martingale $M_{t \wedge \tau}$ is also a martingale and so
+
+$$
+\E(M_{\tau \wedge t}) = \E(M_0) = 0.
+$$
+
+We can't use Doob's optional stopping theorem directly as $M_{\tau\wedge t}$ is not bounded. However, we can argue that
+
+$$
+\lim_{t \to \infty} \E(\tau \wedge t B_{\tau \wedge t}) = \E(\tau B_\tau)
+$$
+by the dominated convergence theorem:
+
+$$
+\left | \tau \wedge t B_{\tau \wedge t} \right| \leq \left| \tau (a \vee b) \right|
+$$
+and $\E(| \tau |) = \E(\tau) < \infty$. Similar reasoning for $B_{\tau \wedge t}^3$ gives
+
+$$
+\begin{align}
+0 &= \E(M_0) = E(M_{\tau\wedge t})\\
+&= \lim_{t\to \infty} E(M_{\tau \wedge t})\\
+&= \E(\tau B_{\tau} - B_{\tau}^3/3).
+\end{align}
+$$
+
+We apply this to get our result:
+
+
+$$
+\begin{align}
+\E(\tau B_{\tau}) &= \E(\tau B_{\tau} - B_{\tau}^3/3 + B_{\tau}^3/3) \\
+&= \E(B_{\tau}^3/3) \\
+&=  a^3 \P(B_{\tau} = a) + (-b)^3\P(B_{\tau} = -b)  \\
+&=  \frac{a^3b + (-b)^3a}{3(a + b)} \\
+&=  \frac{ab(a^2 -b^2)}{3(a + b)} \\
+&= \frac{ab}{3}(a -b).
+\end{align}
+$$
+
+#### (c)
+
+The errata mentions that the notation chosen is unfortunate. Let's consider
+
+$$
+M_t = e^{\lambda B_t - \lambda^2 t/2}.
+$$
+
+$M_t$ is a martingale for $\lambda > 0$.
+
+Proof:
+
+$M_t$ is adapted to the Brownian filtration.
+
+$M_t$ is integrable:
+
+$$
+\begin{align}
+\E(|M_t|) &= \E(e^{\lambda B_t - \lambda^2 t/2}) \\
+&= e^{-\lambda^2 t/2} \underbrace{e^{\lambda^2 t/2}}_{\text{MGF of } \lambda B_t} \\
+&= 1.
+\end{align}
+$$
+
+$$
+\begin{align}
+\E(e^{\lambda B_t - \lambda^2 t/2}| \F_s) &= e^{\lambda^2 t/2} \E(e^{\lambda (B_t - B_s) + \lambda B_s } | \F_s) \\
+&= e^{\lambda^2 t/2} e^{\lambda B_s} \E(e^{\lambda (B_t - B_s)}) \\
+&= e^{\lambda^2 t/2} e^{\lambda B_s} \underbrace{e^{\lambda^2(t-s)/2}}_{\text{MGF of } \lambda(B_t - B_s)} \\
+&= M_s.
+\end{align}
+$$
+$$\qed$$
+
+We can use Doob's optional stopping theorem to assert that
+
+$$
+\E(e^{\lambda B_{\tau} - \lambda^2 \tau/2}) = 1.
+$$
+
+#### (d)
+With the notation $X_\tau = \lambda B_{\tau} - \lambda^2 \tau/2$:
+$$
+\begin{align}
+\frac{d}{d\lambda}\E(e^{X_\tau}) &=  \E(e^{X_{\tau}}\frac{dX_\tau}{d\lambda}) = 0, \\
+\frac{d^2}{d\lambda^2}\E(e^{X_\tau}) &=  \E(e^{X_{\tau}}(\frac{d^2X_\tau}{d\lambda^2} + (\frac{dX_{\tau}}{d\lambda})^2)) = 0,\\
+\frac{d^3}{d\lambda^3}\E(e^{X_\tau}) &=  \E(\frac{dX_{\tau}}{d\lambda} e^{X_{\tau}}(\frac{d^2X_\tau}{d\lambda^2} + (\frac{dX_{\tau}}{d\lambda})^2) + e^{X_{\tau}}(\frac{d^3X_{\tau}}{d\lambda^3} + 2\frac{dX_{\tau}}{d\lambda}\frac{d^2X_{\tau})}{d\lambda^2}) = 0\\
+\end{align}
+$$
+for $n \geq 1$.
+
+We have the following:
+
+$$
+\begin{align}
+\frac{dX_\tau}{d\lambda} &= B_{\tau} - \lambda \tau, \\
+\frac{d^2X_\tau}{d\lambda^2} &= -\tau, \\
+\frac{d^3X_\tau}{d\lambda^3} &= 0.
+\end{align}
+$$
+
+
+
+
+Substituting and taking the limit as $\lambda \to 0$:
+
+$$
+\begin{align}
+\frac{d^3}{d \lambda^3} \E(e^{X_{\tau}}) &= \E(e^{X_\tau}\left ((B_\tau - \lambda \tau)(-\tau +B_{\tau}^2 -2 \lambda \tau B_{\tau} + \lambda \tau^2) -2 \tau(B_\tau - \lambda \tau) \right)) \\
+& \to \E(B_{\tau}^3 - 3 \tau B_{\tau}) =0.
+\end{align}
+$$
+
+As we have already seen
+$$
+\begin{align}
+\E(B_{\tau}^3) &= (a^3b - b^3a)/(a + b) = ab(a^2 - b^2)/(a+b) = ab(a - b)
+\end{align}
+$$
+so
+
+$$
+\E(\tau B_{\tau}) = \frac{1}{3}\E(B_{\tau}^3) = \frac{ab}{3}(a -b).
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 4.13 Limit of Geometric Brownian Motion
+
+Define $M_t = S_0 e^{\sigma B_t + \mu t}$ for fixed $\sigma > 0$ andd $\mu < 0$.
+
+We have
+$$
+\lim_{t \to \infty} \frac{B_t}{t} = 0
+$$
+almost surely: in particular, there is an event $A \subseteq \Omega$ with $\P(A) =1$ such that
+for any $\varepsilon > 0$ there exists $t(\varepsilon) > 0$ such that for $t > t(\varepsilon)$
+
+$$
+|B_t| < \varepsilon t.
+$$
+
+For $\omega \in A$, choose $\varepsilon < - \mu/ 2\sigma$, then
+
+$$
+e^{\sigma B_t + \mu t} \leq e^{\sigma |B_t| + \mu t} < e^{\frac{\mu t}{2 \sigma}}
+$$
+for $t > t(\varepsilon)$ i.e. for $\omega \in A$, 
+
+$$
+e^{\sigma B_t + \mu t} \to 0
+$$
+as $t \to 0$.
+
+On the other hand,
+
+$$
+\begin{align}
+\E(e^{\sigma B_t + \mu t}| \F_s) &= e^{\mu t} \E(e^{\sigma(B_t - B_s) + \sigma B_t}| \F_s) \\
+&=  e^{\sigma B_s + \mu t} \E(e^{\sigma(B_t - B_s)}) \\
+&=  e^{\sigma B_s + \mu t} e^{\sigma^2(t-s)^2/2}. \\
+\end{align}
+$$
+
+Taking the expectation of both sides we see that
+
+$$
+\E(M_t) = \E(M_s)e^{\sigma^2(t-s)^2/2}.
+$$
+
+In particular,
+
+$$
+\E(M_t) = S_0 e^{\sigma^2 t^2/2}.
+$$
+
+
+In $L^1$:
+
+$$
+\| M_t \|_1 = |S_0| e^{\sigma^2 t^2/2} \to \infty
+$$
+as $t \to \infty$.
+
+In $L^2$:
+
+$$
+\| M_t \|_1^2  = \E(M_t^2) = S_0^2 e^{2 \sigma^2 t^2} \to \infty
+$$
+as $t \to \infty$.
+
+Therefore $M_t \to 0$ almost surely but does not converge to zero in $L^1$ or $L^2$.
+
+## 4.14 Gambler's Ruin at French Roulette
+
+
+## 4.15 Zeros of Brownian Motion
+
+For any $t > 0$, $\P(\max_{s\leq t} B_s > 0) = \P(\min_{s \leq t} B_s < 0) = 1$
+
+
+Proof:
+
+Bachelier's formula yields the following:
+
+$$
+\P(\max_{s \leq t} B_s \leq 0) = \P(|B_t| \leq 0) = 0.
+$$
+
+:::{.callout-note collapse="true"} 
+## Why is $P(|B_t| = 0)$?
+
+We know that $B_t$ is continous: in fact, it is absolutely continous because it has a
+probability density function. By definition, a random variable $X$ is continous if
+
+$$
+\P(X = x) = 0
+$$
+for all $x$.
+:::
+
+Therefore, 
+
+$$
+\P(\max_{s \leq t} B_s > 0) = 1.
+$$
+
+The result follows by applying the result to $-B_t$, which is also a Brownian motion.
+$$\qed$$
+
+The function $s \mapsto B_s(\omega)$ has infinitely many zeros in the interval $[0, t]$, with
+probability one.
+
+Proof:
+
+In the interval $[0, t]$, our function takes a maximum value $M> 0$ and a minimum $m<0$, at $t_M>0$ and $t_m>0$, respectively.
+Between these times, the function has a zero by continuity. There exists a $\varepsilon>0$ such that
+$T = \min(t_M, t_m) - \varepsilon > 0$. Repeating this argument for $[0, T]$ we see that $s \mapsto B_s(\omega)$ has two zeros in [0, t] and we can repeat as many times as we wish to get $n$ zeros for any $n \in \mathbb{N}$ i.e. there are infinitely many zeros of $s \mapsto B_s(\omega)$ in $[0, t]$. $$\qed$$
+
+
+## 4.19 Doob's Maximal Inequalities
+
+Let $(M_k, k \geq 1)$ be a positive submartingale for the filtration $( \F_k, k \in \mathbb{N})$. Then for any
+$1 \leq p < \infty$ and $a > 0$
+
+$$
+\P(\max_{k\leq n}M_k > a) \leq \frac{1}{a^p} \E(M_n^p).
+$$
+
+
+
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
