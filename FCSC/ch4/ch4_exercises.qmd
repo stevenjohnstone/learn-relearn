@@ -893,7 +893,7 @@ as $t \to \infty$.
 In $L^2$:
 
 $$
-\| M_t \|_1^2  = \E(M_t^2) = S_0^2 e^{2 \sigma^2 t^2} \to \infty
+\| M_t \|_2^2  = \E(M_t^2) = S_0^2 e^{2 \sigma^2 t^2} \to \infty
 $$
 as $t \to \infty$.
 
