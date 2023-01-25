@@ -901,8 +901,315 @@ Therefore $M_t \to 0$ almost surely but does not converge to zero in $L^1$ or $L
 
 ## 4.14 Gambler's Ruin at French Roulette
 
+Let $(S_n, n \geq 0)$ be a simple random walk with bias starting at $S_0 = 100$ with
 
-## 4.15 Zeros of Brownian Motion
+$$
+S_n = S_0 + \sum_{k=1}^n X_k,
+$$
+where $\P(X_1 = +1) = p$ and $\P(X_1 = -1) = 1 - p =q$ with $p < 1/2$.
+
+#### (a)
+$$
+M_n = (q/p)^{S_n}
+$$
+
+is a martingale for the filtration $(\F_n, n \in \mathbb{N})$ where 
+$$
+\F_n = \sigma(X_m, m \leq n).
+$$
+
+Proof:
+
+$M_n$ is measurable wrt to $\F_n$ as it is a function of measurable random variables on $\F_n$.
+
+
+For $n \in \mathbb{N}$
+
+$$
+\begin{align}
+\E(|M_n|) &= \E(|(q/p)^{S_n}|) \\
+&= \E((q/p)^{S_n}) \\
+&= 2^{S_n} < \infty.
+\end{align}
+$$
+
+$M_n$ has the martingale property:
+
+$$
+\begin{align}
+\E(M_n |\F_m) &= \E((q/p)^{S_n} | \F_m) \\
+&= \E((q/p)^{S_n - S_m}(q/p)^{S_m}| \F_m) \\
+&= (q/p)^{S_m} \underbrace{\E((q/p)^{S_n - S_m})}_{\text{increments are independent}} \\
+&= M_s \E((q/p)^{X_{m+1} + \cdots + X_{n}}) \\
+&= M_s \sum_{k=-(n-m),k+=2}^{n-m} (q/p)^k \P(\sum_{i=1}^{n-m} X_i = k) \\
+&= M_s \sum_{k=-(n-m),k+=2}^{n-m} (q/p)^k \binom{n-m}{(k + (n-m))/2}p^{(k + (n-m))/2}q^{(n-m) -(k +(n+m))/2} \\
+&= M_s (pq)^{(n-m)/2} \sum_{k=-(n-m),k+=2}^{n-m} (q/p)^k \binom{n-m}{(k + (n-m))/2}(p/q)^{k/2} \\
+&= M_s (pq)^{(n-m)/2} \sum_{k=-(n-m),k+=2}^{n-m} \binom{n-m}{(k + (n-m))/2}(q/p)^{k/2} \\
+&= M_s (pq)^{(n-m)/2} \sum_{k=0}^{n-m} \binom{n-m}{k}(q/p)^{k -(n-m)/2} \\
+&= M_s p^{(n-m)} \sum_{k=0}^{n-m} \binom{n-m}{k}(q/p)^k \\
+&= M_s p^{(n-m)} (1 + q/p)^{n-m} \\
+&= M_s p^{(n-m)} (1/p)^{n-m} \\
+&= M_s.
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (b)
+
+Define the stopping time $\tau = \min\{n \geq 0: S_n = 200 \text{ or } S_n = 0\}$.
+Then
+
+$$
+\P(\tau < \infty) = 1.
+$$
+
+Proof:
+
+
+Let 
+$$
+E_n = \{\sum_{i=200n}^{200(n+1)} X_i = 200\}.
+$$
+
+It is clear that if any $E_n$ occurs, then $\tau < \infty$: that is,
+
+$$
+\{ \tau < \infty \} \subseteq \cap_n E_n^c.
+$$
+By independence,
+
+$$
+\P(E_n) = \P(E_0).
+$$
+
+So
+
+$$
+\P(E_0^c \cap \ldots \cap E_n^c) = (1- P(E_0))^n \to 0
+$$
+as $n \to \infty$.
+
+The events $F_n = \cap_{i=0}^n E_n$ are decreasing so we can use continuity of probability to state that
+
+$$
+P(\cap_n F_n) = 0.
+$$
+
+The result follows by noting that $\{ \tau = \infty\} \subseteq \cap_n F_n$. $$\qed$$.
+
+Therefore
+
+$$
+\P(\tau = \infty) \leq \P(\cap E_n^c) = 0.
+$$
+
+#### (c)
+
+$$
+\P( S_{\tau} = 200) = \frac{1-(q/p)^{100}}{1 - (q/p)^{200}}.
+$$
+
+Proof:
+
+$\tau$ is a stopping time. $M_{\tau \wedge t}$ is bounded so Doob's optional stopping theorem applies:
+
+$$
+\E(M_\tau) = \E(M_0) = (q/p)^{S_0}.
+$$
+
+
+$S_{\tau}$ is a discrete random variable taking values $0$ and $200$ so it's easy to calculate the LHS of the above:
+
+$$
+\begin{align}
+\E((q/p)^{S_\tau}) &= (q/p)^0 \P(S_\tau = 0) + (q/p)^{200} \P(S_\tau = 200) \\
+&= (1 - P(S_\tau = 200)) + (q/p)^{200} \P(S_\tau = 200) \\
+&= 1 - P(S_\tau = 200)(1 + (q/p)^{200}) = (q/p)^{100}.
+\end{align}
+$$
+
+Rearranging yields the result:
+$$
+P(S_{\tau} = 200) = \frac{1 - (q/p)^{100}}{1 - (q/p)^{200}}.
+$$
+
+$$
+\qed
+$$
+
+#### (d)
+
+```{python}
+p = 18/38
+q = 1 - p
+
+((1 - (q/p)**100)/(1 - (q/p)**200))
+
+```
+
+#### (e)
+
+We seek a starting point $S_0$ for which the probability of hitting $100$ is the same
+as $200$. I estimate this will be close to $200$, given the numerical experiments on
+roulette.
+
+$$
+\begin{align}
+\E((q/p)^{S_\tau}) &= (q/p)^{100} \P(S_\tau = 100) + (q/p)^{200} \P(S_\tau = 200) \\
+&= (q/p)^{S_0}
+\end{align}
+$$
+because $(q/p)^{S_n}$ is a martingale.
+
+
+If $$\P(S_\tau = 100) = \P(S_\tau = 200) = 1/2,$$ then
+$$
+\begin{align}
+(q/p)^{S_0 - 100} = 1/2(1 + (q/p)^{100})
+\end{align}
+$$
+
+and so
+
+$$
+S_0 = \frac{\log(\frac{1 + (q/p)^{100}}{2})}{\log(q/p)} + 100
+$$
+
+```{python}
+import math
+S_0 = math.log((1 + (q/p)**100)/2)/math.log(q/p) + 100; S_0
+```
+
+## 4.15 La Martingale Classique
+
+Define a process $M_n$ by
+
+$$
+M_n = \sum_{k=0}^{n-1} 2^k(S_{k+1} - S_k)
+$$
+where $S_0 = 0$ and
+
+$$
+S_n = \sum_k X_k
+$$
+where $(X_k, k \geq 1)$ are IID random variables that take value $\pm 1$ with probability $1/2$.
+We are given that $M_n$ is a martingale.
+
+#### (a)
+Consider the stopping time $\tau$, the first time $m$ with $X_m = +1$.
+$$
+\E(M_{\tau}) = 1
+$$
+yet
+
+$$
+\E(M_0) = 0.
+$$
+
+Proof:
+
+:::{.callout-note}
+
+The way the winnings/losses $M_n$ is expressed makes this question easy as the
+telescoping sum is then obvious. It could have been written as
+
+$$
+M_n = \sum_{k=0}^{n-1} 2^k X_{k+1}
+$$
+and the trick may not be as immediate unless you are familiar with
+properties of binary expansions of integers:
+$$
+2^{n} = 1 + \sum_{k=0}^{n-1} 2^{k}.
+$$
+:::
+
+$$
+\begin{align}
+\E(M_\tau) &= \E(\sum_{k=0}^{m-1} 2^k(S_{k+1} - S_k)) \\
+&= \E(\sum_{k=0}^{m-2} 2^k((-1) - (-1)) + 1) \\
+&= \E(1) \\
+&= 1.
+\end{align}
+$$
+
+$$
+\begin{align}
+\E(M_0) &= 0
+\end{align}
+$$
+by definition.
+$$
+\qed
+$$
+
+#### (b)
+
+Optional stopping doesn't apply here because $M_{\tau \wedge t}$ is not bounded: $M_{\tau \wedge t}$ can take
+arbitrarily large negative values before reaching the first $m$ such that $X_m = +1$.
+
+#### (c)
+
+The weakness of this strategy is that to execute it, the player needs to have unbounded money to gamble and 
+unbounded time to play.
+
+
+
+
+
+
+
+
+
+
+## 4.16 A Martingale From Conditional Expectation
+
+Let $X \in L^1(\Omega, \F, \P)$, and let $(\F_t, t \geq 0)$ be a filtration. Then the process defined by
+
+$$
+M_t = \E(X | \F_t)
+$$
+
+is a martingale.
+
+Proof:
+
+Clearly, $M_t$ is measurable on $\F_t$. Also, $M_t$ is integrable:
+
+$$
+\E(|M_t|) = \E(|E(X | \F_t)|) \leq \E(\E(|X||\F_t)) = \E(|X|) < \infty.
+$$
+
+For $s \leq t$ 
+
+$$
+\begin{align}
+\E(M_t | \F_s) &= \E(\E(X|\F_t) |F_s) \\
+&= \underbrace{\E(X| F_s)}_{\text{by the tower property}} \\
+&= M_s.
+\end{align}
+$$
+
+$$\qed$$
+
+## 4.17 Joint Distribution of $(max_{t \leq T} B_t, B_T)$
+
+$$
+\P(max_{t \leq T} B_t > m, B_T \leq a) = \P(B_T > 2m -a)
+$$
+and the joint pdf between the two is
+
+$$
+f(m, a) = \frac{2(2m -a)}{T^{3/2}\sqrt{2 \pi}} e^{-\frac{(2m -a)^2}{2T}}.
+$$
+
+Proof:
+
+
+
+## 4.18 Zeros of Brownian Motion
 
 For any $t > 0$, $\P(\max_{s\leq t} B_s > 0) = \P(\min_{s \leq t} B_s < 0) = 1$
 
@@ -946,6 +1253,8 @@ Between these times, the function has a zero by continuity. There exists a $\var
 $T = \min(t_M, t_m) - \varepsilon > 0$. Repeating this argument for $[0, T]$ we see that $s \mapsto B_s(\omega)$ has two zeros in [0, t] and we can repeat as many times as we wish to get $n$ zeros for any $n \in \mathbb{N}$ i.e. there are infinitely many zeros of $s \mapsto B_s(\omega)$ in $[0, t]$. $$\qed$$
 
 
+
+
 ## 4.19 Doob's Maximal Inequalities
 
 Let $(M_k, k \geq 1)$ be a positive submartingale for the filtration $( \F_k, k \in \mathbb{N})$. Then for any
@@ -955,9 +1264,383 @@ $$
 \P(\max_{k\leq n}M_k > a) \leq \frac{1}{a^p} \E(M_n^p).
 $$
 
+Proof:
 
+#### (a)
+Use Jensen's inequality to show that if $(M_k, k \geq 1)$ is a submartingale, then
+so is $(M^p_k, k\geq 1)$ for $1 \leq p < \infty$. For $x \geq 0$,
 
 $$
+x \mapsto x^p
+$$
+is a convex function for $1 \leq p < \infty$. The process $M_n$ is positive and so by Jensen's inequality
+
+$$
+\E(M^p_n|\F_m) \geq \E(M_n|\F_m)^p = M_m^p.
+$$
+That is, the process $(M_k^p, k\geq 1)$ is submartingale.
+
+If we prove the statement for $p=1$, then
+
+$$
+\frac{1}{a^p}\E(M_n^p) \geq \frac{1}{a}\E(M_n)^p \geq \P(\max_{k \leq n}M_k > a)
+$$
+for $1 \leq p < \infty$: moreover, we need only prove that $M_n$ is a submartingale for the theorem to apply.
+
+#### (b) 
+
+Consider the events
+
+$$
+B_k = \cap_{j < k} \{ \omega : M_j(\omega) \leq a\} \cap\{\omega: M_k(\omega) > a\}.
+$$
+
+The $B_k$'s are disjoint: if $m < n$ and $\omega \in B_m$, then $M_m(\omega) > a$ and so $\omega \notin B_n$.
+
+$$
+\cup_{k \leq n} B_k = \{\max_{k \leq n} M_k > a\} \triangleq B.
+$$
+
+Choose $\omega$ in the LHS set. Then $\omega$ is in exactly one $B_k$ and so
+$M_k(\omega) > a$ which means that
+
+$$
+\max_{k \leq n} M_k(\omega) > a,
+$$
+that is
+
+$$
+\cup_{k \leq n} B_k \subseteq \{\max_{k \leq n} M_k > a\}.
+$$
+
+To prove the reverse inclusion, take $\omega \in \{\max_{k \leq n} M_k > a\}$. Then, for some $k \leq n$, $M_k(\omega) > a$ and $M_j(\omega) \leq a$ for $j < k$ and so $\omega \in \cup_{k \leq n} B_k$.
+
+#### (c)
+
+$$
+\E(M_n) \geq \E(M_n \mathbb{1}_B) \geq a \sum_{k \leq n} \P(B_k) = a\P(B).
+$$
+
+Proof:
+
+$$
+\begin{align}
+\E(M_n) &\underbrace{\geq \E(M_n \mathbb{1}_B)}_{\text{only true because } M_n >= 0} \\
+&= \sum_k\E(M_n \mathbb{1}_{B_k}) \\
+&= \sum_k\E(\E(M_n \mathbb{1}_{B_k}| \F_k)) \\
+&= \sum_k\E(\underbrace{\mathbb{1}_{B_k}}_{\text{this is $\F_k$-measurable}} \E(M_n| \F_k)) \\
+&\geq \sum_k\E(\mathbb{1}_{B_k} \underbrace{M_k}_{\text{submartingale}})) \\
+&\geq a\sum_k\E( \mathbb{1}_{B_k} ) \\
+&= a \sum_k \P(B_k) \\
+&= a \P(B).
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (d)
+
+For any finite set of times $0 = t_0 < t_1 < \ldots < t_n = t$, the inequality
+
+$$
+\P(\max_{k \leq n} M_{t_k} > a) \leq \frac{1}{a^p} \E(M_n^p)
+$$
+
+because
+
+$$
+S_k = M_{t_k}
+$$
+
+defines a discrete submartingale.
+
+For each $n$, define a discretisation of $[0, t]$ by
+
+$$
+t_k = \frac{kt}{2^n}
+$$
+for $k =1, \ldots, 2^n$.  Define a collection of events
+
+$$
+A_n = \{\omega : \max_{k \leq 2^n} M_{t_k} > a\}.
+$$
+
+The sets are nested:
+
+$$
+A_m \subseteq A_n
+$$
+if $m \leq n$. For each $n$,
+
+$$
+P(A_n) \leq \frac{1}{a^p}\E(M_t^p).
+$$
+
+
+Using the continuity of probability
+
+$$
+\P(A) = \lim_{n\to \infty} \P(A_n)
+$$
+where
+$$
+A = \cup_{n} A_n.
+$$
+
+Therefore,
+
+$$
+\P(\max_{s \in \mathcal{D}} M_s > a) \leq \frac{1}{a^p} \E(M_t^p)
+$$
+where $\mathcal{D}$ is the dense subset of $[0, t]$ of real numbers of the form
+$$
+kt/2^n
+$$
+for some $k$ and $n$.
+
+It is clear that
+
+$$
+\{\omega: \max_{s \in \mathcal{D}} M_s(\omega) > a\} \subseteq \{\omega: \max_{s \in [0, t]} M_s(\omega) > a\}.
+$$
+
+The reverse inclusion follows from the fact that
+
+$$
+s \mapsto M_s(\omega)
+$$
+is continous, almost surely: $M_s(\omega)$ will attain a maximum on $[0, t]$ and can be approximated 
+to arbitrary precision with $M_{s'}(\omega)$ for $s' \in \mathcal{D}$.
+
+$$
+\qed
+$$
+
+## 4.20 An Application of Doob's Maximal Inequalities
+
+
+#### (a)
+
+If $(B_t, t \geq 0)$ is a Brownian motion, then
+
+$$
+\lim_{n \to \infty} \frac{B_n}{n} = 0
+$$
+a.s. when $n$ is an integer.
+
+
+Proof:
+
+We do the usual telescoping sum trick:
+
+$$
+\begin{align}
+\frac{B_n}{n} &= \frac{\sum_{k=0}^{n-1} (B_{k+1} - B_k)}{n} \\
+&= \frac{\sum_{k=0}^{n-1} X_k}{n}
+\end{align}
+$$
+
+where $X_k = B_{k+1} - B_k$ are Brownian increments. Using the strong law of large numbers
+
+$$
+\lim_{n \to \infty} \frac{B_n}{n} = \lim_{n\to\infty} \bar{X_k} = \E(X_0) = 0.
+$$
+
+$$\qed$$
+
+#### (b)
+
+$$
+\sum_{n \geq 0} \P(\max_{0 \leq s \leq 1} |B_{n+s} - B_n| > \delta n) < \infty
+$$
+
+for any $\delta > 0$.
+
+Proof:
+
+The process $M_t = |B_{n+t} - B_n|$ is a positive submartingale of the filteration $(\G_s = \F_{n+s}, s \geq 0)$:
+
+$$
+\begin{align}
+\E(M_t | \G_s) &= \E(|B_{n+t} - B_n| | \F_{n+s}) \\
+& \geq \left| \E(B_{n + t} - B_n| \F_{n +s })\right| \\
+&=\left| \E(B_{n + t}|\F_{n+s}) - \E(B_n| \F_{n +s })\right | \\
+&=\left | \underbrace{B_{n+s}}_{\text{martingale property}} - \E(B_n| \F_{n +s })\right| \\
+&=\left | B_{n+s} - \underbrace{B_n}_{B_n \text{is } \F_{n+s} \text{ measurable}} \right| \\
+&= M_s
+\end{align}
+$$
+for $s \leq t$.
+
+Doob's maximal inequality applies to $M_t$:
+
+$$
+\begin{align}
+\P(\max_{0 \leq s \leq 1}|B_{n + s} - B_n| > \delta n) &\leq \frac{1}{\delta^2 n^2}\E((B_{n+1} - B_n)^2) \\
+&= \frac{1}{\delta^2 n^2}\\
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (c)
+
+Taking the sum
+$$
+\sum_n \P(\max_{0 \leq s \leq 1}|B_{n + s} - B_n| > \delta n) = \frac{\pi^2}{6 \delta^2} < \infty.
+$$
+
+As a consequence
+
+$$
+\lim_{n\to\infty} \max_{0 \leq s \leq 1} \frac{|B_{n+s} - B_n|}{n} = 0
+$$
+almost surely.
+
+$$
+\qed
+$$
+
+#### (d)
+
+If $t_n \uparrow \infty$, then
+
+$$
+\lim_{n\to \infty} \frac{B_{t_n}}{t_n} = 0.
+$$
+
+Proof:
+
+Let $k = \lfloor t_n \rfloor$ and $s = t_n - k$. Then
+
+$$
+\begin{align}
+\lim_{n\to \infty} \frac{B_{t_n}}{t_n} &= \lim_{n\to\infty} \frac{B_{k+s} - B_k + B_k}{t_n} \\
+&\leq \lim_{n\to\infty} \frac{B_{k+s} - B_k + B_k}{k} \\
+&\leq \lim_{n\to\infty} \max_{0 \leq s \leq 1}\frac{|B_{k+s} - B_k| + |B_k|}{k} \\
+& = 0.
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+
+#### (e)
+
+If
+$$
+X_t = t B_{1/t},
+$$
+then
+$$
+\lim_{t \to 0+} X_t = 0
+$$
+almost surely.
+
+Proof:
+
+$$
+X_{\frac{1}{t}} = \frac{B_t}{t} \to 0
+$$
+as $t \to \infty$, almost surely.
+
+$$
+\qed
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 4.21 An Example of Fubini's Theorem
+
+
+Let $(X_n, n \geq 1)$ be a sequence of random variables on $(\Omega, \F, \P)$. If
+
+$$
+\sum_n \E(|X_n|) < \infty
+$$
+then
+
+$$
+\E \left(\sum_{n} X_n \right ) = \sum_n \E(X_n).
+$$
+
+Proof:
+
+Let
+
+$$
+S_n = \sum_{k=1}^n X_k.
+$$
+
+Almost surely
+
+$$
+S_n \to \sum_{k=1}^{\infty} X_k
+$$
+as $n \to \infty$ and
+
+$$
+| S_n | =  |\sum_{k=1}^{n} X_k| \leq \sum_{k=1}^{n} |X_k| \leq \sum_{k=1}^{\infty} |X_k|.
+$$
+
+So $S_n$ is dominated by
+
+$$
+\sum_k |X_k|
+$$
+and this is integrable by our assumptions:
+
+$$
+\E(\sum_{k=1}^{\infty} |X_k|)  \leq \sum_{k=1}^{\infty} \E(|X_k|) < \infty
+$$
+
+So we can invoke the dominated convergence theorem to state that
+
+$$
+\lim_{n\to \infty} \E(S_n) = \E(\lim_{n \to \infty} S_n).
+$$
+That is
+
+$$
+\sum_n \E(X_n) = \E\left(\sum_n X_n\right).
+$$
+
+$$
+\qed
+$$
+
+
+
+
+
+
+
+
+
+
 
 
 
