@@ -1,0 +1,263 @@
+---
+title: "Computer Experiments"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+##  5.1 Itô Integrals
+
+```{python}
+import numpy as np
+
+increments = 1000
+samples = 100
+
+def ito(integrand, inc=increments, rng=np.random.default_rng()):
+  delta = 1/inc
+  bp = np.cumsum(np.r_[0, rng.normal(0, np.sqrt(1/inc), inc)])
+  return np.cumsum([ integrand(i*delta, bp[i])*(bp[i+1] - bp[i]) for i in range(len(bp)-1)])
+
+def t(path):
+  return np.linspace(0, 1, len(path))
+
+```
+
+
+
+```{python}
+import matplotlib.pyplot as plt
+
+
+#### (a)
+for _ in range(samples):
+  path = ito(lambda t, x: 4*(x**3))
+  plt.plot(t(path), path)
+
+plt.title("(a) $\int_0^t 4 B_s^3 d B_s$")
+plt.show()
+
+#### (b)
+for _ in range(samples):
+  path = ito(lambda t, x: np.cos(x))
+  plt.plot(t(path), path)
+
+plt.title("(b) $\int_0^t \cos{B_s} d B_s$")
+plt.show()
+
+#### (c)
+for _ in range(samples):
+  path = ito(lambda t, x: np.exp(t/2)*np.sin(x))
+  plt.plot(t(path), path)
+
+plt.title("(c) $1 - \int_0^t e^{s/2} \sin{B_s} d B_s$")
+plt.show()
+```
+
+## 5.2 Ornstein-Uhlenbeck Process and Brownian Bridge Revisited
+
+```{python}
+for _ in range(samples):
+  path = ito(lambda t, x: np.exp(t))
+  ticks = t(path)
+  plt.plot(ticks, np.exp(-ticks)*path)
+plt.title("Ornstein-Uhlenbeck")
+plt.show()
+
+for _ in range(samples):
+  path = ito(lambda t, x: 1/(1 - t))
+  ticks = t(path)
+  plt.plot(ticks, (1-ticks)*path)
+plt.title("Brownian-Bridge")
+plt.show()
+
+```
+
+## 5.3 Itô's Formula
+
+#### (a)
+```{python}
+increments = 1000
+delta=1/increments
+
+def seeded_rng():
+  return np.random.default_rng(1337)
+
+brownian_path = np.cumsum(np.r_[0, seeded_rng().normal(0, np.sqrt(delta), increments-1)])
+
+  
+path = ito(lambda t, x: 4*(x**3), rng=seeded_rng(), inc=increments)
+plt.plot(t(path), path, label='$\int_0^t 4 B_s^3$')
+
+riemann = np.cumsum(6*delta*(brownian_path**2))
+plt.plot(t(brownian_path), brownian_path**4 - riemann, label='$B_t^4 - 6 \int_0^t B_s^2 ds$')
+
+plt.title("(a)")
+plt.legend(loc='upper left')
+plt.show()
+```
+
+#### (b)
+
+```{python}
+riemann = np.cumsum(delta*np.sin(brownian_path))
+plt.plot(t(riemann), np.sin(brownian_path) + (1/2)*riemann, label='$\sin{B_t} + \\frac{1}{2}\int_0^2 \sin{B_s} ds$')
+ito_path = ito(lambda t, x: np.cos(x), rng=seeded_rng(), inc=increments)
+plt.plot(t(ito_path), ito_path, label='$\int_0^t \cos{B_s} dB_s$')
+
+plt.title("(b)")
+plt.legend(loc='upper left')
+plt.show()
+```
+
+#### (c)
+
+```{python}
+path = [ np.exp(i*delta/2)*np.cos(b) for i, b in enumerate(brownian_path) ]
+plt.plot(t(path), path, label='$e^{t/2}\cos{B_t}$')
+
+ito_path = ito(lambda t, x: np.exp(t/2)*np.sin(x), rng=seeded_rng(), inc=increments)
+plt.plot(t(ito_path), 1 - ito_path, label='$1 - \int_0^t \sin{B_s} dB_s$')
+
+plt.title("(c)")
+plt.legend(loc='upper left')
+plt.show()
+```
+
+## 5.4 A Path-Dependent Integrand
+
+```{python}
+for i in range(10):
+  rng = np.random.default_rng(i)
+  # feed the same rng into each ito integration step because the
+  # brownian path in each integral is the same?
+  integrand = iter(ito(lambda t, x: x, rng=rng))
+  rng = np.random.default_rng(i)
+  integral = ito(lambda t, x: next(integrand), rng=rng)
+  plt.plot(t(integral), integral)
+
+plt.title("5.4")
+plt.show()
+```
+
+## 5.5 Convergence of Itô's Formula
+
+```{python}
+def rhs(seed, inc):
+    delta = 1/inc
+    brownian_path = np.cumsum(np.r_[0, np.random.default_rng(seed).normal(0, np.sqrt(delta), inc-1)])
+    riemann = np.cumsum(3*delta*brownian_path)
+    return ito(lambda t, x: 3*(x**2), rng=np.random.default_rng(seed), inc=inc) + riemann
+
+def lhs(seed, inc):
+    delta = 1/inc
+    brownian_path = np.cumsum(np.r_[0, np.random.default_rng(seed).normal(0, np.sqrt(delta), inc-1)])
+    return brownian_path**3
+
+
+discretization = [10, 100, 1000, 10000]
+samples = 100
+errors = []
+
+for inc in discretization:
+  error = 0
+  for i in range(samples):
+    error += np.abs(lhs(i, inc)[-1] - rhs(i, inc)[-1])
+  errors.append(error/samples)
+
+plt.plot(discretization, errors, '-xk')
+plt.show()
+
+```
+
+## 5.6 Testing the Solution to Gambler's Ruin
+
+
+```{python}
+N = 10000
+drift = 1
+volatility = 1
+start, end = 0, 5
+
+def hit(target, increments):
+  brownian_motion = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt((end - start)/increments), increments - 1)])
+  process = volatility*brownian_motion + drift* np.linspace(start, end, increments)
+  for v in process:
+    if v <= target:
+      return 1
+  return 0
+
+probability = np.exp(-2*drift/(volatility**2))
+
+increments = 100
+for inc in [100, 1000]:
+  hits = sum((hit(-1, inc) for _ in range(N)))
+  print(inc, np.abs(hits/N - probability))
+```
+
+## 5.7 The Integral of a Process not in $\mathcal{L}_c(T)$
+
+```{python}
+N = 100
+start, end = 0, 10
+
+def ito():
+  increments = 1000
+  delta = (end - start)/increments
+  B =  np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments-1)])
+  Z = np.exp(B**2)
+  return np.cumsum([Z[i]*(B[i+1] -B[i]) for i in range(len(B) -1)])
+
+for _ in range(N):
+  I = ito()
+  plt.plot(np.linspace(start, end, len(I)), I)
+
+plt.show()
+```
+
+
+## 5.8 Tanaka's Formula
+
+```{python}
+increments = 1000000
+start, end = 0, 1
+delta = (end - start)/increments
+brownian_motions = [ np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments-1)]) for _ in range(10)]
+```
+
+```{python}
+def sgn_ito(B):
+  def sgn(x):
+    return 1 if x >= 0 else -1
+  return np.cumsum([ sgn(B[i])*(B[i+1]- B[i]) for i in range(len(B) - 1)])
+
+for B in brownian_motions:
+  plt.plot(np.linspace(start, end, increments-1), np.abs(B[:-1]) - sgn_ito(B))
+
+```
+
+
+```{python}
+def L(epsilon, B):
+  return np.cumsum([b < epsilon for b in np.abs(B)])*(delta/(2*epsilon))
+
+epsilon = 0.001
+for B in brownian_motions:
+  plt.plot(np.linspace(start, end, increments), L(epsilon, B))
+plt.show()
+```
+
+
+
+
+
+
+
+
+
