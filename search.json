@@ -1,5 +1,61 @@
 [
   {
+    "objectID": "FCSC/ch5/ch5_experiments.html",
+    "href": "FCSC/ch5/ch5_experiments.html",
+    "title": "Computer Experiments",
+    "section": "",
+    "text": "import numpy as np\n\nincrements = 1000\nsamples = 100\n\ndef ito(integrand, inc=increments, rng=np.random.default_rng()):\n  delta = 1/inc\n  bp = np.cumsum(np.r_[0, rng.normal(0, np.sqrt(1/inc), inc)])\n  return np.cumsum([ integrand(i*delta, bp[i])*(bp[i+1] - bp[i]) for i in range(len(bp)-1)])\n\ndef t(path):\n  return np.linspace(0, 1, len(path))\n\n\nimport matplotlib.pyplot as plt\n\n\n#### (a)\nfor _ in range(samples):\n  path = ito(lambda t, x: 4*(x**3))\n  plt.plot(t(path), path)\n\nplt.title(\"(a) $\\int_0^t 4 B_s^3 d B_s$\")\nplt.show()\n\n#### (b)\nfor _ in range(samples):\n  path = ito(lambda t, x: np.cos(x))\n  plt.plot(t(path), path)\n\nplt.title(\"(b) $\\int_0^t \\cos{B_s} d B_s$\")\nplt.show()\n\n#### (c)\nfor _ in range(samples):\n  path = ito(lambda t, x: np.exp(t/2)*np.sin(x))\n  plt.plot(t(path), path)\n\nplt.title(\"(c) $1 - \\int_0^t e^{s/2} \\sin{B_s} d B_s$\")\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#ornstein-uhlenbeck-process-and-brownian-bridge-revisited",
+    "href": "FCSC/ch5/ch5_experiments.html#ornstein-uhlenbeck-process-and-brownian-bridge-revisited",
+    "title": "Computer Experiments",
+    "section": "5.2 Ornstein-Uhlenbeck Process and Brownian Bridge Revisited",
+    "text": "5.2 Ornstein-Uhlenbeck Process and Brownian Bridge Revisited\n\nfor _ in range(samples):\n  path = ito(lambda t, x: np.exp(t))\n  ticks = t(path)\n  plt.plot(ticks, np.exp(-ticks)*path)\nplt.title(\"Ornstein-Uhlenbeck\")\nplt.show()\n\nfor _ in range(samples):\n  path = ito(lambda t, x: 1/(1 - t))\n  ticks = t(path)\n  plt.plot(ticks, (1-ticks)*path)\nplt.title(\"Brownian-Bridge\")\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#itôs-formula",
+    "href": "FCSC/ch5/ch5_experiments.html#itôs-formula",
+    "title": "Computer Experiments",
+    "section": "5.3 Itô’s Formula",
+    "text": "5.3 Itô’s Formula\n\n(a)\n\nincrements = 1000\ndelta=1/increments\n\ndef seeded_rng():\n  return np.random.default_rng(1337)\n\nbrownian_path = np.cumsum(np.r_[0, seeded_rng().normal(0, np.sqrt(delta), increments-1)])\n\n  \npath = ito(lambda t, x: 4*(x**3), rng=seeded_rng(), inc=increments)\nplt.plot(t(path), path, label='$\\int_0^t 4 B_s^3$')\n\nriemann = np.cumsum(6*delta*(brownian_path**2))\nplt.plot(t(brownian_path), brownian_path**4 - riemann, label='$B_t^4 - 6 \\int_0^t B_s^2 ds$')\n\nplt.title(\"(a)\")\nplt.legend(loc='upper left')\nplt.show()\n\n\n\n\n\n\n(b)\n\nriemann = np.cumsum(delta*np.sin(brownian_path))\nplt.plot(t(riemann), np.sin(brownian_path) + (1/2)*riemann, label='$\\sin{B_t} + \\\\frac{1}{2}\\int_0^2 \\sin{B_s} ds$')\nito_path = ito(lambda t, x: np.cos(x), rng=seeded_rng(), inc=increments)\nplt.plot(t(ito_path), ito_path, label='$\\int_0^t \\cos{B_s} dB_s$')\n\nplt.title(\"(b)\")\nplt.legend(loc='upper left')\nplt.show()\n\n\n\n\n\n\n(c)\n\npath = [ np.exp(i*delta/2)*np.cos(b) for i, b in enumerate(brownian_path) ]\nplt.plot(t(path), path, label='$e^{t/2}\\cos{B_t}$')\n\nito_path = ito(lambda t, x: np.exp(t/2)*np.sin(x), rng=seeded_rng(), inc=increments)\nplt.plot(t(ito_path), 1 - ito_path, label='$1 - \\int_0^t \\sin{B_s} dB_s$')\n\nplt.title(\"(c)\")\nplt.legend(loc='upper left')\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#a-path-dependent-integrand",
+    "href": "FCSC/ch5/ch5_experiments.html#a-path-dependent-integrand",
+    "title": "Computer Experiments",
+    "section": "5.4 A Path-Dependent Integrand",
+    "text": "5.4 A Path-Dependent Integrand\n\nfor i in range(10):\n  rng = np.random.default_rng(i)\n  # feed the same rng into each ito integration step because the\n  # brownian path in each integral is the same?\n  integrand = iter(ito(lambda t, x: x, rng=rng))\n  rng = np.random.default_rng(i)\n  integral = ito(lambda t, x: next(integrand), rng=rng)\n  plt.plot(t(integral), integral)\n\nplt.title(\"5.4\")\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#convergence-of-itôs-formula",
+    "href": "FCSC/ch5/ch5_experiments.html#convergence-of-itôs-formula",
+    "title": "Computer Experiments",
+    "section": "5.5 Convergence of Itô’s Formula",
+    "text": "5.5 Convergence of Itô’s Formula\n\ndef rhs(seed, inc):\n    delta = 1/inc\n    brownian_path = np.cumsum(np.r_[0, np.random.default_rng(seed).normal(0, np.sqrt(delta), inc-1)])\n    riemann = np.cumsum(3*delta*brownian_path)\n    return ito(lambda t, x: 3*(x**2), rng=np.random.default_rng(seed), inc=inc) + riemann\n\ndef lhs(seed, inc):\n    delta = 1/inc\n    brownian_path = np.cumsum(np.r_[0, np.random.default_rng(seed).normal(0, np.sqrt(delta), inc-1)])\n    return brownian_path**3\n\n\ndiscretization = [10, 100, 1000, 10000]\nsamples = 100\nerrors = []\n\nfor inc in discretization:\n  error = 0\n  for i in range(samples):\n    error += np.abs(lhs(i, inc)[-1] - rhs(i, inc)[-1])\n  errors.append(error/samples)\n\nplt.plot(discretization, errors, '-xk')\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#testing-the-solution-to-gamblers-ruin",
+    "href": "FCSC/ch5/ch5_experiments.html#testing-the-solution-to-gamblers-ruin",
+    "title": "Computer Experiments",
+    "section": "5.6 Testing the Solution to Gambler’s Ruin",
+    "text": "5.6 Testing the Solution to Gambler’s Ruin\n\nN = 10000\ndrift = 1\nvolatility = 1\nstart, end = 0, 5\n\ndef hit(target, increments):\n  brownian_motion = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt((end - start)/increments), increments - 1)])\n  process = volatility*brownian_motion + drift* np.linspace(start, end, increments)\n  for v in process:\n    if v <= target:\n      return 1\n  return 0\n\nprobability = np.exp(-2*drift/(volatility**2))\n\nincrements = 100\nfor inc in [100, 1000]:\n  hits = sum((hit(-1, inc) for _ in range(N)))\n  print(inc, np.abs(hits/N - probability))\n\n100 0.033835283236612695\n\n\n1000 0.013735283236612703"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#the-integral-of-a-process-not-in-mathcall_ct",
+    "href": "FCSC/ch5/ch5_experiments.html#the-integral-of-a-process-not-in-mathcall_ct",
+    "title": "Computer Experiments",
+    "section": "5.7 The Integral of a Process not in \\(\\mathcal{L}_c(T)\\)",
+    "text": "5.7 The Integral of a Process not in \\(\\mathcal{L}_c(T)\\)\n\nN = 100\nstart, end = 0, 10\n\ndef ito():\n  increments = 1000\n  delta = (end - start)/increments\n  B =  np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments-1)])\n  Z = np.exp(B**2)\n  return np.cumsum([Z[i]*(B[i+1] -B[i]) for i in range(len(B) -1)])\n\nfor _ in range(N):\n  I = ito()\n  plt.plot(np.linspace(start, end, len(I)), I)\n\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch5/ch5_experiments.html#tanakas-formula",
+    "href": "FCSC/ch5/ch5_experiments.html#tanakas-formula",
+    "title": "Computer Experiments",
+    "section": "5.8 Tanaka’s Formula",
+    "text": "5.8 Tanaka’s Formula\n\nincrements = 1000000\nstart, end = 0, 1\ndelta = (end - start)/increments\nbrownian_motions = [ np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments-1)]) for _ in range(10)]\n\n\ndef sgn_ito(B):\n  def sgn(x):\n    return 1 if x >= 0 else -1\n  return np.cumsum([ sgn(B[i])*(B[i+1]- B[i]) for i in range(len(B) - 1)])\n\nfor B in brownian_motions:\n  plt.plot(np.linspace(start, end, increments-1), np.abs(B[:-1]) - sgn_ito(B))\n\n\n\n\n\ndef L(epsilon, B):\n  return np.cumsum([b < epsilon for b in np.abs(B)])*(delta/(2*epsilon))\n\nepsilon = 0.001\nfor B in brownian_motions:\n  plt.plot(np.linspace(start, end, increments), L(epsilon, B))\nplt.show()"
+  },
+  {
     "objectID": "FCSC/ch1/ch1_exercises.html",
     "href": "FCSC/ch1/ch1_exercises.html",
     "title": "Chapter One: Exercises",
