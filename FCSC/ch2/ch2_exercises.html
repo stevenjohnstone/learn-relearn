@@ -195,7 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Chapter Two: Exercises</h1>
+      <h1 class="quarto-secondary-nav-title">Exercises</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -324,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Chapter Two: Exercises</h1>
+<h1 class="title d-none d-lg-block">Exercises</h1>
 </div>
 
 <div>
@@ -366,6 +366,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#wicks-formula" id="toc-wicks-formula">2.17 Wick’s Formula</a></li>
   </ul>
 </nav>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\P}{\operatorname{P}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\trace}{\operatorname{trace}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\qed}{\tag*{$\square$}}
+\def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
+\raise12mu{.}}}
+\]</span></p>
+</div>
 <section id="an-example-of-uncorrelated-random-variables-that-are-not-independent" class="level2">
 <h2 class="anchored" data-anchor-id="an-example-of-uncorrelated-random-variables-that-are-not-independent">2.1 An Example of Uncorrelated Random Variables that are not Independent</h2>
 <p>Let <span class="math inline">\(X\)</span> be a standard Gaussian. Show that <span class="math inline">\(\Cov(X^2, X) = 0\)</span>.</p>
@@ -545,11 +560,14 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.hist(Y, bins, label<span class="op">=</span><span class="st">'Y'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>[]</code></pre>
+<div class="cell-output cell-output-error">
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp3_f0y_ed/texput.png'</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<p><span class="math inline">\(\displaystyle \left[ \right]\)</span></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_exercises_files/figure-html/cell-2-output-2.png" width="583" height="411"></p>
+<p><img src="ch2_exercises_files/figure-html/cell-2-output-3.png" width="583" height="411"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="2">
@@ -559,11 +577,14 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(data)))</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="st">'X+Y'</span>, <span class="st">'X'</span>, <span class="st">'Y'</span>])</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>[]</code></pre>
+<div class="cell-output cell-output-error">
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpcpp22eac/texput.png'</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<p><span class="math inline">\(\displaystyle \left[ \right]\)</span></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="ch2_exercises_files/figure-html/cell-3-output-2.png" width="578" height="411"></p>
+<p><img src="ch2_exercises_files/figure-html/cell-3-output-3.png" width="578" height="411"></p>
 </div>
 </div>
 </section>
@@ -587,7 +608,10 @@ x &amp; \text{if } |x| \leq 1, \\
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[cov(a, a), cov(a, b)],[cov(b, a), cov(b, b)]])<span class="op">;</span> C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-error">
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpsnab0re7/texput.png'</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 <p><span class="math inline">\(\displaystyle \left[\begin{matrix}\frac{3}{16} &amp; \frac{1}{16}\\\frac{1}{16} &amp; \frac{3}{16}\end{matrix}\right]\)</span></p>
 </div>
 </div>
@@ -595,24 +619,24 @@ x &amp; \text{if } |x| \leq 1, \\
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x,y</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sp.init_printing()</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span>sp.pi <span class="op">*</span> sp.sqrt(C.det(), evaluate<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> f[<span class="dv">0</span>]</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>pdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x,y</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sp.init_printing()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span>sp.pi <span class="op">*</span> sp.sqrt(C.det(), evaluate<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> f[<span class="dv">0</span>]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>pdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpe7t7yklr/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp267yhslr/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <p><span class="math inline">\(\displaystyle \frac{2 \sqrt{2} e^{- 3 x^{2} + 2 x y - 3 y^{2}}}{\pi}\)</span></p>
 </div>
 </div>
@@ -622,82 +646,82 @@ x &amp; \text{if } |x| \leq 1, \\
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> sp.symbols(<span class="st">'r'</span>, nonegative<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> sp.symbols(<span class="st">'theta'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> pdf.subs({x: r<span class="op">*</span>sp.cos(theta), y: r<span class="op">*</span>sp.sin(theta)}).simplify()</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> sp.Integral(pdf <span class="op">*</span> r, (r, <span class="dv">0</span>, <span class="dv">1</span>), (theta, <span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span>sp.pi))<span class="op">;</span> prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> sp.symbols(<span class="st">'r'</span>, nonegative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> sp.symbols(<span class="st">'theta'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> pdf.subs({x: r<span class="op">*</span>sp.cos(theta), y: r<span class="op">*</span>sp.sin(theta)}).simplify()</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> sp.Integral(pdf <span class="op">*</span> r, (r, <span class="dv">0</span>, <span class="dv">1</span>), (theta, <span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span>sp.pi))<span class="op">;</span> prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp8r0i8p41/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpfjc_bo3n/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <p><span class="math inline">\(\displaystyle \int\limits_{0}^{2 \pi}\int\limits_{0}^{1} \frac{2 \sqrt{2} r e^{r^{2} \left(\sin{\left(2 \theta \right)} - 3\right)}}{\pi}\, dr\, d\theta\)</span></p>
 </div>
 </div>
 <p>The integral can be calculated numerically using Simpson’s rule or a Monte Carlo simulation:</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> simps</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_integral(integrand):</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span> np.pi, <span class="dv">1000</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    zz <span class="op">=</span> integrand(r.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), theta.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> simps([simps(zz_r, r) <span class="cf">for</span> zz_r <span class="kw">in</span> zz], theta)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monte_carlo(integrand):</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> np.random.default_rng().uniform(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        r, theta <span class="op">=</span> u[<span class="dv">0</span>], <span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>u[<span class="dv">1</span>]</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span>integrand(r, theta)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>np.pi <span class="op">*</span> <span class="bu">sum</span><span class="op">/</span>samples</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>numerical_soln <span class="op">=</span> evaluate_integral(sp.lambdify([r, theta], pdf <span class="op">*</span>r))<span class="op">;</span> <span class="bu">print</span>(numerical_soln)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>monte_carlo(sp.lambdify([r, theta], pdf<span class="op">*</span>r))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> simps</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_integral(integrand):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span> np.pi, <span class="dv">1000</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    zz <span class="op">=</span> integrand(r.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), theta.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> simps([simps(zz_r, r) <span class="cf">for</span> zz_r <span class="kw">in</span> zz], theta)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monte_carlo(integrand):</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> np.random.default_rng().uniform(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        r, theta <span class="op">=</span> u[<span class="dv">0</span>], <span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>u[<span class="dv">1</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span>integrand(r, theta)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>np.pi <span class="op">*</span> <span class="bu">sum</span><span class="op">/</span>samples</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>numerical_soln <span class="op">=</span> evaluate_integral(sp.lambdify([r, theta], pdf <span class="op">*</span>r))<span class="op">;</span> <span class="bu">print</span>(numerical_soln)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>monte_carlo(sp.lambdify([r, theta], pdf<span class="op">*</span>r))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.926901699267537</code></pre>
 </div>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpm835xaue/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpqj34v8hx/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<p><span class="math inline">\(\displaystyle 0.937331636922149\)</span></p>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<p><span class="math inline">\(\displaystyle 0.917571490638876\)</span></p>
 </div>
 </div>
 <p>Alternatively, we can approximate the desired probability by using the Cholesky decomposition:</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(samples):</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    rg <span class="op">=</span> np.random.default_rng()</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> [[<span class="dv">3</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>], [<span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="op">/</span><span class="dv">16</span>]]</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.linalg.cholesky(C)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    in_disk <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        sample <span class="op">=</span> A.dot(rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> sample[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> sample[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            in_disk <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> in_disk<span class="op">/</span>samples</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>simulated_result <span class="op">=</span> simulate(<span class="dv">1000</span>)<span class="op">;</span> simulated_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(samples):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    rg <span class="op">=</span> np.random.default_rng()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> [[<span class="dv">3</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">16</span>], [<span class="dv">1</span><span class="op">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="op">/</span><span class="dv">16</span>]]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.linalg.cholesky(C)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    in_disk <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        sample <span class="op">=</span> A.dot(rg.normal(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> sample[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> sample[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            in_disk <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> in_disk<span class="op">/</span>samples</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>simulated_result <span class="op">=</span> simulate(<span class="dv">1000</span>)<span class="op">;</span> simulated_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpjj15jhd4/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpsosp4e0l/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <p><span class="math inline">\(\displaystyle 0.938\)</span></p>
 </div>
 </div>
 <p>The two approaches differ by</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">abs</span>(simulated_result <span class="op">-</span> numerical_soln)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">abs</span>(simulated_result <span class="op">-</span> numerical_soln)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpy8l_72wc/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpx2x0wi4b/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <p><span class="math inline">\(\displaystyle 0.011098300732463\)</span></p>
 </div>
 </div>
@@ -900,25 +924,25 @@ Z_2 = \frac{1}{\sqrt{1 - \rho^2}} Z_2^{'}
 <div class="cell" data-execution_count="9">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x, y, rho</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>sp.init_printing()</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">1</span>, rho], [rho, <span class="dv">1</span>]])</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>factor <span class="op">=</span> sp.gcd(<span class="bu">tuple</span>(Cinv))</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span>sp.pi <span class="op">*</span> sp.sqrt(C.det()))<span class="op">;</span> f[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x, y, rho</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>sp.init_printing()</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">1</span>, rho], [rho, <span class="dv">1</span>]])</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>Cinv <span class="op">=</span> C.inv()</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>factor <span class="op">=</span> sp.gcd(<span class="bu">tuple</span>(Cinv))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> sp.Matrix([x, y])</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.exp(Fraction(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>) <span class="op">*</span> sp.MatMul(xy.transpose(), Cinv, xy))<span class="op">/</span>(<span class="dv">2</span> <span class="op">*</span>sp.pi <span class="op">*</span> sp.sqrt(C.det()))<span class="op">;</span> f[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpy8f5qzaw/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpomsjgd7x/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="21">
 <p><span class="math inline">\(\displaystyle \frac{e^{\frac{- 2 \rho x y + x^{2} + y^{2}}{2 \left(\rho - 1\right) \left(\rho + 1\right)}}}{2 \pi \sqrt{1 - \rho^{2}}}\)</span></p>
 </div>
 </div>
@@ -926,20 +950,20 @@ Z_2 = \frac{1}{\sqrt{1 - \rho^2}} Z_2^{'}
 <section id="iid-decomposition-1" class="level2">
 <h2 class="anchored" data-anchor-id="iid-decomposition-1">2.10 IID Decomposition</h2>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>]])</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> C.cholesky()</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Ainv <span class="op">=</span> A.inv()</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>z1, z2, z3, x1, x2, x3 <span class="op">=</span> sp.symbols(<span class="st">'z_1 z_2 z_3 x_1 x_2 x_3'</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sp.Matrix([x1, x2, x3])</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> sp.MatMul(Ainv, x, evaluate<span class="op">=</span><span class="va">True</span>)<span class="op">;</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> sp.Matrix([[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>]])</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> C.cholesky()</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>Ainv <span class="op">=</span> A.inv()</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>z1, z2, z3, x1, x2, x3 <span class="op">=</span> sp.symbols(<span class="st">'z_1 z_2 z_3 x_1 x_2 x_3'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sp.Matrix([x1, x2, x3])</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> sp.MatMul(Ainv, x, evaluate<span class="op">=</span><span class="va">True</span>)<span class="op">;</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp9i4_qyi1/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp885eg_3_/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="22">
 <p><span class="math inline">\(\displaystyle \left[\begin{matrix}\frac{\sqrt{2} x_{1}}{2}\\- \frac{\sqrt{6} x_{1}}{6} + \frac{\sqrt{6} x_{2}}{3}\\- \frac{\sqrt{3} x_{1}}{6} - \frac{\sqrt{3} x_{2}}{6} + \frac{\sqrt{3} x_{3}}{2}\end{matrix}\right]\)</span></p>
 </div>
 </div>
@@ -957,32 +981,32 @@ Z_2 = \frac{1}{\sqrt{1 - \rho^2}} Z_2^{'}
 <div class="cell" data-execution_count="11">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> [[<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>,<span class="dv">3</span>,<span class="op">-</span><span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>]]</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>np.linalg.det(C)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> [[<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>,<span class="dv">3</span>,<span class="op">-</span><span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>]]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>np.linalg.det(C)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp2_afo7x0/texput.png'</code></pre>
+<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp18o46f_h/texput.png'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <p><span class="math inline">\(\displaystyle 16.0\)</span></p>
 </div>
 </div>
 <p>and so <span class="math inline">\(X\)</span> is non-degenerate.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Sim211:</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> [[<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>,<span class="dv">3</span>,<span class="op">-</span><span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>]]</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> np.linalg.cholesky(C)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(C[<span class="dv">0</span>])))</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> Sim211()</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">4</span>), sim.path())</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Sim211:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> [[<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>,<span class="dv">3</span>,<span class="op">-</span><span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>]]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__A <span class="op">=</span> np.linalg.cholesky(C)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>, rg <span class="op">=</span> np.random.default_rng()):</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.__A.dot(rg.normal(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(C[<span class="dv">0</span>])))</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> Sim211()</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">4</span>), sim.path())</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="ch2_exercises_files/figure-html/cell-13-output-1.png" width="569" height="411"></p>
 </div>
