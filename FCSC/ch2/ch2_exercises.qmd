@@ -10,6 +10,7 @@ format:
         code-fold: false
         html-math-method: mathjax
 ---
+
 {{< include /_macros.qmd >}}
 
 ## 2.1 An Example of Uncorrelated Random Variables that are not Independent
