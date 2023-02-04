@@ -1,0 +1,1895 @@
+---
+title: "Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+## 5.1 Stopped Martingales are Martingales
+
+$(M_n, n \in \mathbb{N}_0)$ is a martingale in discrete time for a filtration $(\F_n, n \in \mathbb{N}_0)$.
+Let $\tau$ be a stopping time for the same filtration and let
+
+$$
+X_n(\omega) = \begin{cases}
++1 & \text{if } n < \tau(\omega) \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+be a martingale transform: use it to show that $(M_{n \wedge \tau}, n \in \mathbb{N}_0)$ is a Martingale.
+
+Denote the transform of $M$ by $X.M$:
+
+$$
+X.M_n = \sum_{k = 0}^{n-1} X_k (M_{k+1} - M_k).
+$$
+
+It is clear that $X.M_n$ is measurable on $\F_n$:
+
+$$
+X^{-1}\{1\} = \{ \omega: n < \tau(\omega) \} \in \cap \F_k
+$$
+and
+
+$$
+X^{-1}\{0\} = \{ \omega: n \geq \tau(\omega) \} \in \cap \F_k
+$$
+
+by the measurability requirements of a stopping time.
+
+The random variable $X.M_n$ must be in $L^1$ to be a martingale:
+
+$$
+\begin{align}
+\E(| X.M_n|) &\leq \sum{k=0}^{n-1} \E(|X_k(M_{k+1} - M_k)|) \\
+&\leq \sum_{k=0}^{n-1} (\E(|M_{k+1}|) + \E(|M_k|)) \\
+< \infty
+\end{align}
+$$
+because $M$ is a martingale.
+
+The martingale property of $X.M_n$ can be demonstrated as follows:
+
+let $m \leq n$, then
+
+$$
+\begin{align}
+\E(X.M_n | \F_m) &= \sum_{k=1}^{n-1} \E(X_k(M_{k+1} - M_k)| \F_m) \\
+&= \sum_{k = 0}^{m-1} \E(X_k(M_{k+1} - M_k)|\F_m) + \sum_{k = m}^{n-1} \E(X_k(M_{k+1} - M_k) | \F_m) \\
+&= \sum_{k = 0}^{m-1} X_k(M_{k+1} - M_k) + \sum_{k = m}^{n-1} \E(X_k(M_{k+1} - M_k) | \F_m) \\
+&= X.M_m + \sum_{k = m}^{n=1} (\E(X_k M_{k+1} | \F_m) - \E(X_k M_k |\F_m)) \\
+&= X.M_m + \sum_{k = m}^{n=1} (\E(X_k M_{k+1} | \F_m) - \E(X_k M_k |\F_m)) \\
+&= X.M_m + \sum_{k = m}^{n=1} \underbrace{(\E(\E(X_k M_{k+1}|\F_k) | \F_m)}_{\text{tower property}} - \E(X_k M_k |\F_m)) \\
+&= X.M_m + \sum_{k = m}^{n=1} (\E(\underbrace{X_k\E( M_{k+1}|\F_k)}_{\text{$X_k$ is $\F_k$-measurable}} | \F_m) - \E(X_k M_k |\F_m)) \\
+&= X.M_m + \sum_{k = m}^{n=1} (\E(\underbrace{X_kM_k}_{\text{martingale property of $M$}}| \F_m) - \E(X_k M_k |\F_m)) \\
+&= X.M_m.  \\
+\end{align}
+$$
+
+::: {.callout-note}
+We haven't used any specific properties of $X$ here, other than the fact that it's measurable on the filtration.
+:::
+
+We need to make a connection between $X.M$ and $M_{n \wedge \tau}$:
+
+$$
+\begin{align}
+X.M_n &= \sum_{k=0}^{n-1} X_k(M_{k+1} - M_k) \\
+&= \begin{cases}
+M_{\tau} - M_0 & \text{for } n \geq \tau, \\
+M_n - M_0 & \text{otherwise}
+\end{cases} \\
+&= M_{n \wedge \tau} - M_0.
+\end{align}
+$$
+
+Therefore, $(M_{n \wedge \tau}, n \in \mathbb{N}_0)$ is a martingale since it is equal to a martingale plus a constant.
+
+
+## 5.2 Itô Integral of a Simple Process
+
+$$
+I_s = \begin{cases}
+10 B_s & s \in [0, 1/3], \\
+10 B_{1/3} + 5(B_s - B_{1/3}) & s \in (1/3, 2/3] \\
+10 B_{1/3} + 5(B_{2/3} - B_{1/3}) + 2( B_t - B_{2/3}) & s \in (2/3, 1]. \\
+\end{cases}
+$$
+
+#### (a)
+
+$X = (I_{1/3}, I_{2/3}, I_1)$ is a Gaussian vector.
+
+Proof:
+
+We show that $X$ is a linear transformation of $Y = (B_{1/3}, B_{2/3}, B_1)$ and the result follows, since $Y$
+is a Gaussian vector.
+
+By expanding terms, we see that
+
+$$
+X = A Y = \begin{bmatrix}
+10 & 0 & 0 \\
+10 & 5 & 0 \\
+5 & 3 & 2 \\
+\end{bmatrix} Y.
+$$
+
+$$\qed$$
+
+#### (b)
+
+The covariance matrix of $Y$ is
+
+$$
+\Cov(Y) = \begin{bmatrix}
+1/2 & 1/2 & 1/2 \\
+1/2 & 2/3 & 2/3 \\
+1/2 & 2/3 & 1 \\
+\end{bmatrix}.
+$$
+
+The covariance matrix of $X$ is given by
+
+$$
+\Cov(X) = A \Cov(Y) A^{T}
+$$
+
+and we can offload the drudgery to sympy:
+
+```{python}
+import sympy as sp
+from fractions import Fraction
+
+a, b = Fraction(1, 3), Fraction(2, 3)
+
+covY = sp.Matrix([[a, a, a], [ a, b, b], [a, b, 1]])
+
+A = sp.Matrix([[10, 0, 0], [5, 5, 0], [5, 3, 2]])
+
+covX = sp.MatMul(A, covY, A.transpose())
+covX.doit()
+```
+
+#### (c)
+
+$$
+\begin{align}
+\E(I_1 B_1) &= 2 \E(B_1^2) + 3 \E(B_{2/3}B_1) + 5 \E(B_{1/3}B_1) \\
+&= 2 + 2 + 5/3 \\
+&= 17/3 \\
+&\neq 0 \\
+&= \E(I_1) \E(B_1).
+\end{align}
+$$
+
+$I_1$ and $B_1$ are not independent as they are not independent in the mean.
+
+## 5.3 Convergence in $L^2$ Implies Covergence of First and Second Moments
+
+If $X_n \to X$ in $L^2(\Omega, \F, \P)$ as $n \to \infty$, then
+
+$$
+\E(X_n) \to \E(X)
+$$
+and
+
+$$
+\E(X_n^2) \to \E(X^2)
+$$
+as $n \to \infty$.
+
+
+Proof:
+
+$$
+\begin{align}
+\E(X_n^2) &= \E((X_n - X + X)^2) \\
+&= \underbrace{\E((X_n - X)^2)}_{\to 0 \text{ by assumption}} + 2 \underbrace{\E(X(X_n - X))}_{\leq \E(X^2) \E((X_n - X)^2)} + \E(X^2) \\
+&\to \E(X^2)
+\end{align}
+$$
+as $n \to 0$.
+
+Using Jensen's inequality and the triangle inequality
+
+$$
+\begin{align}
+|\E(X_n) - \E(X)| &= |\E(X_n - X)| \\
+&\leq \E(|X_n - X|). \\
+\end{align}
+$$
+
+Apply Jensen's inequality again
+
+$$
+\E(|X_n - X|)^2 \leq \E((X_n - X)^2) \to 0
+$$
+as $n \to \infty$. Therefore,
+
+
+$$
+|\E(X_n) - \E(X)| \to 0
+$$
+as $n \to \infty$.
+
+
+$$
+\qed
+$$
+
+## 5.4 Increments of Martingales are Uncorrelated
+
+#### (a)
+
+For $t_1 \leq t_2 \leq t_3 \leq t_4$,
+
+$$
+\E((M_{t_4} - M_{t_3})(M_{t_2} - M_{t_1})) = 0.
+$$
+
+Proof:
+
+Multiplying out brackets:
+
+$$
+(M_{t_4} - M_{t_3})(M_{t_2} - M_{t_1}) = \underbrace{M_{t_2}M_{t_4} - M_{t_2}M_{t_3}}_{A} -\underbrace{M_{t_1}M_{t_4}  + M_{t_1}M_{t_3}}_{B}.
+$$
+
+
+
+Taking each group in turn:
+$$
+\begin{align}
+\E(A) &= \E(M_{t_2}M_{t_4} - M_{t_2}M_{t_3}) \\
+&= \E(\E(M_{t_2}M_{t_4} - M_{t_2}M_{t_3}| \F_{t_2})) \\
+&= \E(\underbrace{M_{t_2}}_{\F_{t_2}-\text{measurable}}\E(M_{t_4} - M_{t_3}| \F_{t_2})) \\
+&= \E(M_{t_2}\underbrace{(M_{t_2} - M_{t_2})}_{\text{martingale property}}) \\
+&= 0
+\end{align}
+$$
+and
+
+$$
+\begin{align}
+\E(B) &= \E(M_{t_1}M_{t_4} - M_{t_1}M_{t_3}) \\
+&= \E(\E(M_{t_1}M_{t_4} - M_{t_1}M_{t_3}| \F_{t_1})) \\
+&= \E(\underbrace{M_{t_1}}_{\F_{t_1}-\text{measurable}}\E(M_{t_4} - M_{t_3}| \F_{t_1})) \\
+&= \E(M_{t_1}\underbrace{(M_{t_1} - M_{t_1})}_{\text{martingale property}}) \\
+&= 0.
+\end{align}
+$$
+
+$$\qed$$
+
+
+#### (b)
+
+Let $(B_t, t \geq 0)$ be a standard Brownian motion, and let $(X_t, t \geq 0)$ be a process in $L^2_c(T)$. For
+$t < t'$
+
+$$
+\E\left( \int_0^t X_s dB_s \int_0^{t'} X_s dB_s\right) = \int_0^t \E(X_s^2) ds.
+$$
+
+Proof:
+
+Let $(X^{(n)}_s, s \geq 0) \in S(T)$, with $Y_i = X_{t_i}$ and let $t = t_k$ and $t' = t_{k + m}$ to make the notation easier.
+
+$$
+\begin{align}
+\E\left( \int_0^t X^{(n)}_s dB_s \int_0^{t'} X^{(n)}_s dB_s\right) &= \E(\sum_{i=0}^{k-1} Y_i(B_{t_{i+1}} - B_{t_i})\sum_{i=0}^{k+m -1} Y_i (B_{t_{i+1}} - B_{t_i})) \\
+&= \E(\sum_{i=0}^{k-1} Y_i^2 (B_{t_{i+1}} - B_{t_i})^2) \\
+&= \sum_{i=0}^{k-1} \E(\E(Y_i^2(B_{t_{i+1}} - B_{t_i})^2|\F_{t_i})) \\
+&= \sum_{i=0}^{k-1} \E(Y_i^2\E((B_{t_{i+1}} - B_{t_i})^2|\F_{t_i})) \\
+&= \sum_{i=0}^{k-1} (t_{i+1} - t_i)\E(Y_i^2) \\
+&= \int_0^t \E((X^{(n)}_s)^2) ds
+\end{align}
+$$
+
+::: {.callout-note}
+
+For $i < j$
+
+$$
+\begin{align}
+\E(Y_i Y_j(M_{t_{i+1}} - M_{t_i})(M_{t_{j+1}} - M_{t_j})) &= \E(\E(Y_i Y_j(M_{t_{i+1}} - M_{t_i})(M_{t_{j+1}} - M_{t_j})|\F_{t_j})) \\
+&= \E(\underbrace{Y_i Y_j(M_{t_{i+1}} - M_{t_i})}_{\F_{t_j}\text{-measurable}}\underbrace{\E(M_{t_{j+1}} - M_{t_j}|\F_{t_j})}_{= 0 \text{ by martingale property}}) \\
+&= 0.
+\end{align}
+$$
+
+This explains why the cross-terms vanish above.
+:::
+
+Every process in $L^2_c(T)$ is the limit of a sequence of processes in $S(T)$:
+
+if $X^{(n)}_s \to X_s$ in $L^2(\Omega, \F, \P)$ as $n \to \infty$ for $s \leq t$, then
+
+$$
+\E\left( \int_0^t X^{(n)}_s dB_s \int_0^{t'} X^{(n)}_s dB_s\right) 
+\to \E\left( \int_0^t X_s dB_s \int_0^{t'} X_s dB_s\right) 
+$$
+by definition of the Itô integral.
+
+Moreover,
+$$
+\sum_{i=0}^{k-1} (t_{i+1} - t_i)\E(Y_i^2) = 
+\sum_{i=0}^{k-1} (t_{i+1} - t_i)\E(X_{t_i}^2) \to \int_0^t \E(X_s^2) ds
+$$
+by definition of the Riemann integral.
+
+$$
+\qed
+$$
+
+## 5.5 Mean and Variance of Martingale Transforms
+
+$$
+\begin{align}
+\E(X.M_n) &= \sum_{k=0}^{n-1} \E(Y_k(M_{t_{k+1}} - M_{t_k})) \\
+&= \sum_{k=0}^{n-1} \E(\E(Y_k(M_{t_{k+1}} - M_{t_k})|\F_{t_k})) \\
+&= \sum_{k=0}^{n-1} \E(\overbrace{Y_k}^{\F_{t_k}\text{-measurable}} \underbrace{\E(M_{t_{k+1}} - M_{t_k}|\F_{t_k}}_{= 0 \text{ by martingale property}})) \\
+&= 0.
+\end{align}
+$$
+
+As in previous questions, cross terms cancel because increments are uncorrelated giving
+
+$$
+\E(X.M_n^2) = \sum_{k=0}^{n-1} E(Y_k^2 (M_{t_{k+1}} - M_{t_k})^2).
+$$
+
+## 5.6 Geometric Brownian Motion is in $L^2_c(T)$
+
+Let
+
+$$
+M_t = \exp(\sigma B_t - \sigma^2 t/2)
+$$
+for $t \geq 0$ where $(B_t)$ is a standard Brownian motion with filtration $(\F_t)$
+
+Then $M = (M_t, t \leq T) \in L^2_c(T)$.
+
+Proof:
+
+
+We must show that
+
+1. $M_t$ is $\F_t$-measurable for $t \in [0, T]$
+2. $\E(\int_0^T M_t^2 dt) = \int_0^T \E(M_t^2) dt < \infty$
+3. $t \mapsto M_t(\omega)$ is continuous on $[0, T]$ for $\omega$ is a set of probability one.
+
+
+
+#### 1.
+
+$M_t$ is $\F_t$-measurable because it is a continuous function of an $\F_t$-measurable random variable, $B_t$.
+
+#### 2.
+
+$$
+\begin{align}
+\int_0^T \E(\exp(\sigma B_t - \sigma^2 t/2)^2) dt &= \int_0^T \E(\exp(2\sigma B_t - \sigma^2 t)) dt \\
+&= \int_0^T \exp(-\sigma^2 t) \E(\exp(2 \sigma B_t)) dt \\
+&= \int_0^T \exp(-\sigma^2 t) \underbrace{\exp(\sigma^2 t)}_{\text{MGF}} dt \\
+&= \int_0^T dt \\
+&= T < \infty.
+\end{align}
+$$
+
+#### 3.
+
+There exists an event $A \subseteq \Omega$ with $\P(A) = 1$, such that
+
+$$
+t \mapsto B_t(\omega)
+$$
+is continuous on $[0, T]$ for each $\omega \in A$. Since $\exp$ is continuous,
+
+$$
+t \mapsto \exp(\sigma B_t(\omega) -\sigma^2 t/2)
+$$
+is continuous for each $\omega \in A$.
+
+$$\qed$$.
+
+## 5.7 A Process that is not in $L^2_c(T)$
+
+$(\exp(B_t^2), t \geq 0)$ is not in $L^2_c(T)$ for $T > 1/4$.
+
+Proof:
+
+If $T > 1/4$, then
+
+$$
+\int_0^T \E(\exp(B_t^2)^2) dt = \infty
+$$
+because
+
+$$
+\begin{align}
+\int_0^T \E(\exp(B_t^2)^2) dt &= \int_0^T \exp(2B_t^2) dt \\
+&= \int_0^T \int_{-\infty}^{\infty} \exp(2x^2) \frac{\exp(-x^2/2t)}{\sqrt{2 \pi t}} dx dt \\
+&= \int_0^T \int_{-\infty}^{\infty} \frac{\exp(x^2(2 - 1/2t))}{\sqrt{2 \pi t}} dx dt \\
+\end{align}
+$$
+
+where the inner intergral is infinite if
+
+$$
+2 - 1/2t > 0
+$$
+
+i.e.
+
+when
+
+$$
+t > 1/4.
+$$
+
+$$
+\qed
+$$
+
+## 5.8 Practice on Itô Integrals
+
+$$
+X_t = \int_0^t (1 -s) dB_s,
+$$
+
+$$
+Y_t = \int_0^t (1 + s) dB_s
+$$
+
+for $t \geq 0$.
+
+
+#### (a)
+
+$X_t$ is a Wiener integral, so has mean zero and is Gaussian.
+
+By the Itô isometry,
+$$
+\begin{align}
+\E(X_tX_{t'}) &= \int_0^{t\wedge t'} (1 -s)^2 ds \\
+&= \int_0^{t \wedge t'} (1 - 2s + s^2) ds \\
+&= (t \wedge t') - (t \wedge t')^2 + \frac{1}{3} (t \wedge t')^3.
+\end{align}
+$$
+
+In particular,
+
+$$
+\E(X_t^2) = t - t^2 + \frac{1}{3}t^3.
+$$
+
+
+
+#### (b)
+$Y_t$ is a Wiener integral, so has mean zero and is Gaussian.
+
+By the Itô isometry,
+$$
+\begin{align}
+\E(Y_tY_{t'}) &= \int_0^{t\wedge t'} (1 + s)^2 ds\\
+&= \int_0^{t \wedge t'} (1 + 2s + s^2) ds \\
+&= (t\wedge t') + (t \wedge t')2 +\frac{1}{3} (t \wedge t')^3.
+\end{align}
+$$
+
+In particular,
+
+$$
+\E(Y_t^2) = t + t^2 + \frac{1}{3}t^3.
+$$
+
+#### (c)
+
+By the Itô isometry,
+$$
+\begin{align}
+\E(X_t Y_t) &= \int_0^t \E((1 -s )(1 + s)) ds \\
+&= \int_0^t (1 - s^2) ds \\
+&= t - \frac{1}{3} t^3.
+\end{align}
+$$
+
+$X_t$ and $Y_t$ are uncorrelated at
+
+$$
+t = \sqrt{3}.
+$$
+
+Any linear combination of $X_t$ and $Y_t$ is another Gaussian random variable. Observe that
+
+$$
+\begin{align}
+\alpha X_t + \beta Y_t = \int_0^t \left((\alpha + \beta) + (\beta - \alpha)s\right) dB_s
+\end{align}
+$$
+by linearity of the Itô integrals for $X_t$ and $Y_t$ and any $\alpha, \beta \in \mathbb{R}$. Since $\alpha X_t + \beta Y_t$ can be expressed as
+a Wiener integral, it is Gaussian.
+
+
+Therefore, $(X_t, Y_t)$ is a Gaussian vector and so if $X_t$ and $Y_t$ are uncorrelated, they are independent.
+At $t = \sqrt{3}$, $\E(X_t Y_t) = 0$ and so $X_t$ and $Y_t$ are independent.
+
+## 5.9 Practice on Itô Integrals
+
+The process $(X_t, t \geq 0)$ is given by
+
+$$
+X_t = \int_0^t \sin{s} d B_s.
+$$
+
+#### (a)
+
+This process is Gaussian.
+
+Proof:
+
+This is a Wiener process so it is Gaussian. $$\qed$$
+
+#### (b)
+
+By the Itô isometry
+$$
+\begin{align}
+\E(X_t X_{t'}) &= \int_0^{t \wedge t'} \E(\sin^2 s) ds \\
+&= \int_0^{t \wedge t'} \sin^2 s ds \\
+&= \frac{s}{2} - \frac{1}{4}\sin{2s} \lvert_0^{t\wedge t'} \\
+&= \frac{t \wedge t'}{2} - \frac{1}{4} \sin{2(t\wedge t')}.
+\end{align}
+$$
+
+In particular,
+
+$$
+\E(X_{\pi/2}^2) = \frac{\pi}{4},
+$$
+
+$$
+\E(X_{\pi}^2) = \frac{\pi}{2},
+$$
+
+and
+
+$$
+E(X_{\pi/2} E_{\pi}) = \frac{\pi}{4}.
+$$
+
+The covariance matrix for $(X_{\pi/2}, X_{\pi})$ is 
+
+$$
+\frac{\pi}{4} \begin{bmatrix}
+1 & 1 \\
+1 & 2 \\
+\end{bmatrix}.
+$$
+
+```{python}
+#| code-fold: true
+from fractions import Fraction
+from sympy.abc import x,y
+
+C = (sp.pi/4) * sp.Matrix([[1, 1], [1, 2]])
+
+Cinv = C.inv()
+xy = sp.Matrix([x, y])
+
+
+f = sp.exp(Fraction(-1, 2) * sp.MatMul(xy.transpose(), Cinv, xy))/(2 *sp.pi * sp.sqrt(C.det(), evaluate=False))
+pdf = f[0]
+sp.Integral(pdf, (x, 1, sp.oo), (y, 1, sp.oo))
+```
+
+#### (c)
+Define a process by
+$$
+Y_t = \int_0^t \cos{s} dB_s.
+$$
+
+The covariance of $X_t$ and $Y_t$ can be calculated using the Itô isometry:
+
+$$
+\begin{align}
+\E\left(X_t Y_t \right) &= \int_0^t \E(\sin{s} \cos{s}) ds \\
+&= \int_0^t \sin{s} \cos{s} ds \\
+&= \frac{\sin^2(t)}{2}.
+\end{align}
+$$
+
+$(X_t, Y_t)$ is a Gaussian vector so $X_t$ and $Y_t$ are independent if and only
+if
+
+$$
+\E(X_t Y_t) = \frac{\sin^2(t)}{2} = 0.
+$$
+
+Therefore, $X_t$ and $Y_t$ are independent for $t = k \pi$, $k \in \mathbb{N}_0$.
+
+## 5.10 Not Everything is a Martingale
+
+
+#### (a)
+
+The Ornstein-Uhlenbeck process
+
+$$
+Y_t = e^{-t} \int_0^t e^s dB_s
+$$
+is not a martingale.
+
+Proof:
+
+The process
+
+$$
+X_t = \int_0^t e^s dB_s
+$$
+is a continuous martingale (because it is defined as an Itô integral).
+
+For $s \leq t$
+
+$$
+\begin{align}
+\E(Y_t | \F_s) &= e^{-t} \E(X_t | \F_s) \\
+&= e^{-t} X_s \\
+&= e^{-t} e^{s} Y_s \\
+&= e^{s - t} Y_s.
+\end{align}
+$$
+
+It is clear that $Y_t$ is not a martingale because
+
+$$
+\E(Y_t | \F_s) \neq Y_s.
+$$
+
+$$
+\qed
+$$
+
+#### (b)
+
+The Brownian bridge process
+
+$$
+Z_t = (1 - t) \int_0^t \frac{1}{1-s} dB_s
+$$
+for $t <1$ is not a martingale.
+
+Proof:
+
+The process
+
+$$
+X_t = \int_0^t \frac{1}{1-s} dB_s
+$$
+is a martingale.
+
+For $s \leq t$
+
+$$
+\begin{align}
+\E(Z_t |\F_s) &= (1-t) \E(X_t | \F_s) \\
+&= (1-t) X_s \\
+&= \frac{(1-t)}{(1-s)} Z_s.
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (c)
+
+The process 
+$$
+\left(\int_0^t B_s ds, t \geq 0 \right)
+$$
+is not a martingale.
+
+Proof:
+
+Using Itô's fromula with $f(x) = x^3/3$
+
+$$
+\int_0^t B_s ds = B_t^3/3 - \int_0^t B_s^2 dB_s = B_t^3/3 - X_t
+$$
+where
+$$
+X_t = \int_0^t B_s^2 dB_s.
+$$
+
+$X_t$ is a martingale, so for $s \leq t$
+
+$$
+\begin{align}
+\E(\int_0^t B_s ds| \F_s) &= \frac{1}{3}\E(B_t^3 | \F_s) - \E(X_t|\F_s) \\
+&= \E((B_t - B_s + B_s)^3 | \F_s) - X_s \\
+&= \E((B_t - B_s)^3 + 3 (B_t - B_s)^2 B_s + 3(B_t - B_s) B_s^2 + B_s^3 | \F_s) - X_s \\
+&= 3(t - s) B_s - X_s \\
+&\neq B_s^3/3 - Xs.
+\end{align}
+$$
+
+## 5.11 Practice on Itô Integrals
+
+Define
+$$
+X_t = \int_0^t \sgn(B_s) dB_s
+$$
+for $t \geq 0$.
+
+#### (a)
+
+The mean of $X_t$ is zero: it is a limit in $L^2$ of random variables with mean zero.
+
+Let $t < t'$. Divide the interval $[0, t']$ so that $t_0 = 0$, $t = t_m$ and $t' = t_n$ and approximate $X_t$ and $X_{t'}$ by
+
+$$
+Y_t = \sum_{j=0}^{m-1}\sgn(B_j)(B_{j+1} - B_j)
+$$
+
+and
+
+$$
+Y_{t'} = \sum_{j=0}^{n-1}\sgn(B_j)(B_{j+1} - B_j),
+$$
+respectively.
+
+Using the normal trick with uncorrelated increments, cross terms vanish leaving
+
+$$
+\begin{align}
+\E(Y_t Y_{t'}) &= \sum_{j=0}^{m - 1} \E(\sgn(B_i)^2(B_{j+1} - B_j)) \\
+&= \sum_{j=0}^{m-1} \E((B_{j+1} - B_j)^2) \\
+&= \sum_{j=0}^{m-1} (t_{j+1} - t_j) \\
+&= t_{m} - t_0 \\
+&= t.
+\end{align}
+$$
+
+Taking limits, we see that
+$$
+\E(X_tX_{t'}) = t \wedge t'.
+$$
+
+#### (b)
+
+$X_t$ and $B_t$ are uncorrelated for all $t\geq 0$.
+
+Proof:
+
+Assuming we're permitted to use the Itô isometry
+
+$$
+\begin{align}
+\E(X_t B_t) &= \E(\left(\int_0^t \sgn(B_s) dB_s\right)\left(\int_0^t dB_s\right))\\
+&= \int_0^t \underbrace{\E(\sgn(B_s))}_{=0 \text{ by symmetry}} ds \\
+&= 0.
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (c)
+$X_t$ and $B_t$ are not independent.
+
+Proof:
+
+We show that $\E(B_t^2 X_t) \neq 0$, proving that $X_t$ and $B_t$ are not independent:
+
+$$
+\begin{align}
+\E(B_t^2 X_t) &= \E(\left(2\int_0^t B_s dB_s +t \right) X_t) \\
+&= 2 \E((\int_0^t B_s dB_s)( \int_0^t \sgn(B_s) dB_s)) \\
+&= \underbrace{2 \int_0^t \E(B_s \sgn(B_s)) ds}_{\text{Itô isometry}} \\
+&= 2 \int_0^t \E(|B_s|) ds \\
+&= 2 \int_0^t \sqrt{ \frac{2 s}{\pi}} ds \\
+&= \frac{4}{3}\sqrt{\frac{2}{\pi}} t^{3/2} > 0
+\end{align}
+$$
+for $t > 0$ ($t = 0$ is the trivial case when $X_t = B_t = 0$).
+
+$$
+\qed
+$$
+
+## 5.12 Integration By Parts from Some Itô integrals
+
+Let $g \in C^2(\mathbb{R})$ and $(B_t, t \geq 0)$ be a standard Brownian motion.
+
+#### (a)
+
+For any $t \geq 0$
+
+$$
+\int_0^t g(s) dB_s = g(t) B_t - \int_0^tB_s g'(s) ds.
+$$
+
+Proof:
+
+Define
+
+$$
+f(t, x) = g(t) x.
+$$
+
+Note that
+
+$$
+\partial_0f(t, x) = g'(t) x,
+$$
+$$
+\partial_1 f(t, x) = g(t),
+$$
+and
+$$
+\frac{1}{2}\partial_1^2 f(t,x) = 0.
+$$
+Apply Itô's fromula:
+
+$$
+\begin{align}
+f(t, B_t) -f(0, B_0) &= \int_0^t \partial_1f(s, B_s) dB_s + \int_0^t \left(\partial_0 f(s, B_s) + \frac{1}{2} \partial_1^2 f(s, B_s)\right) ds \\
+&\implies \\
+g(t) B_t &= \int_0^t g(s) dB_s + \int_0^t B_s g'(s) ds.
+\end{align}
+$$
+
+$$\qed$$
+
+#### (b)
+
+The process given by
+
+$$
+X_t = t^2B_t - 2 \int_0^ts B_s ds
+$$
+is Gaussian.
+
+Proof:
+
+Using integration by parts with
+
+$$
+g(t) = t^2
+$$
+we have
+
+$$
+\int_0^t s^2 dB_s = t^2 B_t - 2 \int_0^t s B_s ds = X_t.
+$$
+
+Therefore, $X_t$ is a Wiener integral and so the process is Gaussian. 
+
+$$\qed$$
+
+The mean of $X_t$ is zero. The covariance is given by
+
+$$
+\begin{align}
+\E(X_t X_{t'}) &= \int_0^{t\wedge t'} s^4 ds \\
+&= \frac{1}{4} (t \wedge t')^5.
+\end{align}
+$$
+
+## 5.13 Some Practice with Itô's Formula
+
+#### (a)
+
+The process defined by
+$$
+X_t = \int_0^t \cos{s} dB_s
+$$
+is Gaussian and a martingale because it is Wiener. The mean is zero.
+
+The covariance is given by
+
+$$
+\begin{align}
+\E(X_t X_{t'}) &= \int_0^{t \wedge t'} \cos^2(s) ds \\
+&= \frac{1}{2}((t \wedge t') + \sin(t \wedge t') \cos(t \wedge t')).
+\end{align}
+$$
+
+#### (b)
+
+The process defined by
+
+$$
+X_t = B_t^4
+$$
+
+is not a martingale. Using Itô's formula
+
+$$
+B_t^4 = 4 \underbrace{\int_0^t B_s^3 dB_s}_{\text{martingale}}+ 6 \int_0^t B_s^2 ds.
+$$
+
+Therefore,
+
+$$
+Y_t = B_t^4 - 6 \int_0^t B_s^2 ds
+$$
+is a martingale.
+
+The mean is zero and the covariance is given by
+
+$$
+\begin{align}
+\E(Y_t Y_{t'}) &= 16 \int_0^{t \wedge t'} \underbrace{\E(B_s^6)}_{E(X^{2n}) = (2n -1)!! E(X^2)^n} ds \\
+&= 16 \int_0^{t \wedge t'} 5!! s^3 ds \\
+&= \frac{15.16}{4} (t \wedge t')^4 \\
+&= 60(t \wedge t')^4.
+\end{align}
+$$
+
+The process $X_t$ is not Gaussian.
+
+#### (c)
+
+The process defined by
+$$
+X_t = e^{t/2} \cos{B_t}
+$$
+
+is a martingale.
+
+Proof:
+
+Define
+$$
+f(t, x) = e^{t/2} \cos{x}
+$$
+and note that
+$$
+\partial_0 f(t, x) = \frac{1}{2} f(t, x) = -\frac{1}{2} \partial^2_1f(t, x)
+$$
+and so $f(t, B_t)$ is a martingale. $$\qed$$.
+
+The mean is
+
+$$
+\E(X_t) = \E(X_0) = 1.
+$$
+
+For $s \leq t$, the covariance is given by
+
+$$
+\begin{align}
+E(X_s X_t) &= \E(X_s^2) \\
+&= \E(e^{s}\cos^2{B_s}) \\
+&= \frac{e^s}{2} \E(\cos{2 B_s} + 1). \\
+\end{align}
+$$
+
+Using power series expansion of $\cos$:
+
+$$
+\begin{align}
+\E(\cos(2 B_s)) & = \sum_{k = 0}^{\infty} \frac{(-1)^k\E((2B_s)^{2k})}{(2k)!} \\
+&= \sum_{k=0}^{\infty} \frac{(-1)^k(2k - 1)!!(4s)^k}{(2k)!} \\
+&= \sum_{k=0}^{\infty} \frac{(-1)^k(4s)^k}{(2k)!!} \\
+&= \sum_{k=0}^{\infty} \frac{(-1)^k(4s)^k}{2^k(k)!} \\
+&= \sum_{k=0}^{\infty} \frac{(-2s)^k}{k!} \\
+&= \exp(-2s).
+\end{align}
+$$
+
+Therefore,
+
+$$
+\E(X_s X_t) = \frac{\exp(-s) + \exp(s)}{2} = \cosh{s}
+$$
+for $s \leq t$.
+
+The process cannot be Gaussian: for each $t$, $X_t$ takes values in $[0, e^{t/2}]$ with probability one.
+
+#### (d)
+
+The process defined by
+
+$$
+Z_t = (B_t + t) \exp(-B_t - t/2)
+$$
+is a martingale.
+
+Proof:
+
+Let
+
+$$
+f(t, x) = (x + t) \exp(-x - t/2).
+$$
+
+Then
+
+$$
+\partial_0 f(t, x) = \exp(-x - t/2) -\frac{1}{2} (x + t) \exp(-x -t/2)
+$$
+and
+$$
+\begin{align}
+\frac{1}{2} \partial_1^2f(t, x) &= -\exp(-x -t /2) + \frac{1}{2}\exp(-x -t/2)
+\end{align}
+$$
+
+and so
+$$
+Z_t = f(t, B_t)
+$$
+is a martingale.
+
+$$\qed$$
+
+The mean of the process is zero.
+
+For $s \leq t$, the covariance is given by
+
+$$
+\begin{align}
+\E(Z_s Z_t) &= \E(Z_s^2) \\
+&= \E((B_s + s)^2 \exp(-2B_s - s)) \\
+&= \exp(-s) (\E( B_s^2 \exp(-2B_s)) + 2s\E(B_s \exp(-2B_s)) + s^2 \E(\exp(-2B_s))) \\
+&= s(1 + s) \exp(s).
+\end{align}
+$$
+
+::: {.callout-note}
+
+$$
+\begin{align}
+\E(B_s^2 \exp(-2 B_s)) &= s \E(Z \exp(-2 \sqrt{s} Z)) \\
+&= s \E(\exp(-2B_s) - 2 \sqrt{s} Z \exp(-2 B_s)) \\
+&= s \E(\exp(-2B_s)) -2s\E(B_s \exp(-2B_s))
+\end{align}
+$$
+where $Z$ is a standard Gaussian and we've used integration by parts:
+
+$$
+\E(Zg(Z)) = \E(g'(Z)).
+$$
+
+Using the MFG of the Gaussian
+$$
+\E(\exp(-2B_s)) = \exp(2s).
+$$
+:::
+
+Is this Gaussian? Let's experiment:
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+normal_samples = np.random.default_rng().normal(0, 1, 10000)
+
+Z = (normal_samples + 1) * np.exp(-normal_samples -1/2)
+
+plt.hist(Z, density=True, bins=1000)
+plt.show()
+```
+Clearly not!
+
+
+## 5.14 Gaussian Moments Using Itô
+
+Let $(B_t, t \in [0, 1])$ be a Brownian motion. Then
+
+$$
+\E(B_t^k) = \frac{1}{2}k(k-1)\int_0^t \E(B_s^{k-2}) ds.
+$$
+
+Proof:
+
+Use Itô's formula with
+
+$$
+f(x) = x^{k}
+$$
+and $k\geq 2$:
+
+$$
+\begin{align}
+f(B_t) - f(B_0) &= \int_0^t f'(B_s) dB_s + \frac{1}{2}\int_0^t f''(B_s) ds \\
+&\implies \\
+B_t^k &=\underbrace{ k \int_0^t B_s^{k-1} dB_s }_{\text{martingale with mean zero}}+ \frac{1}{2} \int_0^t k(k-1)B_s^{k-2} ds \\
+&\implies \\
+\E(B_t^k) &= \frac{k(k-1)}{2} \int_0^t \E(B_s^{k-2}) ds.
+\end{align}
+$$
+
+$$\qed$$
+
+In particular,
+
+$$
+\begin{align}
+\E(B_t^4) &= \frac{4.3}{2} \int_0^t \E(B_s^2) ds \\
+&= 6 \int_0^t s ds \\
+&= 3 t^2
+\end{align}
+$$
+and
+$$
+\begin{align}
+\E(B_t^6) &= \frac{6.5}{2} \int_0^t \E(B_s^4) ds \\
+&= 15 \int_0^t 3 s^2 ds \\
+&= 15 t^3.
+\end{align}
+$$
+
+## 5.15 Cross-variation of $t$ and $B_t$
+
+Let $(t_j, j \leq n)$ be a sequence of partitions of $[0, t]$ such that
+
+$$
+\max_j |t_{j+1} - t_j| \to 0
+$$
+as $n \to \infty$. Then
+
+$$
+\lim_{n\to \infty} \sum_{j=0}^{n-1} (t_{j+1} -t_j)(B_{t_{j+1}} - B_{t_j}) = 0
+$$
+in $L^2$.
+
+Proof:
+
+Define
+
+$$
+S_n = \sum_{j=0}^{n-1} (t_{j+1} -t_j)(B_{t_{j+1}} - B_{t_j}) = 0.
+$$
+
+
+
+For $j < k$
+
+$$
+\begin{align}
+\E((t_{k+1}- t_k)(t_{j+1} -t_j)(B_{t_{k+1}}- B_{t_k})(B_{t_{j+1}} - B_{t_j})) &=\\
+(t_{k+1}- t_k)(t_{j+1} -t_j)\E(\E((B_{t_{k+1}}- B_{t_k})(B_{t_{j+1}} - B_{t_j})|\F_{t_k}))  &= \\
+(t_{k+1}- t_k)(t_{j+1} -t_j)\E((\underbrace{B_{t_{k+1}}- B_{t_k}}_{\text{independent of } \F_{t_k}})(B_{t_{j+1}} - B_{t_j})|\F_{t_k})  &= \\
+ (t_{k+1}- t_k)(t_{j+1} -t_j)\E((B_{t_{k+1}}- B_{t_k})\underbrace{\E(B_{t_{j+1}} - B_{t_j}|\F_{t_k})}_{=0}) &= 0.
+\end{align}
+$$
+
+Therefore,
+
+
+$$
+\begin{align}
+\E(S_n^2) &= \E(\sum_{j=0}^{n-1}(t_{j+1} - t_j)^2(B_{t_{j+1}}-B_{t_j})^2) \\
+&= \sum_{j=0}^{n-1}(t_{j+1} - t_j)^3 \\
+&\leq \max_j|t_{j+1} -t_j|^2 \sum_{j=0}^{n-1}  (t_{j+1} - t_j) \\
+&\leq \max_j|t_{j+1} -t_j|^2 t \\
+&\to 0
+\end{align}
+$$
+as $n\to \infty$.
+
+## 5.16 Exercise on Itô's Formula
+
+Consider for $t \geq 0$ the process
+$$
+X_t=\exp(t B_t).
+$$
+
+#### (a)
+We can use the MGF of the Gaussian to calculate the mean and variance of $X_t$:
+
+$$
+\begin{align}
+\E(X_t) &= \E(\exp(t B_t))\\
+&= \exp(t^3/2),
+\end{align}
+$$
+and
+$$
+\begin{align}
+\E(X_t^2) &= \E(\exp(2t B_t)) \\
+&= \exp((2t)^2t/2) \\
+&= \exp(2t^3).
+\end{align}
+$$.
+
+Note that $X_t$ cannot be a martingale because
+
+$$
+X_0 = 1 \neq \E(X_t)
+$$
+for $t > 0$.
+
+#### (b)
+
+Using Itô's formula with
+
+$$
+f(t, x) = \exp(t x)
+$$
+
+we see that
+
+$$
+\begin{align}
+f(t, B_t) - f(0, B_0) &= \int_0^t \partial_1 f(s, B_s) dB_s + \int_0^t \{\partial_0 f(s, B_s) + \frac{1}{2}\partial^2_1 f(s, B_s)\} ds \\
+&\implies \\
+\exp(t B_t) - 1 &= \underbrace{\int_0^t s \exp(s B_s) dB_s}_{\text{martingale}} + \int_0^t \{ B_s \exp(s B_s) + \frac{1}{2}s^2 \exp(s B_s)\} ds \\
+&\implies \\
+\exp(t B_t) - 1 - \int_0^t (s^2/2 + B_s)\exp(s B_s) ds &= \int_0^t s \exp(s B_s) d B_s. \\
+\end{align}
+$$
+
+So
+
+$$
+C_t = 1 +  \int_0^t (s^2/2 + B_s)\exp(s B_s) ds.
+$$
+
+#### (c)
+
+$(\exp(t B_t), t \leq T)$ is in $L_c^2(T)$
+
+Proof:
+
+
+For almost all $\omega$
+$$
+t \mapsto \exp(t B_t(\omega))
+$$
+is a composition of a continuous function ($B_t(\omega)$) with another continuous function. Therefore,
+the measurability and continuity requirements are met.
+
+The integrability requirement is also met:
+$$
+\begin{align}
+\E(\exp(2t B_t)) &= \int_0^T \exp(2 t^3)  dt \\
+&\leq T \exp(2 T^3) < \infty.
+\end{align}
+$$
+
+$$\qed$$
+
+#### (d)
+
+The covriance between $B_t$ and $\int_0^t \exp(s B_s) ds$ is
+
+$$
+\int_0^t \exp(s^3/2) ds.
+$$
+
+Proof:
+
+Using the Itô isometry:
+
+$$
+\begin{align}
+\E(B_t(\int_0^t \exp(s B_s) ds)) &= \E((\int_0^t dB_s) (\int_0^t \exp(s B_s) ds)) \\
+&= \int_0^t \E(\exp(s B_s)) ds \\
+&= \int_0^t \exp(s^3/2) ds.
+\end{align}
+$$
+
+::: {.callout-note}
+$$
+\int_0^t d B_s = B_t.
+$$
+:::
+
+## 5.17 Itô's Formula and Optional Stopping
+
+### (a)
+
+Define
+
+$$
+f(t, x) = tx + g(x)
+$$
+and find an ODE for g(x) such that
+
+$$
+\partial_0f(t,x) = -\frac{1}{2} \partial_1^2 f(t, x).
+$$
+
+$$
+g''(x) = -2x
+$$
+
+so
+
+$$
+g(x) = -\frac{1}{3}x^3 + Cx + D
+$$
+where $C$ and $D$ are constants we can choose.
+
+We have chosen $g$ so that $f(t, B_t)$ is a martingale. We cannot apply Doob's optional stopping
+theorem directly as the stopped process $f(\tau \wedge t, B_{\tau \wedge t})$ is not bounded.
+However, the stopped martingale satisfies
+$$
+\E(f(\tau \wedge t, B_{\tau \wedge t})) = f(0, B_0) = D
+$$
+and we show below that taking the limit as $t \to \infty$ 
+$$
+\E(f(\tau, B_\tau)) = D.
+$$
+
+::: {.callout-note}
+# Fiddly convergence proof
+For $k \geq 1$
+
+$$
+\lim_{t\to\infty} \E((\tau \wedge t)^k) =  \E(\tau^k)
+$$
+by the monotone convergence theorem and
+$$
+\lim_{t\to\infty} \E(B_{\tau\wedge t}^k) = \E(B_{\tau}^k)
+$$
+by the dominated convergence theorem. In particular, $\tau \wedge t \to \tau$ and 
+$B_{\tau \wedge t} \to B_\tau$ in $L^2$ and
+
+$$
+\lim_{t \to \infty} \E((\tau \wedge t - B_{\tau \wedge t})^2) = \E((\tau - B_{\tau})^2).
+$$
+Creatively developing the square shows
+
+
+$$
+\begin{align}
+2\E(\tau \wedge t B_{\tau \wedge t}) &= \E((\tau\wedge t - B_{\tau \wedge t})^2) - \E((\tau \wedge t)^2) - E(B_{\tau \wedge t}^2)\\
+&\to 2\E(\tau B_{\tau}).
+\end{align}
+$$
+
+:::
+
+
+
+
+
+
+
+Moreover, since $B_{\tau}$ can only take one of two values
+
+$$
+\begin{align}
+\E(f(\tau, B_\tau)) &= \E(\tau B_\tau) + \E(g(B_\tau)) \\
+&= \E(\tau B_\tau) + \P(B_\tau = a) g(a) + (1 - P(B_\tau = a)) g(-b).
+\end{align}
+$$
+
+Let $p = \P(B_\tau =a)$ and choose boundary conditions
+
+$$
+g(a) = 1/p
+$$
+and
+$$
+g(-b) = 0.
+$$
+
+Then
+$$
+\E(\tau B_\tau) = D - 1.
+$$
+
+$$
+\begin{align}
+bg(a) + ag(-b) &= b(-a^3/3 + Ca + D) + a(b^3/3 - Cb + D) \\
+&= ab(b^2 - a^2)/3 + (a + b)D \\
+&= b/p.
+\end{align}
+$$
+Rearranging yields
+
+$$
+D = ab(a -b)/3 + \frac{b}{p(a+b)}
+$$
+
+and
+
+$$
+\E(\tau B_\tau) = \frac{ab}{3}(a -b) + \frac{b}{p(a+b)} - 1.
+$$
+
+From symmetry, the process $(-B_t, t \geq 0)$ satisfies the above with the roles
+of $a$ and $b$ swapped:
+
+
+$$
+\begin{align}
+\E(-\tau B_\tau) &= \frac{ab}{3}(b - a) + \frac{a}{\P(-B_\tau = b)(a+b)} - 1 \\
+&= \frac{ab}{3}(b - a) + \frac{a}{\P(B_\tau = -b)(a+b)} - 1 \\
+&= \frac{ab}{3}(b - a) + \frac{a}{(1 - p)(a+b)} - 1. \\
+\end{align}
+$$
+
+Using the above with linearity of expectation
+
+$$
+\E(\tau B_\tau) = \frac{ab}{3}(a - b) + (1 - \frac{a}{(1-p)(a+b)})
+$$
+
+and so
+
+$$
+\frac{b}{p(a+b)} - 1 = 1 - \frac{a}{(1-p)(a+b)}
+$$
+
+with solution
+
+$$
+p = \frac{b}{a+b}.
+$$
+
+Therefore,
+
+$$
+\E(\tau B_\tau) = \frac{ab}{3}(a-b).
+$$
+
+$$
+\qed
+$$
+
+## 5.18 A Strange Martingale
+
+Let $(B_t, t \geq 0)$ be a standard Brownian motion. Consider the process
+
+$$
+M_t = \frac{1}{\sqrt{1 -t}}\exp(\frac{-B_t^2}{2(1-t)}),
+$$
+for $t \in [0,1)$.
+
+#### (a)
+$$
+M_t = 1  + \int_0^t \frac{-B_sM_s}{1 -s}d B_s
+$$
+for $t \in [0,1)$.
+
+Proof:
+
+Use
+$$
+f(t, x) = \frac{1}{\sqrt{1-t}}\exp(\frac{-x^2}{2(1-t)})
+$$
+and Itô's formula to show that $f(t, B_t)$ is a martingale:
+
+
+
+```{python}
+import sympy as sp
+from sympy.abc import t, s, x
+
+f = (1/sp.sqrt(1 -s)) * sp.exp((-x**2)/(2*(1-s)))
+
+(sp.diff(f, s) + (1/2)*sp.diff(f, x, 2)).simplify()
+```
+
+The Itô integral for the martingale is
+```{python}
+integrand=sp.diff(f, x)
+
+M_s = sp.Symbol('M_s')
+B_s = sp.Symbol('B_s')
+
+sp.Integral(integrand.subs({f:M_s, x: B_s}).simplify(),(s, 0, t))
+```
+
+#### (b)
+$(M_s, s \leq t)$ is a martingale for $t < 1$ because it can be expressed as an Itô integral (plus a constant).
+
+#### (c)
+
+Given (b), we can state that
+
+$$
+\E(M_t) = M_0 = 1
+$$
+for $t <1$.
+
+#### (d)
+$$
+\lim_{t \to 1^-} M_t = 0
+$$
+almost surely.
+
+Proof:
+
+There exists $A \subseteq \Omega$ with $\P(A) = 1$, such that
+
+$$
+g: t \mapsto B_t(\omega)
+$$
+is continuous. Let $B = \{\omega: B_t(\omega) \neq 0 \}$; clearly, $\P(B) =1$
+and $\P(A \cap B) = 1$. Choose $\omega \in A \cap B$ and consider the corresponding $g$: on the interval $[0, 1]$, $g^2$ attains a minimum $C \geq 0$ and so
+
+$$
+\frac{1}{\sqrt{1 -t}} \exp(\frac{-B_t^2}{2(1 -t)}) \leq 
+\frac{1}{\sqrt{1 -t}} \exp(\frac{-C}{2(1 -t)})
+$$
+for $0 \leq t < 1$. 
+
+
+For this fixed $\omega$
+$$
+\begin{align}
+\frac{1}{\sqrt{1-t}} \exp(\frac{-C}{2(1-t)}) &= \sqrt{\frac{1}{1-t}\exp(\frac{-C}{1-t})} \\
+&\to 0
+\end{align}
+$$
+as $t\to 1^-$; this is true for $\omega \in A\cap B$, so almost surely.
+
+::: {.callout-note}
+$$
+\exp(C/(1-t)) > \frac{C^{2}}{2(1-t)^2}
+$$
+so
+$$
+\exp(-C/(1-t)) < \frac{2(1-t)^2}{C^2}
+$$
+and
+$$
+\frac{1}{1-t}\exp(-C/(1-t)) <  \frac{2(1-t)}{C^2} \to 0
+$$
+as $t \to 1^-$.
+:::
+
+$$\qed$$
+
+#### (e)
+
+$$
+\E(\sup_{0 \leq t < 1} M_t) = + \infty.
+$$
+
+Proof:
+
+Suppose that
+
+$$
+\E(\sup_{0 \leq t < 1} M_t) < \infty
+$$
+i.e. $\exists C > 0$ such that
+$$
+\E(\sup_{0 \leq t < 1} M_t) < C.
+$$
+
+Then
+
+$$
+\P(\{ \omega: \exists t \in [0,1) \text{ such that } M_t(\omega) \geq C \}) = 0.
+$$
+
+Almost surely, $M_t \leq C$ for $t \in [0,1)$ and so since
+
+$$
+M_t \to 0
+$$
+almost surely, the dominated convergence theorem would imply that
+
+$$
+\lim_{t \to 1^-} \E(M_t) = 0 \Rightarrow\Leftarrow
+$$
+
+
+$$\qed$$.
+
+#### 5.19 $L^2$-limit of Gaussians is Gaussian
+
+
+Let $(X_n, n \geq 0)$ be a sequence of Gaussian random variables that converge to $X$ in
+$L^2(\Omega, \F, \P)$.
+
+
+$X$ is Gaussian.
+
+Proof:
+
+Let $m_n = \E(X_n)$ and $\sigma_n^2 = \E(X_n^2) - \E(X_n)^2$. We know that
+
+$$
+m_n \to \E(X)
+$$
+and
+$$
+\sigma_n^2 \to \sigma^2 = \E(X^2) - \E(X)^2
+$$
+as $n \to \infty$. Therefore,
+
+$$
+\E(\exp(i t X_n)) \to \exp(itm - \sigma^2t^2/2).
+$$
+
+Convergence of $X_n \to X$ in $L^2$ implies that there is a subsequence
+such that
+$$
+X_{n_k}(\omega) \to X(\omega)
+$$
+almost surely. Using continuity of the exponential function
+$$
+\exp(itX_{n_k}(\omega)) \to \exp(it X(\omega))
+$$
+almost surely. The sequence is bounded by $1$:
+
+$$
+|\exp(itX_{n_k}(\omega))| \leq 1.
+$$
+
+Therefore, by the dominated convergence theorem
+
+$$
+\begin{align}
+\lim \E(\exp(itX_{n_k}))) &= \E(\lim \exp(it X_{n_k})) \\
+&= \E(\exp(itX)) \\
+&= \exp(itm - \sigma^2t^2/2).
+\end{align}
+$$
+
+Having this characteristic function shows that $X$ is Gaussian with mean $m$ and variance $\sigma^2$.
+
+## 5.20 $L^2$ is Complete
+
+#### (a)
+Let $(X_n)$ be a Cauchy sequence in $L^2(\Omega, \F, \P)$. There exists a subsequence $(X_{n_k})$ such that
+$$
+\|X_m - X_{n_k} \| \leq 2^{-k}
+$$
+for all $m > n_k$.
+
+Proof:
+
+For each $k$, there exists $N$ such that
+
+$$
+\| X_n - X_m \| < 2^{-k}
+$$
+for $n, m > N$ . Choose $n_k = N + 1$ to construct the desired sequence.
+
+$$ \qed $$
+
+#### (b)
+Consider the candidate limit
+
+$$
+\sum_{j=0}^{\infty} (X_{n_{j+1}} - X_{n_j})
+$$
+where $X_{n_0} = 0$. This sum converges almost surely.
+
+Proof:
+
+$$
+\begin{align}
+\sum_{j=0}^{k} \E(| X_{n_{j+1}} - X_{n_j}|) &< \underbrace{\sum_{j=0}^{k} 2^{-(j+1)}}_{\|\cdot\|_1 \leq \|\cdot\|_2} \\
+& \to 1
+\end{align}
+$$
+as $k \to \infty$. 
+
+By Markov's inequality
+
+$$
+\begin{align}
+\P(\sum_{j=0}^{k} |X_{n_{j+1}} - X_{n_j}| > c) &\leq \frac{1}{c} \E(\sum_{j=0}^k |X_{n_{j+1}} - X_{n_j}|) \\
+&\leq \frac{1}{c}.
+\end{align}
+$$
+
+Let
+$$
+B_k = \{ \omega : \sum_{j=0}^{k} |X_{n_{j+1}} - X_{n_j}| >c) \} 
+$$
+increasing, nested events such that
+$$
+\cup B_k = \{ \omega : \sum_{j=0}^{\infty} |X_{n_{j+1}} - X_{n_j}| >c \}.
+$$
+
+By continuity of probability
+
+$$
+\P(\sum_{j=0}^{\infty} |X_{n_{j+1}} - X_{n_j}| >c) = \lim_{k \to \infty} \P(B_k) \leq \frac{1}{c}.
+$$
+
+
+Therefore,
+$$
+\P(\sum_{j=0}^{\infty} |X_{n_{j+1}} - X_{n_j}| \leq c) \geq 1 - \frac{1}{c}.
+$$
+
+Define 
+
+$$
+A_n = \{ \omega: \sum_{j=0}^{\infty} |X_{n_{j+1}}(\omega) - X_{n_j}(\omega)| \leq n \}.
+$$
+
+Then $(A_n)$ is an increasing sequence of events and
+
+$$
+A = \cup A_n = \{ \omega: \sum_{j=0}^{\infty} |X_{n_{j+1}}(\omega) - X_{n_j}(\omega)| < \infty \}.
+$$
+By continuity of probability
+$$
+\P(A) = \lim_{n\to\infty} \P(A_n) = 1.
+$$
+For any $\omega \in A$, the sum converges. $$\qed$$
+
+#### (c)
+
+Define
+$$
+X = \sum_{j=0}^{\infty} (X_{n_{j+1}} - X_{n_j})
+$$
+which is finite, almost surely.
+
+$$
+\| X - X_{n_k}\| \to 0
+$$
+as $k\to \infty$ and $\| X\| < \infty$.
+
+Proof:
+
+$$
+X_{n_k} = \sum_{j=0}^{k-1} (X_{n_{k+1}} - X_{n_k})
+$$
+and so $X_{n_k} \to X$ almost surely.
+
+
+$$
+\begin{align}
+\| X - X_{n_k} \| &= \| \sum_{j= k}^{\infty} (X_{n_{k+1}} - X_{n_k}) \| \\
+&\leq \sum_{j=k}^{\infty} \|X_{n_{k+1}} - X_{n_k}\| \\
+&\leq 2^{-k} \\
+&\to 0
+\end{align}
+$$
+as $k \to \infty$.
+
+Note that
+
+$$
+\|X\| \leq \| X - X_{n_k} \| + \| X_{n_k} \| < \infty.
+$$
+
+$$\qed$$
+
+
+#### (d)
+For $\varepsilon > 0$ there exists $N$ such that
+
+$$
+\| X_{n_k} - X \| < \varepsilon/2.
+$$
+for $n_k > N$.
+
+Since the sequence is Cauchy, there exists $M$ such that for $n_k, m > M$, such that
+
+$$
+\| X_{n_k} - X_m \| < \varepsilon/2.
+$$
+Choose $m, n_k > \max{M, N}$. Then
+
+
+
+$$
+\begin{align}
+\|X - X_m \| &= \| X - X_{n_k} + X_{n_k} - X_m \| \\
+&\leq \| X - X_{n_k} \| + \| X_{n_k} - X_m \| \\
+& < \varepsilon.
+\end{align}
+$$
+That is, $X_m \to X$ in $L^2$ as $m \to \infty$.
+
+
+## 5.21 Another Application of Doob's Maximal Inequality
+
+
+Let $(B_t, t \in [0,1])$ be a Brownian motion defined on $(\Omega, \F, \P)$.
+
+The process
+
+$$
+Z_t = (1-t) \int_0^t \frac{1}{1-s}ds
+$$
+
+has the distribution of the Brownian bridge on $[0, 1)$.
+
+$$
+\lim_{t \to 1^-} Z_t = 0
+$$
+almost surely.
+
+Proof:
+
+First, show that $Z_t \to 0$ in $L^2$ as $t \to 1^-$.
+
+$$
+\begin{align}
+\E(Z_t^2) &= (1-t)^2 \int_0^t \frac{1}{(1-s)^2} ds \\
+&= (1-t)^2 (\frac{t}{1-t}) \\
+&= t(1-t) \to 0
+\end{align}
+$$
+as $t\to 1^-$.
+
+Then, using Doob's maximal inequality show that
+
+$$
+\P(\max_{t \in [ 1- 1/2^n, 1 -1/2^{n+1}]} |Z_t| > \delta) \leq \frac{1}{\delta^2} \frac{1}{2^{n-1}}.
+$$
+
+By definition of $Z_t$ and simple properties of maxima,
+
+$$
+\begin{align}
+\max_{t \in [1 - 1/2^n, 1 - 1/2^{n+1}]} |Z_t| &= \max_{t  \in [1 - 1/2^n, 1 - 1/2^{n+1} ]} |(1 - t) \int_0^t \frac{1}{1-s} ds | \\
+&\leq (1/2^n) \max_{t \in [1 - 1/2^n, 1 - 1/2^{n+1}]} |\int_0^t \frac{1}{1-s} ds| \\
+\end{align}
+$$
+Using Doob's maximal inequality and $\E(Z_t) = t(1-t)$ gives
+$$
+\begin{align}
+\P(\max_{t \in [1 - 1/2^n, 1 - 1/2^{n+1}]} |Z_t| > \delta) &\leq \P((1/2^n) \max_{t \in [1 - 1/2^n, 1 - 1/2^{n+1}]} |\int_0^t \frac{1}{1-s} ds| > \delta) \\
+&= \P(\max_{t \in [1 - 1/2^n, 1 - 1/2^{n+1}]} |\int_0^t \frac{1}{1-s} ds| > \delta 2^{n}) \\
+&\leq \frac{1}{\delta^2 2^{2n}} \E(\frac{1}{(1/2^{n+1})^2} Z_{1-1/2^{n+1}}^2) \\
+&\leq \frac{1}{\delta^2 2^{2n}} \frac{1}{(1/2^{n+1})^2} \E(Z_{1-1/2^{n+1}}^2) \\
+&\leq \frac{1}{\delta^2 2^{2n}} \frac{1}{(1/2^{n+1})^2} (1/2^{n+1})(1-1/2^{n+1}) \\
+&= \frac{2^{n+1} - 1}{\delta^2 2^{2n}} \\
+&\leq \frac{1}{\delta^2 2^{n-1}}.
+\end{align}
+$$
+
+Let
+
+$$
+E_n = \{ \omega: \max_{t \in [1- 1/2^n, 1- 1/2^{n+1}]} |Z_t| > \delta \}.
+$$
+
+By the above
+
+$$
+\begin{align}
+\sum_{n=1}^{\infty} \P(E_n) &\leq \sum_{n=1}^{\infty} \frac{1}{\delta^2 2^{n-1}} \\
+&= \frac{2}{\delta^2}\\
+\end{align}
+$$
+and so by the Borel-Cantelli lemma,
+$$
+\P(\lim\sup_{n\to \infty} E_n) = 0.
+$$
+We can see that
+$$
+\cup_{n=k}^{\infty} E_n = \{ \omega: \exists j \geq k \max_{t \in [1-1/2^j, 1 -1/2^{j+1})} |Z_t(\omega)| > \delta\}
+$$
+and
+
+$$
+\begin{align}
+\cap_{k=1}^{\infty} \cup_{n=k}^{\infty} E_n &= \{\omega: \forall k\, \exists j \geq k \text{ such that }  \max_{t \in [1-2^{j}, 1-1/2^{j+1})}|Z_t| > \delta \}\\
+& \supseteq \{ \omega : \lim_{t \to 1^{-}} |Z_t(\omega)| > \delta \}.
+\end{align}
+$$
+Note: 
+$$
+t \mapsto Z_t(\omega)
+$$
+is continuous almost surely.
+
+Therefore,
+$$
+\P(\lim_{t \to 1^{-1}} |Z_t| > \delta) = 0
+$$
+for all $\delta > 0$. That is, $Z_t \to 0$ as $t \to 1^-$ almost surely.
