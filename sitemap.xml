@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch5/ch5_exercises.html</loc>
+    <lastmod>2023-02-04T14:50:26.797Z</lastmod>
+  </url>
+  <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch5/ch5_experiments.html</loc>
-    <lastmod>2023-01-30T14:00:36.391Z</lastmod>
+    <lastmod>2023-02-04T14:50:27.545Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch1/ch1_exercises.html</loc>
-    <lastmod>2023-01-30T14:00:37.367Z</lastmod>
+    <lastmod>2023-02-04T14:50:28.461Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch1/ch1_experiments.html</loc>
-    <lastmod>2023-01-30T14:00:38.351Z</lastmod>
+    <lastmod>2023-02-04T14:50:29.389Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch2/ch2_exercises.html</loc>
-    <lastmod>2023-01-30T14:00:39.475Z</lastmod>
+    <lastmod>2023-02-04T14:50:30.429Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch2/ch2_experiments.html</loc>
-    <lastmod>2023-01-30T14:00:40.579Z</lastmod>
+    <lastmod>2023-02-04T14:50:31.461Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch4/ch4_exercises.html</loc>
-    <lastmod>2023-01-30T14:00:41.683Z</lastmod>
+    <lastmod>2023-02-04T14:50:32.493Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch4/ch4_experiments.html</loc>
-    <lastmod>2023-01-30T14:00:42.827Z</lastmod>
+    <lastmod>2023-02-04T14:50:33.549Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch3/ch3_experiments.html</loc>
-    <lastmod>2023-01-30T14:00:43.811Z</lastmod>
+    <lastmod>2023-02-04T14:50:34.493Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/FCSC/ch3/ch3_exercises.html</loc>
-    <lastmod>2023-01-30T14:00:45.168Z</lastmod>
+    <lastmod>2023-02-04T14:50:35.825Z</lastmod>
   </url>
   <url>
     <loc>https://stevenjohnstone.github.io/learn-relearn/PML/ch2.html</loc>
-    <lastmod>2023-01-30T14:00:45.896Z</lastmod>
+    <lastmod>2023-02-04T14:50:36.509Z</lastmod>
   </url>
 </urlset>
