@@ -6,9 +6,11 @@ $$
 \newcommand{\P}{\operatorname{P}}
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\trace}{\operatorname{trace}}
+\newcommand{\sgn}{\operatorname{sgn}}
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\G}{\mathcal{G}}
 \newcommand{\qed}{\tag*{$\square$}}
+\newcommand{\erf}{\operatorname{erf}}
 \def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
 \raise12mu{.}}}
 $$

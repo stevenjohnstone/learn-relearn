@@ -1814,7 +1814,7 @@ almost surely.
 
 Proof:
 
-First, show that $Z_t \to 0$ in $L^2$ as $t \to 1^-$.
+First, show that $Z_t \to 0$ in $L^2$ as $t \to 1^-$.: by Isô's isometry
 
 $$
 \begin{align}
