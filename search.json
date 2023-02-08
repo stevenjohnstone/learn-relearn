@@ -700,6 +700,111 @@
     "text": "Gambler’s Ruin at the French Roulette\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef roulette_win(start=100, stop=200, p = 18/38):\n  rolls = 2*np.random.default_rng().binomial(1, p, size=5000) - 1\n  purse = np.cumsum(rolls) + start\n  for p in purse:\n    if p == 0:\n      return False\n    if p == stop:\n      return True\n  return purse[-1] >= start\n\nprint(f'Probability of winning $200 starting at $100 is ~ {sum([roulette_win() for _ in range(100)])/100}')\n\nprobability_estimates = [ sum([roulette_win(start=starting_purse) for _ in range(100)])/100 for starting_purse in range(1, 200)]\n\nplt.plot(range(1, 200), probability_estimates)\nplt.title('Probability of winning $200 starting with different purses')\nplt.show()\n\nProbability of winning $200 starting at $100 is ~ 0.0"
   },
   {
+    "objectID": "FCSC/ch6/ch6_exercises.html",
+    "href": "FCSC/ch6/ch6_exercises.html",
+    "title": "Exercises",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\Cov}{\\operatorname{Cov}}\n\\newcommand{\\Var}{\\operatorname{Var}}\n\\newcommand{\\E}{\\operatorname{E}}\n\\newcommand{\\P}{\\operatorname{P}}\n\\newcommand{\\rank}{\\operatorname{rank}}\n\\newcommand{\\trace}{\\operatorname{trace}}\n\\newcommand{\\sgn}{\\operatorname{sgn}}\n\\newcommand{\\F}{\\mathcal{F}}\n\\newcommand{\\G}{\\mathcal{G}}\n\\newcommand{\\qed}{\\tag*{$\\square$}}\n\\newcommand{\\erf}{\\operatorname{erf}}\n\\def\\iddots{{\\kern3mu\\raise1mu{.}\\kern3mu\\raise6mu{.}\\kern3mu\n\\raise12mu{.}}}\n\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#rotational-symmetry-of-2d-brownian-motion",
+    "href": "FCSC/ch6/ch6_exercises.html#rotational-symmetry-of-2d-brownian-motion",
+    "title": "Exercises",
+    "section": "6.1 Rotational Symmetry of 2D Brownian Motion",
+    "text": "6.1 Rotational Symmetry of 2D Brownian Motion\nLet \\(B_t = (B_t^{(1)}, B_t^{(2)})\\) be a two-dimensional Brownian motion. Let\n\\[\nM = \\begin{bmatrix}\n\\cos{\\theta} & \\sin{\\theta} \\\\\n-\\sin{\\theta} & \\cos{\\theta}.\n\\end{bmatrix}\n\\]\nThen \\(W_t = M B_t\\) is also a two-dimensional Brownian motion.\nProof: By matrix multiplication \\[\nM B_t = (\\cos{\\theta} B_t^{(1)} + \\sin{\\theta} B_t^{(2)}, -\\sin{\\theta} B_t^{(1)} + \\cos{\\theta} B_t^{(2)}).\n\\]\nClearly, \\(M B_t\\) is a linear combination of Gaussian vectors because \\((B_t, t \\geq 0)\\) is Gaussian. Therefore, if the covariance of the components is zero, the components are independent:\n\\[\n\\begin{align}\n\\E((\\cos{\\theta} B_s^{(1)} + \\sin{\\theta} B_s^{(2)})(-\\sin{\\theta} B_t^{(1)} + \\cos{\\theta} B_t^{(2)})) \\\\\n= \\E(\\cos{\\theta}\\sin{\\theta} B_s^{(2)} B_t^{(2)} - \\cos{\\theta}\\sin{\\theta} B_s^{(1)}B_t^{(1)} ) \\\\\n= \\cos{\\theta}\\sin{\\theta}(t\\wedge s -t \\wedge s) \\\\\n= 0.\n\\end{align}\n\\]\n\n\n\n\n\n\nNote\n\n\n\n\\[\n\\E(B_s^{(1)}B_t^{(2)}) = \\E(B_s^{(1)}) \\E(B_t^{(2)}) = 0.\n\\]\n\n\nUsing the independence of the two Brownian processes and the variance properties of Brownian motions we see that \\[\n\\begin{align}\n\\E(W_t^{(1)} W_s^{(1)}) &= \\E(\\cos^2\\theta B_t^{(1)} B_s^{(1)} + \\cos{\\theta}\\sin{\\theta} (B_t^{(1)}B_s^{(2)} + B_t^{(2)} B_s^{(1)}) + \\sin^2\\theta B_t^{(2)} B_s^{(2)}) \\\\\n&= \\cos^2\\theta t \\wedge s + \\sin^2\\theta t \\wedge s \\\\\n&= t \\wedge s.\n\\end{align}\n\\]\nSimilarly, \\[\n\\E(W_t^{(2)} W_s^{(2)}) = t \\wedge s.\n\\]\nThis characterises Brownian motions and the proof is complete. \\[\\qed\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#orthogonal-symmetry-of-brownian-motion",
+    "href": "FCSC/ch6/ch6_exercises.html#orthogonal-symmetry-of-brownian-motion",
+    "title": "Exercises",
+    "section": "6.2 Orthogonal Symmetry of Brownian Motion",
+    "text": "6.2 Orthogonal Symmetry of Brownian Motion\nLet \\(B_t = (B_t^{(i)}, i \\leq d)\\) be a \\(d\\)-dimensional Brownian motion. Let \\(M\\) be a \\(d \\times d\\) orthogonal matrix (\\(M^{-1} = M^T\\)). The the process \\(W_t = M B_t\\) is a \\(d\\)-dimensional Brownian motion.\nProof:\n\\(W_t\\) is a Gaussian process because it is a linear transformation of \\(B_t\\) so it is a Gaussian process. It remains to be shown that the components of \\(W_t\\) are independent Brownian motions. Calculating the covariances, we see that the components are independent and the each individual component is Brownian:\n\\[\n\\begin{align}\n\\E(W_t^{(i)} W_s^{(j)}) & = \\E(\\sum_{k} M_{ik} B_t^{(k)} \\sum_{l} M_{jl} B_s^{(l)}) \\\\\n&= \\E(\\sum_{k} M_{ik} B_t^{(k)} M_{jk} B_s^{(k)}) \\\\\n&= \\E(\\sum_k M_{ik} M^T_{kj} B_t^{(k)} B_s^{(k)}) \\\\\n&= \\sum_k (M_{ik}M^T_{kj} t \\wedge s ) \\\\\n&= t \\wedge s \\sum_k M_{ik} M^{-1}_{kj} \\\\\n&= (t \\wedge s) \\delta_{ij}.\n\\end{align}\n\\]\n\\[\\qed\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#races-between-brownian-motions",
+    "href": "FCSC/ch6/ch6_exercises.html#races-between-brownian-motions",
+    "title": "Exercises",
+    "section": "6.3 Races Between Brownian Motions",
+    "text": "6.3 Races Between Brownian Motions\nLet \\(B_t = (B_{1, t}, B_{2,t})\\) be a two-dimensional Brownian motion.\nThe probability that \\(B_{1, t}\\) reaches \\(1\\) before \\(B_{2, t}\\) is \\(1/2\\). What is the probability that \\(B_{1, t}\\) reaches \\(2\\) before \\(B_{2, t}\\) reaches \\(1\\)?\nLet \\(\\tau_{i, a} = \\min\\{t \\geq 0: B_{i,t} \\geq a \\}\\). Using Bachelier’s formula,\n\\[\n\\P(\\tau_{1, 2} \\leq T) =  \\P(|B_{1, T}| \\geq 2)\n\\] and \\[\n\\P(\\tau_{2, 1} > T) = \\P(|B_{2, T}| < 1).\n\\]\n\\[\n\\begin{align}\n\\int_0^{\\infty} \\P(\\tau_{2,1} > t| \\tau_{1, 2} = t) dt &= \\int_0^{\\infty} \\left( \\int_{0}^1 \\frac{2}{\\sqrt{2 \\pi t}} e^{-y^2/2t} dy \\right) \\frac{2}{\\sqrt{2 \\pi}} \\frac{e^{-2/t}}{t^{3/2}} dt \\\\\n&= \\int_0^{\\infty} \\int_0^1 \\frac{2}{\\pi} \\frac{e^{-y^2/2t - 2/t}}{t^2} dy dt \\\\\n&= \\int_0^{\\infty} \\frac{2}{\\pi} \\frac{e^{-2/t}}{t^2} \\frac{\\sqrt{2 \\pi t}}{2} \\erf(\\frac{1}{\\sqrt{2t}}) dt \\\\\n&= \\sqrt{\\frac{2}{\\pi}} \\int_0^{\\infty} \\frac{e^{-2/t}}{t^{3/2}} \\erf(\\frac{1}{\\sqrt{2t}}) dt \\\\\n&= \\frac{2}{\\pi} \\tan^{-1}(1/2) \\\\\n&\\approx 0.3.\n\\end{align}\n\\]\nThis can be checked by simulation:\n\nimport numpy as np\n\ndef race():\n  delta = 0.1\n  b_1, b_2 = 0, 0\n  while True:\n    if b_1 >= 1:\n      return 1\n    if b_2 >= 2:\n      return 2\n    b_1 += np.random.default_rng().normal(0, np.sqrt(delta))\n    b_2 += np.random.default_rng().normal(0, np.sqrt(delta))\n\ntotal_wins = 0\ntrials = 1000\nfor _ in range(trials):\n  winner = race()\n  if winner == 2:\n    total_wins += 1\n\ntotal_wins/trials\n\n0.312"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#drill",
+    "href": "FCSC/ch6/ch6_exercises.html#drill",
+    "title": "Exercises",
+    "section": "6.4 Drill",
+    "text": "6.4 Drill\n\\[\nX_t = (B^{(1)}_t)^2 + (B^{(2)}_t)^2\n\\] \\[\nY_t = \\exp(B^{(1)}_t)\\cos{B^{(2)}_t}.\n\\]\nApply Itô’s formula to\n\\[\nf(x, y) = x^2 + y^2\n\\] to get \\[\n\\begin{align}\nf(B^{(1)}_s, B^{(2)}_s) &= (B^{(1)}_t)^2 + (B^{(2)}_t)^2 \\\\\n&= \\int_0^t \\partial_1 f(s, B^{(1)}_s, B^{(2)}_s) dB_s^{(1)} \\\\\n&+ \\int_0^t \\partial_2 f(s, B^{(1)}_s, B^{(2)}_s) dB_s^{(2)} \\\\\n&+ \\frac{1}{2}\\int_0^t (\\partial_0 f(s, B^{(1)}_s, B^{(2)}_s) + \\triangle f(s, B^{(1)}_s, B^{(2)}_s) ) ds \\\\\n&= \\int_0^t 2 B_s^{(1)} dB_s^{(1)} + \\int_0^t 2 B_s^{(2)} dB_s^{(2)} + 2t.\n\\end{align}\n\\]\nApply Itô’s formula to \\[\ng(x, y) = \\exp(x) \\cos{y}\n\\] to get\n\\[\n\\begin{align}\ng(B_t^{(1)}, B_t^{(2)}) -g(B_0^{(1)}, B_0^{(2)}) &= \\exp(B_t^{(1)})\\cos{B_t^{(2)}} - 1 \\\\\n&= \\sum_{i=1}^2 \\int_0^t \\partial_i g( B_s^{(1)}, B_s^{(2)})d B_s^{(i)} + \\int_0^t (\\partial_0 g(B_s^{(1)}, B_s^{(2)})) + \\frac{1}{2} \\triangle g(B_s^{(1)}, B_s^{(2)})) ds \\\\\n&= \\int_0^t \\exp(B_s^{(1)}) \\cos{B_s^{(2)}} d B_s^{(1)} - \\int_0^t \\exp(B_s^{(1)})\\sin{B_s^{(2)}} d B_s^{(2)}.\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#cross-variation-of-b_t1-and-b_t2",
+    "href": "FCSC/ch6/ch6_exercises.html#cross-variation-of-b_t1-and-b_t2",
+    "title": "Exercises",
+    "section": "6.5 Cross-Variation of \\(B_t^{(1)}\\) and \\(B_t^{(2)}\\)",
+    "text": "6.5 Cross-Variation of \\(B_t^{(1)}\\) and \\(B_t^{(2)}\\)\nLet \\((t_j, j \\leq n)\\) be a sequence of partitions of \\([0, t]\\) such that\n\\[\n\\max_{j} |t_{j+1} -t_j| \\to 0\n\\] as \\(n \\to \\infty\\).\nThen\n\\[\n\\lim_{n\\to \\infty} \\sum_{j=0}^n (B_{t_{j+1}}^{(1)} - B_{t_j}^{(1)})(B_{t_{j+1}}^{(2)} - B_{t_j}^{(2)}) = 0\n\\] in \\(L^2\\).\nProof:\nFor notational simplicity, define\n\\[\nX_{1,j} = B_{t_{j+1}}^{(1)} - B_{t_j}^{(1)}\n\\] and\n\\[\nX_{2,j} = B_{t_{j+1}}^{(2)} - B_{t_j}^{(2)}.\n\\] Then the second moment of the sum can be expressed \\[\n\\begin{align}\n\\E(\\sum_{j=0}^n\\sum_{k=0}^{n} X_{1,j}X_{2,j} X_{1, k} X_{2,k}).\n\\end{align}\n\\] For \\(j = k\\),\n\\[\n\\begin{align}\n\\E(X_{1, j} X_{2, j} X_{1, k} X_{2, k}) &= \\E(X_{1,j}^2 X_{2, j}^2) \\\\\n&= \\underbrace{\\E(X_{1,j}^2) \\E(X_{2,j}^2)}_{\\text{independence}} \\\\\n&= (t_{j+1} - t_j)^2.\n\\end{align}\n\\] For \\(j \\neq k\\),\n\\[\n\\begin{align}\n\\E(X_{1, j} X_{2, j} X_{1, k} X_{2, k}) &= \\E(X_{1, j})\\E(X_{2, j}) \\E(X_{1, k}) \\E(X_{2, k})\n&= 0\n\\end{align}\n\\] due to independence of the increments of each Brownian motion and the independence of the Brownian motions.\nTherefore, the limit of the second moment of the sum is \\[\n\\begin{align}\n\\sum_{j=0}^n (t_{j+1} - t_j)^2 &\\leq \\max_{j} |t_{j+1} -t_j| \\sum_{j=0}^n |t_{j+1} -t_j| \\\\\n&= t \\max_{j} |t_{j+1} -t_j| \\\\\n& \\to 0.\n\\end{align}\n\\]\n\\[\\qed\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#a-function-of-b_t",
+    "href": "FCSC/ch6/ch6_exercises.html#a-function-of-b_t",
+    "title": "Exercises",
+    "section": "6.6 A Function of \\(B_t\\)",
+    "text": "6.6 A Function of \\(B_t\\)\nConsider a two-dimensional Brownian motion \\(B_t = (B_t^{(1)}, B_t^{(2)})\\) and a process\n\\[\nZ_t = B_t^{(1)} B_t ^{(2)}.\n\\]\n\\(Z_t\\) can be written as a sum of Itô integrals and a Riemann integral using Itô’s formula.\nDefine \\[\nf(x, y) = xy\n\\] so that \\[\n\\partial_0 f(x, y) = 0,\n\\] \\[\n\\partial_1 f(x, y) = y,\n\\] \\[\n\\partial_2 f(x, y) = x,\n\\] and \\[\n\\triangle f(x, y) = 0.\n\\].\nIt follows that\n\\[\nB_t^{(1)}B_t^{(2)} = \\int_0^t B_t^{(2)} dB_s^{(1)} + \\int_0^t B_t^{(1)} dB_s^{(2)}.\n\\] Note that the Riemann integral part of the expression is zero because \\(f\\) is harmonic.\nSince, trivially, \\[\n\\partial_0 f(x,y) = -frac{1}{2} \\triangle f(x, y),\n\\]\n\\(Z_t\\) is a martingale."
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#another-function-of-b_t",
+    "href": "FCSC/ch6/ch6_exercises.html#another-function-of-b_t",
+    "title": "Exercises",
+    "section": "6.7 Another Function of \\(B_t\\)",
+    "text": "6.7 Another Function of \\(B_t\\)\nLet\n\\[\nf(x, y) = x^3 - 3 xy\n\\] and consider the process \\[\nZ_t = f(B_t^{(1)}, B_t^{(2)}).\n\\]\nWe have\n\\[\n\\partial_0 f(x, y) = 0,\n\\]\n\\[\n\\partial_1 f(x, y) = 3x^2 - 3 y,\n\\]\n\\[\n\\partial_2 f(x, y) = 3 x,\n\\] and \\[\n\\triangle f(x, y) = 6 x.\n\\]\nIt follows from Itô’s formula that\n\\[\n\\begin{align}\nZ_t &= (B_t^{(1)})^3 - 2B_t^{(1)}B_t^{(2)} \\\\\n&= \\int_0^t 3(B_s^{(1)})^2 - 3 B_s d B_s^{(1)} + \\int_0^t 3 B_s^{(1)} dB_s^{(2)} + \\int_0^t 3 B_s^{(1)} ds.\n\\end{align}\n\\]\n\\(Z_t\\) is not a martingale;\n\\[\nZ_t - \\int_0^t 3 B_s^{(1)} ds\n\\] is a martingale."
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#harmonic-functions",
+    "href": "FCSC/ch6/ch6_exercises.html#harmonic-functions",
+    "title": "Exercises",
+    "section": "6.8 Harmonic Functions",
+    "text": "6.8 Harmonic Functions\n\\[\nh(x) = \\begin{cases}\n\\log{\\|x\\|} & d=2\\\\\n\\|x\\|^{2 -d} & d \\geq 3\n\\end{cases} x \\in \\mathbb{R}^d.\n\\]\n\\(h\\) is harmonic.\nProof:\nFor \\(d=2\\),\n\\[\n\\begin{align}\n\\triangle \\log(\\|x\\|) & = \\triangle \\log(\\sqrt{x_1^2 + x_2^2}) \\\\\n&= \\partial_1 (\\frac{x_1}{(x_1^2 + x_2^2)}) + \\partial_2 (\\frac{x_2}{x_1^2 + x_2^2}) \\\\\n&= \\frac{1}{x_1^2 + x_2^2} - \\frac{2 x_1^2}{(x_1^2 + x_2)^2} +  \\frac{1}{x_1^2 + x_2^2} - \\frac{2 x_2^2}{(x_1^2 + x_2)^2} \\\\\n&= 0.\n\\end{align}\n\\]\nFor \\(d \\geq 3\\), \\[\n\\begin{align}\n\\triangle \\|x\\|^{2 -d} &= \\nabla.(\\nabla \\|x\\|^{2-d}) \\\\\n&= \\nabla.((2-d)\\|x\\|^{-d}x) \\\\\n&= \\sum_{i=1}^d  ((2 -d)(-d/2) \\|x\\|^{-(d+2)} 2x^2_i + (2 -d) \\|x\\|^{-d}) \\\\\n&= (2-d) \\|x\\|^{-d} \\sum_{i=1}^d (1 - \\frac{d x_i^2}{\\|x\\|^2} ) \\\\\n&= (2 -d) \\|x\\|^{-d} (d - \\frac{d}{\\|x\\|^2} \\sum_{i=1}^d x_i^2 ) \\\\\n&= (2 -d) \\|x\\|^{-d} (d - \\frac{d}{\\|x\\|^2} \\|x \\|^2 ) \\\\\n&= 0.\n\\end{align}\n\\]\n\\[\\qed\\]\nFor \\(a, b \\in \\mathbb{R}\\), \\(a h(x) + b\\) is harmonic.\nProof:\n\\[\n\\triangle (a h(x) + b) = a \\triangle h(x) = 0.\n\\]\n\\[\\qed\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#waiting-time-for-d-2",
+    "href": "FCSC/ch6/ch6_exercises.html#waiting-time-for-d-2",
+    "title": "Exercises",
+    "section": "6.9 Waiting Time for \\(d > 2\\)",
+    "text": "6.9 Waiting Time for \\(d > 2\\)\nLet \\(B_t\\) be a \\(d\\)-dimensional Brownian motion. Define a process\n\\[\nM_t = \\sum_{i=1}^d (B_t^{(i)})^2 - dt\n\\] for \\(t \\geq 0\\).\nLet \\(f(t, x) = \\|x\\|^2 -dt\\) so that\n\\[\nM_t = f(t, B_t).\n\\]\nWe have\n\\[\n\\partial_0 f(t, x) = -d,\n\\] \\[\n\\partial_i f(t, x) = 2 x_i,\n\\] and \\[\n\\triangle f(t, x) = 2d.\n\\] Applying Itô’s formula, we see that \\[\n\\begin{align}\nM_t &= \\sum_{i=1}^d \\int_0^t 2 B_s^{(i)} d B_s^{(i)}\n\\end{align}\n\\] so \\(M_t\\) is a martingale.\nLet \\[\n\\tau = \\min \\{t \\geq 0: \\|B_t\\| \\geq 1 \\}.\n\\]\nThe stopped process \\(M_{\\tau \\wedge t}\\) is a martingale and\n\\[\n\\E_x(M_{\\tau \\wedge t}) = M_0 = \\|x\\|^2.\n\\] The LHS is \\[\n\\begin{align}\n\\E_x(M_{\\tau \\wedge t}) &= \\E_x(\\sum_{i=1}^d (B_{\\tau \\wedge t}^{(i)})^2) - d E_x( \\tau \\wedge t).\n\\end{align}\n\\]\nTaking the limit as \\(t \\to \\infty\\),\n\\[\n\\begin{align}\n\\|x\\|^2 &= \\underbrace{\\E_x(\\sum_{i=1}^d (B_\\tau^{(i)})^2)}_{\\text{bounded convergence thm}} - \\underbrace{d \\E_x(\\tau)}_{\\text{monotone convergence thm}} \\\\\n&= 1 - d \\E_x(\\tau).\n\\end{align}\n\\] Therefore,\n\\[\n\\E_x(\\tau) = \\frac{1}{d} (1 - \\|x\\|^2).\n\\]\n\n\n\n\n\n\nNote\n\n\n\nIt makes intuitive sense that the expected time to exit the unit ball for a Brownian motion starting at, say, the origin is \\(1/d\\). As \\(d\\) increases the expected time decreases as we only need one of the component, independent Brownian motions to leave the interval \\((-1, 1)\\). The more dimensions we have, the more possibilities there are for an exit event."
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_exercises.html#the-heat-equation",
+    "href": "FCSC/ch6/ch6_exercises.html#the-heat-equation",
+    "title": "Exercises",
+    "section": "6.10 The Heat Equation",
+    "text": "6.10 The Heat Equation\n\\[\nf(t, x) = \\E_x(g(B_t))\n\\] where \\(B_t\\) is a Brownian motion starting at \\(x\\). This can be rewritten as \\[\nf(t, x) = \\E(g(x + B_t))\n\\] where \\(B_t\\) is a Brownian motion starting at \\(0\\).\nAs an integral \\[\nf(t, x) = \\int g(x +y) \\frac{e^{-\\frac{\\|y\\|^2}{2t}}}{(2\\pi t)^{d/2}} dy.\n\\]\nTaking the derivative inside the integral \\[\n\\begin{align}\n\\partial_0 f(t, x) &= \\int g(x + y) ((\\|y\\|^2/(2t^2))(2\\pi t)^{d/2} - (d/2)(2 \\pi t)^{d/2 -1} 2 \\pi)e^{\\frac{-\\|y\\|^2}{2t}})/(2 \\pi t)^d dy \\\\\n&= \\int g(x + y) (\\|y\\|^2/(2t^2) - d/(2t)) \\frac{e^{\\frac{-\\|y\\|^2}{2t}}}{(2 \\pi t)^d} dy \\\\\n&= \\E(g(x+ B_t)(\\|B_t\\|^2/(2t^2) - d/(2t))).\n\\end{align}\n\\]\nTaking the Laplacian inside the integral \\[\n\\begin{align}\n\\triangle f(t, x) &= \\int \\triangle g(x + y) \\frac{e^{\\frac{-\\|y\\|^2}{2t}}}{(2 \\pi t)^{d/2}} dy \\\\\n&= \\sum_{i=1}^{d} \\E(\\partial^2_i g(x + B_t)) \\\\\n&= \\sum_{i=1}^{d} \\E(((B_t^{(i)})^2/t^2 - 1/t)g(x + B_t)) \\\\\n&= \\E(g(x + y)(\\|B_t\\|^2/t^2 - d/t)) \\\\\n&= 2 \\partial_0 f(t, x).\n\\end{align}\n\\]\n\n\n\n\n\n\nNote\n\n\n\nGaussian integration by parts \\[\n\\E(F'(Z)) = \\E(Z F(Z))\n\\] for a standard Gaussian \\(Z\\). For a Brownian motion,\n\\[\nG(B_t) = G(\\sqrt{t} Z) = F(Z).\n\\]\n\\[\nF'(Z) = G'(\\sqrt{t} Z) \\sqrt{t} = G'(B_t) \\sqrt{t}.\n\\]\nTherefore, \\[\n\\E(F'(Z)) = \\E(G'(B_t) \\sqrt{t}) = \\E(Z F(Z)) = \\E(\\frac{1}{\\sqrt{t}} B_t G(B_t)).\n\\] That is \\[\nt \\E(G'(B_t)) = \\E(B_t G(B_t)).\n\\]\nDefine\n\\[\nH(x) = x G(x)\n\\] so that \\[\nH'(x) = xG'(x) + G(x).\n\\] Then \\[\n\\begin{align}\n\\E(H'(B_t)) &= \\E(\\frac{1}{t} B_t H(B_t)) \\\\\n&= \\E(\\frac{1}{t}B_t(\\frac{1}{t} B_t G(B_t))) \\\\\n&= \\E(\\frac{B_t^2}{t^2} G(B_t)).\n\\end{align}\n\\] Therefore, \\[\n\\begin{align}\n\\E(G''(B_t)) &= \\E(\\frac{B_t^2}{t^2} G(B_t) - \\frac{1}{t}G(B_t)) \\\\\n&= \\E((\\frac{B_t^2}{t^2} - \\frac{1}{t}) G(B_t)).\n\\end{align}\n\\]\nSimilar relations hold when \\(G: \\mathbb{R}^d \\to \\mathbb{R}\\) takes as argument a \\(d\\)-dimensional Brownian motion:\n\\[\nt \\E(\\partial_i G(B_t)) = \\E(B^{(i)}_t G(B_t)),\n\\] and \\[\n\\E(\\partial_i^2 G(B_t) = \\E((\\frac{(B^{(i)}_t)^2}{t^2} - \\frac{1}{t}) G(B_t)).\n\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_experiments.html",
+    "href": "FCSC/ch6/ch6_experiments.html",
+    "title": "Experiments",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\Cov}{\\operatorname{Cov}}\n\\newcommand{\\Var}{\\operatorname{Var}}\n\\newcommand{\\E}{\\operatorname{E}}\n\\newcommand{\\P}{\\operatorname{P}}\n\\newcommand{\\rank}{\\operatorname{rank}}\n\\newcommand{\\trace}{\\operatorname{trace}}\n\\newcommand{\\sgn}{\\operatorname{sgn}}\n\\newcommand{\\F}{\\mathcal{F}}\n\\newcommand{\\G}{\\mathcal{G}}\n\\newcommand{\\qed}{\\tag*{$\\square$}}\n\\def\\iddots{{\\kern3mu\\raise1mu{.}\\kern3mu\\raise6mu{.}\\kern3mu\n\\raise12mu{.}}}\n\\]"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_experiments.html#d-brownian-motion",
+    "href": "FCSC/ch6/ch6_experiments.html#d-brownian-motion",
+    "title": "Experiments",
+    "section": "6.1 2D Brownian Motion",
+    "text": "6.1 2D Brownian Motion\nConsider a two-dimensional Brownian motion \\((B_t^{(1)}), B_t^{(2)})\\) starting at \\((0, 0)\\).\n\n(a)\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef brownian(increments, start = 0, end = 5):\n  delta = (end -start)/increments\n  return np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments - 1)])\n\n\ndef twoD_brownian(increments, start = 0, end = 5):\n  return [brownian(increments, start, end), brownian(increments, start, end)]\n\npath = twoD_brownian(1000)\nplt.plot(path[0], path[1])\nplt.plot(path[0][0], path[1][0], 'go')\nplt.plot(path[0][-1], path[1][-1], 'ro')\nplt.show()\n\n\n\n\n\npath = twoD_brownian(5000)\nplt.plot(path[0], path[1])\nplt.plot(path[0][0], path[1][0], 'go')\nplt.plot(path[0][-1], path[1][-1], 'ro')\nplt.show()\n\n\n\n\n\n\n(b)\n\nb = brownian(5000)\nW = [b, 0.5*b + np.sqrt(1-0.5**2)*brownian(5000)]\nplt.plot(W[0], W[1])\nplt.plot(W[0][0], W[1][0], 'go')\nplt.plot(W[0][-1], W[1][-1], 'ro')\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_experiments.html#brownian-martingales",
+    "href": "FCSC/ch6/ch6_experiments.html#brownian-martingales",
+    "title": "Experiments",
+    "section": "6.2 Brownian Martingales",
+    "text": "6.2 Brownian Martingales\n\nfig, axs = plt.subplots(10, 2)\nstart, end, increments = 0, 1, 100\ndelta = (end - start)/increments\nbrownian_paths = [ twoD_brownian(increments, start=start, end=end) for _ in range(10) ]\nfor idx, b in enumerate(brownian_paths):\n  X = [ b[0][i]**2 + b[1][i]**2 - 2*delta*i for i in range(increments) ]\n  Y = np.exp(b[0])*np.cos(b[1]) \n  axs[idx, 0].plot(X)\n  axs[idx, 0].plot(Y)\n\n  X = np.cumsum([2*b[0][i]*(b[0][i+1] - b[0][i]) + 2*b[1][i]*(b[1][i+1] - b[1][i]) for i in range(increments -1)])\n  Y = np.cumsum([np.exp(b[0][i])*np.cos(b[0][i])*(b[0][i+1] - b[0][i]) - np.exp(b[1][i])*np.sin(b[1][i])*(b[1][i+1] - b[1][i]) for i in range(increments -1) ])+ 1\n  axs[idx, 1].plot(X)\n  axs[idx, 1].plot(Y)\n\nplt.show()"
+  },
+  {
+    "objectID": "FCSC/ch6/ch6_experiments.html#dirichlet-problem",
+    "href": "FCSC/ch6/ch6_experiments.html#dirichlet-problem",
+    "title": "Experiments",
+    "section": "6.3 Dirichlet Problem",
+    "text": "6.3 Dirichlet Problem\n\\[\nh(x, y) = \\begin{cases}\n1 & \\text{ if } x^2 + y ^2 = 1 \\text{ and } y \\geq 0, \\\\\n-1 & \\text{ if } x^2 + y^2 =1 \\text { and } y < 0.\n\\end{cases}\n\\]\n\nstart_point = np.array([0, 1/2])\n\n\ndef h(start, delta=1/100):\n  pos = start.copy()\n  for _ in range(100):\n    r = pos[0]**2 + pos[1]**2\n    if r >= 1:\n      break\n    pos += np.random.default_rng().normal(0, np.sqrt(delta), 2)\n  return 1 if pos[1] >= 0 else -1\n\nnp.average([h(start_point) for _ in range(1000)])\n\n0.564\n\n\n\nn = 200\nmap = np.zeros([n, n])\nfor i, x in enumerate(np.linspace(-1, 1, n)):\n  for j, y in enumerate(np.linspace(-1, 1, n)):\n    map[j, i] = np.average([h([x, y], delta=1/10) for _ in range(100)])\n\nplt.imshow(map)\n\n<matplotlib.image.AxesImage at 0x7f44a80f3130>"
+  },
+  {
     "objectID": "FCSC/ch3/ch3_experiments.html",
     "href": "FCSC/ch3/ch3_experiments.html",
     "title": "Experiments",
