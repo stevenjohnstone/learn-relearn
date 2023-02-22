@@ -1,0 +1,116 @@
+---
+title: "Computer Experiments"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+## 6.1 2D Brownian Motion
+
+Consider a two-dimensional Brownian motion $(B_t^{(1)}, B_t^{(2)})$ starting at $(0, 0)$.
+
+#### (a)
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def brownian(increments, start = 0, end = 5):
+  delta = (end -start)/increments
+  return np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments - 1)])
+
+
+def twoD_brownian(increments, start = 0, end = 5):
+  return [brownian(increments, start, end), brownian(increments, start, end)]
+
+path = twoD_brownian(1000)
+plt.plot(path[0], path[1])
+plt.plot(path[0][0], path[1][0], 'go')
+plt.plot(path[0][-1], path[1][-1], 'ro')
+plt.show()
+  
+```
+
+```{python}
+path = twoD_brownian(5000)
+plt.plot(path[0], path[1])
+plt.plot(path[0][0], path[1][0], 'go')
+plt.plot(path[0][-1], path[1][-1], 'ro')
+plt.show()
+```
+
+#### (b)
+
+```{python}
+b = brownian(5000)
+W = [b, 0.5*b + np.sqrt(1-0.5**2)*brownian(5000)]
+plt.plot(W[0], W[1])
+plt.plot(W[0][0], W[1][0], 'go')
+plt.plot(W[0][-1], W[1][-1], 'ro')
+plt.show()
+```
+
+## 6.2 Brownian Martingales
+
+
+```{python}
+fig, axs = plt.subplots(10, 2)
+start, end, increments = 0, 1, 100
+delta = (end - start)/increments
+brownian_paths = [ twoD_brownian(increments, start=start, end=end) for _ in range(10) ]
+for idx, b in enumerate(brownian_paths):
+  X = [ b[0][i]**2 + b[1][i]**2 - 2*delta*i for i in range(increments) ]
+  Y = np.exp(b[0])*np.cos(b[1]) 
+  axs[idx, 0].plot(X)
+  axs[idx, 0].plot(Y)
+
+  X = np.cumsum([2*b[0][i]*(b[0][i+1] - b[0][i]) + 2*b[1][i]*(b[1][i+1] - b[1][i]) for i in range(increments -1)])
+  Y = np.cumsum([np.exp(b[0][i])*np.cos(b[0][i])*(b[0][i+1] - b[0][i]) - np.exp(b[1][i])*np.sin(b[1][i])*(b[1][i+1] - b[1][i]) for i in range(increments -1) ])+ 1
+  axs[idx, 1].plot(X)
+  axs[idx, 1].plot(Y)
+
+plt.show()
+
+```
+
+## 6.3 Dirichlet Problem
+
+$$
+h(x, y) = \begin{cases}
+1 & \text{ if } x^2 + y ^2 = 1 \text{ and } y \geq 0, \\
+-1 & \text{ if } x^2 + y^2 =1 \text { and } y < 0.
+\end{cases}
+$$
+
+```{python}
+start_point = np.array([0, 1/2])
+
+
+def h(start, delta=1/100):
+  pos = start.copy()
+  for _ in range(100):
+    r = pos[0]**2 + pos[1]**2
+    if r >= 1:
+      break
+    pos += np.random.default_rng().normal(0, np.sqrt(delta), 2)
+  return 1 if pos[1] >= 0 else - 1
+
+np.average([h(start_point) for _ in range(1000)])
+```
+
+```{python}
+n = 200
+map = np.zeros([n, n])
+for i, x in enumerate(np.linspace(-1, 1, n)):
+  for j, y in enumerate(np.linspace(-1, 1, n)):
+    map[j, i] = np.average([h([x, y], delta=1/10) for _ in range(100)])
+
+plt.imshow(map)
+```

@@ -1,0 +1,1059 @@
+---
+title: "Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+## 7.1 SDE of Brownian Bridge
+
+$Z_0 = Z_1 = 0$ and
+$$
+\begin{align}
+Z_t = (1-t) \int_0^t \frac{d B_s}{1 - s}, && 0 < t < 1.
+\end{align}
+$$
+
+$Z_t$ satisfies the SDE 
+
+$$
+d Z_t = d B_t - \frac{Z_t}{1-t} dt.
+$$
+
+Proof:
+
+$Z_t$ is an explicit function of $t$ and of the Itô process
+
+$$
+X_t = \int_0^t \frac{d B_s}{1 -s}.
+$$
+That is,
+
+$$
+Z_t = f(t, X_t)
+$$
+where
+$$
+f(t, x) = (1 - t) x.
+$$
+
+Now,
+
+$$
+d X_t = \frac{1}{1-t} d B_t
+$$
+so
+$$
+V_t = \frac{1}{1-t},
+$$
+and
+$$
+D_t = 0.
+$$
+
+
+Using Itô's formula for Itô processes
+$$
+\begin{align}
+d Z_t &= \partial_1 f(t, X_t)V_t d B_t + \left( \partial_0 f(t, X_t) + \frac{V_t^2}{2} \partial_1^2 f(t, X_t) + D_t \partial_1 f(t, X_t)\right) dt \\
+ &= (1 - t) V_t d B_t + \left( -X_t + (1-t) D_t \right)dt \\
+ &= d B_t - X_t dt \\
+ &= d B_t - \frac{Z_t}{1-t} dt.
+\end{align}
+$$
+$$
+\qed
+$$
+
+::: {.callout-note}
+The local drift acts to force the motion towards the x-axis with a force which increases with the distance from
+the axis and increasing as time tends to zero.
+:::
+
+## 7.2 Ornstein-Uhlenbeck Process with Parameters
+
+The solution of the SDE
+$$
+\begin{align}
+d Y_t = -k Y_t dt + \sigma d B_t, && k\in \mathbb{R}, \sigma > 0
+\end{align}
+$$
+is
+$$
+Y_t = Y_0 e^{-kt} + e^{-kt} \int_0^t e^{ks} \sigma dB_s.
+$$
+
+Proof:
+
+$Y_t$ is an explicit function of $t$ and an Itô process $X_t$ given by
+$$
+X_t = Y_0 + \int_0^t e^{ks} \sigma d B_s.
+$$
+$X_t$ is a diffusion with drift
+$$
+D_t = 0,
+$$
+and volatility
+$$
+V_t = e^{kt} \sigma.
+$$
+In fact, defining
+$$
+f(t, x) = e^{-kt} x
+$$
+we have
+$$
+Y_t = f(t, X_t).
+$$
+
+Using Itô's formula for Itô processes, we see that
+$$
+\begin{align}
+d f(t, X_t) &= e^{-kt} e^{kt} \sigma d B_t -ke^{kt} \sigma dt \\
+&= \sigma d B_t - k Y_t dt.
+\end{align}
+$$
+
+The proof is complete by noting that
+
+$$
+d f(t, X_t) = f(t, X_t) - f(0, X_0) = Y_t - Y_0.
+$$
+$$\qed$$
+
+## 7.3 Generalized Geometric Brownian Motion
+The process $(M_t)$ defined by
+$$
+\begin{align}
+M_t = \exp\left(\int_0^t \sigma(s) dB_s - \frac{1}{2} \int_0^t \sigma^2(s) ds\right), && t \leq T
+\end{align}
+$$
+is a Martingale for the Brownian filtration, whenever
+$$
+\int_0^T \sigma^2(t) dt < \infty.
+$$
+
+Proof:
+
+We can express $M_t$ in terms of a Wiener integral
+
+$$
+X_t = \int_0^t \sigma(s) d B_s.
+$$
+
+Since
+$$
+\int_0^T \sigma^2(t) dt < \infty
+$$
+the process $(X_t, t \in[0, T])$ is Gaussian with mean zero and variance
+$$
+\E(X_t^2) = \int_0^t \sigma^2(s) ds.
+$$
+
+We write
+$$
+\begin{align}
+\E(M_t | \F_s) & = \E(M_s \exp(X_t - X_s - \frac{1}{2}\int_s^t \sigma^2(u) du)) | \F_s) \\
+&= \exp(-\frac{1}{2}\int_s^t \sigma^2(u) du) M_s \E(\exp(X_t -X_s)|\F_s)
+\end{align}
+$$
+and so if we can show that
+$$
+\E(\exp(X_t - X_s) | \F_s) = \exp(\frac{1}{2}\int_s^t \sigma^2(u) du),
+$$
+then the proof is complete.
+
+Suppose that $\sigma$ is a simple function. Then the random variable $X_t - X_s$ is a sum of Brownian increments independent of $\F_s$ and so
+$X_t - X_s$ is independent of $\F_s$. It follows that $\exp(X_t - X_s)$ is independent of $\F_s$ and so
+
+$$
+\E(\exp(X_t - X_s) | \F_s) = \E(\exp(X_t - X_s)).
+$$
+
+$X_t - X_s$ is Gaussian with mean zero and variance
+
+$$
+\begin{align}
+\E((X_t - X_s)^2) &= \E(X_t^2) + \E(X_s^2) - 2\E(X_s X_t) \\
+&= \int_0^t \sigma^2(u) du + \int_0^s \sigma^2(u) du - 2 \int_0^s \sigma^2(u) du \\
+&= \int_s^t \sigma^2(u) du.
+\end{align}
+$$
+The expectation of the moment generating function of such a Gaussian is
+$$
+\E(\exp(X_t - X_s)) = \exp(\frac{1}{2} \int_s^t \sigma^2(u) du).
+$$
+
+Now, suppose that $\sigma$ is non-negative and measurable. It can be approximated by a non-decreasing sequence of simple functions $\sigma_n$ such that $\sigma_n \leq \sigma$. Denote by $X_t^{(n)}$ the process corresponding to $\sigma_n$. For $A \in \F_s$
+
+$$
+\begin{align}
+\lim_{n\to\infty} \int_A \E(X_t^{(n)} - X_s^{(n)} | \F_s) dP &= \lim_{n\to \infty} \exp(-\frac{1}{2}\int_s^t \sigma_n^2(u) du) \P(A) \\
+&= \exp(-\frac{1}{2} \int_s^t \sigma^2(u) du) \P(A)
+\end{align}
+$$
+using the continuity of $\exp$ and the dominated convergence theorem to take the limit inside the integral. In addition,
+
+$$
+\begin{align}
+\int_A \exp(X_t - X_s) dP &= \int_A \lim_{n\to \infty} \exp(X_t^{(n)} - X_s^{(n)}) dP \\
+&= \lim_{n\to\infty} \int_A \exp(X_t^{(n)} - X_s^{(n)}) dP \\
+&= \exp(-\frac{1}{2} \int_s^t \sigma^2(u) du) \P(A),
+\end{align}
+$$
+again, using dominated convergence.
+That is, for $A \in \F_s$,
+$$
+\int_A \exp(\frac{1}{2} \int_s^t \sigma^2(u) du) dP = \int_A \exp(X_t - X_s) dP
+$$
+and so
+$$
+\E(\exp(X_t - X_s)|\F_s) = \exp(\frac{1}{2} \int_s^t \sigma^2(u) du).
+$$
+
+For general, measurable $\sigma$ we split the function into postive and negative parts, $\sigma_+$ and $\sigma_-$, respectively i.e.
+$$
+\sigma = \sigma_+ - \sigma_-.
+$$
+$$
+\qed
+$$
+
+## 7.4 A Covariance Process
+
+Let
+$$
+\begin{align}
+X_t = \int_0^t (1 - s) d B_s, && Y_t = \int_0^t (1 + s) d B_s.
+\end{align}
+The covariance process $(X_t Y_t, t \geq 0)$ is not a martingale.
+
+Proof:
+
+$X_t$ is an Itô process with volatility $(1-t)$ and zero drift; $Y_t$ is an Itô process with volatility $(1+t)$ and zero drift. Using the multivariate Itô formula with
+$$
+f(x, y) = xy
+$$
+gives
+$$
+\begin{align}
+X_t Y_t &= Y_t dX_t + X_t dY_t + (1-t)(1+t) dt.
+\end{align}
+$$
+
+The $dt$ term is non-zero, so $X_t Y_t$ cannot be a martingale.
+
+$$
+\qed
+$$
+
+## 7.5 Practice on Product Rule
+
+Let
+$$
+X_t = \int_0^t (1 - 2s) d B_s
+$$
+for $t \geq 0$.
+
+#### (a)
+$X_t$ is a Wiener intergral, so the process is Gaussian with mean zero and variance
+$$
+\begin{align}
+\E(X_t^2) &= \int_0^t (1 - 2s)^2 ds \\
+&= t - 2t^2 + \frac{4}{3} t^3 \\
+\end{align}
+$$
+
+
+#### (b)
+
+Using Itô's product rule
+
+$$
+\begin{align}
+d(X_t B_t) &= X_t dB_t + B_t dX_t + (1 - 2t) dt \\
+&= X_t dB_t + B_t (1 - 2t) dB_t + (1 - 2t) dt
+\end{align}
+$$
+or in integral form
+$$
+X_t B_t  = \int_0^t X_s dB_s + \int_0^t (1 - 2s) B_s d B_s + \int_0^t (1 - 2s) ds.
+$$
+
+#### (c)
+
+When $X_t$ and $B_t$ are uncorrelated,
+
+$$
+\E(X_t B_t) = 0.
+$$
+
+From (c), this is when
+
+$$
+\E(\int_0^t X_s d B_s) + \E(\int_0^t (1 - 2s) B_s d B_s) + \E(\int_0^t (1 - 2s) ds) = 0.
+$$
+
+Since the first two terms of the LHS are zero, this reduces to finding $t$ such that
+
+$$
+t - t^2  = 0.
+$$
+That is, $X_t$ and $B_t$ are uncorrelated at $t = 0$ and $t =1$.
+
+#### (d)
+
+$(X_1, B_1)$ are jointly Gaussian.
+
+Proof:
+
+For $\alpha, \beta \in \mathbb{R}$
+
+$$
+\begin{align}
+\alpha X_1 + \beta B_1 &= \alpha \int_0^1 (1 - 2s) d B_s + \beta \int_0^1 dB_s \\
+&= \int_0^1 (\alpha(1-2s) + \beta) d B_s.
+\end{align}
+$$
+So, the linear combination is a Wiener integral and so is Gaussian.
+
+$$
+\qed
+$$
+
+#### (e)
+
+$X_1$ and $B_1$ are independent.
+
+Proof:
+
+$X_1$ and $B_1$ are jointly Gaussian and uncorrelated and are thus independent.
+
+$$
+\qed
+$$
+
+## 7.6 Review of Itô Integrals
+
+Let $(B_t, t \in [0, 1])$ be a standard Brownian motion. Define on $[0,1]$
+$$
+\begin{align}
+X_t = \int_0^t B_s ds, && Y_t = \int_0^t s dB_s.
+\end{align}
+$$
+
+#### (a)
+
+$Y_t$ is a Gaussian process with mean zero and variance
+$$
+\begin{align}
+\E(Y_t^2) &= \int_0^t s^2 ds \\
+&= \frac{t^3}{3}.
+\end{align}
+$$
+
+#### (b)
+
+Using the Itô isometry
+
+$$
+\begin{align}
+\E(B_t Y_t) &= \int_0^t s ds \\
+&= \frac{t^2}{2}.
+\end{align}
+$$
+
+#### (c)
+
+Using Itô's product rule (and the fact that $X_t$ has zero volatility)
+
+$$
+\begin{align}
+d(X_t Y_t) &= X_t dY_t + Y_t dX_t \\
+&= X_t t dB_t + Y_t B_t dt.
+\end{align}
+$$
+
+Then
+
+$$
+\begin{align}
+\E(X_t Y_t) &= \E(\int_0^t X_s s dB_s) + \E(\int_0^t Y_s B_s ds) \\
+&= \int_0^t \E(Y_s B_s) ds \\
+&= \int_0^t s^2/2 ds \\
+&= \frac{t^3}{6}.
+\end{align}
+$$
+
+#### (d)
+
+$$
+\begin{align}
+\rho(X_1, Y_1) &= \frac{\E(X_1 Y_1)}{\underbrace{\sqrt{\E(X_1^2)}}_{\text{use Fubini's theorem}}\sqrt{\E(Y_1^2)}} \\
+&= \frac{1/6}{\sqrt{(1/3)(1/3)}} \\
+&= \frac{1}{2}.
+\end{align}
+$$
+
+## 7.7 Exercise on Stochastic Calculus
+
+Let
+$$
+\begin{align}
+Y_t = e^t dB_t, && Y_0 = 0.
+\end{align}
+$$
+
+Let
+$$
+\tau = \min_{t \geq 0} \{ Y_t = 1 \text{ or } Y_t = -1\}.
+$$
+
+Then
+
+$$
+\E(\tau) \leq \log(3)/2.
+$$
+
+Proof:
+
+#### (a)
+Find a PDE for $f(t, x)$ satisfied whenever $f(t, Y_t)$ is a martingale.
+
+$$
+\begin{align}
+df(t, Y_t) &= \partial_1 f(t, Y_t) e^t dB_t + \left( \partial_0 f(t, Y_t) + \frac{e^{2t}}{2} \partial_1^2 f(t, Y_t)\right) dt \\
+\end{align}
+$$
+and so $f(t, Y_t)$ is a martingale when
+
+$$
+\partial_0 f(t, x) + \frac{e^{2t}}{2} \partial_1^2 f(t, x) = 0.
+$$
+
+
+#### (b)
+
+$$
+f(t, x) = x^2 - \frac{e^{2t}}{2}
+$$
+satisfies the PDE:
+
+$$
+\begin{align}
+\partial_0 (x^2 - \frac{e^{2t}}{2}) + \frac{e^{2t}}{2} \partial_1^2(x^2 - \frac{e^{2t}}{2}) &= \\
+-e^{2t} + e^{2t} &= \\
+0.
+\end{align}
+$$
+
+Then
+$$
+Y_t^2 - \frac{e^{2t}}{2} = \int_0^t B_s e^s d B_s - 1/2.
+$$
+
+#### (c)
+
+$\tau$ is a stopping time. The stopped process $Y^2_{\tau \wedge t} - \frac{e^{2(\tau \wedge t)}}{2}$ is a martingale and
+
+$$
+\begin{align}
+\E(Y^2_{\tau \wedge t} - \frac{e^{2(\tau \wedge t)}}{2})  &= E(Y^2_{0} - 1/2) \\
+&= -1/2.
+\end{align}
+$$
+
+By the dominated convergence theorem
+
+$$
+\lim_{t \to \infty} E(Y^2_{\tau \wedge t}) = \E(Y^2_{\tau}) = 1.
+$$
+
+Using the continuity of the exponential and the monotone convergence theorem 
+
+$$
+\lim_{t \to \infty} \E(e^{2(\tau \wedge t)}) = \lim_{t \to \infty} \E(e^{2(\tau \wedge t)}) = \E(e^{2\tau}).
+$$
+Therefore,
+
+$$
+1 - \E(\frac{e^{2\tau}}{2}) = -1/2
+$$
+and so
+
+$$
+\E(e^{2 \tau}) = 3.
+$$
+
+#### (d)
+
+Using Jensen's inequality,
+
+$$
+\exp(\E(2\tau)) \leq \E(e^{2 \tau}) = 3.
+$$
+Therefore,
+
+
+```{python}
+#| echo: false
+
+from IPython.display import display_markdown
+import math
+
+display_markdown(f'$$\\E(\\tau) \leq \\log(3)/2 \\approx {math.log(3)/2}$$', raw=True)
+```
+
+::: {.callout-note}
+Appears to be a mistake in the question. We are asked to show that
+$$
+\E(\tau) \leq 0.347\ldots
+$$
+which would mean showing that
+$$
+\E(\tau) \leq \log(2)/2.
+$$
+:::
+
+## 7.8 An Exercise on the CIR Model
+
+Let
+$$
+\begin{align}
+d X_t = \frac{1}{2} dt + \sqrt{X_t} d B_t, && X_0 = 1.
+\end{align}
+$$
+
+#### (a)
+
+$$
+\begin{align}
+df(t, X_t) &= \partial_1 f(t, X_t) \sqrt{X_t} d B_t + \left(\partial_0 f(t, X_t) + \frac{X_t}{2} \partial_1^2 f(t, X_t) + \frac{1}{2} \partial_1 f(t, X_t)\right) dt.
+\end{align}
+$$
+
+#### (b)
+
+$f(t, X_t)$ is a martingale when
+
+$$
+\partial_0 f(t, x) + \frac{x}{2} \partial_1^2 f(t, x) + \frac{1}{2}\partial_1 f(t, x) = 0.
+$$
+
+#### (c)
+
+$\log(X_t)$ and $t - 2 X_t$ are martingales because $\log(x)$ and $t - 2x$ satisfy the PDE.
+
+#### (d)
+Let
+
+$$
+\tau = \min_{t \geq 0} \{ X_t = e \text{ or } X_t = e^{-1} \}.
+$$
+
+$\tau$ is a stopping time. The stopped process $\log(X_{\tau \wedge t})$ is a martingale and
+$$
+\E(\log(X_{\tau \wedge t})) = \E(\log(1)) = 0.
+$$
+
+Using the monotone convergence theorem
+
+$$
+\lim_{t \to \infty} \E(\log(X_{\tau \wedge t})) = \E(\log(X_{\tau})) = 0.
+$$
+
+Since $X_{\tau}$ takes only two values
+$$
+\begin{align}
+\E(\log(X_{\tau})) &=  \log(e) \P(X_{\tau} = e) + \log(e^{-1}) (1 - \P(X_{\tau} = e)) \\
+&= 2 \P(X_{\tau} = e) - 1 \\
+&= 0
+\end{align}
+$$
+i.e.
+$$
+\P(X_{\tau} = e) = \frac{1}{2}.
+$$
+
+#### (e)
+
+$t - 2 X_t$ is a martingale and so the stopped process
+
+$$
+t \wedge \tau - 2 X_{\tau \wedge t}
+$$
+is also a martingale. In particular,
+
+$$
+\E(\tau \wedge t - 2 X_{\tau \wedge t}) = -2.
+$$
+
+Taking the limit as $t \to \infty$ and using the monotime convergence theorem
+$$
+\lim_{t \to \infty} \E(\tau \wedge t) = \E(\tau).
+$$
+The process $X_{\tau \wedge t}$ is bounded by $e$, so the dominated convergence theorem gives
+$$
+\lim_{t \to \infty} \E(X_{\tau \wedge t}) = \E(X_{\tau}).
+$$
+Therefore,
+$$
+\E(\tau) = 2\E(X_{\tau}) - 2.
+$$
+$X_{\tau}$ takes only two values, therefore
+
+$$
+\begin{align}
+\E(\tau) &= 2 (\P(X_{\tau} = e) e - (1 - \P(X_{\tau} = e)) e^{-1})) - 2 \\
+&= e- e^{-1} - 2 \\
+&= 2 \sinh(1) - 2.
+\end{align}
+$$
+
+## 7.9 Solving an SDE
+
+Let
+$$
+\begin{align}
+d X_t = -\frac{X_t}{2 -t}dt + \sqrt{t (2 -t)} d B_t,&& 0 \leq t < 1, && X_0 = 0.
+\end{align}
+$$
+
+Suppose the solution is of the form
+
+$$
+\begin{align}
+X_t = a(t) Y_t, && Y_t = \int_0^t b(s) dB_s,
+\end{align}
+$$
+for some smooth functions $a, b$.
+
+$$
+f(t, y) = a(t) y
+$$
+
+$$
+\begin{align}
+d X_t &= \partial_1 f(t, Y_t) b(t) dB_t + \left( \partial_0 f(t, Y_t) + \frac{b(t)^2}{2} \partial_1^2 f(t, Y_t)\right) dt \\
+&= a(t) b(t) d B_t + a'(t)Y_tdt.
+\end{align}
+$$
+
+Equating the drift terms gives
+$$
+a'(t) = \frac{a(t)}{t -2}.
+$$
+
+The solution is
+$$
+a(t) = C (t - 2)
+$$
+for a constant $C$.
+
+Equating the volatility terms gives
+
+$$
+a(t) b(t) = \sqrt{t(2 -t)}.
+$$
+
+We can write
+
+$$
+X_t = (2 - t) \int_0^t \sqrt{\frac{s}{2 -s}} d B_s.
+$$
+
+For each $t \in [0, 1)$, $X_t$ has Gaussian distribution with mean zero, because it is a constant times
+a Wiener integral. The covariance is given by
+$$
+\begin{align}
+\E(X_t X_s) &= (2 -t) (2 -s) \int_0^s \frac{u}{2 -u} du \\
+&= (2 -t) (2 -s) \left( -s - 2\log(2 -s) + \log(4) \right) \\
+&= (2 -t) (2 -s) \left( \log\left(\frac{4}{(2-s)^2}\right) - s\right) \\
+\end{align}
+$$
+for $0 \leq s \leq t < 1$.
+
+## 7.10 Practice on SDEs
+
+Let $B_t$ and $C_t$ be two independent Brownian motions. Let $Y_t$ be a continuous, apapted process. Let
+$$
+W_t = \int_0^t \frac{1}{\sqrt{1 + Y_s^2}} d B_s + \int_0^t \frac{Y_s}{\sqrt{1 + Y_s^2}} d C_s.
+$$
+
+#### (a)
+
+$W_t$ is a standard Brownian motion.
+
+Proof:
+
+$W_t$ is the sum of two independent Gaussian processes with mean zero.
+Therefore, $W_t$ is a Gaussian process with mean zero.
+
+For $0 \leq s \leq t < \infty$ 
+$$
+\begin{align}
+\E(W_tW_s) &= \E(\int_0^t \frac{1}{\sqrt{1 + Y_s^2}} d B_s\int_0^s \frac{1}{\sqrt{1 + Y_s^2}} d B_s) \\
+&+ \E(\int_0^t \frac{Y_s}{\sqrt{1 + Y_s^2}} d C_s \int_0^s \frac{Y_s}{\sqrt{1 + Y_s^2}} d C_s) \\
+&= \int_0^s \E(\frac{1}{1+ Y_u^2})  du + \int_0^s \E(\frac{Y_u^2}{1 + Y_u^2} ) du \\
+&= \int_0^s \E(\frac{1 + Y_u^2}{1 + Y_u^2}) du \\
+&= s.
+\end{align}
+$$
+
+To complete the proof, it must be shown that $W_t$ is continuous. If we assume that
+$$
+\int_0^T \E(Y_s^2) ds < \infty,
+$$
+then
+$$
+Y_t \in L^2_c(T).
+$$
+It follows that the Itô integrals which define $W_t$ are continous and so $W_t$ is continous.
+$$
+\qed
+$$
+
+#### (b)
+Let 
+
+$$
+X_t = \sinh(W_t) = \frac{e^{W_t} - e^{-W_t}}{2}.
+$$
+
+$$
+f(t, x) = \sinh(x)
+$$
+and
+
+$$
+\partial_0 f(t, x) = 0,
+$$
+$$
+\partial_1 f(t, x) = \cosh(x),
+$$
+and
+$$
+\partial_1^2 f(t, x) = \sinh(x).
+$$
+
+Using Itô's formula and the fact that $W_t$ is a standard Brownian motion
+$$
+\begin{align}
+d X_t &= \cosh(W_t) d W_t + \frac{1}{2} \sinh(W_t) dt \\
+&= \sqrt{1 + \sinh^2(W_t)} d W_t + \frac{1}{2} \sinh(W_t) dt \\
+&= \sqrt{1 + X_t^2} d W_t + \frac{X_t}{2} dt.
+\end{align}
+$$
+
+#### (c)
+
+The process
+$$
+Y_t = e^{C_t} \int_0^t e^{-C_s} dB_s
+$$
+satisfies the SDE
+$$
+\begin{align}
+d Y_t = \sqrt{1 + Y_t^2} d W_t + \frac{Y_t}{2} dt, && Y_0 = 1.
+\end{align}
+$$
+
+Proof:
+
+Note first that
+
+$$
+\sqrt{1 + Y_t^2} d W_t = d B_t + Y_t d C_t.
+$$
+
+Define
+
+$$
+U_t = e^{C_t},
+$$
+and
+$$
+V_t = \int_0^t e^{-C_s} dB_s,
+$$
+so that
+$$
+Y_t = U_t V_t.
+$$
+Using Itô's formula
+$$
+dU_t = e^{C_t} d C_t + \frac{1}{2}e^{C_t} dt.
+$$
+Making use of the independence of $B_t$ and $C_t$,
+$$
+\begin{align}
+dY_t  &= d(U_t V_t) \\
+&= V_t dU_t + U_t d V_t \\
+&= U_t V_t d C_t + \frac{1}{2} e^{C_t} V_t dt + dB_t \\
+&= Y_t d C_t + d B_t + \frac{1}{2} Y_t dt \\
+&= \sqrt{1 + Y_t^2} d W_t + \frac{1}{2} Y_t dt.
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (d)
+
+For a standard Brownian motion $W_t$, the SDE 
+$$
+Y_t = \mu(Y_t) d W_t + \sigma(Y_t) dt
+$$
+
+has a unique solution (i.e if $Y_t$ and $Y'_t$ satisfy the SDE, then
+$$
+\P(Y_t = Y'_t) = 1
+$$
+for all $t$), if $\sigma$ and $\mu$ grow not faster than $Kx^2$, for some $K > 0$ and
+are differentiable with bounded derivatives.
+
+In the SDE considered here, $\mu$ and $\sigma$ satisfy the growth condition and
+have bounded derivatives:
+
+$$
+\mu'(x) = \frac{x}{\sqrt{1 + x^2}} \leq 1,
+$$
+and
+$$
+\sigma'(x) = 1/2.
+$$
+
+Therefore, the SDE has a unique solution: $Y_t$ and $X_t$ are both solutions so they must be
+equal with probability 1 for all $t$.
+
+## 7.11 Applications of Lévy's Characterisation
+
+Let $B_t$ be a Brownian motion in $\mathbb{R}^d$ for $d > 1$.
+The process
+$$
+R_t = \|B_t\|
+$$
+satisfies the SDE
+$$
+d R_t =d W_t + \frac{d -1}{2 R_t} dt,
+$$
+where
+
+$$
+d W_t = \sum_j \frac{B_t^{(j)}}{R_t} d B_t^{(j)}.
+$$
+
+The process $W_t$ is a standard Brownian motion.
+
+Proof:
+
+The Lévy characterisation can be leveraged: show that the quadratic variation satisfies
+$$
+\langle W \rangle_t = t
+$$
+and the fact that $W_t$ is a standard Brownian motion follows, so long as $W_t$ is a continous martingale
+with respect to the filtration $\F_t$.
+
+$$
+\begin{align}
+d\langle W \rangle_t &= (d W_t)^2 \\
+&= \sum_{i,j} \frac{B_t^{(i)} B_t^{(j)}}{R_?t^2} dB_t^{(i)} d B_t^{(j)} \\
+&= \sum_i \frac{(B_t^{(i)})^2}{R_t^2} dt \\
+& = dt.
+\end{align}
+$$
+That is,
+$$
+\langle W \rangle_t = t.
+$$
+
+To complete the proof, note that $W_t$ is a continous martingale.
+
+$$
+\qed
+$$
+
+## 7.12 SDE of the Bessel Process
+Let
+
+$$
+f(x) = \|x\|.
+$$
+
+For $i \geq 1$,
+$$
+\partial_i f(x) = \frac{x_i}{\|x\|},
+$$
+$$
+\partial_i^2 f(x) = \frac{1}{\|x\|} - \frac{x_i}{\|x\|^3},
+$$
+and
+$$
+\partial_0 f(x) = 0.
+$$
+Moreover,
+$$
+\Delta f(x) = \frac{d - 1}{\|x\|}.
+$$
+
+From the Itô formula
+
+$$
+\begin{align}
+d R_t &= d f(x) \\
+&= \sum_i \partial_i f(B_t) d B_t^{(i)} + \frac{1}{2}\Delta f(B_t) dt \\
+&= \sum_i \frac{B_t^{(i)}}{\|B_t\|} d B_t^{(i)} + \frac{d-1}{2 \|B_t\|} dt \\
+&= d W_t + \frac{d - 1}{2 \|R_t\|} dt.
+\end{align}
+$$
+
+## 7.13 Conditional Itô Isometry
+
+Let $(V_s, s \leq T)$ be a process in $\mathcal{S}(T)$. For $t \leq t'$,
+
+$$
+\E\left(\left.\left\{ \int_0^{t'} V_s d B_s - \int_0^t V_s d B_s\right\}^2 - \int_t^{t'} V_s^2 ds \right\vert \F_t \right) = 0.
+$$
+
+Proof:
+
+Let $(V_s) \in \mathcal{S}$ so that
+
+$$
+V_s = \sum_i^{n-1} Y_i \mathbb{1}_{[t_i, t_{i+1})}(s)
+$$
+where $Y_i$ is $\F_{t_i}$ measurable. Without loss of generality, it can be assumed that
+$t_k = t$ for some $k \leq n$: should $t$ not be one of $(t_i)$, it will be in some interval $[t_i, t_{i+1})$ which can be split into two intervals
+creating an extra term in the defining sum of $V_s$.
+
+With this setup
+
+$$
+\begin{align}
+\left\{\int_0^{t'} V_s d B_s - \int_0^t V_s d B_s\right\}^2 &= \left\{\sum_{i=k} Y_i(B_{t_{i+1}} - B_{t_i}) \right\}^2 \\
+&= \sum_{i, j \geq k} Y_i Y_j (B_{t_{i+1}} - B_{t_i})(B_{t_{j+1}} - B_{t_j}). 
+\end{align}
+$$
+
+The terms of the RHS where $i \leq j$ will vanish when take the conditional expectation:
+$$
+\begin{align}
+\E(\left. Y_i Y_j (B_{t_{i+1}} - B_{t_i})(B_{t_{j+1}} - B_{t_j})\right\vert\F_t) &= \E(\left.\E(\left.Y_i Y_j (B_{t_{i+1}} - B_{t_i})(B_{t_{j+1}} - B_{t_j})\right\vert \F_{t_j})\right\vert \F_t) \\
+&=\E\left(\left.\underbrace{Y_i Y_j (B_{t_{i+1}} - B_{t_i})}_{\F_{t_j} \text{ measurable}}\underbrace{\E(\left. (B_{t_{j+1}} - B_{t_j}) \right\vert \F_{t_j})}_{= 0 \text{ by martingale property}} \right\vert \F_t\right) \\
+&= 0.
+\end{align}
+$$
+
+This leaves only contribution of the square terms:
+
+$$
+\begin{align}
+\E\left.\left(\left\{\int_0^{t'} V_s d B_s - \int_0^t V_s d B_s\right\}^2\right\vert \F_t\right) &= \E\left(\left.\sum_{i=k} Y_i^2(B_{t_{i+1}} - B_{t_i})^2 \right\vert \F_t \right) \\
+&= \E\left(\left.\sum_{i=k} Y_i^2\E(\left.(B_{t_{i+1}} - B_{t_i})^2\right\vert \F_{t_i}) \right\vert \F_t \right) \\
+&= \E\left(\left.\sum_{i=k} Y_i^2(t_{i+1} - t_i) \right\vert \F_t \right) \\
+&= \sum_{i=k} \E(\left. Y_i^2 \right\vert \F_t) (t_{i+1} - t_i) \\
+&= \int_t^{t'} \E(\left. V_s^2 \right\vert \F_t) ds.
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+The theorem can be extended for $V = (V_t, t \leq T) \in L^2_c(T)$ by approximating $V$ by simple functions in $\mathcal{S}(T)$.
+
+$$
+\begin{align}
+\E((\int_{t}^{t'} V_{n,s} dB_s)^2) \to \E((\int_t^{t'} V_s dB_s)^2)
+\end{align}
+$$
+as $n \to \infty$.
+
+Moreover,
+$$
+\begin{align}
+\E((\int_{t}^{t'} V_{n,s} dB_s)^2)  = \int_t^{t'} \E(V_{n,s}^2) \to \int_t^{t'} \E(V_s^2) ds
+\end{align}
+$$
+as $n \to \infty$.
+
+Let
+$$
+I_{n,t'} = (\int_t^{t'} V_{n,s} d B_s)^2
+$$
+and
+$$
+R_{n,t'} = \int_t^{t'} \E(V_{n,s}^2) ds.
+$$
+
+For any $A \in \F_t$
+
+$$
+\begin{align}
+\int_A \E(I_{n,t'} \vert \F_t) dP &= \int_A I_{n,t'} dP \\
+&\to \int_A I_{t'} dP,
+\end{align}
+$$
+and
+$$
+\begin{align}
+\int_A E(R_{n, t'} \vert \F_t) dP &= \int_A R_{n, t'} dP \\
+&\to \int_A R_{t'} dP.
+\end{align}
+$$
+
+Since the isometry holds for $I_{n, t'}$ and $R_{n,t'}$, the two limits are equal:
+
+$$
+\int_A I_{t'} dP =  \int_A R_{t'} dP
+$$
+for any $A \in \F_t$ which means, by definition, that
+$$
+\E( I_{t'} \vert \F_t) = \E(R_{t'}\vert \F_t )
+$$
+or, what is the same,
+$$
+\E\left(\left.\left\{ \int_0^{t'} V_s d B_s - \int_0^t V_s d B_s\right\}^2 - \int_t^{t'} V_s^2 ds \right\vert \F_t \right) = 0.
+$$
+
+$$
+\qed
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
