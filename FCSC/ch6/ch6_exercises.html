@@ -178,6 +178,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../FCSC/ch6/ch6_experiments.html">
  <span class="dropdown-text">Chapter 6</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../FCSC/ch7/ch7_experiments.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -336,6 +340,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../FCSC/ch6/ch6_exercises.html" class="sidebar-item-text sidebar-link active">Exercises</a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">Chapter 7</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../FCSC/ch7/ch7_experiments.html" class="sidebar-item-text sidebar-link">Computer Experiments</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../FCSC/ch7/ch7_exercises.html" class="sidebar-item-text sidebar-link">Exercises</a>
   </div>
 </li>
       </ul>
@@ -514,8 +538,8 @@ Note
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    total_wins <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>total_wins<span class="op">/</span>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>0.312</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>0.274</code></pre>
 </div>
 </div>
 </section>
@@ -534,7 +558,7 @@ f(x, y) = x^2 + y^2
 f(B^{(1)}_s, B^{(2)}_s) &amp;= (B^{(1)}_t)^2 + (B^{(2)}_t)^2 \\
 &amp;= \int_0^t \partial_1 f(s, B^{(1)}_s, B^{(2)}_s) dB_s^{(1)} \\
 &amp;+ \int_0^t \partial_2 f(s, B^{(1)}_s, B^{(2)}_s) dB_s^{(2)} \\
-&amp;+ \frac{1}{2}\int_0^t (\partial_0 f(s, B^{(1)}_s, B^{(2)}_s) + \triangle f(s, B^{(1)}_s, B^{(2)}_s) ) ds \\
+&amp;+ \frac{1}{2}\int_0^t (\partial_0 f(s, B^{(1)}_s, B^{(2)}_s) + \Delta f(s, B^{(1)}_s, B^{(2)}_s) ) ds \\
 &amp;= \int_0^t 2 B_s^{(1)} dB_s^{(1)} + \int_0^t 2 B_s^{(2)} dB_s^{(2)} + 2t.
 \end{align}
 \]</span></p>
@@ -544,7 +568,7 @@ g(x, y) = \exp(x) \cos{y}
 <p><span class="math display">\[
 \begin{align}
 g(B_t^{(1)}, B_t^{(2)}) -g(B_0^{(1)}, B_0^{(2)}) &amp;= \exp(B_t^{(1)})\cos{B_t^{(2)}} - 1 \\
-&amp;= \sum_{i=1}^2 \int_0^t \partial_i g( B_s^{(1)}, B_s^{(2)})d B_s^{(i)} + \int_0^t (\partial_0 g(B_s^{(1)}, B_s^{(2)})) + \frac{1}{2} \triangle g(B_s^{(1)}, B_s^{(2)})) ds \\
+&amp;= \sum_{i=1}^2 \int_0^t \partial_i g( B_s^{(1)}, B_s^{(2)})d B_s^{(i)} + \int_0^t (\partial_0 g(B_s^{(1)}, B_s^{(2)})) + \frac{1}{2} \Delta g(B_s^{(1)}, B_s^{(2)})) ds \\
 &amp;= \int_0^t \exp(B_s^{(1)}) \cos{B_s^{(2)}} d B_s^{(1)} - \int_0^t \exp(B_s^{(1)})\sin{B_s^{(2)}} d B_s^{(2)}.
 \end{align}
 \]</span></p>
@@ -609,14 +633,14 @@ f(x, y) = xy
 \]</span> <span class="math display">\[
 \partial_2 f(x, y) = x,
 \]</span> and <span class="math display">\[
-\triangle f(x, y) = 0.
+\Delta f(x, y) = 0.
 \]</span>.</p>
 <p>It follows that</p>
 <p><span class="math display">\[
 B_t^{(1)}B_t^{(2)} = \int_0^t B_t^{(2)} dB_s^{(1)} + \int_0^t B_t^{(1)} dB_s^{(2)}.
 \]</span> Note that the Riemann integral part of the expression is zero because <span class="math inline">\(f\)</span> is harmonic.</p>
 <p>Since, trivially, <span class="math display">\[
-\partial_0 f(x,y) = -frac{1}{2} \triangle f(x, y),
+\partial_0 f(x,y) = -\frac{1}{2} \Delta f(x, y),
 \]</span></p>
 <p><span class="math inline">\(Z_t\)</span> is a martingale.</p>
 </section>
@@ -638,7 +662,7 @@ Z_t = f(B_t^{(1)}, B_t^{(2)}).
 <p><span class="math display">\[
 \partial_2 f(x, y) = 3 x,
 \]</span> and <span class="math display">\[
-\triangle f(x, y) = 6 x.
+\Delta f(x, y) = 6 x.
 \]</span></p>
 <p>It follows from Itô’s formula that</p>
 <p><span class="math display">\[
@@ -665,7 +689,7 @@ h(x) = \begin{cases}
 <p>For <span class="math inline">\(d=2\)</span>,</p>
 <p><span class="math display">\[
 \begin{align}
-\triangle \log(\|x\|) &amp; = \triangle \log(\sqrt{x_1^2 + x_2^2}) \\
+\Delta \log(\|x\|) &amp; = \Delta \log(\sqrt{x_1^2 + x_2^2}) \\
 &amp;= \partial_1 (\frac{x_1}{(x_1^2 + x_2^2)}) + \partial_2 (\frac{x_2}{x_1^2 + x_2^2}) \\
 &amp;= \frac{1}{x_1^2 + x_2^2} - \frac{2 x_1^2}{(x_1^2 + x_2)^2} +  \frac{1}{x_1^2 + x_2^2} - \frac{2 x_2^2}{(x_1^2 + x_2)^2} \\
 &amp;= 0.
@@ -673,7 +697,7 @@ h(x) = \begin{cases}
 \]</span></p>
 <p>For <span class="math inline">\(d \geq 3\)</span>, <span class="math display">\[
 \begin{align}
-\triangle \|x\|^{2 -d} &amp;= \nabla.(\nabla \|x\|^{2-d}) \\
+\Delta \|x\|^{2 -d} &amp;= \nabla.(\nabla \|x\|^{2-d}) \\
 &amp;= \nabla.((2-d)\|x\|^{-d}x) \\
 &amp;= \sum_{i=1}^d  ((2 -d)(-d/2) \|x\|^{-(d+2)} 2x^2_i + (2 -d) \|x\|^{-d}) \\
 &amp;= (2-d) \|x\|^{-d} \sum_{i=1}^d (1 - \frac{d x_i^2}{\|x\|^2} ) \\
@@ -686,7 +710,7 @@ h(x) = \begin{cases}
 <p>For <span class="math inline">\(a, b \in \mathbb{R}\)</span>, <span class="math inline">\(a h(x) + b\)</span> is harmonic.</p>
 <p>Proof:</p>
 <p><span class="math display">\[
-\triangle (a h(x) + b) = a \triangle h(x) = 0.
+\Delta (a h(x) + b) = a \Delta h(x) = 0.
 \]</span></p>
 <p><span class="math display">\[\qed\]</span></p>
 </section>
@@ -706,7 +730,7 @@ M_t = f(t, B_t).
 \]</span> <span class="math display">\[
 \partial_i f(t, x) = 2 x_i,
 \]</span> and <span class="math display">\[
-\triangle f(t, x) = 2d.
+\Delta f(t, x) = 2d.
 \]</span> Applying Itô’s formula, we see that <span class="math display">\[
 \begin{align}
 M_t &amp;= \sum_{i=1}^d \int_0^t 2 B_s^{(i)} d B_s^{(i)}
@@ -766,7 +790,7 @@ f(t, x) = \int g(x +y) \frac{e^{-\frac{\|y\|^2}{2t}}}{(2\pi t)^{d/2}} dy.
 \]</span></p>
 <p>Taking the Laplacian inside the integral <span class="math display">\[
 \begin{align}
-\triangle f(t, x) &amp;= \int \triangle g(x + y) \frac{e^{\frac{-\|y\|^2}{2t}}}{(2 \pi t)^{d/2}} dy \\
+\Delta f(t, x) &amp;= \int \Delta g(x + y) \frac{e^{\frac{-\|y\|^2}{2t}}}{(2 \pi t)^{d/2}} dy \\
 &amp;= \sum_{i=1}^{d} \E(\partial^2_i g(x + B_t)) \\
 &amp;= \sum_{i=1}^{d} \E(((B_t^{(i)})^2/t^2 - 1/t)g(x + B_t)) \\
 &amp;= \E(g(x + y)(\|B_t\|^2/t^2 - d/t)) \\
@@ -819,6 +843,23 @@ H'(x) = xG'(x) + G(x).
 t \E(\partial_i G(B_t)) = \E(B^{(i)}_t G(B_t)),
 \]</span> and <span class="math display">\[
 \E(\partial_i^2 G(B_t) = \E((\frac{(B^{(i)}_t)^2}{t^2} - \frac{1}{t}) G(B_t)).
+\]</span></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Taking Derivatives Inside Expectations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>From Kolmogorov, Foundations of Probability Theory, p44:</p>
+<p>If the mathematical expectation <span class="math inline">\(\E(x(t))\)</span> is finite for any <span class="math inline">\(t\)</span>, and <span class="math inline">\(x(t)\)</span> is always differentiable for any <span class="math inline">\(t\)</span>, while the derivative <span class="math inline">\(x'(t)\)</span> of <span class="math inline">\(x(t)\)</span> with respect to <span class="math inline">\(t\)</span> is always less in absolute value than some constant <span class="math inline">\(M\)</span>, then</p>
+<p><span class="math display">\[
+\frac{d}{dt} \E(x(t)) = E(x'(t)).
 \]</span></p>
 </div>
 </div>
