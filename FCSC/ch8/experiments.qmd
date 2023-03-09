@@ -155,12 +155,11 @@ def cir(delta, start, end):
   euler_maruyama[0] = 1
   for i in range(1, increments):
     prev = euler_maruyama[i - 1]
-    if prev < 0:
-      # when simulation turns negative, stop; in this case, the rest of the points
-      # will be zero
-      break
+    prev_trunc = np.max(prev, 0)
     increment = brownian_motion[i] - brownian_motion[i-1]
-    euler_maruyama[i] = prev + np.sqrt(prev) * increment + (1 - prev)*delta
+    # see http://www.jaeckel.org/eqf013_009.pdf, section 3.2 Biased Taylor-Type Schemes (full truncation
+    # scheme)
+    euler_maruyama[i] = prev + np.sqrt(prev_trunc) * increment + (1 - prev_trunc)*delta
   return euler_maruyama
 
 def plot_cir(delta, start, end):
@@ -180,9 +179,37 @@ def cir_histogram(delta, start, end, samples=10000):
   ax.stairs(counts, bins)
   x_axis = np.linspace(0, 6, 1000)
   ax.plot(x_axis, 4*x_axis * np.exp(-2 * x_axis))
-  ax.annotate('floor of simulation is zero', xy=(0,counts[0]), xytext=(2, counts[0]), arrowprops=dict(facecolor='black', width=0.1))
   plt.show()
 
 cir_histogram(0.01, 0, 5)
-
 ```
+
+:::{.callout-note}
+The unmodified Euler-Marayuma scheme for CIR will result in taking negative square roots with
+non-zero probability.
+
+Suppose that $\Delta$ is the time increment and denote by $\hat{X}_{t}$  the approximation of $X_{t}$. If
+with $\hat{X}_t = \varepsilon$
+
+$$
+\begin{align}
+\hat{X}_{t + \Delta} &= \varepsilon + \sqrt{\varepsilon} (B_{t + \Delta } - B_{\Delta}) + (1 - \varepsilon)\Delta.
+\end{align}
+$$
+
+Therefore,
+
+$$
+\begin{align}
+\P(\hat{X}_{t + \Delta} < 0) &= \P((B_{t + \Delta} - B_{t}) < \frac{(\varepsilon -1 ) \Delta - \varepsilon}{\sqrt{\varepsilon}}) \\
+&= \P((B_{t + \Delta} - B_{t}) > \frac{(1 - \varepsilon ) \Delta + \varepsilon}{\sqrt{\varepsilon}}) \\
+&= \P(N(0,1) > (1 - ε) \Delta + \varepsilon)
+&> 0
+\end{align}
+$$
+because the Brownian increment is normally distributed with mean zero and variance $\Delta$.
+:::
+
+
+
+
