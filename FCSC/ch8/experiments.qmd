@@ -1,0 +1,188 @@
+---
+title: "Computer Experiments"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+    cache: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+## 8.1 Temperature of a Rod
+
+Initial condition
+$$
+g(x) = 1 - | x |,
+$$
+for $|x| \leq 1$.
+
+#### (a)
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def heat_equation(T, g):
+  samples = 100
+
+  approximation = []
+
+  x_delta = 0.01
+  x_start, x_end = -5,5 
+  x_increments = int(x_end - x_start/x_delta)
+  x_vals = np.linspace(x_start, x_end, x_increments)
+
+
+  for x in x_vals:
+    average = 0
+    for _ in range(samples):
+      average += g(x + np.random.default_rng().normal(0, np.sqrt(T)))
+    average = average/samples
+
+    approximation.append(average)
+  plt.plot(x_vals, approximation)
+  plt.show()
+
+def g(x):
+  x = np.abs(x)
+  if x > 1:
+    return 0
+  return 1 - x
+
+heat_equation(0.01, g)
+heat_equation(0.25, g)
+heat_equation(1, g)
+heat_equation(5, g)
+```
+
+## 8.2 A Strange Martingale
+
+$$
+M_t = \frac{1}{\sqrt{1-t}} \exp(\frac{-B_t^2}{2(1-t)})
+$$
+for $0 \leq t < 1$.
+
+```{python}
+def strange_martingale(delta):
+  increments = int(1/delta)
+  times = np.linspace(0, 1, increments)
+  brownian = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments -1)])
+  def strange(x, t):
+    if t == 1:
+      return 0
+    return (1/np.sqrt(1 -t)) * np.exp((-x**2)/(2*(1 - t)))
+
+  return np.vectorize(strange)(times, brownian)
+
+def expectation_max(delta, samples=100):
+  average_max = 0
+  for _ in range(samples):
+    average_max += np.max(strange_martingale(delta))
+  return average_max /samples
+
+for delta in [0.01, 0.001, 0.0001]:
+  print(f'delta = {delta}, expectation = {expectation_max(delta)}')
+```
+
+It appears that
+$$
+\E(\max_{0 \leq t \leq 1} M_t) = \infty
+$$
+as expected.
+
+## 8.3 Smoluchowski's Equation
+Consider the diffusion $(X_t, t \geq 0)$ with SDE
+$$
+dX_t = d B_t - 2\sgn(X_t) dt
+$$
+with $X_0 = 1$.
+
+```{python}
+def smol(delta, start, end):
+  def sgn(x):
+    if x >= 0:
+      return 1
+    return -1
+  increments = int((end -start)/delta)
+  brownian_motion = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments - 1)])
+  euler_maruyama = np.zeros(increments)
+  euler_maruyama[0] = 1
+  for i in range(1, increments):
+    prev = euler_maruyama[i - 1]
+    increment = brownian_motion[i] - brownian_motion[i-1]
+    euler_maruyama[i] = prev + increment -2*sgn(prev)*delta
+  return euler_maruyama
+
+def plot_smol(delta, start, end):
+  samples = 10
+  x_axis = np.linspace(start, end, int((end - start)/delta))
+  for _ in range(samples):
+    plt.plot(x_axis, smol(delta, start, end))
+  plt.show()
+
+plot_smol(0.01, 0, 5)
+
+def smol_histogram(delta, start, end, samples=10000):
+  data = [smol(delta, start, end)[-1] for _ in range(samples)]
+  plt.stairs(*np.histogram(data, bins=samples//10, density=True))
+  x_axis = np.linspace(-3, 3, 1000)
+  plt.plot(x_axis, 2*np.exp(-4 * np.abs(x_axis)))
+  plt.show()
+
+smol_histogram(0.01, 0, 5)
+```
+
+
+## 8.4 Invariant Distribution of the CIR Model 
+
+Condsider the diffusion $(X_t, t \geq 0)$ with SDE
+$$
+d X_t = (1 -X_t) dt + \sqrt{X_t} d B_t
+$$
+with $X_0 = 1$.
+
+```{python}
+def cir(delta, start, end):
+  increments = int((end -start)/delta)
+  brownian_motion = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments - 1)])
+  euler_maruyama = np.zeros(increments)
+  euler_maruyama[0] = 1
+  for i in range(1, increments):
+    prev = euler_maruyama[i - 1]
+    if prev < 0:
+      # when simulation turns negative, stop; in this case, the rest of the points
+      # will be zero
+      break
+    increment = brownian_motion[i] - brownian_motion[i-1]
+    euler_maruyama[i] = prev + np.sqrt(prev) * increment + (1 - prev)*delta
+  return euler_maruyama
+
+def plot_cir(delta, start, end):
+  samples = 10
+  x_axis = np.linspace(start, end, int((end - start)/delta))
+  for _ in range(samples):
+    plt.plot(x_axis, cir(delta, start, end))
+  plt.show()
+
+plot_cir(0.01, 0, 5)
+
+def cir_histogram(delta, start, end, samples=10000):
+  data = [cir(delta, start, end)[-1] for _ in range(samples)]
+  counts, bins = np.histogram(data, bins=samples//100, density=True, range=(0,6))
+  fig = plt.figure()
+  ax = fig.add_subplot()
+  ax.stairs(counts, bins)
+  x_axis = np.linspace(0, 6, 1000)
+  ax.plot(x_axis, 4*x_axis * np.exp(-2 * x_axis))
+  ax.annotate('floor of simulation is zero', xy=(0,counts[0]), xytext=(2, counts[0]), arrowprops=dict(facecolor='black', width=0.1))
+  plt.show()
+
+cir_histogram(0.01, 0, 5)
+
+```

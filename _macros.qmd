@@ -11,6 +11,7 @@ $$
 \newcommand{\G}{\mathcal{G}}
 \newcommand{\qed}{\tag*{$\square$}}
 \newcommand{\erf}{\operatorname{erf}}
+\newcommand{\sgn}{\operatorname{sgn}}
 \def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
 \raise12mu{.}}}
 $$
