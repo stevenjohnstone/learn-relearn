@@ -110,13 +110,12 @@ def smol(delta, start, end):
       return 1
     return -1
   increments = int((end -start)/delta)
-  brownian_motion = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments - 1)])
+  brownian_increments = np.random.default_rng().normal(0, np.sqrt(delta), increments -1)
   euler_maruyama = np.zeros(increments)
   euler_maruyama[0] = 1
   for i in range(1, increments):
     prev = euler_maruyama[i - 1]
-    increment = brownian_motion[i] - brownian_motion[i-1]
-    euler_maruyama[i] = prev + increment -2*sgn(prev)*delta
+    euler_maruyama[i] = prev + brownian_increments[i-1]-2*sgn(prev)*delta
   return euler_maruyama
 
 def plot_smol(delta, start, end):
@@ -150,16 +149,15 @@ with $X_0 = 1$.
 ```{python}
 def cir(delta, start, end):
   increments = int((end -start)/delta)
-  brownian_motion = np.cumsum(np.r_[0, np.random.default_rng().normal(0, np.sqrt(delta), increments - 1)])
+  brownian_increments = np.random.default_rng().normal(0, np.sqrt(delta), increments -1)
   euler_maruyama = np.zeros(increments)
   euler_maruyama[0] = 1
   for i in range(1, increments):
     prev = euler_maruyama[i - 1]
     prev_trunc = np.max(prev, 0)
-    increment = brownian_motion[i] - brownian_motion[i-1]
     # see http://www.jaeckel.org/eqf013_009.pdf, section 3.2 Biased Taylor-Type Schemes (full truncation
     # scheme)
-    euler_maruyama[i] = prev + np.sqrt(prev_trunc) * increment + (1 - prev_trunc)*delta
+    euler_maruyama[i] = prev + np.sqrt(prev_trunc) * brownian_increments[i-1] + (1 - prev_trunc)*delta
   return euler_maruyama
 
 def plot_cir(delta, start, end):
@@ -203,7 +201,7 @@ $$
 \begin{align}
 \P(\hat{X}_{t + \Delta} < 0) &= \P((B_{t + \Delta} - B_{t}) < \frac{(\varepsilon -1 ) \Delta - \varepsilon}{\sqrt{\varepsilon}}) \\
 &= \P((B_{t + \Delta} - B_{t}) > \frac{(1 - \varepsilon ) \Delta + \varepsilon}{\sqrt{\varepsilon}}) \\
-&= \P(N(0,1) > (1 - ε) \Delta + \varepsilon)
+&= \P(N(0,1) > (1 - ε) \Delta + \varepsilon) \\
 &> 0
 \end{align}
 $$
