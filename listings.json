@@ -2,13 +2,22 @@
   {
     "listing": "/index.html",
     "items": [
-      "/FCSC/ch4/ch4.html",
-      "/FCSC/ch1/ch1_experiments.html",
-      "/FCSC/ch1/ch1_exercises.html",
-      "/FCSC/ch3/ch3_exercises.html",
-      "/FCSC/ch3/ch3.html",
-      "/FCSC/ch2/ch2_experiments.html",
-      "/FCSC/ch2/ch2_exercises.html",
+      "/FCSC/ch1_experiments.html",
+      "/FCSC/ch1_exercises.html",
+      "/FCSC/ch2_experiments.html",
+      "/FCSC/ch2_exercises.html",
+      "/FCSC/ch3_experiments.html",
+      "/FCSC/ch3_exercises.html",
+      "/FCSC/ch4_experiments.html",
+      "/FCSC/ch4_exercises.html",
+      "/FCSC/ch5_experiments.html",
+      "/FCSC/ch5_exercises.html",
+      "/FCSC/ch6_experiments.html",
+      "/FCSC/ch6_exercises.html",
+      "/FCSC/ch7_experiments.html",
+      "/FCSC/ch7_exercises.html",
+      "/FCSC/ch8_experiments.html",
+      "/FCSC/ch8_exercises.html",
       "/PML/ch2.html"
     ]
   }
