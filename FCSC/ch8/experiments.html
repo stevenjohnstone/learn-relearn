@@ -444,6 +444,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \newcommand{\qed}{\tag*{$\square$}}
 \newcommand{\erf}{\operatorname{erf}}
 \newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\1}{\mathbb{1}}
 \def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
 \raise12mu{.}}}
 \]</span></p>
@@ -455,7 +456,7 @@ g(x) = 1 - | x |,
 \]</span> for <span class="math inline">\(|x| \leq 1\)</span>.</p>
 <section id="a" class="level4">
 <h4 class="anchored" data-anchor-id="a">(a)</h4>
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -510,7 +511,7 @@ g(x) = 1 - | x |,
 <p><span class="math display">\[
 M_t = \frac{1}{\sqrt{1-t}} \exp(\frac{-B_t^2}{2(1-t)})
 \]</span> for <span class="math inline">\(0 \leq t &lt; 1\)</span>.</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> strange_martingale(delta):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  increments <span class="op">=</span> <span class="bu">int</span>(<span class="dv">1</span><span class="op">/</span>delta)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  times <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, increments)</span>
@@ -531,11 +532,11 @@ M_t = \frac{1}{\sqrt{1-t}} \exp(\frac{-B_t^2}{2(1-t)})
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> delta <span class="kw">in</span> [<span class="fl">0.01</span>, <span class="fl">0.001</span>, <span class="fl">0.0001</span>]:</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'delta = </span><span class="sc">{</span>delta<span class="sc">}</span><span class="ss">, expectation = </span><span class="sc">{</span>expectation_max(delta)<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_16056/2016782216.py:8: RuntimeWarning:
+<pre><code>/tmp/ipykernel_31308/2016782216.py:8: RuntimeWarning:
 
 invalid value encountered in sqrt
 
-/tmp/ipykernel_16056/2016782216.py:8: RuntimeWarning:
+/tmp/ipykernel_31308/2016782216.py:8: RuntimeWarning:
 
 overflow encountered in exp
 </code></pre>
@@ -559,39 +560,38 @@ overflow encountered in exp
 <p>Consider the diffusion <span class="math inline">\((X_t, t \geq 0)\)</span> with SDE <span class="math display">\[
 dX_t = d B_t - 2\sgn(X_t) dt
 \]</span> with <span class="math inline">\(X_0 = 1\)</span>.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> smol(delta, start, end):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> sgn(x):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="dv">1</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  increments <span class="op">=</span> <span class="bu">int</span>((end <span class="op">-</span>start)<span class="op">/</span>delta)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  brownian_motion <span class="op">=</span> np.cumsum(np.r_[<span class="dv">0</span>, np.random.default_rng().normal(<span class="dv">0</span>, np.sqrt(delta), increments <span class="op">-</span> <span class="dv">1</span>)])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  brownian_increments <span class="op">=</span> np.random.default_rng().normal(<span class="dv">0</span>, np.sqrt(delta), increments <span class="op">-</span><span class="dv">1</span>)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  euler_maruyama <span class="op">=</span> np.zeros(increments)</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  euler_maruyama[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, increments):</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    prev <span class="op">=</span> euler_maruyama[i <span class="op">-</span> <span class="dv">1</span>]</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    increment <span class="op">=</span> brownian_motion[i] <span class="op">-</span> brownian_motion[i<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    euler_maruyama[i] <span class="op">=</span> prev <span class="op">+</span> increment <span class="op">-</span><span class="dv">2</span><span class="op">*</span>sgn(prev)<span class="op">*</span>delta</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> euler_maruyama</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_smol(delta, start, end):</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  samples <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(start, end, <span class="bu">int</span>((end <span class="op">-</span> start)<span class="op">/</span>delta))</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, smol(delta, start, end))</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plot_smol(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> smol_histogram(delta, start, end, samples<span class="op">=</span><span class="dv">10000</span>):</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> [smol(delta, start, end)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples)]</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  plt.stairs(<span class="op">*</span>np.histogram(data, bins<span class="op">=</span>samples<span class="op">//</span><span class="dv">10</span>, density<span class="op">=</span><span class="va">True</span>))</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1000</span>)</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  plt.plot(x_axis, <span class="dv">2</span><span class="op">*</span>np.exp(<span class="op">-</span><span class="dv">4</span> <span class="op">*</span> np.<span class="bu">abs</span>(x_axis)))</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>smol_histogram(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    euler_maruyama[i] <span class="op">=</span> prev <span class="op">+</span> brownian_increments[i<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span><span class="dv">2</span><span class="op">*</span>sgn(prev)<span class="op">*</span>delta</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> euler_maruyama</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_smol(delta, start, end):</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  samples <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(start, end, <span class="bu">int</span>((end <span class="op">-</span> start)<span class="op">/</span>delta))</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, smol(delta, start, end))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>plot_smol(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> smol_histogram(delta, start, end, samples<span class="op">=</span><span class="dv">10000</span>):</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> [smol(delta, start, end)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples)]</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  plt.stairs(<span class="op">*</span>np.histogram(data, bins<span class="op">=</span>samples<span class="op">//</span><span class="dv">10</span>, density<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1000</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  plt.plot(x_axis, <span class="dv">2</span><span class="op">*</span>np.exp(<span class="op">-</span><span class="dv">4</span> <span class="op">*</span> np.<span class="bu">abs</span>(x_axis)))</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>smol_histogram(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="experiments_files/figure-html/cell-4-output-1.png" width="582" height="411"></p>
 </div>
@@ -605,48 +605,79 @@ dX_t = d B_t - 2\sgn(X_t) dt
 <p>Condsider the diffusion <span class="math inline">\((X_t, t \geq 0)\)</span> with SDE <span class="math display">\[
 d X_t = (1 -X_t) dt + \sqrt{X_t} d B_t
 \]</span> with <span class="math inline">\(X_0 = 1\)</span>.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cir(delta, start, end):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  increments <span class="op">=</span> <span class="bu">int</span>((end <span class="op">-</span>start)<span class="op">/</span>delta)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  brownian_motion <span class="op">=</span> np.cumsum(np.r_[<span class="dv">0</span>, np.random.default_rng().normal(<span class="dv">0</span>, np.sqrt(delta), increments <span class="op">-</span> <span class="dv">1</span>)])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  brownian_increments <span class="op">=</span> np.random.default_rng().normal(<span class="dv">0</span>, np.sqrt(delta), increments <span class="op">-</span><span class="dv">1</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  euler_maruyama <span class="op">=</span> np.zeros(increments)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  euler_maruyama[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, increments):</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    prev <span class="op">=</span> euler_maruyama[i <span class="op">-</span> <span class="dv">1</span>]</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> prev <span class="op">&lt;</span> <span class="dv">0</span>:</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="co"># when simulation turns negative, stop; in this case, the rest of the points</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="co"># will be zero</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    increment <span class="op">=</span> brownian_motion[i] <span class="op">-</span> brownian_motion[i<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    euler_maruyama[i] <span class="op">=</span> prev <span class="op">+</span> np.sqrt(prev) <span class="op">*</span> increment <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> prev)<span class="op">*</span>delta</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> euler_maruyama</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_cir(delta, start, end):</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  samples <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(start, end, <span class="bu">int</span>((end <span class="op">-</span> start)<span class="op">/</span>delta))</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, cir(delta, start, end))</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    prev_trunc <span class="op">=</span> np.<span class="bu">max</span>(prev, <span class="dv">0</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># see http://www.jaeckel.org/eqf013_009.pdf, section 3.2 Biased Taylor-Type Schemes (full truncation</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># scheme)</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    euler_maruyama[i] <span class="op">=</span> prev <span class="op">+</span> np.sqrt(prev_trunc) <span class="op">*</span> brownian_increments[i<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> prev_trunc)<span class="op">*</span>delta</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> euler_maruyama</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_cir(delta, start, end):</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  samples <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(start, end, <span class="bu">int</span>((end <span class="op">-</span> start)<span class="op">/</span>delta))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples):</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_axis, cir(delta, start, end))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plot_cir(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>plot_cir(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cir_histogram(delta, start, end, samples<span class="op">=</span><span class="dv">10000</span>):</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> [cir(delta, start, end)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples)]</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  counts, bins <span class="op">=</span> np.histogram(data, bins<span class="op">=</span>samples<span class="op">//</span><span class="dv">100</span>, density<span class="op">=</span><span class="va">True</span>, <span class="bu">range</span><span class="op">=</span>(<span class="dv">0</span>,<span class="dv">6</span>))</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  fig <span class="op">=</span> plt.figure()</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  ax <span class="op">=</span> fig.add_subplot()</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  ax.stairs(counts, bins)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">6</span>, <span class="dv">1000</span>)</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  ax.plot(x_axis, <span class="dv">4</span><span class="op">*</span>x_axis <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> x_axis))</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  ax.annotate(<span class="st">'floor of simulation is zero'</span>, xy<span class="op">=</span>(<span class="dv">0</span>,counts[<span class="dv">0</span>]), xytext<span class="op">=</span>(<span class="dv">2</span>, counts[<span class="dv">0</span>]), arrowprops<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">'black'</span>, width<span class="op">=</span><span class="fl">0.1</span>))</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>cir_histogram(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cir_histogram(delta, start, end, samples<span class="op">=</span><span class="dv">10000</span>):</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> [cir(delta, start, end)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(samples)]</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  counts, bins <span class="op">=</span> np.histogram(data, bins<span class="op">=</span>samples<span class="op">//</span><span class="dv">100</span>, density<span class="op">=</span><span class="va">True</span>, <span class="bu">range</span><span class="op">=</span>(<span class="dv">0</span>,<span class="dv">6</span>))</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  fig <span class="op">=</span> plt.figure()</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  ax <span class="op">=</span> fig.add_subplot()</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  ax.stairs(counts, bins)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  x_axis <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">6</span>, <span class="dv">1000</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  ax.plot(x_axis, <span class="dv">4</span><span class="op">*</span>x_axis <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> x_axis))</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>cir_histogram(<span class="fl">0.01</span>, <span class="dv">0</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="experiments_files/figure-html/cell-5-output-1.png" width="571" height="411"></p>
+<p><img src="experiments_files/figure-html/cell-5-output-1.png" width="571" height="413"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_31308/3767938227.py:11: RuntimeWarning:
+
+invalid value encountered in sqrt
+</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="experiments_files/figure-html/cell-5-output-2.png" width="571" height="412"></p>
+<p><img src="experiments_files/figure-html/cell-5-output-3.png" width="571" height="411"></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The unmodified Euler-Marayuma scheme for CIR will result in taking negative square roots with non-zero probability.</p>
+<p>Suppose that <span class="math inline">\(\Delta\)</span> is the time increment and denote by <span class="math inline">\(\hat{X}_{t}\)</span> the approximation of <span class="math inline">\(X_{t}\)</span>. If with <span class="math inline">\(\hat{X}_t = \varepsilon\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+\hat{X}_{t + \Delta} &amp;= \varepsilon + \sqrt{\varepsilon} (B_{t + \Delta } - B_{\Delta}) + (1 - \varepsilon)\Delta.
+\end{align}
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\begin{align}
+\P(\hat{X}_{t + \Delta} &lt; 0) &amp;= \P((B_{t + \Delta} - B_{t}) &lt; \frac{(\varepsilon -1 ) \Delta - \varepsilon}{\sqrt{\varepsilon}}) \\
+&amp;= \P((B_{t + \Delta} - B_{t}) &gt; \frac{(1 - \varepsilon ) \Delta + \varepsilon}{\sqrt{\varepsilon}}) \\
+&amp;= \P(N(0,1) &gt; (1 - ε) \Delta + \varepsilon) \\
+&amp;&gt; 0
+\end{align}
+\]</span> because the Brownian increment is normally distributed with mean zero and variance <span class="math inline">\(\Delta\)</span>.</p>
 </div>
 </div>
 
