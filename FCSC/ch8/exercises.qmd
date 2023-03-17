@@ -1,0 +1,809 @@
+---
+title: "Exercises"
+toc: true
+toc-location: body
+execute:
+    freeze: true
+description: "Solutions to exercises and computer experiments"
+format:
+    html:
+        code-fold: false
+        html-math-method: mathjax
+---
+
+{{< include /_macros.qmd >}}
+
+## 8.1 Future and Past Are Independent Given the Present
+
+Let $(X_t, t \geq 0)$ be a Markov process with its natural
+filtration $(\F_t, t \geq 0)$. For any bounded, measurable functions, 
+$g$ and $h$ and any $0 \leq r < s < t \leq \infty$
+
+$$
+\E(g(X_t)h(X_r)|X_s) = \E(g(X_t)|X_s)\E(h(X_r)|X_s).
+$$
+
+Proof:
+
+
+Since
+$$
+\sigma(X_r) \subseteq \F_s,
+$$
+$h(X_r)$ is $F_s$-measurable and since
+$$
+\sigma(X_s) \subseteq \F_s,
+$$
+
+the tower property can be used:
+
+$$
+\begin{align}
+\E(g(X_t) h(X_r) | X_s) &= \E(\E(g(X_t) h(X_r) |\underbrace{\F_s)|X_s)}_{\text{tower property}} \\
+&=\E(\underbrace{h(X_r)}_{\F_s\text{-measurable}} \E(g(X_t) | \F_s) | X_s) \\
+&= \E(h(X_r) \underbrace{\E(g(X_t) | X_s) }_{\text{Markov property}}|X_s) \\
+&= \underbrace{\E(g(X_t) | X_s)}_{X_s\text{-measurable}} \E(h(X_r) | X_s).
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+## 8.2 Brownian Probabilities Revisited
+
+#### (a)
+
+With $A = (1, \infty)$:
+probability:
+$$
+\begin{align}
+\P(B_1 > 1, B_2 > 1) &= \P(B_1 \in A, B_2 \in A) \\
+&= \E(\1_A(B_1)\1_A(B_2)) \\
+&= \E(\E(\1_A(B_1)\1_A(B_2) | \F_1))\\
+&= \E(\underbrace{\1_A(B_1)}_{\F_1\text{-measurable}} \E(\1_A(B_2) | \F_1)) \\
+&= \E(\1_A(B_1) \underbrace{\E(\1_A(B_2) | B_1)}_{\text{Markov condition}}) \\
+&= \int_A \left(\int_A p_1(x, y) d y\right) p_1(B_0, x) dx \\
+&= \frac{1}{2 \pi}\int_1^{\infty}\int_1^{\infty} e^{\frac{-(y-x)^2}{2}} e^{\frac{-x^2}{2}} dx\,dy \\
+&= \frac{1}{2 \pi} \int_1^{\infty}\int_1^{\infty} e^{-x^2 + xy - y^2/2} dx\, dy.
+\end{align}
+$$
+
+
+
+#### (b)
+
+
+Let $A = (1, \infty)$. In this example, the Markov property is required because the tower
+$$
+\F_1 \subseteq \F_2
+$$
+is exploited:
+
+$$
+\begin{align}
+\P(B_1 > 1, B_2 > 1, B_3 > 1) &= \E(\1_A(B_1) \1_A(B_2) \1_A(B_3)) \\
+&= \E(\E(\1_A(B_1) \1_A(B_2) \1_A(B_3) | \F_1)) \\
+&= \E( \1_A(B_1) \E(\1_A(B_2) \1_A(B_3) | \F_1)) \\
+&= \E( \1_A(B_1) \underbrace{\E(\E(\1_A(B_2) \1_A(B_3)|\F_2)|\F_1))}_{\F_1 \subseteq \F_2, \text{ tower}} \\
+&= \E( \1_A(B_1) \E(\1_A(B_2)\E(\1_A(B_3)|\F_2)|\F_1)) \\
+&= \E( \1_A(B_1) \E(\underbrace{\1_A(B_2)\E(\1_A(B_3)|B_2)}_{\text{bounded function of $B_2$}}|\F_1)) \\
+&= \E( \1_A(B_1) \E(\1_A(B_2) \E(\1_A(B_3) | B_2) | B_1)) \\
+&= \int_A \left(\int_A \left( \int_A p_1(y, z)dz\right) p_1(x, y) dy \right) p_1(B_0, x) dx \\
+&= \int_1^{\infty}\int_1^{\infty}\int_1^{\infty} p_1(B_0, x) p_1(x, y) p_1(y, z) dx\, dy\, dz \\
+&= \int_1^{\infty}\int_1^{\infty}\int_1^{\infty}  p_1(x, y) p_1(y, z) dx\, dy\, dz \\
+&= \frac{\sqrt{2}}{4 \pi^{\frac{3}{2}}} \int_1^{\infty} \int_1^{\infty} \int_1^{\infty} e^{-x^2 + xy - y^2 + yz - z^2/2} dx\, dy\, dz.
+\end{align}
+$$
+
+## 8.3 Markovariance
+#### (a)
+For any intervals $A_1, A_2 \subseteq \mathbb{R}$ and $s < t$, 
+
+$$
+\P(B_s \in A_1, B_t \in A_2) = \int_{A_1} \int_{A_2}
+\frac{
+  e^{-\frac{(y-x)^2}{2(t-s)}}e^{-\frac{x^2}{2s}}}{\sqrt{2\pi(t-s)}\sqrt{2\pi s}} dy \, dx.
+$$
+
+Proof:
+
+
+$$
+\begin{align}
+\P(B_s \in A_1, B_t \in A_2) &= \E(\1_{A_1}(B_s) \1_{A_2}(B_t)) \\
+&= \E(\E(\1_{A_1}(B_s)\1_{A_2}(B_t)|\F_s)) \\
+&= \E(\1_{A_1}(B_s) \E(\1_{A_2}(B_t)|\F_s)) \\
+&= \E(\1_{A_1}(B_s) \E(\1_{A_2}(B_t)| B_s)) \\
+&= \int_{A_1} \left(\int_{A_2} p_{t-s}(x, y)\, dy\right) p_s(B_0, x) \, dx \\
+&= \int_{A_1} \int_{A_2} \frac{e^{-\frac{(y-x)^2}{2(t-s)}}}{\sqrt{2 \pi (t-s)}} \frac{e^{-\frac{x^2}{2s}}}{\sqrt{2 \pi s}} dy \, dx.
+\end{align}
+$$
+
+## 8.4 Shifted Brownian Motion
+
+Fix $t > 0$ and define
+$$
+W_s = B_{t+s} - B_t
+$$
+for $s\geq 0$. Then $W_s$ is a standard Brownian motion independent of $\F_t$.
+
+Proof:
+
+$(W_s)$ is a Gaussian process as it is the sum of Gaussian processes. The mean is
+zero:
+
+$$
+\E(W_s) = \E(B_{t + s}) - \E(B_s) = 0 - 0 = 0.
+$$
+
+The variance is given by
+
+$$
+\begin{align}
+\E(W_a W_b) &= \E((B_{t + a} - B_{t})(B_{t+ b} - B_t)) \\
+&= \E(B_{t+a} B_{t+b} - B_{t+a} B_t - B_t B_{t + b} + B_t^2) \\
+&= (t +a) \wedge (t + b) - (t+a) \wedge t - t \wedge (t + b) + t \\
+&= t + (a \wedge b) - t - t + t \\
+&= a \wedge b.
+\end{align}
+$$
+
+For almost every $\omega$,  $s \mapsto W_s(\omega)$ is continuous, by continuity
+of $B_s$. Therefore, $(W_s)$ is a standard Brownian motion.
+
+For any $t' \leq t$, $W_s$ is independent of $\sigma(B_{t'})$, because the increments
+of the Brownian motion $B$ are independent. It follows that $(W_s)$ is independent
+of $\F_t$.
+
+$$
+\qed
+$$
+
+## 8.5 Brownian Motion with Drift is a Markov Process
+
+$$
+X_t = \sigma B_t + \mu t,
+$$
+for $t\geq 0$.
+
+#### (a)
+
+$X_t$ is a Markov process.
+
+Proof:
+
+Let $\F_t$ be the natural filtration of $B_t$ and note that it is also the
+natural filtration for $X_t$. In fact, $\sigma(B_t) = \sigma(X_t)$
+
+
+Now, for $s \leq t$,
+
+$$
+\begin{align}
+\E(X_t| \F_s) &= \E(\sigma X_t + \mu t | \F_s) \\
+&= \sigma \E(B_t | \F_s) + \mu t \\
+&= \sigma \E(B_t | B_s) + \mu t \E(1 | B_s) \\
+&= \E(\sigma B_t + \mu t | B_s) \\
+&= \E (X_t | B_s) \\
+&= \E (X_t | X_s).
+\end{align}
+$$
+$$
+\qed
+$$
+
+#### (b)
+
+$X_t$ has normal distribution with mean $\mu t$ and variance $\sigma^2t$ it follows that the
+probability density function $f_t$ of $X_t$ is given by
+
+$$
+f_t(x) = \frac{1}{\sigma \sqrt{2\pi t}} \exp\left(-\frac{1}{2 \sigma^2 t}(x - \mu t)^2\right).
+$$
+
+
+#### (c)
+
+The generator $A$ of $X_t$ is given by
+
+$$
+A = \frac{\sigma^2}{2}\partial^2_x + \mu \partial_x.
+$$
+
+The adjoint $A^*$ is given by
+
+$$
+A^* = \frac{\sigma^2}{2}\partial^2_x - \mu \partial_x.
+$$
+
+## 8.6 Adding A Constant Drift
+
+Let $(X_t, t \geq 0)$ be a Markov process. The process defined
+$$
+Y_t = X_t + \mu t
+$$
+for some $\mu \neq 0$ is Markov.
+
+Proof:
+
+Let $0 \leq s \leq t < \infty$. Let $(\F_t, t \geq 0)$ be the natural filtration of $(X_t)$: $(\F_t, t\geq 0)$ is also the natural filtration for $(Y_t, t \geq 0)$ since $\sigma(X_s) = \sigma(Y_s)$.
+
+$$
+\begin{align}
+\E(Y_t | \F_s) &= \E(X_t |\F_s) + \mu t \\
+&= \E(X_t | X_s) + \mu t \E(1 | X_s) \\
+&= \E(Y_t | X_s) \\
+&= \E(Y_t | Y_s).
+\end{align}
+$$
+$$
+\qed
+$$
+
+## 8.7 Geometric Brownian Motion as a Markov Process
+
+Let $S_t$ satisfy
+
+$$
+d S_t = \sigma S_t dB_t
+$$
+for some $\sigma$.
+
+#### (a)
+$(S_t, t \geq 0)$ is Markov.
+
+Proof:
+
+$$
+S_t = S_0 \exp(\sigma B_t -\frac{\sigma^2t}{2})
+$$
+satisfies the SDE. For $t \geq 0$, $\sigma(S_t) = \sigma(B_t)$ and so the natural filtration of $(B_t)$ is the natural filtration of $(S_t)$. For any be a bounded measurable function $g$, the function $h$ defined
+
+$$
+h(x) = g(S_0 \exp(x - \frac{\sigma^2t}{2}))
+$$
+is also bounded and measurable. Since $B_t$ is Markov, it follows that
+$$
+\E(h(B_t) | \F_s) = \E(h(B_t) | B_s).
+$$
+Therefore,
+$$
+\begin{align}
+\E(g(S_t) | \F_s) &= \E(h(B_t) | \F_s) \\
+&= \underbrace{\E(h(B_t) | B_s)}_{\text{Markov property}} \\
+&= \E(g(S_t) | B_s) \\
+&= \E(g(S_t) | S_s).
+\end{align}
+$$
+$$
+\qed
+$$
+
+#### (b)
+
+If $p_{s,t}$ is the transition probability density of the standard Brownian motion
+
+$$
+\begin{align}
+\E(g(S_t) | S_s = x) &= \E(h(B_t) | B_s = \frac{1}{\sigma}(\log(x /S_0) + \sigma^2 s /2)) \\
+&= \int_{\mathbb{R}} h(y) p_{s, t}(\frac{1}{\sigma}(\log(x/S_0) + \sigma^2 s /2), y) \, dy \\
+&= \int_{\mathbb{R}} h(y) \frac{e^{-\frac{(y - \frac{1}{\sigma}(\log(x/S_0) + \sigma^2 s/2))^2}{2(t - s)}}}{\sqrt{2\pi(t - s)}} \, dy \\
+&= \int_{\mathbb{R}} g(S_0 \exp(\sigma y - \frac{\sigma^2t}{2})) \frac{e^{-\frac{(\sigma y - log(x/S_0) - \sigma^2 s/2)^2}{2(t - s)\sigma^2}}}{\sqrt{2\pi(t - s)}} \, dy \\
+&= \int_{\mathbb{R}} g(S_0 \exp(y)) \frac{e^{-\frac{(y - \log(x/S_0) + \sigma^2(t -s)/2)^2}{2(t - s)\sigma^2}}}{\sqrt{2\pi(t - s)\sigma^2}} \, dy \\
+&= \int_0^{\infty} g(y) \frac{e^{-\frac{(\log(y) - \log(x) + \sigma^2(t-s)/2)^2}{2(t -s) \sigma^2}}}{\sqrt{2 \pi (t - s) \sigma^2}} \frac{dy}{y}.
+\end{align}
+$$
+
+The transition probability density of $S_t$ is
+
+$$
+p_t(x, y) =
+\begin{cases}
+\frac{1}{y \sqrt{2 \pi t \sigma^2}} e^{-\frac{(\log(y) - \log(x) +\sigma^2 t/2)^2}{2t \sigma^2}} & y > 0 \\
+0 & \text{otherwise}.
+\end{cases}
+$$
+
+#### (c)
+The backward equation with initial value is
+
+$$
+\partial_t f = \frac{\sigma^2 x^2}{2} \partial_x^2 f
+$$
+with
+$$
+f(0, x) = g(x).
+$$
+
+The backward equation with terminal value is
+$$
+\partial_t f = -\frac{\sigma^2 x^2}{2} \partial_x^2 f
+$$
+with
+$$
+f(T, x) = g(x).
+$$
+
+#### (d)
+For this process
+$$
+A = \frac{\sigma^2 x^2}{2} \partial_x^2.
+$$
+Its adjoint is
+$$
+A^* = \frac{1}{2} \partial_x^2( \sigma^2 x^2) = \frac{\sigma^2}{2}(x^2 \partial_x^2 + 4x \partial_x + 2).
+$$
+
+The forward equation with initial value is
+
+$$
+\partial_t f = \frac{\sigma^2}{2}(x^2 \partial_x^2 f + 4x \partial_x f + 2 f)
+$$
+with
+$$
+f(0, y) = \delta_{x_0}.
+$$
+
+
+#### (e)
+The following demonstrates that
+$$
+f(t, y) = p_t(x, y)
+$$
+satisfies the forward equation:
+```{python}
+import sympy as sp
+from sympy.abc import x,y,t,sigma
+from IPython.display import display, Markdown
+sp.init_printing(use_latex='mathjax')
+
+f = (1/(y*sp.sqrt(2 * sp.pi * t * sigma**2))) * sp.exp(-((sp.log(y) - sp.log(x) + (1/2) *t*sigma**2)**2)/(2 * t * sigma**2))
+
+def Astar(g):
+  return (1/2)* sp.diff((sigma**2)*(y**2) * g, y, 2)
+  
+display(Markdown(f'$\partial_t f - A^* f = { (sp.diff(f, t) - Astar(f)).simplify()}$'))
+  
+```
+
+## 8.8 Invariant Probability of the Ornstein-Uhlenbeck Process
+
+Consider the Ornstein-Uhlenbeck process with SDE
+$$
+\begin{align}
+d X_t = d B_t - X_t dt, && t \geq 0, && X_0 = x,
+\end{align}
+$$
+
+#### (a)
+
+The Ornstein-Uhlenbeck process is given by
+$$
+X_t = X_0 e^{-t} + e^{-t} \int_0^t e^s dB_s.
+$$
+
+
+
+
+
+It is a Gaussian process with mean
+
+$$
+\begin{align}
+\E(X_t) &= \E(x e^{-t} + e^{-t} \int_0^t e^s dB_s) \\
+&= x e^{-t}.
+\end{align}
+$$
+
+The variance is found using Ito's isometry:
+
+$$
+\begin{align}
+\E(X_t^2) - \E(X_t)^2 &= e^{-2t}  \E((\int_0^t e^s d B_s)^2) \\
+&= e^{-2t} \int_0^t e^{2s} ds \\
+&= e^{-2t} \frac{1}{2}(e^{2t} - 1) \\
+&= \frac{1}{2}(1 - e^{-2t}).
+\end{align}
+$$
+
+Therefore, the probability density at $t$ given starting point $x$ is
+
+$$
+\frac{1}{\sqrt{\pi (1 - e^{-2t})}} e^{-\frac{(y - xe^{-t})^2}{(1 - e^{-2t})}}.
+$$
+
+This is the transition probability density for $X_t$ with $X_0 = x$ but it is also
+the transition probability density for $X_{s + t}$ given $X_s= x$.
+
+::: {.callout-note}
+Let 
+$$
+Y_t = \int_0^t e^s d B_s
+$$
+
+and for bounded, measurable $g$ define
+$$
+h(x) = g(X_0 e^{-t} + e^{-t} x).
+$$
+Then the transition probability for $X_t$ can be expressed in terms of the transition probability
+of $Y_t$:
+$$
+\begin{align}
+\E(g(X_t) | X_s = x) &= \E(h(Y_t) | X_s = x) \\
+&= \E(h(Y_t) | Y_s = e^{s}(x - X_0 e^{-s})) \\
+&= \E(h(Y_t) | Y_s = e^s x - X_0)
+\end{align}
+$$
+
+The process $(Y_t)$ is Gaussian and the covariance between different points in time can be calculated using Ito's isometry:
+
+$$
+\begin{align}
+\E(Y_s Y_t) &= \int_0^s e^{2u} du \\
+&= \frac{1}{2}(e^{2s} - 1)
+\end{align}
+$$
+when $s \leq t$. 
+
+$(Y_s, Y_t)$ is a Gaussian vector and so the conditional distribution can be [calculated using standard formulas for the bivariate normal distribution](https://en.wikipedia.org/wiki/Multivariate_normal_distribution) as
+$$
+\begin{align}
+Y_t | Y_s &= x \sim \mathcal{N}(x, \frac{e^{2t} - e^{2s}}{2}).
+\end{align}
+$$
+
+Alternatively, the martingale and Markov properties of $Y_t$ can be exploited to give
+$$
+\begin{align}
+\E(Y_t | Y_s) &= \E(Y_t | \F_s) \\
+&= Y_s
+\end{align}
+$$
+giving the mean
+$$
+\E(Y_t | Y_s = x) = x.
+$$
+The conditional variance can be calculated as
+$$
+\begin{align}
+\E(Y_t^2 | Y_s) &= \E(Y_t^2 | \F_s) \\
+&= \E((Y_t - Y_s + Y_s)^2 | \F_s) \\
+&= \E(\underbrace{(Y_t - Y_s)^2}_{\text{independent of $\F_s$}} + 2 Y_s Y_t - 2Y_s^2 + Y_s^2 | \F_s) \\
+&= \E((Y_t - Y_s)^2) + 2Y_s \E(Y_t) - Y_s^2 \\
+&= \E(Y_t^2) - E(2Y_s Y_t) + \E(Y_s^2) - Y_s^2 \\
+&= \E(Y_t^2) - \E(Y_s^2) - Y_s^2 \\
+&= \frac{1}{2}(e^{2t} - e^{2s}) - Y_s^2
+\end{align}
+$$
+and so
+$$
+\E(Y_t^2 | Y_s = x) - \E(Y_t | Y_s = x)^2 = \frac{1}{2}(e^{2t} - e^{2s}).
+$$
+
+
+With straight forward changes of variable:
+$$
+\begin{align}
+\E(h(Y_t) | Y_s = e^s x - X_0) &= \int_{-\infty}^{\infty}  h(y) \frac{e^{-\frac{(y - (e^s x - X_0))^2}{e^{2t} - e^{2s}}}}{\sqrt{ \pi (e^{2t} - e^{2s})}} \, dy \\
+&=  \int_{-\infty}^{\infty}  g(X_0 e^{-t} + e^{-t} y) \frac{e^{-\frac{(y - (e^s x - X_0))^2}{e^{2t} - e^{2s}}}}{\sqrt{ \pi (e^{2t} - e^{2s})}} \, dy \\
+&=  \int_{-\infty}^{\infty}  g(y) \frac{e^{-\frac{(e^t(y - X_0e^{-t}) - (e^s x - X_0))^2}{e^{2t} - e^{2s}}}}{\sqrt{ \pi (e^{2t} - e^{2s})}} \, e^t dy \\
+&=  \int_{-\infty}^{\infty}  g(y) \frac{e^{-\frac{e^{2t}(y - e^{s-t} x))^2}{e^{2t} - e^{2s}}}}{\sqrt{ \pi (e^{2t} - e^{2s})}} \, e^t dy \\
+&=  \int_{-\infty}^{\infty}  g(y) \frac{e^{-\frac{(y - e^{-(t -s)} x))^2}{1 - e^{-2(t - s)}}}}{\sqrt{ \pi (1 - e^{-2(t - s)})}} \, dy.
+\end{align}
+$$
+:::
+
+
+Therefore,
+
+$$
+p_t(x, y) = \frac{1}{\sqrt{\pi(1 - e^{-2t})}} e^{-\frac{(y - x e^{-t})^2}{(1 - e^{-2t})}}.
+$$
+
+#### (b)
+
+$$
+\lim_{t \to \infty} p_t(x, y) = \frac{1}{\sqrt{\pi}} e^{-y^2}.
+$$ 
+
+#### (c)
+
+$$
+\begin{align}
+A^*f &= \frac{1}{2} \partial_x^2( \sigma^2(x) f) - \partial_x(\mu(x) f) \\
+&= \frac{1}{2} \partial_x^2 f + \partial_x(x f) \\
+&= \frac{1}{2} \partial_x^2 + x \partial_x f + f.
+\end{align}
+$$
+Therefore, if $f = e^{x^2}$, then
+$$
+\begin{align}
+A^*f &= \frac{1}{2} \partial_x^2 f + x \partial_x f  + f\\
+&= \frac{1}{2}\partial_x( (-2x) e^{-x^2}) - 2x^2 f  + f\\
+&= -f  - x(-2x) f - 2x^2 f + f \\
+&= 2x^2f - 2x^2 f \\
+&= 0.
+\end{align}
+$$
+
+#### (d)
+
+For the more general SDE
+$$
+d X_t = \sigma d B_t - k X_t dt
+$$
+the solution is
+$$
+X_t = X_0 e^{-kt} + e^{-kt} \int_0^t e^{ks} \sigma dB_s.
+$$
+
+The mean is
+$$
+\begin{align}
+\E(X_t) &= X_0 e^{-kt}
+\end{align}
+$$
+and the variance is
+$$
+\begin{align}
+\E(X_t^2) - \E(X_t)^2 &= e^{-2kt} \E((\int_0^t e^{ks} \sigma dB_s)^2) \\
+&= e^{-2kt} \int_0^t \sigma^2 e^{2ks} ds \\
+&= e^{-2kt} \frac{\sigma^2}{2k}(e^{2kt} - 1) \\
+&= \frac{\sigma^2}{2k} (1 - e^{-2kt}).
+\end{align}
+$$
+Therefore, the transition probability density function is
+$$
+p_t(x, y) = \frac{1}{\sigma \sqrt{\pi (1 - e^{-2kt}) /k}} e^{- \frac{k (y - xe^{-kt})^2}{\sigma^2(1 - e^{-2kt})}}
+$$
+and
+$$
+\lim_{t \to \infty} p_t(x, y) = \frac{1}{\sigma} \sqrt{\frac{k}{\pi}} e^{-\frac{ky^2}{\sigma^2}}.
+$$
+
+It is expected that $f = e^{-\frac{kx^2}{\sigma^2}}$ satisfies
+$$
+A^* f = 0.
+$$
+Indeed,
+$$
+\begin{align}
+A^* f &= \frac{1}{2} \partial_x^2(\sigma^2(x) f) - \partial_x(\mu(x) f) \\
+&= \frac{\sigma^2}{2} \partial_x^2 f + k \partial_x (x f) \\
+&= \frac{\sigma^2}{2} \partial_x(-\frac{2kx}{\sigma^2} f) +k f -kx\frac{2kx}{\sigma^2} f \\
+&= \frac{\sigma^2}{2} (-\frac{2k}{\sigma^2} f + (\frac{2kx}{\sigma^2})^2f) +k f -kx\frac{2kx}{\sigma^2} f \\
+&= -k f + \frac{2k^2 x^2}{\sigma^2} f + k f - \frac{2 k^2 x^2}{\sigma^2} f \\
+&= 0.
+\end{align}
+$$
+
+## 8.9 Smoluchowski's Equation
+
+#### (a)
+The invariant distribution
+$$
+f(x) = C e^{-2V(t)}
+$$
+is a solution of
+$$
+A^* f = 0
+$$
+where $A^*$ is the adjoint of the generator of the diffusion given by the SDE
+
+$$
+d X_t = d B_t - V'(X_t) dt
+$$
+for $t \geq 0$ with
+$$
+\int_{\mathbb{R}} e^{-2V(x)} dx < \infty.
+$$
+
+Proof:
+
+$$
+\begin{align}
+A^*f &= \frac{1}{2} \partial_x^2(\sigma^2(x) f) - \partial_x(\mu(x) f) \\
+&= \frac{1}{2} \partial_x^2 f - \partial_x(-V'(x) f) \\
+&= \frac{1}{2} \partial_x^2 f + V''(x) f + V'(x) \partial_x f.\
+\end{align}
+$$
+
+If
+$$
+f(x) = C e^{-2 V(x)},
+$$
+then
+
+$$
+\begin{align}
+A^* f &= \frac{1}{2} \partial_x^2(C e^{-2 V(x)}) + V''(x) Ce^{-2V(x)}  - V'(x) 2 V'(x) Ce^{-2V(x)} \\
+&= \frac{1}{2} \partial_x(-2 V'(x) Ce^{-2V(x)}) + V''(x) f - 2 (V'(x))^2 f \\
+&= \frac{1}{2}( -2 V''(x) C e^{-2V(x)} + 4 (V'(x))^2 Ce^{-2V(x)}) + V''(x)f - 2(V'(x))^2 f \\
+&= -V''(x) f +2 (V'(x))^2 f + V''(x) f -2(V'(x))^2 f \\
+&= 0.
+\end{align}
+$$
+
+
+$$
+\qed
+$$
+
+#### (b)
+Let
+$$
+V(x) = | x |.
+$$
+Then the SDE is
+
+$$
+d X_t = d B_t - \sgn(X_t) dt
+$$
+for $t \geq 0$, where
+$$
+\sgn(x) = \begin{cases}
+1 & \text{if } x \geq 0, \\
+-1& \text{otherwise.}
+\end{cases}
+$$
+
+In this case, the invariant distribution is of the form
+$$
+f(x) = C e^{-2|x|}.
+$$
+The constant $C$ is found from the contstraint that $f(x)$ integrated over all $x$ must be zero:
+
+$$
+\begin{align}
+1 &= \int_{-\infty}^{\infty} f (x) \, dx \\
+&= C \int_{-\infty}^{\infty} e^{-2|x|} \, dx \\
+&= 2C \int_0^{\infty} e^{-2x} \, dx \\
+&= 2C \frac{1}{2} \\
+&= C
+\end{align}
+$$
+i.e. $C = 1$.
+
+## 8.10 CIR Model as a Markov Process
+
+
+## 8.12 $B_t^2$ is a Markov Process
+#### (a)
+
+$B_t^2$ is a Markov process.
+
+Proof:
+
+It must be shown that
+$$
+\E(B_t^2 | \F_s) = \E(B_t^2 | B_s^2)
+$$
+where $\F_s$ is the natural filtration of the process $B_s^2$.
+
+The proof will make use of the _Independence Lemma_.
+
+::: {.callout-note}
+## Independence Lemma
+Let $(\Omega, \F, \P)$ be a probability space, and
+let $\mathcal{G}$ be a sub-$\sigma$-algebra of $\F$. Suppose the random variables $X_1 , \ldots, X_K$ are
+$\mathcal{G}$-measurable and the random variables $Y_1 , \ldots, Y_L$ are independent of $\mathcal{G}$. Let
+$$
+f ( x _1 , \ldots, X_K , y_1 , \ldots, Y_L)
+$$
+be a function of the dummy variables $x_1 ,\ldots, X_K$ and
+$Y_1 , \ldots , Y_L$ , and define
+$$
+g ( x_1 ,\ldots , x_K ) = \E(f ( x_1 , \ldots, x_K , Y_1 ,\ldots, Y_L)).
+$$
+
+Then
+$$
+\E(f(X_1, \ldots, X_K, Y_1, \ldots, Y_L | \mathcal{G}) = g(X_1, \ldots, X_k).
+$$
+:::
+
+The process $B_t^2$ can be expressed in terms of $Y_1=(B_t - B_s)$, $Y_2 = \sgn(B_s)$ and $X = B_s^2$:
+$$
+\begin{align}
+B_t^2 &= Y_1^2 + 2 Y_1 Y_2 \sqrt{X} + X \\
+&= f(Y_1, Y_2, X)
+\end{align}
+$$
+where
+$$
+f(y_1, y_2, x) = y_1^2 + 2 y_1 y_2\sqrt{x} + x.
+$$
+
+Since $\sigma(B_s^2) \subseteq \sigma(B_s)$, the independence of Brownian increments can be invoked to
+assert that $Y_1$ is independent of $\F_s$.
+
+Trivially, $\sigma(|B_s|) = \sigma(B_s^2)$. Therefore, $\sgn(B_s)$ is independent of $\F_s$ if and only if $\sgn(B_s)$ is independent of $\sigma(|B_{s'}|)$ for $s' \leq s$. Intuitively, $\sgn(B_s)$ is independent of the magnitude of $B_s$ because the magnitude gives no information about the
+sign, and vice versa.
+
+::: {.callout-note }
+For $s \leq t$ and $A \subseteq \mathbb{R}_+$,
+
+$$
+\P(B_s \in A, \sgn(B_t) = -1) = \P(-B_s \in A, \sgn(B_t) = 1)
+$$
+by symmetry. Then
+$$
+\begin{align}
+\P(|B_s| \in A, \sgn(B_t) = 1) &= \P(B_s \in A, \sgn(B_t) =1) + \P(-B_s \in A, \sgn(B_t) =1) \\
+&= \P(B_s \in A, \sgn(B_t) =1) + \P (B_s \in A, \sgn(B_t) = -1) \\
+&= \P(B_s \in A) \\
+&= \frac{1}{2} \P(|B_s| \in A) \\
+&= \P(|B_s| \in A) \P(\sgn(B_t) = 1).
+\end{align}
+$$
+Similarly,
+$$
+\P(|B_s| \in A, \sgn(B_t) = -1) = \P(|B_s| \in A) \P(\sgn(B_t) = -1),
+$$
+and so $|B_s|$ and $\sgn(B_t)$ are independent
+:::
+
+
+The random variable $X = B_s^2$ is obviously $\F_s$-measurable.
+
+These facts taken together allow the Independence Lemma to be applied giving
+
+$$
+\begin{align}
+\E(B_t^2 | \F_s) &= g(B_s^2).
+\end{align}
+$$
+
+The random variable $g(B_s^2)$ is $\sigma(B_s^2)$-measurable and satisifies
+$$
+\begin{align}
+\int_A g(B_s^2) d \P &= \int_A \E(B_t^2 | \F_s) d \P \\
+&= \int_A B_t^2 d \P
+\end{align}
+$$
+for all $A \in \sigma(B_s^2) \subseteq \F_s$ i.e.
+$$
+g(B_s^2) = \E(B_t^2 | B_s^2).
+$$
+
+$$
+\qed
+$$
+
+#### (b)
+
+$$
+\int_0^t B_s dB_s
+$$
+is a Markov process.
+
+Proof:
+
+Using Ito's formula
+
+$$
+B_t^2 = 2 \int_0^t B_s d B_s + t
+$$
+and so
+$$
+X_t = \int_0^t B_s d B_s = \frac{1}{2} (B_t^2 - t).
+$$
+
+The process $X_t$ is Markov:
+
+$$
+\begin{align}
+\E(X_t | \F_s) &= \frac{1}{2}\left(\E(B_t^2 | \F_s) - t \right) \\
+&= \frac{1}{2} \left(\E(B_t^2 | B_s^2) -t \right) \\
+&= \E(X_t | B_s^2) \\
+&= \E(X_t | X_s).
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+
+
