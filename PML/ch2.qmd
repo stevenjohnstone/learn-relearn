@@ -1,6 +1,5 @@
 ---
-title: "Probabilistic Machine Learning"
-subtitle: "Chapter Two Exercises"
+title: "Chapter Two Exercises"
 toc: true
 toc-location: body
 execute:

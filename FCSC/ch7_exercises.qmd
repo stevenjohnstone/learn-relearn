@@ -1,5 +1,5 @@
 ---
-title: "Exercises"
+title: "Chapter 7 Exercises"
 toc: true
 toc-location: body
 execute:

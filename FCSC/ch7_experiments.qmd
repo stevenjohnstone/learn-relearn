@@ -1,5 +1,5 @@
 ---
-title: "Computer Experiments"
+title: "Chapter 7 Computer Experiments"
 toc: true
 toc-location: body
 execute:

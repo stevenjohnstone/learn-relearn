@@ -1,5 +1,24 @@
 ---
 title: "learn-relearn"
+listing:
+  - id: FCSC
+    contents: FCSC
+    type: table
+    fields: [title]
+  - id: PML
+    contents: PML
+    type: table
+    fields: [title]
 ---
+
+## First Course in Stochastic Calculus
+
+:::{#FCSC}
+:::
+
+## Probabilistic Machine Learning
+
+:::{#PML}
+:::
 
 
