@@ -239,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Exercises</h1>
+      <h1 class="quarto-secondary-nav-title">Chapter 8 Exercises</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -353,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Exercises</h1>
+<h1 class="title d-none d-lg-block">Chapter 8 Exercises</h1>
 </div>
 
 <div>
@@ -387,6 +387,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#smoluchowskis-equation" id="toc-smoluchowskis-equation">8.9 Smoluchowski’s Equation</a></li>
   <li><a href="#cir-model-as-a-markov-process" id="toc-cir-model-as-a-markov-process">8.10 CIR Model as a Markov Process</a></li>
   <li><a href="#b_t2-is-a-markov-process" id="toc-b_t2-is-a-markov-process">8.12 <span class="math inline">\(B_t^2\)</span> is a Markov Process</a></li>
+  <li><a href="#generator-of-a-poisson-process" id="toc-generator-of-a-poisson-process">8.13 Generator of a Poisson Process</a></li>
   </ul>
 </nav>
 <div class="hidden">
@@ -1022,6 +1023,55 @@ X_t = \int_0^t B_s d B_s = \frac{1}{2} (B_t^2 - t).
 \end{align}
 \]</span></p>
 <p><span class="math display">\[
+\qed
+\]</span></p>
+</section>
+</section>
+<section id="generator-of-a-poisson-process" class="level2">
+<h2 class="anchored" data-anchor-id="generator-of-a-poisson-process">8.13 Generator of a Poisson Process</h2>
+<p>Let <span class="math inline">\((N_t, t \geq 0)\)</span> be a Poisson process with rate <span class="math inline">\(\lambda\)</span>.</p>
+<section id="a-7" class="level4">
+<h4 class="anchored" data-anchor-id="a-7">(a)</h4>
+<p><span class="math inline">\((N_t, t \geq 0)\)</span> is a Markov process.</p>
+<p>Proof:</p>
+<p>Let <span class="math inline">\((F_s, s \geq 0\)</span>) the the natural filtration of the process. The increments of the process are independent: in particular, <span class="math inline">\(N_t - N_s\)</span> is independent of <span class="math inline">\(\F_s\)</span> and <span class="math inline">\(\sigma(N_s)\)</span>. For <span class="math inline">\(s \leq t\)</span>,</p>
+<p><span class="math display">\[
+\begin{align}
+\E(N_t , \F_s) &amp;= E(N_t - N_s + N_s | \F_s) \\
+&amp;= \E(\underbrace{N_t - N_s}_{\text{independent of $\F_s$}} | \F_s) + \E(\underbrace{N_s}_{\F_s\text{-measurable}} | \F_s) \\
+&amp;= \E(N_t - N_s) + N_s \\
+&amp;= \E(N_t - N_s| N_s) + N_s \\
+&amp;= \E(N_t | N_s).
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\qed
+\]</span></p>
+</section>
+<section id="b-6" class="level4">
+<h4 class="anchored" data-anchor-id="b-6">(b)</h4>
+<p>The generator of the Poisson process is <span class="math display">\[
+A f = \lambda (f (x+1) - f(x)).
+\]</span></p>
+<p>Proof:</p>
+<p>Let <span class="math inline">\(h\)</span> be some arbitrary function with support inside a finite interval.</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{1}{\varepsilon}\E(h(N_{t + \varepsilon})- h(N_t)) &amp;= \frac{1}{\varepsilon} \sum h(k) \left(\frac{\lambda^k(t+ \varepsilon)^k  e^{-\lambda (t + \varepsilon)}}{k!} - \frac{\lambda^kt^k e^{-\lambda t}}{k!}\right) \\
+&amp;= \frac{1}{\varepsilon} \sum \frac{h(k)\lambda^k e^{-\lambda t}}{k!} \left( e^{-\lambda \varepsilon}\sum_{n = 0}^k {k \choose n} t^{k - n} \varepsilon^{n}  - t^k\right) \\
+&amp;= \frac{1}{\varepsilon} \sum \frac{h(k)\lambda^k e^{-\lambda t}}{k!} \left( e^{-\lambda \varepsilon}\sum_{n = 1}^k {k \choose n} t^{k -n }\varepsilon^{n} + t^k (e^{-\lambda\varepsilon} - 1)  \right) \\
+&amp;= \sum \frac{h(k)\lambda^k e^{-\lambda t}}{k!} \left( e^{-\lambda \varepsilon}\sum_{n = 1}^k {k \choose n} t^{k -n }\varepsilon^{n-1} + t^k\underbrace{\frac{e^{-\lambda \varepsilon} -1 }{\varepsilon}}_{\to \frac{d e^{-\lambda x}}{dx} \vert_{x=0}}  \right) \\
+&amp;\to \sum \frac{h(k) \lambda^k e^{-\lambda t}}{k!} (k t^{k-1} - \lambda t^k)  \\
+&amp;= \lambda\left (\E((Th)(N_t)) - \E(h(N_t))\right)
+\end{align}
+\]</span></p>
+<p>where <span class="math display">\[
+(Th)(x) = h(x+1).
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\partial_t f(x) = \lambda(f(x + 1) - f(x)).
+\]</span> <span class="math display">\[
 \qed
 \]</span></p>
 

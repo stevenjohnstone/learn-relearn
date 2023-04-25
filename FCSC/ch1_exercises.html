@@ -239,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Exercises</h1>
+      <h1 class="quarto-secondary-nav-title">Chapter 1 Exercises</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -353,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Exercises</h1>
+<h1 class="title d-none d-lg-block">Chapter 1 Exercises</h1>
 </div>
 
 <div>
@@ -376,7 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#section" id="toc-section">1.1</a></li>
+  <li><a href="#basic-properties-of-a-probability" id="toc-basic-properties-of-a-probability">1.1 Basic Properties of A Probability</a></li>
   <li><a href="#equiprobability" id="toc-equiprobability">1.2 Equiprobability</a></li>
   <li><a href="#distribution-as-a-probability-on-mathbbr" id="toc-distribution-as-a-probability-on-mathbbr">1.3 Distribution as a Probability on <span class="math inline">\(\mathbb{R}\)</span></a></li>
   <li><a href="#distribution-of-an-indicator-function" id="toc-distribution-of-an-indicator-function">1.4 Distribution of an Indicator Function</a></li>
@@ -390,77 +390,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#gaussian-tail" id="toc-gaussian-tail">1.12 Gaussian Tail</a></li>
   <li><a href="#expectation-from-cdf" id="toc-expectation-from-cdf">1.13 Expectation from CDF</a></li>
   <li><a href="#characteristic-function" id="toc-characteristic-function">1.14 Characteristic Function</a></li>
-  <li><a href="#when-ex-infty" id="toc-when-ex-infty">1.15 When <span class="math inline">\(E(X) &lt; \infty\)</span></a></li>
-  <li><a href="#when-ex-0" id="toc-when-ex-0">1.16 When <span class="math inline">\(E(X) = 0\)</span></a></li>
+  <li><a href="#when-ex-infty" id="toc-when-ex-infty">1.15 When <span class="math inline">\(\E(X) &lt; \infty\)</span></a></li>
+  <li><a href="#when-ex-0" id="toc-when-ex-0">1.16 When <span class="math inline">\(\E(X) = 0\)</span></a></li>
   </ul>
 </nav>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section">1.1</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\P}{\operatorname{P}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\trace}{\operatorname{trace}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\qed}{\tag*{$\square$}}
+\newcommand{\erf}{\operatorname{erf}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\1}{\mathbb{1}}
+\def\iddots{{\kern3mu\raise1mu{.}\kern3mu\raise6mu{.}\kern3mu
+\raise12mu{.}}}
+\]</span></p>
+</div>
+<section id="basic-properties-of-a-probability" class="level2">
+<h2 class="anchored" data-anchor-id="basic-properties-of-a-probability">1.1 Basic Properties of A Probability</h2>
 <p>Prove proposition 1.3.</p>
 <ol type="1">
-<li>Finite additivity: if two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are disjoint, then <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span></li>
+<li>Finite additivity: if two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are disjoint, then <span class="math inline">\(\P(A \cup B) = \P(A) + \P(B)\)</span></li>
 </ol>
 <p>This follows from Definition 2.3 (3) with <span class="math inline">\(A = A_1\)</span>, <span class="math inline">\(B = A_2\)</span> and <span class="math inline">\(A_i = \emptyset\)</span> for <span class="math inline">\(i &gt; 2\)</span>:</p>
 <p><span class="math display">\[
 \begin{align}
-P(A \cup B) &amp;= P (\cup_{i} A_i) = P(A_1) + P(A_2) + \cup_{i &gt; 2} P(A_i) \\
-            &amp;= P(A) + P(B) + \cup_{i &gt; 2} P(\emptyset) \\
-            &amp;= P(A) + P(B).
+\P(A \cup B) &amp;= P (\cup_{i} A_i) = \P(A_1) + \P(A_2) + \cup_{i &gt; 2} \P(A_i) \\
+            &amp;= \P(A) + \P(B) + \cup_{i &gt; 2} \P(\emptyset) \\
+            &amp;= \P(A) + \P(B).
 \end{align}
 \]</span></p>
 <ol start="2" type="1">
-<li>For any event <span class="math inline">\(A\)</span>, <span class="math inline">\(P(A^c) = 1 - P(A)\)</span>:</li>
+<li>For any event <span class="math inline">\(A\)</span>, <span class="math inline">\(\P(A^c) = 1 - \P(A)\)</span>:</li>
 </ol>
 <p><span class="math inline">\(\Omega\)</span> is the disjoint union of <span class="math inline">\(A\)</span> and <span class="math inline">\(A^c\)</span>. By (1) above <span class="math display">\[
-1 = P(\Omega) = P(A \cup A^c) = P(A) + P(A^c)
+1 = \P(\Omega) = \P(A \cup A^c) = \P(A) + \P(A^c)
 \]</span> so <span class="math display">\[
-P(A) = 1 - P(A^c).
+\P(A) = 1 - \P(A^c).
 \]</span></p>
 <ol start="3" type="1">
-<li>For any events <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span>:</li>
+<li>For any events <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)\)</span>:</li>
 </ol>
 <p>Express <span class="math inline">\(A \cup B = (A\setminus B) \cup B\)</span> where the union is disjoint. Using (1)</p>
 <p><span class="math display">\[
-P(A \cup B) = P(A\setminus B) + P(B).
+\P(A \cup B) = \P(A\setminus B) + \P(B).
 \]</span> Now, <span class="math display">\[
-P(A\setminus B) + P(A\cap B) = P(A)
+\P(A\setminus B) + \P(A\cap B) = \P(A)
 \]</span> and so <span class="math display">\[
-P(A\setminus B) = P(A) - P(A\cap B).
+\P(A\setminus B) = \P(A) - \P(A\cap B).
 \]</span></p>
 <p>It follows that</p>
 <p><span class="math display">\[
-P(A \cup B) = P(A \setminus B) + P(B) = P(A) + P(B) - P(A \cap B).
+\P(A \cup B) = \P(A \setminus B) + \P(B) = \P(A) + \P(B) - \P(A \cap B).
 \]</span></p>
 <ol start="4" type="1">
-<li>Monotonicity: If <span class="math inline">\(A \subseteq B\)</span>, then <span class="math inline">\(P(A) \leq P(B)\)</span>.</li>
+<li>Monotonicity: If <span class="math inline">\(A \subseteq B\)</span>, then <span class="math inline">\(\P(A) \leq \P(B)\)</span>.</li>
 </ol>
 <p>If <span class="math inline">\(A \subseteq B\)</span>, then <span class="math inline">\(B = A \cup (B \setminus A)\)</span> where the union is disjoint. It follows that</p>
 <p><span class="math display">\[
-P(B) = P(A) + P(B \setminus A) \geq P(A).
+\P(B) = \P(A) + \P(B \setminus A) \geq \P(A).
 \]</span></p>
 </section>
 <section id="equiprobability" class="level2">
 <h2 class="anchored" data-anchor-id="equiprobability">1.2 Equiprobability</h2>
 <p>Let <span class="math inline">\(\Omega\)</span> be a sample space with a finite number of outcomes. We define</p>
 <p><span class="math display">\[
-P(A) = \#A/\#\Omega
+\P(A) = \#A/\#\Omega
 \]</span> for <span class="math inline">\(A \subseteq \Omega\)</span>.</p>
 <p><span class="math inline">\(P\)</span> is a probability on <span class="math inline">\(\Omega\)</span>.</p>
 <p>Proof:</p>
 <ol type="1">
-<li><p>Since counts are positive, <span class="math inline">\(P &gt;= 0\)</span>. Since <span class="math inline">\(\#A \leq \#\Omega\)</span>, <span class="math inline">\(P \leq 1\)</span> and so <span class="math inline">\(P(A) \in [0, 1]\)</span> for <span class="math inline">\(A \subseteq \Omega\)</span>.</p></li>
-<li><p>The empty set <span class="math inline">\(\emptyset\)</span> has no elements, so <span class="math inline">\(P(\emptyset) = 0\)</span>. It is easy to see that <span class="math display">\[
-P(\Omega) = \frac{\# \Omega}{ \# \Omega} =1.
+<li><p>Since counts are positive, <span class="math inline">\(P &gt;= 0\)</span>. Since <span class="math inline">\(\#A \leq \#\Omega\)</span>, <span class="math inline">\(P \leq 1\)</span> and so <span class="math inline">\(\P(A) \in [0, 1]\)</span> for <span class="math inline">\(A \subseteq \Omega\)</span>.</p></li>
+<li><p>The empty set <span class="math inline">\(\emptyset\)</span> has no elements, so <span class="math inline">\(\P(\emptyset) = 0\)</span>. It is easy to see that <span class="math display">\[
+\P(\Omega) = \frac{\# \Omega}{ \# \Omega} =1.
 \]</span></p></li>
 <li><p>Additivity: for any infinite, mutually disjoint sequence of events <span class="math inline">\(A_1, A_2, \ldots\)</span> there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(A_n = \emptyset\)</span> for all <span class="math inline">\(n \geq N\)</span>. In fact, <span class="math inline">\(N\)</span> must be less than <span class="math inline">\(\# \Omega\)</span>.</p></li>
 </ol>
 <p>Then</p>
 <p><span class="math display">\[
 \begin{align}
-P(\cup_{i=1}^{\infty} A_n) &amp;= P(\cup_{i=1}^{N} A_n)\\
+\P(\cup_{i=1}^{\infty} A_n) &amp;= \P(\cup_{i=1}^{N} A_n)\\
 &amp;= \frac{\sum_{i=1}^N \# A_n}{\# \Omega} \\
-&amp;= \sum_{i=1}^N P(A_n) \\
-&amp;= \sum_{i=1}^{\infty} P(A_n).
+&amp;= \sum_{i=1}^N \P(A_n) \\
+&amp;= \sum_{i=1}^{\infty} \P(A_n).
 \end{align}
 \]</span>.</p>
 </section>
@@ -468,67 +487,70 @@ P(\cup_{i=1}^{\infty} A_n) &amp;= P(\cup_{i=1}^{N} A_n)\\
 <h2 class="anchored" data-anchor-id="distribution-as-a-probability-on-mathbbr">1.3 Distribution as a Probability on <span class="math inline">\(\mathbb{R}\)</span></h2>
 <p>Let <span class="math inline">\(\rho_X\)</span> be the distribution of random variables <span class="math inline">\(X\)</span> on some probability space <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>. <span class="math inline">\(\rho_X\)</span> has the properties of a probability on <span class="math inline">\(\mathbb{R}\)</span>.</p>
 <p>Proof:</p>
-<p>Let <span class="math inline">\(\mathcal{F}_X\)</span> be the <span class="math inline">\(\sigma\)</span>-field of set in <span class="math inline">\(\mathbb{R}\)</span> such that <span class="math inline">\(A \in \mathcal{F} \iff \{\omega \in \Omega: X(\omega) \in A\} \in \mathcal{F}\)</span>.</p>
+<p>Let <span class="math inline">\(\mathcal{F}_X\)</span> be the <span class="math inline">\(\sigma\)</span>-field of sets in <span class="math inline">\(\mathbb{R}\)</span> such that <span class="math display">\[
+A \in \mathcal{F} \iff \{\omega \in \Omega: X(\omega) \in A\} \in \mathcal{F}.
+\]</span></p>
 <p>We define <span class="math inline">\(P_X\)</span> on <span class="math inline">\(\mathcal{F}_X\)</span> by</p>
 <p><span class="math display">\[
-P_X(A) = P(\{\omega \in \Omega: X(\omega) \in A\}).
+P_X(A) = \P(\{\omega \in \Omega: X(\omega) \in A\}).
 \]</span></p>
 <p>We note that <span class="math inline">\(P_X\)</span> extends <span class="math inline">\(\rho_X\)</span>.</p>
 <p>For notational simplicity, we write</p>
 <p><span class="math display">\[
 X^{-1}(A) = \{\omega \in \Omega: X(\omega) \in A\}.
 \]</span></p>
-<p>Clearly, for any <span class="math inline">\(A \in \mathcal{F}_X\)</span>, <span class="math inline">\(P_X(A) = P(X^{-1}(A)) \in [0,1]\)</span>, so satisfies (1) of Definition 1.2.</p>
-<p>The pre-image of <span class="math inline">\(\emptyset\)</span>, <span class="math inline">\(X^{-1}(\emptyset)\)</span> must be itself empty. Therefore,</p>
+<p>Clearly, for any <span class="math inline">\(A \in \mathcal{F}_X\)</span>, <span class="math inline">\(P_X(A) = \P(X^{-1}(A)) \in [0,1]\)</span>, so satisfies (1) of Definition 1.2.</p>
+<p>The pre-image of <span class="math inline">\(\emptyset\)</span>, <span class="math inline">\(X^{-1}(\emptyset)\)</span>, must be itself empty so</p>
 <p><span class="math display">\[
-P_X(\emptyset) = P(\emptyset) = 0.
+P_X(\emptyset) = \P(\emptyset) = 0.
 \]</span></p>
 <p>Similarly, the pre-image of <span class="math inline">\(\mathbb{R}\)</span> must be all of <span class="math inline">\(\Omega\)</span> and so</p>
 <p><span class="math display">\[
-P_X(\mathbb{R}) = P(\Omega) = 1.
+P_X(\mathbb{R}) = \P(\Omega) = 1.
 \]</span></p>
 <p>This shows that <span class="math inline">\(P_X\)</span> satisfies (2) of Definition 2.1.</p>
 <p>Let <span class="math inline">\(A_1, A_2, \ldots\)</span> be an infinite sequence of events in <span class="math inline">\(\mathcal{F}_X\)</span> that are mutually disjoint. Note that the sequence of pre-images <span class="math inline">\(X^{-1}(A_1), X^{-1}(A_2), \ldots\)</span> are also mutually disjoint. Since <span class="math inline">\(P\)</span> is a probability we can use its additivity to prove the additivity of <span class="math inline">\(P_X\)</span>:</p>
 <p><span class="math display">\[
-P_X(\cup_{i=1}^{\infty} A_i) = P(\cup_{i=1}^{\infty} X^{-1}(A_i)) = \sum_{i=1}^{\infty} P(X^{-1}(A_i)) = \sum_{i=1}^{\infty} P_X(A_i).
+P_X(\cup_{i=1}^{\infty} A_i) = \P(\cup_{i=1}^{\infty} X^{-1}(A_i)) = \sum_{i=1}^{\infty} \P(X^{-1}(A_i)) = \sum_{i=1}^{\infty} P_X(A_i).
 \]</span></p>
 <p>This shows that <span class="math inline">\(P_X\)</span> satisfies (3) of Definition 2.1.</p>
 </section>
 <section id="distribution-of-an-indicator-function" class="level2">
 <h2 class="anchored" data-anchor-id="distribution-of-an-indicator-function">1.4 Distribution of an Indicator Function</h2>
-<p>Let <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span> and <span class="math inline">\(A \in \mathcal{F}\)</span> with <span class="math inline">\(0 &lt; P(A) &lt; 1\)</span>. What is the distribution of <span class="math inline">\(1_A\)</span>?</p>
-<p>Observe that <span class="math inline">\(P(1_A \leq x) = 0\)</span> when <span class="math inline">\(x &lt; 0\)</span> because the indicator is a non-negative function. When <span class="math inline">\(0 \leq x &lt; 1\)</span>, <span class="math inline">\(1_A(\omega) &gt; x\)</span> for all <span class="math inline">\(\omega \in A\)</span> but <span class="math inline">\(1_A(\omega) = 0 &lt;= x\)</span> for <span class="math inline">\(\omega \in A^c\)</span>. It follows that <span class="math display">\[P(1_A \leq x) = P(\{\omega \in \Omega : 1_A(\omega) \leq x\}) =P(\{\omega \in \Omega : \omega \in A^c\}) = P(A^c).\]</span> For <span class="math inline">\(x \geq 1\)</span>, <span class="math inline">\(1_A \leq x\)</span> is true for all values of <span class="math inline">\(\omega \in \Omega\)</span> because the maximum value of the indicator function is <span class="math inline">\(1\)</span>. Therefore, with <span class="math inline">\(F\)</span> denoting the CDF of <span class="math inline">\(1_A\)</span>: <span class="math display">\[
-F(x) = P(1_A \leq x) = \begin{cases}
+<p>Let <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span> and <span class="math inline">\(A \in \mathcal{F}\)</span> with <span class="math inline">\(0 &lt; \P(A) &lt; 1\)</span>. What is the distribution of <span class="math inline">\(\1_A\)</span>?</p>
+<p>Observe that <span class="math inline">\(\P(\1_A \leq x) = 0\)</span> when <span class="math inline">\(x &lt; 0\)</span> because the indicator is a non-negative function. When <span class="math inline">\(0 \leq x &lt; 1\)</span>, <span class="math inline">\(\1_A(\omega) &gt; x\)</span> for all <span class="math inline">\(\omega \in A\)</span> but <span class="math inline">\(\1_A(\omega) = 0 &lt;= x\)</span> for <span class="math inline">\(\omega \in A^c\)</span>. It follows that <span class="math display">\[\P(\1_A \leq x) = \P(\{\omega \in \Omega : \1_A(\omega) \leq x\}) =\P(\{\omega \in \Omega : \omega \in A^c\}) = \P(A^c).\]</span> For <span class="math inline">\(x \geq 1\)</span>, <span class="math inline">\(\1_A \leq x\)</span> is true for all values of <span class="math inline">\(\omega \in \Omega\)</span> because the maximum value of the indicator function is <span class="math inline">\(1\)</span>. Therefore, with <span class="math inline">\(F\)</span> denoting the CDF of <span class="math inline">\(\1_A\)</span>: <span class="math display">\[
+F(x) = \P(\1_A \leq x) = \begin{cases}
 0 &amp; \text{if } x &lt; 0,\\
-P(A^c) &amp; \text{if } 0 \leq x &lt; 1,\\
+\P(A^c) &amp; \text{if } 0 \leq x &lt; 1,\\
 1 &amp; \text{if } x \geq 1.
 \end{cases}
 \]</span></p>
 </section>
 <section id="events-of-probability-one" class="level2">
 <h2 class="anchored" data-anchor-id="events-of-probability-one">1.5 Events of Probability One</h2>
-<p>Let <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span> be a probability space and <span class="math inline">\(A_1, A_2, \ldots\)</span> be a sequence of events in <span class="math inline">\(\mathcal{F}\)</span> such that <span class="math inline">\(P(A_n) = 1\)</span> for all <span class="math inline">\(n \geq 1\)</span>. We show that</p>
+<p>Let <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span> be a probability space and <span class="math inline">\(A_1, A_2, \ldots\)</span> be a sequence of events in <span class="math inline">\(\mathcal{F}\)</span> such that <span class="math inline">\(\P(A_n) = 1\)</span> for all <span class="math inline">\(n \geq 1\)</span>. We show that</p>
 <p><span class="math display">\[
-P(\cap_{i\geq 1} A_n) = 1.
+\P(\cap_{i\geq 1} A_n) = 1.
 \]</span></p>
 <p>Define <span class="math inline">\(B_n = A_n^c\)</span> for all <span class="math inline">\(n \geq 1\)</span>. We note that</p>
 <p><span class="math display">\[
-P(B_n) = 1 - P(A_n) = 0
+\P(B_n) = 1 - \P(A_n) = 0
 \]</span> for all <span class="math inline">\(n \geq 0\)</span>.</p>
 <p>Define a sequence of events <span class="math inline">\(C_n = \cup_{i =1}^n B_i\)</span> and note that the sequence is increasing. Continuity of probability gives</p>
 <p><span class="math display">\[
-\lim_{n \to \infty} P(C_n) = P(\cup_{i=1}^{\infty} B_i).
+\lim_{n \to \infty} \P(C_n) = \P(\cup_{i=1}^{\infty} B_i).
 \]</span></p>
-<p>Using <span class="math inline">\(P(A \cup B) \leq P(A) + P(B)\)</span>, we see that</p>
+<p>Using <span class="math inline">\(\P(A \cup B) \leq \P(A) + \P(B)\)</span>, we see that</p>
 <p><span class="math display">\[
-P(C_n) \leq \sum_{i = 1}^n P(B_i) = 0
+\P(C_n) \leq \sum_{i = 1}^n \P(B_i) = 0
 \]</span></p>
-<p>and so <span class="math inline">\(P(C_n) = 0\)</span> and <span class="math display">\[\lim_{n \to \infty} P(C_n) = P(\cup_{i=1}^{\infty} B_i) = 0\]</span>.</p>
+<p>and so <span class="math inline">\(\P(C_n) = 0\)</span> and <span class="math display">\[\lim_{n \to \infty} \P(C_n) = \P(\cup_{i=1}^{\infty} B_i) = 0\]</span>.</p>
 <p>To finish the proof, we note that</p>
 <p><span class="math display">\[\begin{align}
-P(\cap_{i=1}^{\infty} A_i) &amp;= 1 - P((\cap_{i=1}^{\infty} A_i)^c)\\
-                           &amp;= 1 - P( \cup_{i =1}^{\infty} A_i^c)\\
-                           &amp;= P(\cup_{i=1}^{\infty} B_i) = 0.
+\P(\cap_{i=1}^{\infty} A_i) &amp;= 1 - \P((\cap_{i=1}^{\infty} A_i)^c)\\
+                           &amp;= 1 - \P( \cup_{i =1}^{\infty} A_i^c)\\
+                           &amp;= 1 - \P(\cup_{i=1}^{\infty} B_i) \\
+                           &amp;= 1.
 \end{align}\]</span></p>
 </section>
 <section id="constructing-a-random-variable-from-another" class="level2">
@@ -540,7 +562,7 @@ P(\cap_{i=1}^{\infty} A_i) &amp;= 1 - P((\cap_{i=1}^{\infty} A_i)^c)\\
 <p>First, the CDF:</p>
 <p>Let <span class="math inline">\(F\)</span> denote the CDF of <span class="math inline">\(Y\)</span> and <span class="math inline">\(F_X\)</span> denote the CDF of X.</p>
 <p>Then <span class="math display">\[
-G(x) = P(Y \leq x) = P(X^2 \leq x) = P(X \leq \sqrt{x}) = F(\sqrt{x}).
+G(x) = \P(Y \leq x) = \P(X^2 \leq x) = \P(X \leq \sqrt{x}) = F(\sqrt{x}).
 \]</span></p>
 <p>Now,</p>
 <p><span class="math display">\[
@@ -634,30 +656,30 @@ p(y) = \frac{dG}{dy}(y) = \begin{cases}
 <p>Proof:</p>
 <p>We assert that <span class="math inline">\(aX + b Y\)</span> is a random variable and are left to show that</p>
 <p><span class="math display">\[
-E(\left|aX + bY\right|) &lt; \infty.
+\E(\left|aX + bY\right|) &lt; \infty.
 \]</span></p>
 <p>By the triangle inequality,</p>
 <p><span class="math display">\[
 \left| aX + bY \right| \leq \left| a \right| \left| X \right| + \left| b \right| \left| Y \right|
 \]</span> and so we can conclude that</p>
 <p><span class="math display">\[
-E(\left|aX + bY\right|) &lt; \infty.
+\E(\left|aX + bY\right|) &lt; \infty.
 \]</span></p>
 </section>
 <section id="jumps-and-probabilities" class="level2">
 <h2 class="anchored" data-anchor-id="jumps-and-probabilities">1.8 Jumps and Probabilities</h2>
 <p>Let <span class="math inline">\(X\)</span> be a random variable and <span class="math inline">\(F_X\)</span> be its CDF. Then</p>
 <p><span class="math display">\[
-P(X = a) = F_X(a) - \lim_{x \to a-} F_X(x) = F_X(a) - F_X(a-).
+\P(X = a) = F_X(a) - \lim_{x \to a-} F_X(x) = F_X(a) - F_X(a-).
 \]</span></p>
 <p>Proof:</p>
 <p>Define a decreasing sequence of events <span class="math inline">\(A_n = \{ X \in (a - 1/n, a]\}\)</span> and note that <span class="math inline">\(\cap_{i=1}^{\infty} A_n = \{ X = a\}\)</span>. By continuity of probability</p>
 <p><span class="math display">\[
-\lim_{n \to \infty} P(A_n) = P(X = a).
+\lim_{n \to \infty} \P(A_n) = \P(X = a).
 \]</span></p>
 <p>Now,</p>
 <p><span class="math display">\[\begin{align}
-P(X = a) &amp;= \lim_{n \to \infty} P(A_n)\\
+\P(X = a) &amp;= \lim_{n \to \infty} \P(A_n)\\
          &amp;= \lim_{n \to \infty} (F_X(a) - F_X(a - 1/n))\\
          &amp;= F_X(a) - \lim_{n \to \infty} (F_X(a - 1/n)) = F_X(a) - F_X(a-).
 \end{align}\]</span></p>
@@ -666,7 +688,7 @@ P(X = a) &amp;= \lim_{n \to \infty} P(A_n)\\
 <h2 class="anchored" data-anchor-id="memory-loss-property">1.9 Memory Loss Property</h2>
 <p>Let <span class="math inline">\(Y\)</span> be an exponential random variable with parameter <span class="math inline">\(\lambda\)</span>. The for any <span class="math inline">\(s, t &gt; 0\)</span></p>
 <p><span class="math display">\[
-P(Y &gt; t + s | Y &gt; s) = P(Y &gt; t).
+\P(Y &gt; t + s | Y &gt; s) = \P(Y &gt; t).
 \]</span></p>
 <p>Proof:</p>
 <p>The CDF of the exponential distribution is</p>
@@ -675,17 +697,21 @@ F(t) = 1 - e^{-\lambda t}.
 \]</span></p>
 <p>Therefore,</p>
 <p><span class="math display">\[
-P(Y &gt; t) = 1 - F(t) = e^{-\lambda t}.
+\P(Y &gt; t) = 1 - F(t) = e^{-\lambda t}.
 \]</span></p>
 <p>Now</p>
 <p><span class="math display">\[\begin{align}
-P(Y &gt; t + s | Y &gt; s) &amp; =  \frac{P(Y &gt; t + s \cap Y &gt; s)}{P(Y &gt; s)} \\
-                     &amp; =  \frac{P(Y &gt; t + s)}{P(Y &gt; s)}  \\
+\P(Y &gt; t + s | Y &gt; s) &amp; =  \frac{\P(Y &gt; t + s \cap Y &gt; s)}{\P(Y &gt; s)} \\
+                     &amp; =  \frac{\P(Y &gt; t + s)}{\P(Y &gt; s)}  \\
                      &amp; =  \frac{e^{-\lambda(t + s)}}{e^{-\lambda s}} \\
                      &amp; =  e^{-\lambda t} \\
-                     &amp; =  P(Y &gt; t).
+                     &amp; =  \P(Y &gt; t).
 \end{align}\]</span></p>
-<p>Note that <span class="math inline">\(P(Y &gt; t + s \cap Y &gt; s) = P(Y &gt; t + s)\)</span> because <span class="math inline">\(\{ \omega \in \Omega | Y(\omega) &gt; t + s \} \subseteq \{ \omega \in \Omega | Y(\omega) &gt; t \}\)</span> and so <span class="math inline">\(\{ \omega \in \Omega | Y(\omega) &gt; t + s \} \cap \{ \omega \in \Omega | Y(\omega) &gt; t \} = \{ \omega \in \Omega | Y(\omega) &gt; t + s\}\)</span>.</p>
+<p>Note that <span class="math inline">\(\P(Y &gt; t + s \cap Y &gt; s) = \P(Y &gt; t + s)\)</span> because <span class="math display">\[
+\{ \omega \in \Omega | Y(\omega) &gt; t + s \} \subseteq \{ \omega \in \Omega | Y(\omega) &gt; t \}
+\]</span> and so <span class="math display">\[
+\{ \omega \in \Omega | Y(\omega) &gt; t + s \} \cap \{ \omega \in \Omega | Y(\omega) &gt; t \} = \{ \omega \in \Omega | Y(\omega) &gt; t + s\}.
+\]</span></p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -698,20 +724,20 @@ This property characterises the exponential distribution
 <div class="callout-body-container callout-body">
 <p>Using the memory property <span class="math display">\[
 \begin{align}
-P(X \leq x + h) - P(X &lt; x) &amp;= 1 - P(X &gt; x + h) -1 + P(X &gt; x) \\
-&amp;= P(X &gt; x) - P(X &gt; x + h) \\
-&amp;= P(X &gt; x) - P(X &gt; x + h | X &gt; x) P(X &gt; x) \\
-&amp;= P(X &gt; x)(1 - P(X &gt; x + h | X &gt; x)) \\
-&amp;= P(X &gt; x)(1 - P(X &gt;  h)) \\
-&amp;= P(X &gt; x)(P(X \leq h) - P( X\leq 0)).
+\P(X \leq x + h) - \P(X &lt; x) &amp;= 1 - \P(X &gt; x + h) -1 + \P(X &gt; x) \\
+&amp;= \P(X &gt; x) - \P(X &gt; x + h) \\
+&amp;= \P(X &gt; x) - \P(X &gt; x + h | X &gt; x) \P(X &gt; x) \\
+&amp;= \P(X &gt; x)(1 - \P(X &gt; x + h | X &gt; x)) \\
+&amp;= \P(X &gt; x)(1 - \P(X &gt;  h)) \\
+&amp;= \P(X &gt; x)(\P(X \leq h) - \P( X\leq 0)).
 \end{align}
 \]</span></p>
 <p>So we can assert that the CDF <span class="math inline">\(F\)</span> satisfies</p>
-<p><span class="math display">\[
+<p>T <span class="math display">\[
 \begin{align}
-F'(x) &amp;= \lim_{h\to 0} \frac{P(X \leq x +h) - P(X \leq x)}{h} \\
-&amp;= P(X &gt; x) \lim_{h \to 0} \frac{P(X \leq h) - P(X \leq 0)}{h} \\
-&amp;= P(X &gt; x) F'(0) \\
+F'(x) &amp;= \lim_{h\to 0} \frac{\P(X \leq x +h) - \P(X \leq x)}{h} \\
+&amp;= \P(X &gt; x) \lim_{h \to 0} \frac{\P(X \leq h) - \P(X \leq 0)}{h} \\
+&amp;= \P(X &gt; x) F'(0) \\
 &amp;= (1 - F(x)) F'(0).
 \end{align}
 \]</span></p>
@@ -748,23 +774,23 @@ E(Z g(Z)) = \int_{-\infty}^{\infty} z g(z) p(z) dz  &amp;=  \frac{1}{\sqrt{2 \pi
 <li>In particular, if <span class="math inline">\(g(z) = z^{n + 1}\)</span>, then <span class="math inline">\(g'(z) = (n +1) z^{n}\)</span> so</li>
 </ol>
 <p><span class="math display">\[
-E( Z g(Z)) = E(Z^{n+2}) = E((n + 1) Z^{n}).
+E( Z g(Z)) = \E(Z^{n+2}) = \E((n + 1) Z^{n}).
 \]</span></p>
 <p>We see that</p>
 <p><span class="math display">\[
 \begin{align}
-E(Z^{2n}) &amp;= (2n -1) E(Z^{2n -2})\\
-          &amp;= (2n -1) (2n -3) E(Z^{2n - 4})\\
-          &amp;= (2n - 1) (2n -3) \ldots 1 E(Z^2)\\
+E(Z^{2n}) &amp;= (2n -1) \E(Z^{2n -2})\\
+          &amp;= (2n -1) (2n -3) \E(Z^{2n - 4})\\
+          &amp;= (2n - 1) (2n -3) \ldots 1 \E(Z^2)\\
           &amp;= (2n -1) (2n -3) \ldots 1.
 \end{align}
 \]</span></p>
 <p>Similarly,</p>
 <p><span class="math display">\[
 \begin{align}
-E(Z^{2n + 1}) &amp;= (2n) E(Z^{2n -1})\\
-          &amp;= (2n) (2n -2) E(Z^{2n - 3})\\
-          &amp;= (2n) (2n -2) \ldots 1 E(Z)\\
+E(Z^{2n + 1}) &amp;= (2n) \E(Z^{2n -1})\\
+          &amp;= (2n) (2n -2) \E(Z^{2n - 3})\\
+          &amp;= (2n) (2n -2) \ldots 1 \E(Z)\\
           &amp;= 0.
 \end{align}
 \]</span></p>
@@ -772,7 +798,7 @@ E(Z^{2n + 1}) &amp;= (2n) E(Z^{2n -1})\\
 <p><span class="math display">\[
 E(X^{2n}) = \sigma^{2n} (2n -1)(2n -3) \ldots 1.
 \]</span></p>
-<p>We can’t have a mean different from zero: without symmetry about zero the special structure of odd and even functions would be lost.</p>
+<p>Note: without the symmetry given by having mean zero the special structure of odd and even functions would be lost.</p>
 </section>
 <section id="mgf-of-exponential-random-variables" class="level2">
 <h2 class="anchored" data-anchor-id="mgf-of-exponential-random-variables">1.11 MGF of Exponential Random Variables</h2>
@@ -782,41 +808,42 @@ E(e^{t X}) = \frac{ \lambda}{\lambda - t }, t &lt; \lambda.
 \]</span></p>
 <p>Using LOTUS and choosing <span class="math inline">\(t &lt; \lambda\)</span></p>
 <p><span class="math display">\[\begin{align}
-E(e^{tX}) &amp;= \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x} dx \\
+\E(e^{tX}) &amp;= \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x} dx \\
           &amp;= \int_0^{\infty} e^{(t - \lambda) x} dx \label{exp:integral} \tag{*} \\
           &amp;= \frac{1}{t - \lambda} e^{(t - \lambda) x} \rvert_{0}^{\infty} \\
           &amp;= \frac{ \lambda}{\lambda - t }.
 \end{align}\]</span></p>
 <p>Note that if <span class="math inline">\(t \geq \lambda\)</span>, then the integral <span class="math inline">\(\eqref{exp:integral}\)</span> is not well-defined.</p>
-<p>We can calculate <span class="math inline">\(E(X)\)</span>:</p>
+<p>We can calculate <span class="math inline">\(\E(X)\)</span>:</p>
 <p><span class="math display">\[
-E(X) = \frac{d}{dt} E(e^{tX}) \rvert_{t=0} = \frac{\lambda}{(\lambda -t)^2}\rvert_{t=0} = \frac{1}{\lambda}.
+\E(X) = \frac{d}{dt} \E(e^{tX}) \rvert_{t=0} = \frac{\lambda}{(\lambda -t)^2}\rvert_{t=0} = \frac{1}{\lambda}.
 \]</span></p>
-<p>We can also calculate <span class="math inline">\(Var(X)\)</span>:</p>
+<p>We can also calculate <span class="math inline">\(\Var(X)\)</span>:</p>
 <p><span class="math display">\[
-E(X^2) = \frac{d^2}{dt^2} E(e^{tX}) \rvert_{t=0} = \frac{2\lambda}{(\lambda -t)^3} \rvert_{t=0} = \frac{2}{\lambda^2}.
+\E(X^2) = \frac{d^2}{dt^2} \E(e^{tX}) \rvert_{t=0} = \frac{2\lambda}{(\lambda -t)^3} \rvert_{t=0} = \frac{2}{\lambda^2}.
 \]</span></p>
 <p>and so</p>
 <p><span class="math display">\[
-Var(X) = E(X^2) - E(X)^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} =\frac{1}{\lambda^2}.
+\Var(X) = \E(X^2) - \E(X)^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} =\frac{1}{\lambda^2}.
 \]</span></p>
 </section>
 <section id="gaussian-tail" class="level2">
 <h2 class="anchored" data-anchor-id="gaussian-tail">1.12 Gaussian Tail</h2>
 <p>Consider a random variable <span class="math inline">\(X\)</span> with finite MGF such that</p>
 <p><span class="math display">\[\begin{equation}
-E(e^{\lambda X}) \leq e^{\lambda^2/2}
+\E(e^{\lambda X}) \leq e^{\lambda^2/2}
 \label{gtail} \tag{1}
 \end{equation}\]</span></p>
 <p>for all <span class="math inline">\(\lambda \in \mathbb{R}\)</span>.</p>
 <p>Prove that for <span class="math inline">\(a &gt; 0\)</span></p>
 <p><span class="math display">\[
-P(X &gt; a) \leq e^{-a^2/2}.
+\P(X &gt; a) \leq e^{-a^2/2}.
 \]</span></p>
+<p>Proof:</p>
 <p>For <span class="math inline">\(\lambda &gt; 0\)</span> <span class="math display">\[
-P(X &gt; a) = P(e^{\lambda X} &gt; e^{\lambda a})
+\P(X &gt; a) = \P(e^{\lambda X} &gt; e^{\lambda a})
 \]</span> by the monotonicity of the exponential. By Markov’s inequality and <span class="math inline">\(\eqref{gtail}\)</span> <span class="math display">\[
-P(e^{\lambda X} &gt; e^{\lambda a}) \leq \frac{E(e^{\lambda X})}{e^{\lambda a}} \leq e^{\lambda^2/2 - \lambda a}.
+\P(e^{\lambda X} &gt; e^{\lambda a}) \leq \frac{E(e^{\lambda X})}{e^{\lambda a}} \leq e^{\lambda^2/2 - \lambda a}.
 \]</span></p>
 <p>Let <span class="math inline">\(f(\lambda) = e^{\lambda^2/2 - \lambda a}\)</span>. The minimum for <span class="math inline">\(f\)</span> is found by differentiation:</p>
 <p><span class="math display">\[
@@ -824,33 +851,39 @@ f'(\lambda) = (\lambda - a) e^{\lambda^2/2 - \lambda a}
 \]</span></p>
 <p>and <span class="math inline">\(f'(\lambda) = 0\)</span> is solved for <span class="math inline">\(\lambda = a\)</span>. Therefore,</p>
 <p><span class="math display">\[
-P(X &gt; a) \leq e^{a^2/2 - a^2} = e^{-a^2/2}.
+\P(X &gt; a) \leq e^{a^2/2 - a^2} = e^{-a^2/2}.
+\]</span></p>
+<p><span class="math display">\[
+\qed
 \]</span></p>
 </section>
 <section id="expectation-from-cdf" class="level2">
 <h2 class="anchored" data-anchor-id="expectation-from-cdf">1.13 Expectation from CDF</h2>
 <p>Let <span class="math inline">\(X\)</span> be a random variable such that <span class="math inline">\(X &gt;= 0\)</span>. Then</p>
 <p><span class="math display">\[
-E(X) = \int_0^{\infty} P(X &gt; x) dx.
+\E(X) = \int_0^{\infty} \P(X &gt; x) dx.
 \]</span></p>
 <p>Proof:</p>
 <p><span class="math display">\[
-\int_0^{\infty} P(X &gt; x) dx = \int_0^{\infty} (1 - F(x)) dx
+\int_0^{\infty} \P(X &gt; x) dx = \int_0^{\infty} (1 - F(x)) dx
 \]</span></p>
-<p>where <span class="math inline">\(F(x) = P(X &lt;= x)\)</span>. We can write</p>
+<p>where <span class="math inline">\(F(x) = \P(X &lt;= x)\)</span>. We can write</p>
 <p><span class="math display">\[
 1 - F(x) = \lim_{x \to \infty} F(x) - F(x) = \int_x^{\infty} dF(t)
 \]</span></p>
 <p>where the integral is understood in the Lebesgue sense.</p>
 <p>Now,</p>
 <p><span class="math display">\[
-\int_0^{\infty} P(X &gt; x) dx = \int_0^{\infty} \int_x^{\infty} dF(t) dx
+\int_0^{\infty} \P(X &gt; x) dx = \int_0^{\infty} \int_x^{\infty} dF(t) dx
 \]</span></p>
 <p>and by changing the order of integration (and appealing to Fubini’s Theorem)</p>
 <p><span class="math display">\[
-\int_0^{\infty} P(X &gt; x) dx = \int_0^{\infty} \int_0^t dx dF(t) = \int_0^{\infty} t dF(t) = E(X).
+\int_0^{\infty} \P(X &gt; x) dx = \int_0^{\infty} \int_0^t dx dF(t) = \int_0^{\infty} t dF(t) = E(X).
 \]</span></p>
-<p>Subtle point: we’re using the fact that X &gt;= 0 to arrive at zero for the lower limit of the inner integral.</p>
+<p>Subtle point: we’re using the fact that <span class="math inline">\(X &gt;= 0 \implies F(x) = 0\)</span> for <span class="math inline">\(x &lt; 0\)</span> to arrive at zero for the lower limit of the inner integral.</p>
+<p><span class="math display">\[
+\qed
+\]</span></p>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -863,14 +896,14 @@ Consequence: LOTUS (Law Of The Unconscious Statistician)
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(g: \mathbb{R} \mapsto \mathbb{R}\)</span> be measurable. Then <span class="math inline">\(E(g(X)) = \int_{-\infty}^{\infty} g(x) dF(x)\)</span>.</p>
+<p>Let <span class="math inline">\(g: \mathbb{R} \mapsto \mathbb{R}\)</span> be measurable. Then <span class="math inline">\(\E(g(X)) = \int_{-\infty}^{\infty} g(x) dF(x)\)</span>.</p>
 <p>First suppose that <span class="math inline">\(g &gt;= 0\)</span>. Then</p>
 <p><span class="math display">\[
-E(g(X)) = \int_0^{\infty} P(g(X) &gt; x) dx
+\E(g(X)) = \int_0^{\infty} \P(g(X) &gt; x) dx
 \]</span> by the result above.</p>
 <p>Now,</p>
 <p><span class="math display">\[
-\int_0^{\infty} P(g(X) &gt; x) dx = \int_0^{\infty} \int_{\{z: g(z) &gt; x\}} dF(z) dx.
+\int_0^{\infty} \P(g(X) &gt; x) dx = \int_0^{\infty} \int_{\{z: g(z) &gt; x\}} dF(z) dx.
 \]</span></p>
 <p>Changing the order of integration, we see get</p>
 <p><span class="math display">\[
@@ -882,7 +915,7 @@ g = g_+ - g_{-}
 \]</span></p>
 <p><span class="math display">\[
 \begin{align}
-E(g(X)) &amp;= E(g_+(X)) - E(g_{-}(X)) \\
+\E(g(X)) &amp;= \E(g_+(X)) - \E(g_{-}(X)) \\
 &amp;= \int_{-\infty}^{\infty} g_+(x) dF(x) - \int_{-\infty}^{\infty} g_{-}(x) dF(x) \\
 &amp;= \int_{-\infty}^{\infty} g(x) dF(x).
 \end{align}
@@ -896,72 +929,79 @@ E(g(X)) &amp;= E(g_+(X)) - E(g_{-}(X)) \\
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Consequence: Limit of xP(X&gt;x)
+Consequence: Limit of <span class="math inline">\(x\P(X&gt;x)\)</span>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(E(X_+) &lt; \infty\)</span>, then <span class="math inline">\(\lim_{x \to \infty} x P(X &gt; x) = 0\)</span>.</p>
-<p>We prove this by contradiction. Suppose that there exists <span class="math inline">\(c &gt; 0\)</span> such that <span class="math inline">\(lim_{x \to \infty} xP(X &gt;x) \geq c\)</span>. Then for some <span class="math inline">\(x(c)\)</span>, <span class="math inline">\(xP(X&gt;x) \geq c\)</span> for all <span class="math inline">\(x &gt; x(c)\)</span> and so</p>
+<p>If <span class="math inline">\(\E(X_+) &lt; \infty\)</span>, then <span class="math inline">\(\lim_{x \to \infty} x \P(X &gt; x) = 0\)</span>.</p>
+<p>We prove this by contradiction. Suppose that there exists <span class="math inline">\(c &gt; 0\)</span> such that <span class="math inline">\(\lim_{x \to \infty} x\P(X &gt;x) \geq c\)</span>. Then for some <span class="math inline">\(x(c)\)</span>, <span class="math inline">\(x\P(X&gt;x) \geq c\)</span> for all <span class="math inline">\(x &gt; x(c)\)</span> and so</p>
 <p><span class="math display">\[
-E(X+) = \int_0^{\infty} P(X &gt; x) dx \geq \int_{x(c)}^{\infty} P(X &gt; x) dx \geq \int_{x(c)}^{\infty} \frac{c}{x} dx = \infty.
+\E(X+) = \int_0^{\infty} \P(X &gt; x) dx \geq \int_{x(c)}^{\infty} \P(X &gt; x) dx \geq \int_{x(c)}^{\infty} \frac{c}{x} dx = \infty.
 \]</span></p>
-<p>This contradicts <span class="math inline">\(E(X_+) &lt; \infty\)</span>.</p>
+<p>This contradicts <span class="math inline">\(\E(X_+) &lt; \infty\)</span>.</p>
 <p>Contrast this with the Markov inequality which states that</p>
 <p><span class="math display">\[
-P(X &gt; x) &lt;= \frac{E(X)}{x}
+\P(X &gt; x) &lt;= \frac{\E(X)}{x}
 \]</span></p>
-<p>which puts a bound on <span class="math inline">\(x P(X &gt; x)\)</span>:</p>
+<p>which puts a bound on <span class="math inline">\(x \P(X &gt; x)\)</span>:</p>
 <p><span class="math display">\[
-x P(X &gt; x) &lt;= E(X).
+x \P(X &gt; x) &lt;= \E(X).
 \]</span></p>
 </div>
 </div>
 </div>
 <p>Take a random variable <span class="math inline">\(X\)</span> such the <span class="math inline">\(E(|X|) &lt; \infty\)</span>. Prove that</p>
 <p><span class="math display">\[
-E(X) = \int_0^{\infty} P(X &gt; x) dx - \int_{-\infty}^0 P(X \leq x) dx.
+\E(X) = \int_0^{\infty} \P(X &gt; x) dx - \int_{-\infty}^0 \P(X &lt; x) dx.
 \]</span></p>
-<p>Define <span class="math inline">\(X_+ = X 1_{X \geq 0}\)</span> and <span class="math inline">\(X_{-} = X 1_{X &lt; 0}\)</span> and note that <span class="math inline">\(X = X_+ + X_{-}\)</span>. Then</p>
+<p>Proof:</p>
+<p>Define <span class="math inline">\(X_+ = X \1_{X \geq 0}\)</span> and <span class="math inline">\(X_{-} = X \1_{X &lt; 0}\)</span> and note that <span class="math inline">\(X = X_+ + X_{-}\)</span>. Then</p>
 <p><span class="math display">\[
-E(X) = E(X_+) + E (X_{-})
+\E(X) = \E(X_+) + \E (X_{-})
 \]</span> by linearity of expectation. From above,</p>
 <p><span class="math display">\[
-E(X_+) = \int_0^{\infty} P(X_+ &gt; x) dx = \int_0 ^{\infty} P(X &gt; x) dx.
+\E(X_+) = \int_0^{\infty} \P(X_+ &gt; x) dx = \int_0 ^{\infty} \P(X &gt; x) dx.
 \]</span></p>
 <p>Set <span class="math inline">\(Y = -X_{-}\)</span>. Then <span class="math inline">\(Y &gt; 0\)</span> and</p>
 <p><span class="math display">\[
-E(Y) = \int_0^{\infty} P(Y &gt; y) dy.
+\E(Y) = \int_0^{\infty} \P(Y &gt; y) dy.
 \]</span></p>
 <p>Now,</p>
 <p><span class="math display">\[\begin{align}
-E(X 1_{X &lt; 0}) &amp;= - E(- X_{-}) \\
-               &amp;= - E(Y) \\
-               &amp;= -\int_0^{\infty} P(-X_{-} &gt;y) dy \\
-               &amp;= \int_{0}^{-\infty} P(X_{-} &lt; x) dx \\
-               &amp;= \int_0^{-\infty} P(X &lt; x) dx
+\E(X \1_{X &lt; 0}) &amp;= - \E(- X_{-}) \\
+               &amp;= - \E(Y) \\
+               &amp;= -\int_0^{\infty} \P(-X_{-} &gt;y) dy \\
+               &amp;= \int_{0}^{-\infty} \P(X_{-} &lt; x) dx \\
+               &amp;= \int_0^{-\infty} \P(X &lt; x) dx
 \end{align}\]</span></p>
 <p>Then</p>
 <p><span class="math display">\[
-E(X) = \int_0^{\infty} P(X &gt; x) dx - \int_{-\infty}^0 P(X &lt; x) dx.
+\E(X) = \int_0^{\infty} \P(X &gt; x) dx - \int_{-\infty}^0 \P(X &lt; x) dx.
 \]</span></p>
-<div class="callout-warning callout callout-style-default callout-captioned">
+<p><span class="math display">\[
+\qed
+\]</span></p>
+<div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-The result we have to prove is not generally true
+When <span class="math inline">\(X\)</span> is continuous
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
-\int (P(X &lt;= x) -P(X&lt;x)) dx = \int P(X = x) dx = 0
+\int_{-\infty}^0 (\P(X &lt;= x) -\P(X&lt;x)) dx = \int_{-\infty}^0 \P(X = x) dx = 0
 \]</span></p>
-<p>when <span class="math inline">\(X\)</span> has a PDF (the CDF is at least continuous). In this case, we can state</p>
+<p>when <span class="math inline">\(X\)</span> is continuous since <span class="math display">\[
+P(X = x) = F_X(x) - F_X(x-) = 0.
+\]</span></p>
+<p>In this case, we can state</p>
 <p><span class="math display">\[
-E(X) = \int_0^{\infty} P(X &gt; x) dx - \int_{-\infty}^0 P(X \leq x) dx.
+\E(X) = \int_0^{\infty} \P(X &gt; x) dx - \int_{-\infty}^0 \P(X \leq x) dx.
 \]</span></p>
 </div>
 </div>
@@ -969,28 +1009,27 @@ E(X) = \int_0^{\infty} P(X &gt; x) dx - \int_{-\infty}^0 P(X \leq x) dx.
 <section id="characteristic-function" class="level2">
 <h2 class="anchored" data-anchor-id="characteristic-function">1.14 Characteristic Function</h2>
 <ol type="a">
-<li>Note that the expectation of a complex-valued random variable (or indeed the complex-valued random variable) is defined in Chapter 1.</li>
+<li>Note that the expectation of a complex-valued random variable (or indeed the complex-valued random variable) is not defined in Chapter 1.</li>
 </ol>
 <p>A good definition is</p>
 <p><span class="math display">\[
-E(Z) = E(\Re(Z)) + i E(\Im(Z)).
+\E(Z) = \E(\Re(Z)) + i \E(\Im(Z)).
 \]</span></p>
 <p>Note that if <span class="math inline">\(E(|Z|) &lt; \infty\)</span>, then the real and imaginary parts of <span class="math inline">\(Z\)</span> are also integrable.</p>
-<p>We can extend LOTUS to complex valued functions. Suppose that <span class="math inline">\(g: \mathbb{R} \to \mathbb{C}\)</span> and <span class="math inline">\(E(|g(X)|) &lt; \infty\)</span>. We can decompose <span class="math inline">\(g\)</span> as</p>
+<p>We can extend LOTUS to complex valued functions. Suppose that <span class="math inline">\(g: \mathbb{R} \to \mathbb{C}\)</span> and <span class="math inline">\(\E(|g(X)|) &lt; \infty\)</span>. We can decompose <span class="math inline">\(g\)</span> as</p>
 <p><span class="math display">\[
 g = g_1 + i g_2.
 \]</span></p>
-<p>Note that <span class="math inline">\(g_1(X)\)</span> and <span class="math inline">\(g_2(X)\)</span> are integrable.</p>
-<p>where <span class="math inline">\(g_1, g_2 : \mathbb{R} \to \mathbb{R}\)</span>. Then by linearity of expectation</p>
+<p>where <span class="math inline">\(g_1, g_2 : \mathbb{R} \to \mathbb{R}\)</span> are integrable. Then by linearity of expectation</p>
 <p><span class="math display">\[\begin{align}
-E(g(X)) &amp;= E(g_1(X)) + i E(g_2(X))\\
+\E(g(X)) &amp;= \E(g_1(X)) + i \E(g_2(X))\\
         &amp;= \int_{-\infty}^{\infty} g_1(x) dF(x) + i \int_{-\infty}^{\infty} g_2(x) dF(x)\\
         &amp;= \int_{-\infty}^{\infty} (g_1(x) + i g_2(x)) dF(x)\\
         &amp;= \int_{-\infty}^{\infty} g(x) dF(x).
 \end{align}\]</span></p>
 <p>Using this result, we see that</p>
 <p><span class="math display">\[
-E(e^{itX}) = E(\cos(tX)) + i E(\sin(tX))
+\E(e^{itX}) = \E(\cos(tX)) + i \E(\sin(tX))
 \]</span></p>
 <p>from the familiar Euler identity <span class="math inline">\(e^{itx} = \cos(tx) + i \sin(tx)\)</span>.</p>
 <p>The same result can be argued using the Taylor series:</p>
@@ -1003,9 +1042,9 @@ E(e^{itX}) &amp;= \sum_{n=0}^{\infty} E( \frac{(itX)^n}{n!})\\
 <li>Let <span class="math inline">\(X \sim \mathcal{N}(0, 1)\)</span>. Then</li>
 </ol>
 <p><span class="math display">\[
-E(e^{itX}) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{itx} e^{-\frac{1}{2}x^2} dx.
+\E(e^{itX}) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{itx} e^{-\frac{1}{2}x^2} dx.
 \]</span></p>
-<p>Define <span class="math inline">\(g(t) = E(e^{itX})\)</span> and try to build a differential equation we can solve which is hopefully equal to the desired result.</p>
+<p>Define <span class="math inline">\(g(t) = \E(e^{itX})\)</span> and try to build a differential equation we can solve which is hopefully equal to the desired result.</p>
 <p>Using the Dominated Convergence Theorem, we can take differentiation inside the expectation integral (the derivative of the integrand is dominated by <span class="math inline">\(e^{-\frac{1}{2}x^2}\)</span> which is integrable).</p>
 <p>We get</p>
 <p><span class="math display">\[\begin{align}
@@ -1044,31 +1083,37 @@ E(e^{itZ}) &amp;= E(e^{it(\sigma X + \mu)}) \\
            &amp;= e^{it\mu}e^{-(t\sigma)^2/2}\\
            &amp;= e^{it \mu - \sigma^2t^2/2}.
 \end{align}\]</span></p>
+<p><span class="math display">\[
+\qed
+\]</span></p>
 </section>
 <section id="when-ex-infty" class="level2">
-<h2 class="anchored" data-anchor-id="when-ex-infty">1.15 When <span class="math inline">\(E(X) &lt; \infty\)</span></h2>
-<p>Let <span class="math inline">\(X \geq 0\)</span> be a random variable on <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>. If <span class="math inline">\(E(X) &lt; \infty\)</span>, then <span class="math inline">\(P(X = \infty) = 0\)</span>.</p>
+<h2 class="anchored" data-anchor-id="when-ex-infty">1.15 When <span class="math inline">\(\E(X) &lt; \infty\)</span></h2>
+<p>Let <span class="math inline">\(X \geq 0\)</span> be a random variable on <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>. If <span class="math inline">\(\E(X) &lt; \infty\)</span>, then <span class="math inline">\(\P(X = \infty) = 0\)</span>.</p>
 <p>Proof:</p>
-<p>Let <span class="math inline">\(A_n = \{\omega \in \Omega: X(\omega) &gt; n \}\)</span> for <span class="math inline">\(n &gt; 0\)</span>.</p>
+<p>For <span class="math inline">\(n &gt; 0\)</span>, define <span class="math inline">\(A_n = \{\omega \in \Omega: X(\omega) &gt; n \}\)</span>.</p>
 <p>We note that the sequence of events <span class="math inline">\(A_n\)</span> is decreasing and so by continuity of probability</p>
 <p><span class="math display">\[
-\lim_{n\to \infty} P(A_n) = P(\cap A_n) = P(X = \infty).
+\lim_{n\to \infty} \P(A_n) = \P(\cap A_n) = \P(X = \infty).
 \]</span></p>
 <p>The proof is complete with an application of Markov’s inequality: <span class="math display">\[
-P(X = \infty) = \lim_{n \to \infty} P(A_n) \leq \lim_{n\to\infty} \frac{1}{n} E(X) = 0.
+\P(X = \infty) = \lim_{n \to \infty} \P(A_n) \leq \lim_{n\to\infty} \frac{1}{n} \E(X) = 0.
+\]</span></p>
+<p><span class="math display">\[
+\qed
 \]</span></p>
 </section>
 <section id="when-ex-0" class="level2">
-<h2 class="anchored" data-anchor-id="when-ex-0">1.16 When <span class="math inline">\(E(X) = 0\)</span></h2>
-<p>Let <span class="math inline">\(X \geq 0\)</span> be a random variable on <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>. If <span class="math inline">\(E(X) = 0\)</span>, then <span class="math inline">\(P(X = 0) = 1\)</span>.</p>
+<h2 class="anchored" data-anchor-id="when-ex-0">1.16 When <span class="math inline">\(\E(X) = 0\)</span></h2>
+<p>Let <span class="math inline">\(X \geq 0\)</span> be a random variable on <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>. If <span class="math inline">\(\E(X) = 0\)</span>, then <span class="math inline">\(\P(X = 0) = 1\)</span>.</p>
 <p>Proof:</p>
 <p>By Markov’s inequality</p>
 <p><span class="math display">\[
-P(X &gt; 1/n) \leq n E(X) = 0
+\P(X &gt; 1/n) \leq n \E(X) = 0
 \]</span></p>
-<p>and so <span class="math inline">\(P(X &gt; 1/n) = 0\)</span> for <span class="math inline">\(n = 1, 2, \ldots\)</span>. It follows that</p>
+<p>and so <span class="math inline">\(\P(X &gt; 1/n) = 0\)</span> for <span class="math inline">\(n = 1, 2, \ldots\)</span>. It follows that</p>
 <p><span class="math display">\[
-P(X \leq 1/n) = 1 - P(X &gt; 1/n) = 1.
+\P(X \leq 1/n) = 1 - \P(X &gt; 1/n) = 1.
 \]</span></p>
 <p>The sequence of events <span class="math inline">\(\{ X \leq 1/n \}\)</span> is decreasing and</p>
 <p><span class="math display">\[
@@ -1076,7 +1121,10 @@ P(X \leq 1/n) = 1 - P(X &gt; 1/n) = 1.
 \]</span></p>
 <p>By the continuity of probability</p>
 <p><span class="math display">\[
-P(X = 0) = \lim_{n \to \infty} P(X \leq 1/n) = 1.
+\P(X = 0) = \lim_{n \to \infty} \P(X \leq 1/n) = 1.
+\]</span></p>
+<p><span class="math display">\[
+\qed
 \]</span></p>
 
 
