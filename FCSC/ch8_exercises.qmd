@@ -667,6 +667,53 @@ i.e. $C = 1$.
 
 ## 8.10 CIR Model as a Markov Process
 
+$$
+d R_t = (a - b R_t) dt + \sigma \sqrt{R_t} dB_t
+$$
+with $a > \sigma^2/4$.
+
+#### (a)
+The generator of $(R_t, t \geq 0)$ is
+
+$$
+\begin{align}
+A f &=  \frac{x \sigma^2}{2} \partial_x^2 f + (a - b x) \partial_x f
+\end{align}
+$$
+for suitable $f$.
+  
+#### (b)
+Let $f$ be defined
+$$
+f(x) = x^{\frac{2a}{\sigma^2} - 1} e^{-\frac{2b}{\sigma^2}x}.
+$$
+
+
+Then
+$$
+A^* f = 0.
+$$
+Proof:
+Leaving the leg work to the computer:
+
+```{python}
+import sympy as sp
+from sympy.abc import x,a,b,sigma
+from fractions import Fraction
+from IPython.display import display, Markdown
+
+f = x**((2*a)/(sigma**2) -1) * sp.exp(-(2*b*x)/(sigma**2))
+adjoint_f = Fraction(1, 2) * sp.diff(sigma**2 * x* f, x, 2) - sp.diff((a - b *x)*f, x)
+print(adjoint_f.simplify() == 0)
+```
+
+## 8.11 Feynman-Kac with Terminal Value
+
+$$
+M_t = f(t, X_t) \exp\left(- \int_0^t r(X_s) ds \right)
+$$
+
+
 
 ## 8.12 $B_t^2$ is a Markov Process
 #### (a)
@@ -805,5 +852,64 @@ $$
 \qed
 $$
 
+## 8.13 Generator of a Poisson Process
 
+Let $(N_t, t \geq 0)$ be a Poisson process with rate $\lambda$.
 
+#### (a)
+$(N_t, t \geq 0)$ is a Markov process.
+
+Proof:
+
+Let $(F_s, s \geq 0$) the the natural filtration of the process. The increments of the process are independent: in particular,
+$N_t - N_s$ is independent of $\F_s$ and $\sigma(N_s)$. For $s \leq t$,
+
+$$
+\begin{align}
+\E(N_t , \F_s) &= E(N_t - N_s + N_s | \F_s) \\
+&= \E(\underbrace{N_t - N_s}_{\text{independent of $\F_s$}} | \F_s) + \E(\underbrace{N_s}_{\F_s\text{-measurable}} | \F_s) \\
+&= \E(N_t - N_s) + N_s \\
+&= \E(N_t - N_s| N_s) + N_s \\
+&= \E(N_t | N_s).
+\end{align}
+$$
+
+$$
+\qed
+$$
+
+#### (b)
+The generator of the Poisson process is
+$$
+A f = \lambda (f (x+1) - f(x)).
+$$
+
+Proof:
+
+Let $h$ be some arbitrary function with support inside a finite interval. 
+
+$$
+\begin{align}
+\frac{1}{\varepsilon}\E(h(N_{t + \varepsilon})- h(N_t)) &= \frac{1}{\varepsilon} \sum h(k) \left(\frac{\lambda^k(t+ \varepsilon)^k  e^{-\lambda (t + \varepsilon)}}{k!} - \frac{\lambda^kt^k e^{-\lambda t}}{k!}\right) \\
+&= \frac{1}{\varepsilon} \sum \frac{h(k)\lambda^k e^{-\lambda t}}{k!} \left( e^{-\lambda \varepsilon}\sum_{n = 0}^k {k \choose n} t^{k - n} \varepsilon^{n}  - t^k\right) \\
+&= \frac{1}{\varepsilon} \sum \frac{h(k)\lambda^k e^{-\lambda t}}{k!} \left( e^{-\lambda \varepsilon}\sum_{n = 1}^k {k \choose n} t^{k -n }\varepsilon^{n} + t^k (e^{-\lambda\varepsilon} - 1)  \right) \\
+&= \sum \frac{h(k)\lambda^k e^{-\lambda t}}{k!} \left( e^{-\lambda \varepsilon}\sum_{n = 1}^k {k \choose n} t^{k -n }\varepsilon^{n-1} + t^k\underbrace{\frac{e^{-\lambda \varepsilon} -1 }{\varepsilon}}_{\to \frac{d e^{-\lambda x}}{dx} \vert_{x=0}}  \right) \\
+&\to \sum \frac{h(k) \lambda^k e^{-\lambda t}}{k!} (k t^{k-1} - \lambda t^k)  \\
+&= \lambda\left (\E((Th)(N_t)) - \E(h(N_t))\right)
+\end{align}
+$$
+
+where
+$$
+(Th)(x) = h(x+1).
+$$
+
+Therefore,
+
+$$
+\partial_t f(x) = \lambda(f(x + 1) - f(x))
+$$
+with limit in the $L^2(\Omega, \F, \P)$ sense.
+$$
+\qed
+$$
