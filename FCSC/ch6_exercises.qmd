@@ -99,26 +99,64 @@ Let $B_t = (B_{1, t}, B_{2,t})$ be a two-dimensional Brownian motion.
 
 The probability that $B_{1, t}$ reaches $1$ before $B_{2, t}$ is $1/2$. What is the probability that $B_{1, t}$ reaches $2$ before $B_{2, t}$ reaches $1$?
 
-Let $\tau_{i, a} = \min\{t \geq 0: B_{i,t} \geq a \}$. Using Bachelier's formula,
-
+Let 
 $$
-\P(\tau_{1, 2} \leq T) =  \P(|B_{1, T}| \geq 2)
+X = \min\{t \geq 0: B_{1, t} \geq 2\}
 $$
 and
 $$
-\P(\tau_{2, 1} > T) = \P(|B_{2, T}| < 1).
+Y = \min\{t \geq 0: B_{2, t} \geq 1 \}.
 $$
+We seek
+$$
+\P(X < Y).
+$$
+
+$X$ and $Y$ are independent with probability density functions
+
+$$
+p_X(x) = \frac{2}{\sqrt{2 \pi}} \frac{e^{-2/x}}{x^{3/2}}
+$$
+and
+$$
+p_Y(x) = \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}}.
+$$
+
+Therefore,
+
+$$
+\P(X < Y) = \int_0^{\infty} \frac{2}{\sqrt{2 \pi}} \frac{e^{-2/x}}{x^{3/2}} \int_x^{\infty} \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}} dy\,dx.
+$$
+
+Notice that
 
 $$
 \begin{align}
-\int_0^{\infty} \P(\tau_{2,1} > t| \tau_{1, 2} = t) dt &= \int_0^{\infty} \left( \int_{0}^1 \frac{2}{\sqrt{2 \pi t}} e^{-y^2/2t} dy \right) \frac{2}{\sqrt{2 \pi}} \frac{e^{-2/t}}{t^{3/2}} dt \\
-&= \int_0^{\infty} \int_0^1 \frac{2}{\pi} \frac{e^{-y^2/2t - 2/t}}{t^2} dy dt \\ 
-&= \int_0^{\infty} \frac{2}{\pi} \frac{e^{-2/t}}{t^2} \frac{\sqrt{2 \pi t}}{2} \erf(\frac{1}{\sqrt{2t}}) dt \\
-&= \sqrt{\frac{2}{\pi}} \int_0^{\infty} \frac{e^{-2/t}}{t^{3/2}} \erf(\frac{1}{\sqrt{2t}}) dt \\
-&= \frac{2}{\pi} \tan^{-1}(1/2) \\
+\frac{1}{\sqrt{2 \pi}}\frac{e^{-1/2y}}{y^{3/2}} &= \frac{d}{dy} \int_{1/\sqrt{y}}^{\infty} \frac{2}{\sqrt{2 \pi}} e^{-u^2/2} dy \\
+&= \frac{d}{dy}\left(-\erf(\frac{1}{\sqrt{2y}})\right). \\
+\end{align}
+$$
+
+It follows from this and a change of variables that
+$$
+\begin{align}
+\P(X < Y) &= \frac{2}{\sqrt{2 \pi}} \int_0^{\infty} \frac{e^{-2x}}{x^{3/2}} \erf(\frac{1}{\sqrt{2x}}) dx \\
+&= \frac{2}{\sqrt{2 \pi}} \int_0^{\infty} e^{-4u^2} \erf(u) 2 \sqrt{2} \underbrace{du}_{u= 1/\sqrt{2x}} \\
+&=\frac{4}{\sqrt{\pi}} \int_0^{\infty} e^{-4u^2} \erf(u) du.
+\end{align}
+$$
+
+Using 4.3.2 from [this table of integrals](https://nvlpubs.nist.gov/nistpubs/jres/73b/jresv73bn1p1_a1b.pdf)
+
+$$
+\begin{align}
+\P(X < Y) &= \frac{4}{\sqrt{\pi}}\left(\frac{\sqrt{\pi}}{4} - \frac{1}{2 \pi} \tan^{-1}(2)\right) \\
+&= 1 - \frac{2}{\pi} \tan^{-1}(2) \\
+&= \frac{2}{\pi} \tan^{-1}(\frac{1}{2}) \\
 &\approx 0.3.
 \end{align}
 $$
+
 
 This can be checked by simulation:
 

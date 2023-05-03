@@ -760,7 +760,7 @@ time the path is positive: the CDF is the same as for motion on $[0,1]$.
 Let $X_n \geq 0$ be a sequence of random variables on $(\Omega, \mathcal{F}, \P)$. Then
 
 $$
-\E(\sum_{n\geq 1} X_n) = \sum_{n \geq n} \E(X_n).
+\E(\sum_{n\geq 1} X_n) = \sum_{n \geq 1} \E(X_n).
 $$
 
 Proof:

@@ -487,7 +487,7 @@ We can write
 
 $$
 \begin{align}
-Y &= (\sum_{i=1}^n M_{ij} X_i)_{j=1}^m
+Y &= (\sum_{j=1}^n M_{ji} X_i)_{j=1}^m
 \end{align}
 $$
 and so express $Y$ as a vector of linear combinations of $X_i$ making its components Gaussian. Moreover, we can express any
@@ -897,7 +897,7 @@ to establish independence.
 Let $X, Y$ be two random variables in $L^2(\Sigma, \mathcal{F}, \P)$. Prove the triangle inequality
 
 $$
-\sqrt{\E((X+Y)^2)} \leq \sqrt{\E(X^2) + \E(Y^2)}.
+\sqrt{\E((X+Y)^2)} \leq \sqrt{\E(X^2)} + \sqrt{\E(Y^2)}.
 $$
 
 Expand the square and use Cauchy-Schwarz:
@@ -944,7 +944,7 @@ is a random variable on the probability space and by the triangle inequality
 $$
 |aX + bY| \leq |a| |X| + |b| |Y|.
 $$
-The right-hand side is integrable so |aX + BY| is integrable. Therefore,
+The right-hand side is integrable so $|aX + BY|$ is integrable. Therefore,
 $aX + bY \in L^1$. The zero vector of $L^1$ is a random variable on the probability space
 which is zero with probability one.
 
@@ -1166,42 +1166,4 @@ $$
 \E (X_{i_1} \ldots X_{i_n}) = -\E(X_{i_1} \ldots X_{i_n}) = 0.
 $$
 
-
-
-
-
-
-
 $\square$
-
-
-
-
-
-
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
