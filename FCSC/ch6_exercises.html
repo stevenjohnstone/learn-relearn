@@ -239,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Exercises</h1>
+      <h1 class="quarto-secondary-nav-title">Chapter 6 Exercises</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -353,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Exercises</h1>
+<h1 class="title d-none d-lg-block">Chapter 6 Exercises</h1>
 </div>
 
 <div>
@@ -477,19 +477,43 @@ Note
 <h2 class="anchored" data-anchor-id="races-between-brownian-motions">6.3 Races Between Brownian Motions</h2>
 <p>Let <span class="math inline">\(B_t = (B_{1, t}, B_{2,t})\)</span> be a two-dimensional Brownian motion.</p>
 <p>The probability that <span class="math inline">\(B_{1, t}\)</span> reaches <span class="math inline">\(1\)</span> before <span class="math inline">\(B_{2, t}\)</span> is <span class="math inline">\(1/2\)</span>. What is the probability that <span class="math inline">\(B_{1, t}\)</span> reaches <span class="math inline">\(2\)</span> before <span class="math inline">\(B_{2, t}\)</span> reaches <span class="math inline">\(1\)</span>?</p>
-<p>Let <span class="math inline">\(\tau_{i, a} = \min\{t \geq 0: B_{i,t} \geq a \}\)</span>. Using Bachelier’s formula,</p>
-<p><span class="math display">\[
-\P(\tau_{1, 2} \leq T) =  \P(|B_{1, T}| \geq 2)
+<p>Let <span class="math display">\[
+X = \min\{t \geq 0: B_{1, t} \geq 2\}
 \]</span> and <span class="math display">\[
-\P(\tau_{2, 1} &gt; T) = \P(|B_{2, T}| &lt; 1).
+Y = \min\{t \geq 0: B_{2, t} \geq 1 \}.
+\]</span> We seek <span class="math display">\[
+\P(X &lt; Y).
 \]</span></p>
+<p><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent with probability density functions</p>
+<p><span class="math display">\[
+p_X(x) = \frac{2}{\sqrt{2 \pi}} \frac{e^{-2/x}}{x^{3/2}}
+\]</span> and <span class="math display">\[
+p_Y(x) = \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}}.
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\P(X &lt; Y) = \int_0^{\infty} \frac{2}{\sqrt{2 \pi}} \frac{e^{-2/x}}{x^{3/2}} \int_x^{\infty} \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}} dy\,dx.
+\]</span></p>
+<p>Notice that</p>
 <p><span class="math display">\[
 \begin{align}
-\int_0^{\infty} \P(\tau_{2,1} &gt; t| \tau_{1, 2} = t) dt &amp;= \int_0^{\infty} \left( \int_{0}^1 \frac{2}{\sqrt{2 \pi t}} e^{-y^2/2t} dy \right) \frac{2}{\sqrt{2 \pi}} \frac{e^{-2/t}}{t^{3/2}} dt \\
-&amp;= \int_0^{\infty} \int_0^1 \frac{2}{\pi} \frac{e^{-y^2/2t - 2/t}}{t^2} dy dt \\
-&amp;= \int_0^{\infty} \frac{2}{\pi} \frac{e^{-2/t}}{t^2} \frac{\sqrt{2 \pi t}}{2} \erf(\frac{1}{\sqrt{2t}}) dt \\
-&amp;= \sqrt{\frac{2}{\pi}} \int_0^{\infty} \frac{e^{-2/t}}{t^{3/2}} \erf(\frac{1}{\sqrt{2t}}) dt \\
-&amp;= \frac{2}{\pi} \tan^{-1}(1/2) \\
+\frac{1}{\sqrt{2 \pi}}\frac{e^{-1/2y}}{y^{3/2}} &amp;= \frac{d}{dy} \int_{1/\sqrt{y}}^{\infty} \frac{2}{\sqrt{2 \pi}} e^{-u^2/2} dy \\
+&amp;= \frac{d}{dy}\left(-\erf(\frac{1}{\sqrt{2y}})\right). \\
+\end{align}
+\]</span></p>
+<p>It follows from this and a change of variables that <span class="math display">\[
+\begin{align}
+\P(X &lt; Y) &amp;= \frac{2}{\sqrt{2 \pi}} \int_0^{\infty} \frac{e^{-2x}}{x^{3/2}} \erf(\frac{1}{\sqrt{2x}}) dx \\
+&amp;= \frac{2}{\sqrt{2 \pi}} \int_0^{\infty} e^{-4u^2} \erf(u) 2 \sqrt{2} \underbrace{du}_{u= 1/\sqrt{2x}} \\
+&amp;=\frac{4}{\sqrt{\pi}} \int_0^{\infty} e^{-4u^2} \erf(u) du.
+\end{align}
+\]</span></p>
+<p>Using 4.3.2 from <a href="https://nvlpubs.nist.gov/nistpubs/jres/73b/jresv73bn1p1_a1b.pdf">this table of integrals</a></p>
+<p><span class="math display">\[
+\begin{align}
+\P(X &lt; Y) &amp;= \frac{4}{\sqrt{\pi}}\left(\frac{\sqrt{\pi}}{4} - \frac{1}{2 \pi} \tan^{-1}(2)\right) \\
+&amp;= 1 - \frac{2}{\pi} \tan^{-1}(2) \\
+&amp;= \frac{2}{\pi} \tan^{-1}(\frac{1}{2}) \\
 &amp;\approx 0.3.
 \end{align}
 \]</span></p>
@@ -517,7 +541,7 @@ Note
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>total_wins<span class="op">/</span>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>0.338</code></pre>
+<pre><code>0.302</code></pre>
 </div>
 </div>
 </section>
