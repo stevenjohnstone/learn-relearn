@@ -541,7 +541,7 @@ p_Y(x) = \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}}.
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>total_wins<span class="op">/</span>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>0.323</code></pre>
+<pre><code>0.313</code></pre>
 </div>
 </div>
 <p>In fact, a solution to a more general problem for constants <span class="math inline">\(a, b \in \mathbb{R}\setminus 0\)</span> where <span class="math display">\[
@@ -592,17 +592,7 @@ f(c^2) &amp;= \frac{2}{\pi} \tan^{-1}(b/a) \\
 &amp;= \P(\arg(B_{\tau}) = \pi) \\
 &amp;= \P(\text{crosses the negative $x$-axis before the positive}).
 \end{align}
-\]</span> Under the conformal map <span class="math inline">\(w\)</span>, the line <span class="math inline">\(x = b\)</span> is mapped to the negative <span class="math inline">\(x\)</span>-axis and so this is the probability we seek.</p>
-<p>Interestingly, there’s no need to invoke the properties of harmonic functions; the insight required is that as the Brownian motion crosses the negative real axis <span class="math inline">\(\arg(z)= \pi\)</span> and when crossing the negative real exis axis <span class="math inline">\(\arg(z) = 0\)</span>. <span class="math inline">\(\arg(B_t)\)</span> is a Martingale and is bounded so Doob’s Optional Stopping Theorem can be applied:</p>
-<p><span class="math display">\[
-\begin{align}
-\E(\arg(B_{\tau})) &amp;= \arg(B_0) \\
-&amp;= \arg(c^2) \\
-&amp;= 2 \tan^{-1}(b/a) \\
-&amp;= \pi \P(\arg(B_\tau) = \pi) + 0 \P(\arg(B_\tau) = 0) \\
-&amp;= \pi \P(\arg(B_\tau) = \pi).
-\end{align}
-\]</span></p>
+\]</span> Under the conformal map <span class="math inline">\(w\)</span>, the line <span class="math inline">\(x = b\)</span> is mapped to the negative <span class="math inline">\(x\)</span>-axis so this is the probability we seek.</p>
 </section>
 <section id="drill" class="level2">
 <h2 class="anchored" data-anchor-id="drill">6.4 Drill</h2>
