@@ -497,7 +497,7 @@ p_Y(x) = \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}}.
 <p>Notice that</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{1}{\sqrt{2 \pi}}\frac{e^{-1/2y}}{y^{3/2}} &amp;= \frac{d}{dy} \int_{1/\sqrt{y}}^{\infty} \frac{2}{\sqrt{2 \pi}} e^{-u^2/2} dy \\
+\frac{1}{\sqrt{2 \pi}}\frac{e^{-1/2y}}{y^{3/2}} &amp;= \frac{d}{dy} \int_{1/\sqrt{y}}^{\infty} \frac{2}{\sqrt{2 \pi}} e^{-u^2/2} du \\
 &amp;= \frac{d}{dy}\left(-\erf(\frac{1}{\sqrt{2y}})\right). \\
 \end{align}
 \]</span></p>
@@ -541,9 +541,68 @@ p_Y(x) = \frac{1}{\sqrt{2 \pi}} \frac{e^{-1/2y}}{y^{3/2}}.
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>total_wins<span class="op">/</span>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>0.302</code></pre>
+<pre><code>0.323</code></pre>
 </div>
 </div>
+<p>In fact, a solution to a more general problem for constants <span class="math inline">\(a, b \in \mathbb{R}\setminus 0\)</span> where <span class="math display">\[
+X = \min\{t \geq 0: B_{1, t} \geq a\}
+\]</span> and <span class="math display">\[
+Y = \min\{t \geq 0: B_{2, t} \geq b \}
+\]</span> is available by the same method:</p>
+<p><span class="math display">\[
+\P(X &lt; Y) = \frac{2}{\pi} \tan^{-1}\left(\frac{b}{a}\right).
+\]</span></p>
+<p>An alternative approach is to consider the equivalent complex Brownian motion <span class="math display">\[
+B_t = B_{1, t} + i B_{2, t}
+\]</span> and apply the conformal mapping <span class="math display">\[
+w(z) = (z - c)^2
+\]</span> where <span class="math inline">\(c = a + i b\)</span> to recast the problem as finding the probability that a complex Brownian motion starting at <span class="math inline">\(w(0) = c^2\)</span> crosses the negative <span class="math inline">\(x\)</span>-axis before it crosses the positive <span class="math inline">\(x\)</span>-axis.</p>
+<p>The function <span class="math display">\[
+f(z) = \frac{1}{\pi}\tan^{-1}(y/x) = \frac{1}{\pi}\arg(z)
+\]</span> is harmonic on the half-plane containing <span class="math inline">\(c^2\)</span> and is equal to <span class="math inline">\(1\)</span> on the negative <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(0\)</span> on the positive <span class="math inline">\(x\)</span>-axis.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(f\)</span> is harmonic because</p>
+<p><span class="math display">\[
+f(z) = \frac{\theta}{\pi}
+\]</span> when <span class="math inline">\(z = re^{i \theta}\)</span> and writing the Laplacian in polar coordinates</p>
+<p><span class="math display">\[
+\begin{align}
+\Delta f &amp;= \partial^2_r f + \frac{1}{r}\partial_r + \frac{1}{r^2} \partial^2_{\theta} f \\
+&amp;= \frac{1}{r^2} \partial^2_{\theta} \theta \\
+&amp;= 0.
+\end{align}
+\]</span></p>
+<p>On the negative real axis, <span class="math inline">\(f(z) = \pi/\pi = 1\)</span> and on the positive real axis, <span class="math inline">\(f(z) = 0\)</span>.</p>
+</div>
+</div>
+<p>Therefore, if <span class="math inline">\(\tau\)</span> is the hitting time for crossing the <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(B_{\tau}\)</span> is the Brownian process starting at <span class="math inline">\(c^2\)</span> at this time, then <span class="math display">\[
+\begin{align}
+f(c^2) &amp;= \frac{2}{\pi} \tan^{-1}(b/a) \\
+&amp;= \E(f(B_{\tau})) \\
+&amp;= \P(\arg(B_{\tau}) = \pi) 1 + \P(\arg(B_{\tau}) = 0) 0 \\
+&amp;= \P(\arg(B_{\tau}) = \pi) \\
+&amp;= \P(\text{crosses the negative $x$-axis before the positive}).
+\end{align}
+\]</span> Under the conformal map <span class="math inline">\(w\)</span>, the line <span class="math inline">\(x = b\)</span> is mapped to the negative <span class="math inline">\(x\)</span>-axis and so this is the probability we seek.</p>
+<p>Interestingly, there’s no need to invoke the properties of harmonic functions; the insight required is that as the Brownian motion crosses the negative real axis <span class="math inline">\(\arg(z)= \pi\)</span> and when crossing the negative real exis axis <span class="math inline">\(\arg(z) = 0\)</span>. <span class="math inline">\(\arg(B_t)\)</span> is a Martingale and is bounded so Doob’s Optional Stopping Theorem can be applied:</p>
+<p><span class="math display">\[
+\begin{align}
+\E(\arg(B_{\tau})) &amp;= \arg(B_0) \\
+&amp;= \arg(c^2) \\
+&amp;= 2 \tan^{-1}(b/a) \\
+&amp;= \pi \P(\arg(B_\tau) = \pi) + 0 \P(\arg(B_\tau) = 0) \\
+&amp;= \pi \P(\arg(B_\tau) = \pi).
+\end{align}
+\]</span></p>
 </section>
 <section id="drill" class="level2">
 <h2 class="anchored" data-anchor-id="drill">6.4 Drill</h2>
