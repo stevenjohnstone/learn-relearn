@@ -132,7 +132,7 @@ Notice that
 
 $$
 \begin{align}
-\frac{1}{\sqrt{2 \pi}}\frac{e^{-1/2y}}{y^{3/2}} &= \frac{d}{dy} \int_{1/\sqrt{y}}^{\infty} \frac{2}{\sqrt{2 \pi}} e^{-u^2/2} dy \\
+\frac{1}{\sqrt{2 \pi}}\frac{e^{-1/2y}}{y^{3/2}} &= \frac{d}{dy} \int_{1/\sqrt{y}}^{\infty} \frac{2}{\sqrt{2 \pi}} e^{-u^2/2} du \\
 &= \frac{d}{dy}\left(-\erf(\frac{1}{\sqrt{2y}})\right). \\
 \end{align}
 $$
@@ -183,6 +183,74 @@ for _ in range(trials):
 
 total_wins/trials
 ```
+
+In fact, a solution to a more general problem for constants $a, b \in \mathbb{R}\setminus 0$ where
+$$
+X = \min\{t \geq 0: B_{1, t} \geq a\}
+$$
+and
+$$
+Y = \min\{t \geq 0: B_{2, t} \geq b \}
+$$
+is available by the same method:
+
+$$
+\P(X < Y) = \frac{2}{\pi} \tan^{-1}\left(\frac{b}{a}\right).
+$$
+
+An alternative approach is to consider the equivalent complex Brownian motion
+$$
+B_t = B_{1, t} + i B_{2, t}
+$$
+and apply the conformal mapping
+$$
+w(z) = (z - c)^2
+$$
+where $c = a + i b$ to recast the problem as finding the probability that
+a complex Brownian motion starting at $w(0) = c^2$ crosses the negative $x$-axis before it
+crosses the positive $x$-axis.
+
+The function
+$$
+f(z) = \frac{1}{\pi}\tan^{-1}(y/x) = \frac{1}{\pi}\arg(z)
+$$
+is harmonic on the half-plane containing $c^2$ and is equal to $1$ on the negative $x$-axis and $0$ on the positive $x$-axis.
+
+::: {.callout-note}
+$f$ is harmonic because
+
+$$
+f(z) = \frac{\theta}{\pi}
+$$
+when $z = re^{i \theta}$ and writing
+the Laplacian in polar coordinates
+
+$$
+\begin{align}
+\Delta f &= \partial^2_r f + \frac{1}{r}\partial_r + \frac{1}{r^2} \partial^2_{\theta} f \\
+&= \frac{1}{r^2} \partial^2_{\theta} \theta \\
+&= 0.
+\end{align}
+$$
+
+On the negative real axis, $f(z) = \pi/\pi = 1$ and on the positive real axis, $f(z) = 0$.
+:::
+
+Therefore, if $\tau$ is the hitting time for crossing the $x$-axis and $B_{\tau}$ is the Brownian process starting at $c^2$ at this
+time, then
+$$
+\begin{align}
+f(c^2) &= \frac{2}{\pi} \tan^{-1}(b/a) \\
+&= \E(f(B_{\tau})) \\
+&= \P(\arg(B_{\tau}) = \pi) 1 + \P(\arg(B_{\tau}) = 0) 0 \\
+&= \P(\arg(B_{\tau}) = \pi) \\
+&= \P(\text{crosses the negative $x$-axis before the positive}).
+\end{align}
+$$
+Under the conformal map $w$, the line $x = b$ is mapped to the negative $x$-axis so
+this is the probability we seek.
+
+
 
 ## 6.4 Drill
 
