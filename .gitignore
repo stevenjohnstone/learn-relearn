@@ -1,4 +1,10 @@
 /.quarto/
 /_site/
 /_freeze/
+**.aux
+**.log
+**.tex
+**.toc
+**.pdf
+**.quarto_ipynb
 
